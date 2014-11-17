@@ -35,7 +35,7 @@
 
 #pragma mark GET methods
 
-- (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSMutableArray *))completionHandler {
+- (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSArray *))completionHandler {
     NSString *fullURLString = [NSString stringWithFormat: @"%@api/dots/", self.url];
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -59,9 +59,8 @@
             if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
                 NSInteger statusCode = httpResponse.statusCode;
                 if (statusCode >= 200 && statusCode <= 299) {
-                    NSError *jsonError;
-                    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-                    NSLog(@"%@", jsonArray);
+                  NSArray *array = [Dot parseJSONIntoDots:data];
+                  completionHandler(nil,array);
                 } else {
                     NSLog(@"%@", httpResponse.description);
                 }

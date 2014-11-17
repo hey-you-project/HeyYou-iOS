@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "Dot.h"
 
 @interface NetworkController : NSObject
 
 + (id)sharedController;
 
-- (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSMutableArray *))completionHandler;
+- (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSArray *))completionHandler;
 
 @end

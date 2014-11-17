@@ -26,15 +26,21 @@
   [self addCircleView];
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
+  
+  self.mapView.delegate = self;
 
   self.kHorizontalCurveOffset = 2;
   self.kVerticalCurveOffset = 15;
   self.kPopupHeight = 540;
   
-  NSString *path = [[NSBundle mainBundle] pathForResource:@"sampledots" ofType:@"json"];
-  NSData *data = [NSData dataWithContentsOfFile:path];
-  self.dots = [Dot parseJSONIntoDots:data];
-  NSLog(@"%@", self.dots.description);
+  NetworkController *networkController = [NetworkController sharedController];
+  
+  [networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSString * string, NSArray * array) {
+    self.dots = array;
+    [self populateDotsOnMap];
+    NSLog(@"%@", self.dots.description);
+  }];
+  
   
 }
 
@@ -287,6 +293,25 @@
                    } completion:^(BOOL finished) {
                     
                    }];
+}
+
+-(void)populateDotsOnMap {
+  
+  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    for (Dot * dot in self.dots) {
+      NSLog(@"Adding overlay!");
+      NSLog(@"Adding Overlay with Lat:%f and Long:%f", dot.location.latitude, dot.location.longitude);
+      [self.mapView addOverlay:[MKCircle circleWithCenterCoordinate:dot.location radius:100000.0]];
+    }
+  }];
+}
+
+-(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+  
+  MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithOverlay:overlay];
+  renderer.fillColor = [UIColor orangeColor];
+  return renderer;
+  
 }
 
 //  
