@@ -23,4 +23,6 @@
 
 +(NSArray *)parseJSONIntoDots:(NSData *) data;
 
+-(NSData *)parseDotIntoJSON;
+
 @end
