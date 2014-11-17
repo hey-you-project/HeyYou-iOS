@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "SideMenuViewController.h"
 #import "PostViewController.h"
+#import "Dot.h"
 
 @interface MapViewController : UIViewController
 

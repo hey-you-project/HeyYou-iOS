@@ -21,4 +21,6 @@
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic, strong) NSString *username;
 
++(NSArray *)parseJSONIntoDots:(NSData *) data;
+
 @end

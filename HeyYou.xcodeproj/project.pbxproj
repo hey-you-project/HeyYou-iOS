@@ -25,6 +25,7 @@
 		7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */; };
 		7E6E34E61A1A994A00FF6776 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C417E1A1A6DF10062DE29 /* MapViewController.m */; };
 		7E713DE11A1AA0AD00B6C9D3 /* HEAVYWEI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE01A1AA0AD00B6C9D3 /* HEAVYWEI.TTF */; };
+		7E713DE31A1AA94200B6C9D3 /* sampledots.json in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE21A1AA94200B6C9D3 /* sampledots.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		7E6E34E21A1A91ED00FF6776 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
 		7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostViewController.xib; sourceTree = "<group>"; };
 		7E713DE01A1AA0AD00B6C9D3 /* HEAVYWEI.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = HEAVYWEI.TTF; sourceTree = "<group>"; };
+		7E713DE21A1AA94200B6C9D3 /* sampledots.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sampledots.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 		150C41731A1A6DF10062DE29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E713DE21A1AA94200B6C9D3 /* sampledots.json */,
 				7E713DE01A1AA0AD00B6C9D3 /* HEAVYWEI.TTF */,
 				150C41741A1A6DF10062DE29 /* Info.plist */,
 				150C41751A1A6DF10062DE29 /* main.m */,
@@ -256,6 +259,7 @@
 				150C41871A1A6DF10062DE29 /* LaunchScreen.xib in Resources */,
 				7E6E34E01A1A919600FF6776 /* sampledots.json in Resources */,
 				150C41841A1A6DF10062DE29 /* Images.xcassets in Resources */,
+				7E713DE31A1AA94200B6C9D3 /* sampledots.json in Resources */,
 				7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */,
 				7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */,
 			);

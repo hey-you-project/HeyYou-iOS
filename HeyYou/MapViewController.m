@@ -13,6 +13,7 @@
 @property CGFloat kHorizontalCurveOffset;
 @property CGFloat kVerticalCurveOffset;
 @property CGFloat kPopupHeight;
+@property NSArray *dots;
 
 @end
 
@@ -29,6 +30,12 @@
   self.kHorizontalCurveOffset = 2;
   self.kVerticalCurveOffset = 15;
   self.kPopupHeight = 540;
+  
+  NSString *path = [[NSBundle mainBundle] pathForResource:@"sampledots" ofType:@"json"];
+  NSData *data = [NSData dataWithContentsOfFile:path];
+  self.dots = [Dot parseJSONIntoDots:data];
+  NSLog(@"%@", self.dots.description);
+  
 }
 
 - (void)didReceiveMemoryWarning {

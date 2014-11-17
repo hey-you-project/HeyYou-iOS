@@ -28,6 +28,7 @@
   NSMutableArray *tempArray = [NSMutableArray new];
   
   for (NSDictionary *dotDict in dotsArray) {
+    NSLog(@"Parsing Dot!");
     Dot *dot = [Dot new];
     dot.title = dotDict[@"title"];
     dot.body = dotDict[@"body"];
