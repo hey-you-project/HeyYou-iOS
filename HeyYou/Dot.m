@@ -8,10 +8,6 @@
 
 #import "Dot.h"
 
-@interface Dot ()
-
-@end
-
 @implementation Dot
 
 - (instancetype)initWithLocation: (CLLocationCoordinate2D)location color: (NSString*)color title: (NSString*)title body: (NSString*)body {

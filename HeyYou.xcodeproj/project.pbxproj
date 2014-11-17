@@ -16,6 +16,7 @@
 		150C41871A1A6DF10062DE29 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150C41851A1A6DF10062DE29 /* LaunchScreen.xib */; };
 		150C41931A1A6DF10062DE29 /* HeyYouTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41921A1A6DF10062DE29 /* HeyYouTests.m */; };
 		150C419F1A1A70CF0062DE29 /* Dot.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C419E1A1A70CF0062DE29 /* Dot.m */; };
+		150C41A21A1A772E0062DE29 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41A11A1A772E0062DE29 /* User.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,8 @@
 		150C41921A1A6DF10062DE29 /* HeyYouTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeyYouTests.m; sourceTree = "<group>"; };
 		150C419D1A1A70CF0062DE29 /* Dot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dot.h; sourceTree = "<group>"; };
 		150C419E1A1A70CF0062DE29 /* Dot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dot.m; sourceTree = "<group>"; };
+		150C41A01A1A772E0062DE29 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		150C41A11A1A772E0062DE29 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +134,8 @@
 			children = (
 				150C419D1A1A70CF0062DE29 /* Dot.h */,
 				150C419E1A1A70CF0062DE29 /* Dot.m */,
+				150C41A01A1A772E0062DE29 /* User.h */,
+				150C41A11A1A772E0062DE29 /* User.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -237,6 +242,7 @@
 			files = (
 				150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */,
 				150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */,
+				150C41A21A1A772E0062DE29 /* User.m in Sources */,
 				150C417F1A1A6DF10062DE29 /* ViewController.m in Sources */,
 				150C419F1A1A70CF0062DE29 /* Dot.m in Sources */,
 				150C41761A1A6DF10062DE29 /* main.m in Sources */,
