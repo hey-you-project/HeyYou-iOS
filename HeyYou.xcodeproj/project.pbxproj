@@ -17,6 +17,7 @@
 		150C419F1A1A70CF0062DE29 /* Dot.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C419E1A1A70CF0062DE29 /* Dot.m */; };
 		150C41A21A1A772E0062DE29 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41A11A1A772E0062DE29 /* User.m */; };
 		150C41A51A1A77C20062DE29 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41A41A1A77C20062DE29 /* Comment.m */; };
+		150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41AC1A1AAD6F0062DE29 /* NetworkController.m */; };
 		7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */; };
 		7E6E34DC1A1A75A100FF6776 /* SideMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */; };
 		7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DD1A1A7CF900FF6776 /* typicons.ttf */; };
@@ -59,6 +60,8 @@
 		150C41A11A1A772E0062DE29 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		150C41A31A1A77C20062DE29 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		150C41A41A1A77C20062DE29 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		150C41AB1A1AAD6F0062DE29 /* NetworkController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkController.h; sourceTree = "<group>"; };
+		150C41AC1A1AAD6F0062DE29 /* NetworkController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkController.m; sourceTree = "<group>"; };
 		7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideMenuViewController.h; sourceTree = "<group>"; };
 		7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
 		7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideMenuViewController.xib; sourceTree = "<group>"; };
@@ -110,6 +113,7 @@
 		150C41721A1A6DF10062DE29 /* HeyYou */ = {
 			isa = PBXGroup;
 			children = (
+				150C41AA1A1AAD3F0062DE29 /* Controller Layer */,
 				150C419C1A1A70BD0062DE29 /* Model */,
 				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
 				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
@@ -171,6 +175,15 @@
 				150C41A41A1A77C20062DE29 /* Comment.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		150C41AA1A1AAD3F0062DE29 /* Controller Layer */ = {
+			isa = PBXGroup;
+			children = (
+				150C41AB1A1AAD6F0062DE29 /* NetworkController.h */,
+				150C41AC1A1AAD6F0062DE29 /* NetworkController.m */,
+			);
+			name = "Controller Layer";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,6 +296,7 @@
 				7E6E34E61A1A994A00FF6776 /* MapViewController.m in Sources */,
 				7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */,
 				7E6E34E41A1A91ED00FF6776 /* PostViewController.m in Sources */,
+				150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */,
 				150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */,
 				150C41A51A1A77C20062DE29 /* Comment.m in Sources */,
 				150C41A21A1A772E0062DE29 /* User.m in Sources */,
