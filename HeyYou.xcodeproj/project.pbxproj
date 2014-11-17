@@ -144,6 +144,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		150C419C1A1A70BD0062DE29 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				150C419D1A1A70CF0062DE29 /* Dot.h */,
+				150C419E1A1A70CF0062DE29 /* Dot.m */,
+				150C41A01A1A772E0062DE29 /* User.h */,
+				150C41A11A1A772E0062DE29 /* User.m */,
+				150C41A31A1A77C20062DE29 /* Comment.h */,
+				150C41A41A1A77C20062DE29 /* Comment.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
