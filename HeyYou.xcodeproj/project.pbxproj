@@ -10,11 +10,17 @@
 		150C41761A1A6DF10062DE29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41751A1A6DF10062DE29 /* main.m */; };
 		150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41781A1A6DF10062DE29 /* AppDelegate.m */; };
 		150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 150C417A1A1A6DF10062DE29 /* HeyYou.xcdatamodeld */; };
-		150C417F1A1A6DF10062DE29 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C417E1A1A6DF10062DE29 /* ViewController.m */; };
+		150C417F1A1A6DF10062DE29 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C417E1A1A6DF10062DE29 /* MapViewController.m */; };
 		150C41821A1A6DF10062DE29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150C41801A1A6DF10062DE29 /* Main.storyboard */; };
 		150C41841A1A6DF10062DE29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 150C41831A1A6DF10062DE29 /* Images.xcassets */; };
 		150C41871A1A6DF10062DE29 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150C41851A1A6DF10062DE29 /* LaunchScreen.xib */; };
 		150C41931A1A6DF10062DE29 /* HeyYouTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41921A1A6DF10062DE29 /* HeyYouTests.m */; };
+		7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */; };
+		7E6E34DC1A1A75A100FF6776 /* SideMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */; };
+		7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DD1A1A7CF900FF6776 /* typicons.ttf */; };
+		7E6E34E01A1A919600FF6776 /* sampledots.json in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DF1A1A919600FF6776 /* sampledots.json */; };
+		7E6E34E41A1A91ED00FF6776 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6E34E21A1A91ED00FF6776 /* PostViewController.m */; };
+		7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,14 +40,22 @@
 		150C41771A1A6DF10062DE29 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		150C41781A1A6DF10062DE29 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		150C417B1A1A6DF10062DE29 /* HeyYou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HeyYou.xcdatamodel; sourceTree = "<group>"; };
-		150C417D1A1A6DF10062DE29 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		150C417E1A1A6DF10062DE29 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		150C417D1A1A6DF10062DE29 /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		150C417E1A1A6DF10062DE29 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		150C41811A1A6DF10062DE29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		150C41831A1A6DF10062DE29 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		150C41861A1A6DF10062DE29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		150C418C1A1A6DF10062DE29 /* HeyYouTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeyYouTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		150C41911A1A6DF10062DE29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		150C41921A1A6DF10062DE29 /* HeyYouTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeyYouTests.m; sourceTree = "<group>"; };
+		7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideMenuViewController.h; sourceTree = "<group>"; };
+		7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
+		7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideMenuViewController.xib; sourceTree = "<group>"; };
+		7E6E34DD1A1A7CF900FF6776 /* typicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = typicons.ttf; sourceTree = "<group>"; };
+		7E6E34DF1A1A919600FF6776 /* sampledots.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sampledots.json; sourceTree = "<group>"; };
+		7E6E34E11A1A91ED00FF6776 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
+		7E6E34E21A1A91ED00FF6776 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
+		7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,10 +97,16 @@
 		150C41721A1A6DF10062DE29 /* HeyYou */ = {
 			isa = PBXGroup;
 			children = (
+				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
+				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
+				7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */,
 				150C41771A1A6DF10062DE29 /* AppDelegate.h */,
 				150C41781A1A6DF10062DE29 /* AppDelegate.m */,
-				150C417D1A1A6DF10062DE29 /* ViewController.h */,
-				150C417E1A1A6DF10062DE29 /* ViewController.m */,
+				150C417D1A1A6DF10062DE29 /* MapViewController.h */,
+				150C417E1A1A6DF10062DE29 /* MapViewController.m */,
+				7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */,
+				7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */,
+				7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */,
 				150C41801A1A6DF10062DE29 /* Main.storyboard */,
 				150C41831A1A6DF10062DE29 /* Images.xcassets */,
 				150C41851A1A6DF10062DE29 /* LaunchScreen.xib */,
@@ -117,6 +137,8 @@
 		150C41901A1A6DF10062DE29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E6E34DF1A1A919600FF6776 /* sampledots.json */,
+				7E6E34DD1A1A7CF900FF6776 /* typicons.ttf */,
 				150C41911A1A6DF10062DE29 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -202,9 +224,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E6E34DC1A1A75A100FF6776 /* SideMenuViewController.xib in Resources */,
 				150C41821A1A6DF10062DE29 /* Main.storyboard in Resources */,
 				150C41871A1A6DF10062DE29 /* LaunchScreen.xib in Resources */,
+				7E6E34E01A1A919600FF6776 /* sampledots.json in Resources */,
 				150C41841A1A6DF10062DE29 /* Images.xcassets in Resources */,
+				7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */,
+				7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,9 +248,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */,
 				150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */,
+				7E6E34E41A1A91ED00FF6776 /* PostViewController.m in Sources */,
 				150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */,
-				150C417F1A1A6DF10062DE29 /* ViewController.m in Sources */,
+				150C417F1A1A6DF10062DE29 /* MapViewController.m in Sources */,
 				150C41761A1A6DF10062DE29 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,6 +446,7 @@
 				150C41981A1A6DF10062DE29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		150C41991A1A6DF10062DE29 /* Build configuration list for PBXNativeTarget "HeyYouTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +455,7 @@
 				150C419B1A1A6DF10062DE29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
