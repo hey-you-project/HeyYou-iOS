@@ -11,6 +11,7 @@
 #import "SideMenuViewController.h"
 #import "PostViewController.h"
 #import "Dot.h"
+#import "NetworkController.h"
 
 @interface MapViewController : UIViewController
 

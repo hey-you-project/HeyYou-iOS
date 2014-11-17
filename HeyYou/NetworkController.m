@@ -80,6 +80,7 @@
     NSUInteger length = dotJSONData.length;
     [request setValue:[NSString stringWithFormat:@"%li", length] forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  request.HTTPBody = dotJSONData;
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSLog(@"%@", error.localizedDescription);

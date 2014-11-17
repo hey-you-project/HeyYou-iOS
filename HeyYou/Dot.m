@@ -15,7 +15,8 @@
     self.color = color;
     self.title = title;
     self.stars = 0;
-  
+    self.username = @"RonSwanson";
+  self.body = body;
     return self;
 }
 
