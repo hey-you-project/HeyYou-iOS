@@ -15,6 +15,7 @@
 		150C41841A1A6DF10062DE29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 150C41831A1A6DF10062DE29 /* Images.xcassets */; };
 		150C41871A1A6DF10062DE29 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150C41851A1A6DF10062DE29 /* LaunchScreen.xib */; };
 		150C41931A1A6DF10062DE29 /* HeyYouTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41921A1A6DF10062DE29 /* HeyYouTests.m */; };
+		150C419F1A1A70CF0062DE29 /* Dot.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C419E1A1A70CF0062DE29 /* Dot.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,8 @@
 		150C418C1A1A6DF10062DE29 /* HeyYouTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeyYouTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		150C41911A1A6DF10062DE29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		150C41921A1A6DF10062DE29 /* HeyYouTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeyYouTests.m; sourceTree = "<group>"; };
+		150C419D1A1A70CF0062DE29 /* Dot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dot.h; sourceTree = "<group>"; };
+		150C419E1A1A70CF0062DE29 /* Dot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dot.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,7 @@
 		150C41721A1A6DF10062DE29 /* HeyYou */ = {
 			isa = PBXGroup;
 			children = (
+				150C419C1A1A70BD0062DE29 /* Model */,
 				150C41771A1A6DF10062DE29 /* AppDelegate.h */,
 				150C41781A1A6DF10062DE29 /* AppDelegate.m */,
 				150C417D1A1A6DF10062DE29 /* ViewController.h */,
@@ -120,6 +124,15 @@
 				150C41911A1A6DF10062DE29 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		150C419C1A1A70BD0062DE29 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				150C419D1A1A70CF0062DE29 /* Dot.h */,
+				150C419E1A1A70CF0062DE29 /* Dot.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +238,7 @@
 				150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */,
 				150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */,
 				150C417F1A1A6DF10062DE29 /* ViewController.m in Sources */,
+				150C419F1A1A70CF0062DE29 /* Dot.m in Sources */,
 				150C41761A1A6DF10062DE29 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
