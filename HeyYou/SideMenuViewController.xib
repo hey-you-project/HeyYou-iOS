@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B23" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6246"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HEAVYWEI.TTF">
+            <string>Heavyweight</string>
+        </mutableArray>
+        <mutableArray key="typicons.ttf">
+            <string>typicons</string>
+            <string>typicons</string>
+            <string>typicons</string>
+            <string>typicons</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SideMenuViewController">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bGI-V0-Jun">
+                    <rect key="frame" x="0.0" y="0.0" width="700" height="600"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="GUO-7o-c7T">
+                        <rect key="frame" x="0.0" y="0.0" width="700" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tJW-cx-ycp">
+                                <rect key="frame" x="0.0" y="0.0" width="350" height="600"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="UV8-8F-n5o">
+                                    <rect key="frame" x="0.0" y="0.0" width="350" height="600"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <vibrancyEffect>
+                                    <blurEffect style="light"/>
+                                </vibrancyEffect>
+                            </visualEffectView>
+                        </subviews>
+                    </view>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Hey Cameron" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iii-PY-ydF">
+                    <rect key="frame" x="8" y="60" width="584" height="33"/>
+                    <fontDescription key="fontDescription" name="Heavyweight" family="Heavyweight" pointSize="32"/>
+                    <color key="textColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REX-n7-Xp2">
+                    <rect key="frame" x="16" y="125" width="12" height="26"/>
+                    <fontDescription key="fontDescription" name="typicons" family="Typicons" pointSize="24"/>
+                    <color key="textColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Your Posts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yhb-zx-fbW">
+                    <rect key="frame" x="28" y="127" width="83" height="21"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YKV-y7-Myk">
+                    <rect key="frame" x="16" y="167" width="12" height="26"/>
+                    <fontDescription key="fontDescription" name="typicons" family="Typicons" pointSize="24"/>
+                    <color key="textColor" red="0.4431372549" green="0.96078431369999995" blue="0.08235294118" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Your Messages" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntM-nx-ULe">
+                    <rect key="frame" x="28" y="169" width="118" height="21"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hC5-mh-2a2">
+                    <rect key="frame" x="16" y="225" width="12" height="26"/>
+                    <fontDescription key="fontDescription" name="typicons" family="Typicons" pointSize="24"/>
+                    <color key="textColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Best of Hey You" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3aX-Aq-xLm">
+                    <rect key="frame" x="28" y="228" width="123" height="21"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wxw-Cp-x4x">
+                    <rect key="frame" x="16" y="267" width="12" height="26"/>
+                    <fontDescription key="fontDescription" name="typicons" family="Typicons" pointSize="24"/>
+                    <color key="textColor" red="0.82796198539999999" green="0.88734547409999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Share this App" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amt-Dr-00i">
+                    <rect key="frame" x="28" y="269" width="114" height="24"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="YKV-y7-Myk" firstAttribute="centerX" secondItem="REX-n7-Xp2" secondAttribute="centerX" id="8m4-za-oC7"/>
+                <constraint firstItem="Iii-PY-ydF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="9xn-BN-R9R"/>
+                <constraint firstAttribute="bottom" secondItem="bGI-V0-Jun" secondAttribute="bottom" id="AgD-Wn-eHX"/>
+                <constraint firstItem="YKV-y7-Myk" firstAttribute="centerY" secondItem="ntM-nx-ULe" secondAttribute="centerY" id="Ece-9A-ES3"/>
+                <constraint firstItem="REX-n7-Xp2" firstAttribute="centerY" secondItem="Yhb-zx-fbW" secondAttribute="centerY" id="Ka4-We-ix2"/>
+                <constraint firstItem="REX-n7-Xp2" firstAttribute="top" secondItem="Iii-PY-ydF" secondAttribute="bottom" constant="32" id="Kbh-rq-wrZ"/>
+                <constraint firstItem="wxw-Cp-x4x" firstAttribute="centerY" secondItem="amt-Dr-00i" secondAttribute="centerY" id="SIE-Ml-dPJ"/>
+                <constraint firstItem="hC5-mh-2a2" firstAttribute="top" secondItem="YKV-y7-Myk" secondAttribute="bottom" constant="32" id="SOE-A4-2Ay"/>
+                <constraint firstItem="bGI-V0-Jun" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Tlx-VW-ITW"/>
+                <constraint firstItem="YKV-y7-Myk" firstAttribute="top" secondItem="REX-n7-Xp2" secondAttribute="bottom" constant="16" id="Wdl-Sl-Uvd"/>
+                <constraint firstItem="Iii-PY-ydF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="Y0s-Pk-2g8"/>
+                <constraint firstItem="wxw-Cp-x4x" firstAttribute="centerX" secondItem="hC5-mh-2a2" secondAttribute="centerX" id="Yl6-EH-ict"/>
+                <constraint firstItem="Yhb-zx-fbW" firstAttribute="leading" secondItem="REX-n7-Xp2" secondAttribute="trailing" constant="8" id="Yyh-bA-ASO"/>
+                <constraint firstItem="YKV-y7-Myk" firstAttribute="centerX" secondItem="hC5-mh-2a2" secondAttribute="centerX" id="gCv-p0-2BS"/>
+                <constraint firstItem="3aX-Aq-xLm" firstAttribute="leading" secondItem="hC5-mh-2a2" secondAttribute="trailing" constant="8" id="iKc-rr-guR"/>
+                <constraint firstItem="bGI-V0-Jun" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="lqB-Ah-nYr"/>
+                <constraint firstItem="ntM-nx-ULe" firstAttribute="leading" secondItem="YKV-y7-Myk" secondAttribute="trailing" constant="8" id="mKI-HR-iyR"/>
+                <constraint firstAttribute="trailing" secondItem="Iii-PY-ydF" secondAttribute="trailing" constant="8" id="oPw-ar-8rO"/>
+                <constraint firstItem="hC5-mh-2a2" firstAttribute="centerY" secondItem="3aX-Aq-xLm" secondAttribute="centerY" id="qQF-hz-xmU"/>
+                <constraint firstItem="wxw-Cp-x4x" firstAttribute="top" secondItem="hC5-mh-2a2" secondAttribute="bottom" constant="16" id="uGW-y0-bEg"/>
+                <constraint firstItem="REX-n7-Xp2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="xNo-Z4-WsW"/>
+                <constraint firstItem="amt-Dr-00i" firstAttribute="leading" secondItem="wxw-Cp-x4x" secondAttribute="trailing" constant="8" id="z8P-FE-NDI"/>
+                <constraint firstAttribute="trailing" secondItem="bGI-V0-Jun" secondAttribute="trailing" constant="-100" id="znJ-qN-itZ"/>
+            </constraints>
+            <point key="canvasLocation" x="207" y="365"/>
+        </view>
+    </objects>
+</document>
