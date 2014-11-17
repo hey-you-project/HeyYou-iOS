@@ -71,6 +71,33 @@
     [dataTask resume];
 }
 
+- (void)postDot: (Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler {
+    NSString *fullURLString = [NSString stringWithFormat: @"%@api/dots/", self.url];
+    NSURL *fullURL = [NSURL URLWithString:fullURLString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+    request.HTTPMethod = @"POST";
+    NSData *dotJSONData = [dot parseDotIntoJSON];
+    NSUInteger length = dotJSONData.length;
+    [request setValue:[NSString stringWithFormat:@"%li", length] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error != nil) {
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+                NSInteger statusCode = httpResponse.statusCode;
+                if (statusCode >= 200 && statusCode <= 299) {
+                    completionHandler(nil, YES);
+                } else {
+                    NSLog(@"%@", httpResponse.description);
+                }
+            }
+        }
+    }];
+    [dataTask resume];
+}
+
 - (NSMutableDictionary*)getCoordRangeFromRegion: (MKCoordinateRegion) coordRegion {
     NSMutableDictionary *rangeDictionary = [[NSMutableDictionary alloc] init];
     NSNumber *latMin = [NSNumber numberWithDouble:(coordRegion.center.latitude - coordRegion.span.latitudeDelta / 2)];
