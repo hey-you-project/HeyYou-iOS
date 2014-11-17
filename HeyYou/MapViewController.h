@@ -10,16 +10,17 @@
 #import <MapKit/MapKit.h>
 #import "SideMenuViewController.h"
 #import "PostViewController.h"
+#import "Dot.h"
 
 @interface MapViewController : UIViewController
 
-@property MKMapView *mapView;
+@property (nonatomic, strong) MKMapView *mapView;
 //@property PostingViewController *popupController;
-@property UIViewController *currentPopup;
-@property SideMenuViewController *sideMenuVC;
-@property UILabel *hamburgerLabel;
-@property UIView *hamburgerWrapper;
-@property UIView *draggableCircle;
+@property (nonatomic, strong) UIViewController *currentPopup;
+@property (nonatomic, strong) SideMenuViewController *sideMenuVC;
+@property (nonatomic, strong) UILabel *hamburgerLabel;
+@property (nonatomic, strong) UIView *hamburgerWrapper;
+@property (nonatomic, strong) UIView *draggableCircle;
 @property UIView *dragCircleWrapper;
 @property CGPoint originalCircleCenter;
 

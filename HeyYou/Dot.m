@@ -16,9 +16,33 @@
     self.color = color;
     self.title = title;
     self.stars = 0;
-    
-    
+  
     return self;
+}
+
++(NSArray *)parseJSONIntoDots:(NSData *) data {
+  
+  NSError *error;
+  NSArray * dotsArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+  
+  NSMutableArray *tempArray = [NSMutableArray new];
+  
+  for (NSDictionary *dotDict in dotsArray) {
+    NSLog(@"Parsing Dot!");
+    Dot *dot = [Dot new];
+    dot.title = dotDict[@"title"];
+    dot.body = dotDict[@"body"];
+    dot.identifier = dotDict[@"_id"];
+    dot.color = dotDict[@"color"];
+    dot.stars = dotDict[@"stars"];
+    dot.username = dotDict[@"username_id"];
+    CLLocationDegrees latitude = (long)dotDict[@"latitude"];
+    CLLocationDegrees longitude = (long)dotDict[@"latitude"];
+    dot.location = CLLocationCoordinate2DMake(latitude, longitude);
+    [tempArray addObject:dot];
+  }
+  
+  return tempArray;
 }
 
 @end

@@ -17,7 +17,10 @@
 @property (nonatomic, strong) NSDate *timestamp;
 @property (nonatomic, strong) NSString *identifier;
 @property (nonatomic, strong) NSString *color;
-@property (nonatomic) NSInteger stars;
+@property (nonatomic, strong) NSNumber *stars;
 @property (nonatomic, strong) NSMutableArray *comments;
+@property (nonatomic, strong) NSString *username;
+
++(NSArray *)parseJSONIntoDots:(NSData *) data;
 
 @end
