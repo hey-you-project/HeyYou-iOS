@@ -35,7 +35,7 @@
 
 #pragma mark GET methods
 
-- (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSMutableArray *))completionHandler {
+- (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSArray *))completionHandler {
     NSString *fullURLString = [NSString stringWithFormat: @"%@dots/", self.url];
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -104,13 +104,13 @@
 - (NSMutableDictionary*)getCoordRangeFromRegion: (MKCoordinateRegion) coordRegion {
     NSMutableDictionary *rangeDictionary = [[NSMutableDictionary alloc] init];
     NSNumber *latMin = [NSNumber numberWithDouble:(coordRegion.center.latitude - coordRegion.span.latitudeDelta / 2)];
-    [rangeDictionary setValue: latMin forKey:@"latMin"];
+    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", latMin] forKey:@"latMin"];
     NSNumber *latMax = [NSNumber numberWithDouble:(coordRegion.center.latitude + coordRegion.span.latitudeDelta / 2)];
-    [rangeDictionary setValue: latMax forKey:@"latMax"];
+    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", latMax] forKey:@"latMax"];
     NSNumber *longMin = [NSNumber numberWithDouble:(coordRegion.center.longitude - coordRegion.span.longitudeDelta / 2)];
-    [rangeDictionary setValue: longMin forKey:@"longMin"];
+    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", longMin] forKey:@"longMin"];
     NSNumber *longMax = [NSNumber numberWithDouble:(coordRegion.center.longitude + coordRegion.span.longitudeDelta / 2)];
-    [rangeDictionary setValue: longMax forKey:@"longMax"];
+    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", longMax] forKey:@"longMax"];
     return rangeDictionary;
 }
 
