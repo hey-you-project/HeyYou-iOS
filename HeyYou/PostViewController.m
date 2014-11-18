@@ -21,7 +21,7 @@
   UIPanGestureRecognizer *colorPanner = [[UIPanGestureRecognizer alloc] init];
   [colorPanner addTarget:self action:@selector(receivedPanEventFromColorWrapper:)];
   [self.colorWrapper addGestureRecognizer:colorPanner];
-  self.color = @"Orange";
+  self.color = @"orange";
   self.colorConstraints = @[self.orangeConstraint, self.blueConstraint, self.greenConstraint, self.yellowConstraint, self.tealConstraint, self.pinkConstraint, self.purpleConstraint];
 }
 
@@ -45,8 +45,7 @@
 - (IBAction)didPressPostButton:(id)sender {
   NetworkController *networkController = [NetworkController sharedController];
   NSString *title = self.titleTextField.text;
-  NSString *body = self.titleTextField.text;
-  self.color = @"Orange";
+  NSString *body = self.bodyTextField.text;
   
   Dot *dot = [[Dot alloc] initWithLocation:self.location color:self.color title:title body:body];
   
@@ -80,45 +79,45 @@
   NSLog(@"Tap received!");
   if (point.x < self.colorWrapper.frame.size.width / 7) {
     NSLog(@"First one panned on!");
-    if (![self.color  isEqual: @"Green"]) {
-      self.color = @"Green";
+    if (![self.color  isEqual: @"green"]) {
+      self.color = @"green";
       [self toggleColorToColor:self.greenConstraint];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 2) {
     NSLog(@"Second one panned on!");
-    if (![self.color  isEqual: @"Yellow"]) {
-      self.color = @"Yellow";
+    if (![self.color  isEqual: @"yellow"]) {
+      self.color = @"yellow";
       [self toggleColorToColor:self.yellowConstraint];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 3) {
     NSLog(@"Third one panned on!");
-    if (![self.color  isEqual: @"Teal"]) {
-      self.color = @"Teal";
+    if (![self.color  isEqual: @"teal"]) {
+      self.color = @"teal";
       [self toggleColorToColor:self.tealConstraint];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 4) {
     NSLog(@"Fourth one panned on!");
-    if (![self.color  isEqual: @"Purple"]) {
-      self.color = @"Purple";
+    if (![self.color  isEqual: @"purple"]) {
+      self.color = @"purple";
       [self toggleColorToColor:self.purpleConstraint];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 5) {
     NSLog(@"Fifth one panned on!");
-    if (![self.color  isEqual: @"Blue"]) {
-      self.color = @"Blue";
+    if (![self.color  isEqual: @"blue"]) {
+      self.color = @"blue";
       [self toggleColorToColor:self.blueConstraint];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 6) {
     NSLog(@"Sixth one panned on!");
-    if (![self.color  isEqual: @"Orange"]) {
-      self.color = @"Orange";
+    if (![self.color  isEqual: @"orange"]) {
+      self.color = @"orange";
       [self toggleColorToColor:self.orangeConstraint];
     }
   } else {
     NSLog(@"Seventh one panned on!");
     NSLog(@"Sixth one panned on!");
-    if (![self.color  isEqual: @"Pink"]) {
-      self.color = @"Pink";
+    if (![self.color  isEqual: @"pink"]) {
+      self.color = @"pink";
       [self toggleColorToColor:self.pinkConstraint];
     }
   }

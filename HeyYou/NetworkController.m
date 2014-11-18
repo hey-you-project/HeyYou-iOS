@@ -36,7 +36,7 @@
 #pragma mark GET methods
 
 - (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSArray *))completionHandler {
-    NSString *fullURLString = [NSString stringWithFormat: @"%@dots/", self.url];
+    NSString *fullURLString = [NSString stringWithFormat: @"%@dots/all/", self.url];
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
     request.HTTPMethod = @"GET";
