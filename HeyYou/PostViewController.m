@@ -41,11 +41,13 @@
   NetworkController *networkController = [NetworkController sharedController];
   NSString *title = self.titleTextField.text;
   NSString *body = self.titleTextField.text;
-  
+  self.color = @"Orange";
   
   Dot *dot = [[Dot alloc] initWithLocation:self.location color:self.color title:title body:body];
   
-  [networkController post:dot];
+  [networkController postDot:dot completionHandler:^(NSString *error, bool success) {
+    NSLog(success ? @"Success" : @"Fail");
+  }];
   
 }
 

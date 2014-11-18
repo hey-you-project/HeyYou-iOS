@@ -42,12 +42,6 @@
   }];
   
   
-  /* Post test
-  CLLocationCoordinate2D location = CLLocationCoordinate2DMake(47.606209, -122.332071);
-  Dot *testDot = [[Dot alloc] initWithLocation:location color:@"blue" title:@"Be a man!" body:@"bacon and eggs"];
-  [[NetworkController sharedController] postDot:testDot completionHandler:^(NSString *error, bool success) {
-    NSLog(success ? @"Success!" : @"Fail!");
-  }]; */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -311,7 +305,7 @@
       //[self.mapView addOverlay:[MKCircle circleWithCenterCoordinate:dot.location radius:100000.0]];
       MKPointAnnotation *anno = [MKPointAnnotation new];
       anno.coordinate = dot.location;
-      anno.
+      anno.title = dot.identifier;
       [self.mapView addAnnotation:anno];
     }
   }];
@@ -327,7 +321,10 @@
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
   
   BrowseViewController *dotVC = [BrowseViewController new];
-  dotVC
+  Dot *dot;
+//  for (Dot *dot in self.dots) {
+//    if (dot.identifier == )
+//  }
   
   
   self.currentPopup = [BrowseViewController new];
