@@ -19,6 +19,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SideMenuViewController">
             <connections>
+                <outlet property="bestofView" destination="FUW-qX-3xa" id="npS-uA-Nwl"/>
+                <outlet property="createAccountButton" destination="0xD-Zy-eCq" id="dIa-uc-j2j"/>
+                <outlet property="heyYouTitle" destination="Iii-PY-ydF" id="AFY-mQ-Jcd"/>
+                <outlet property="loginButton" destination="PAt-m4-RBY" id="Eug-L6-UTg"/>
+                <outlet property="loginView" destination="a9a-tz-Mqt" id="Zap-XC-83w"/>
+                <outlet property="passwordField" destination="5g0-iw-7Bt" id="3zZ-nf-yYp"/>
+                <outlet property="userPostsView" destination="rQr-Cb-TKH" id="guz-jG-Umn"/>
+                <outlet property="usernameField" destination="PMd-lN-eaw" id="Ahp-NX-4DO"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -132,7 +140,44 @@
                         <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="pressedLogin:" destination="-1" eventType="touchUpInside" id="fcR-Yg-cBx"/>
+                    </connections>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a9a-tz-Mqt">
+                    <rect key="frame" x="212" y="152" width="176" height="213"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5g0-iw-7Bt">
+                            <rect key="frame" x="8" y="89" width="160" height="45"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="160" id="96N-B5-eZB"/>
+                                <constraint firstAttribute="height" constant="45" id="gpY-ug-grp"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="24"/>
+                            <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PMd-lN-eaw">
+                            <rect key="frame" x="8" y="8" width="160" height="45"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="Q52-GX-ikt"/>
+                                <constraint firstAttribute="width" constant="160" id="sGi-dF-jbm"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="24"/>
+                            <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="centerX" secondItem="5g0-iw-7Bt" secondAttribute="centerX" id="38R-n0-MuJ"/>
+                        <constraint firstAttribute="centerX" secondItem="PMd-lN-eaw" secondAttribute="centerX" id="Dje-Z5-sT0"/>
+                        <constraint firstItem="5g0-iw-7Bt" firstAttribute="top" secondItem="PMd-lN-eaw" secondAttribute="bottom" constant="36" id="gUh-zm-l5g"/>
+                        <constraint firstAttribute="height" constant="213" id="j4W-eG-Oc9"/>
+                        <constraint firstAttribute="width" constant="176" id="tXy-5l-nEc"/>
+                        <constraint firstItem="PMd-lN-eaw" firstAttribute="top" secondItem="a9a-tz-Mqt" secondAttribute="top" constant="8" id="z48-cc-Z9Z"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
@@ -143,8 +188,10 @@
                 <constraint firstItem="0xD-Zy-eCq" firstAttribute="top" secondItem="PAt-m4-RBY" secondAttribute="bottom" constant="24" id="N9H-0u-sGz"/>
                 <constraint firstItem="PAt-m4-RBY" firstAttribute="centerX" secondItem="Iii-PY-ydF" secondAttribute="centerX" id="UfP-Td-ltr"/>
                 <constraint firstItem="Iii-PY-ydF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="Y0s-Pk-2g8"/>
+                <constraint firstItem="a9a-tz-Mqt" firstAttribute="top" secondItem="Iii-PY-ydF" secondAttribute="bottom" constant="60" id="YqT-sL-KOB"/>
                 <constraint firstItem="FUW-qX-3xa" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="bnE-iA-jah"/>
                 <constraint firstItem="rQr-Cb-TKH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="cOl-8P-DGc"/>
+                <constraint firstItem="a9a-tz-Mqt" firstAttribute="centerX" secondItem="Iii-PY-ydF" secondAttribute="centerX" id="iPp-Wc-tE2"/>
                 <constraint firstAttribute="trailing" secondItem="Iii-PY-ydF" secondAttribute="trailing" constant="8" id="oPw-ar-8rO"/>
                 <constraint firstItem="0xD-Zy-eCq" firstAttribute="centerX" secondItem="PAt-m4-RBY" secondAttribute="centerX" id="v20-kG-78I"/>
             </constraints>
