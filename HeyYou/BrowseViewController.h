@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Dot.h"
 
 @interface BrowseViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UILabel *title;
+
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *body;
 @property (weak, nonatomic) IBOutlet UILabel *username;
+
+@property (nonatomic, strong) Dot *dot;
 
 @end
