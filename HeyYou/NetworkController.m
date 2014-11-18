@@ -17,7 +17,7 @@
 @implementation NetworkController
 
 - (instancetype)init {
-    self.url = @"https://hey-you-api.herokuapp.com/";
+    self.url = @"https://hey-you-api.herokuapp.com/v1/api/";
     return self;
 }
 
@@ -45,12 +45,7 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:geoframeDictionary options:0 error:&error];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSLog(@"%@", jsonString);
-    //NSUInteger length = jsonData.length;
-    //[request setValue:[NSString stringWithFormat:@"%li", length] forHTTPHeaderField:@"Content-Length"];
-    //[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:jsonString forHTTPHeaderField:@"Zone"];
-    //request.HTTPBody = jsonData;
-    //request.HTTPBody = [@"hello" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO];
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSLog(@"%@", error.localizedDescription);
@@ -61,6 +56,42 @@
                 if (statusCode >= 200 && statusCode <= 299) {
                   NSArray *array = [Dot parseJSONIntoDots:data];
                   completionHandler(nil,array);
+                } else {
+                    NSLog(@"%@", httpResponse.description);
+                }
+            }
+        }
+    }];
+    [dataTask resume];
+}
+
+#pragma mark POST methods
+
+- (void)postDot: (Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler {
+    NSString *fullURLString = [NSString stringWithFormat: @"%@dots/", self.url];
+    NSURL *fullURL = [NSURL URLWithString:fullURLString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+    request.HTTPMethod = @"POST";
+    NSData *dotJSONData = [dot parseDotIntoJSON];
+    NSUInteger length = dotJSONData.length;
+    [request setValue:[NSString stringWithFormat:@"%li", length] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  request.HTTPBody = dotJSONData;
+    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error != nil) {
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+                NSInteger statusCode = httpResponse.statusCode;
+                if (statusCode >= 200 && statusCode <= 299) {
+                  NSError *postError;
+                  NSDictionary *successJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error: &postError];
+                  NSTimeInterval timestamp = [successJSON[@"time"] doubleValue] / 1000;
+                  dot.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
+                  dot.identifier = successJSON[@"dot_id"];
+                  NSLog(@"Time: %@ Id: %@", dot.timestamp.description, dot.identifier);
+                  completionHandler(nil, YES);
                 } else {
                     NSLog(@"%@", httpResponse.description);
                 }
@@ -82,6 +113,5 @@
     [rangeDictionary setValue: longMax forKey:@"longMax"];
     return rangeDictionary;
 }
-
 
 @end

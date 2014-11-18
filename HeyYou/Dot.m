@@ -12,11 +12,11 @@
 
 - (instancetype)initWithLocation: (CLLocationCoordinate2D)location color: (NSString*)color title: (NSString*)title body: (NSString*)body {
     self.location = CLLocationCoordinate2DMake(47.606209, -122.332071);
-    self.timestamp = [NSDate date];
     self.color = color;
     self.title = title;
     self.stars = 0;
-  
+    self.username = @"RonSwanson";
+  self.body = body;
     return self;
 }
 
@@ -45,6 +45,27 @@
   }
   
   return tempArray;
+}
+
+- (NSData *)parseDotIntoJSON {
+    NSMutableDictionary *dotJSON = [[NSMutableDictionary alloc] init];
+    [dotJSON setObject:[NSNumber numberWithDouble:self.location.latitude] forKey:@"latitude"];
+    [dotJSON setObject:[NSNumber numberWithDouble:self.location.longitude] forKey:@"longitude"];
+    [dotJSON setObject:self.color forKey:@"color"];
+    [dotJSON setObject:self.title forKey:@"title"];
+    [dotJSON setObject:self.body forKey:@"body"];
+    [dotJSON setObject:self.username forKey:@"username_id"];
+    NSError *error;
+    NSData *dataToReturn = [NSJSONSerialization dataWithJSONObject:dotJSON options:0 error: &error];
+    return dataToReturn;
+    /* {
+     "latitude": "30",
+     "longitude": "20",
+     "color": "green",
+     "title": "its me",
+     "body": "you had me at hello",
+     "username_id": "smokeyjoe"
+     } */
 }
 
 @end

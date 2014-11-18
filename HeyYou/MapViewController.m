@@ -42,6 +42,12 @@
   }];
   
   
+  /* Post test
+  CLLocationCoordinate2D location = CLLocationCoordinate2DMake(47.606209, -122.332071);
+  Dot *testDot = [[Dot alloc] initWithLocation:location color:@"blue" title:@"Be a man!" body:@"bacon and eggs"];
+  [[NetworkController sharedController] postDot:testDot completionHandler:^(NSString *error, bool success) {
+    NSLog(success ? @"Success!" : @"Fail!");
+  }]; */
 }
 
 - (void)didReceiveMemoryWarning {

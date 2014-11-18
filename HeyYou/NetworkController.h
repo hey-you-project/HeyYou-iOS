@@ -16,4 +16,6 @@
 
 - (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSArray *))completionHandler;
 
+- (void)postDot: (Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler;
+
 @end
