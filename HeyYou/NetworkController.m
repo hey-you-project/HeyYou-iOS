@@ -65,6 +65,41 @@
     [dataTask resume];
 }
 
+- (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSString *error, bool success))completionHandler {
+  NSString *fullURLString = [NSString stringWithFormat:@"%@users/", self.url];
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"GET";
+  NSString *authStringPlain = [NSString stringWithFormat: @"%@:%@", username, password];
+  NSData *authStringData = [authStringPlain dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *authStringBase64 = [authStringData base64EncodedStringWithOptions:0];
+  NSString *authStringFull = [NSString stringWithFormat:@"Basic %@", authStringBase64];
+  [request setValue:authStringFull forHTTPHeaderField:@"Authorization"];
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error != nil) {
+      NSLog(@"%@", error.localizedDescription);
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          NSError *authError;
+          NSDictionary *tokenJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&authError];
+          if ((self.token = tokenJSON[@"jwt"])) {
+            if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
+              NSLog(@"Success! Got token!");
+              completionHandler(nil, YES);
+            }
+          }
+        } else {
+          NSLog(@"%@", httpResponse.description);
+        }
+      }
+    }
+  }];
+  [dataTask resume];
+}
+
 #pragma mark POST methods
 
 - (void)postDot: (Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler {
@@ -99,12 +134,6 @@
         }
     }];
     [dataTask resume];
-}
-
-#pragma mark NSURLSessionTaskDelegate
-
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
-  
 }
 
 #pragma mark Helper methods
