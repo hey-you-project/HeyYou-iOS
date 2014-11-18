@@ -17,7 +17,7 @@
 @implementation NetworkController
 
 - (instancetype)init {
-    self.url = @"https://hey-you-api.herokuapp.com/v1/api/";
+    self.url = @"https://hey-you-api.herokuapp.com/";
     return self;
 }
 
@@ -36,7 +36,7 @@
 #pragma mark GET methods
 
 - (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSArray *))completionHandler {
-    NSString *fullURLString = [NSString stringWithFormat: @"%@dots/", self.url];
+    NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
     request.HTTPMethod = @"GET";
@@ -66,7 +66,7 @@
 }
 
 - (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSString *error, bool success))completionHandler {
-  NSString *fullURLString = [NSString stringWithFormat:@"%@users/", self.url];
+  NSString *fullURLString = [NSString stringWithFormat:@"%@api/users/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
   request.HTTPMethod = @"GET";
@@ -103,7 +103,7 @@
 #pragma mark POST methods
 
 - (void)postDot: (Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler {
-    NSString *fullURLString = [NSString stringWithFormat: @"%@dots/", self.url];
+    NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
     request.HTTPMethod = @"POST";

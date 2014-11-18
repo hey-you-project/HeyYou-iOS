@@ -42,13 +42,13 @@
     NSLog(@"%@", self.dots.description);
   }];
   
-  [networkController fetchTokenWithUsername:@"keanu" password:@"whoa" completionHandler:^(NSString *error, bool success) {
-    if (success) {
-      NSLog(@"Token is: %@", networkController.token);
-    } else {
-      NSLog(@"Bullshit");
-    }
-  }];
+//  [networkController fetchTokenWithUsername:@"foobar123" password:@"mypassword" completionHandler:^(NSString *error, bool success) {
+//    if (success) {
+//      NSLog(@"Token is: %@", networkController.token);
+//    } else {
+//      NSLog(@"Bullshit");
+//    }
+//  }];
   
 }
 
