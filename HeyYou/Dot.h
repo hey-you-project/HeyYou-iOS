@@ -21,6 +21,10 @@
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic, strong) NSString *username;
 
+- (instancetype)initWithLocation: (CLLocationCoordinate2D)location color: (NSString*)color title: (NSString*)title body: (NSString*)body;
+
 +(NSArray *)parseJSONIntoDots:(NSData *) data;
+
+-(NSData *)parseDotIntoJSON;
 
 @end
