@@ -116,7 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				150C41AA1A1AAD3F0062DE29 /* Controller Layer */,
-				150C419C1A1A70BD0062DE29 /* Model */,
+				150C419C1A1A70BD0062DE29 /* Model Layer */,
 				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
 				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
 				7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */,
@@ -168,7 +168,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		150C419C1A1A70BD0062DE29 /* Model */ = {
+		150C419C1A1A70BD0062DE29 /* Model Layer */ = {
 			isa = PBXGroup;
 			children = (
 				150C419D1A1A70CF0062DE29 /* Dot.h */,
@@ -178,7 +178,7 @@
 				150C41A31A1A77C20062DE29 /* Comment.h */,
 				150C41A41A1A77C20062DE29 /* Comment.m */,
 			);
-			name = Model;
+			name = "Model Layer";
 			sourceTree = "<group>";
 		};
 		150C41AA1A1AAD3F0062DE29 /* Controller Layer */ = {

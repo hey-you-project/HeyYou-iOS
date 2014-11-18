@@ -72,7 +72,7 @@
   [self addChildViewController:self.sideMenuVC];
   [self.view addSubview:self.sideMenuVC.view];
   self.sideMenuVC.view.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
-  self.sideMenuVC.view.backgroundColor = self.customTeal;
+  //self.sideMenuVC.view.backgroundColor = self.customTeal;
 }
 
 - (void) addCircleView {
