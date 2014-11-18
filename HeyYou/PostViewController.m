@@ -8,6 +8,7 @@
 
 #import "PostViewController.h"
 #import "NetworkController.h"
+#import "MapViewController.h"
 
 @interface PostViewController ()
 
@@ -82,36 +83,42 @@
     if (![self.color  isEqual: @"green"]) {
       self.color = @"green";
       [self toggleColorToColor:self.greenConstraint];
+      [self.delegate changeDotColor:@"green"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 2) {
     NSLog(@"Second one panned on!");
     if (![self.color  isEqual: @"yellow"]) {
       self.color = @"yellow";
       [self toggleColorToColor:self.yellowConstraint];
+      [self.delegate changeDotColor:@"yellow"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 3) {
     NSLog(@"Third one panned on!");
     if (![self.color  isEqual: @"teal"]) {
       self.color = @"teal";
       [self toggleColorToColor:self.tealConstraint];
+      [self.delegate changeDotColor:@"teal"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 4) {
     NSLog(@"Fourth one panned on!");
     if (![self.color  isEqual: @"purple"]) {
       self.color = @"purple";
       [self toggleColorToColor:self.purpleConstraint];
+      [self.delegate changeDotColor:@"purple"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 5) {
     NSLog(@"Fifth one panned on!");
     if (![self.color  isEqual: @"blue"]) {
       self.color = @"blue";
       [self toggleColorToColor:self.blueConstraint];
+      [self.delegate changeDotColor:@"blue"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 6) {
     NSLog(@"Sixth one panned on!");
     if (![self.color  isEqual: @"orange"]) {
       self.color = @"orange";
       [self toggleColorToColor:self.orangeConstraint];
+      [self.delegate changeDotColor:@"orange"];
     }
   } else {
     NSLog(@"Seventh one panned on!");
@@ -119,6 +126,7 @@
     if (![self.color  isEqual: @"pink"]) {
       self.color = @"pink";
       [self toggleColorToColor:self.pinkConstraint];
+      [self.delegate changeDotColor:@"green"];
     }
   }
 }

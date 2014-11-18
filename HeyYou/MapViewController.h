@@ -17,6 +17,8 @@
 
 @interface MapViewController : UIViewController <MKMapViewDelegate>
 
+-(void) changeDotColor:(NSString *)color;
+
 @property (nonatomic, strong) MKMapView *mapView;
 //@property PostingViewController *popupController;
 @property (nonatomic, strong) UIViewController *currentPopup;

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "Comment.h"
+#import "User.h"
 
 @interface Dot : NSObject
 

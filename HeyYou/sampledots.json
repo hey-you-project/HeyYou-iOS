@@ -27,4 +27,17 @@
     username_id: 'braddah',
     __v: 0,
     time: '2014-11-17T20:11:07.100Z',
-    comments: [] } ]
+    comments: [
+           { _id: '546bdb97875dcfc44b51617b',
+            time: 1416354711741,
+        latitude: 47.61,
+       longitude: -122.33,
+           color: 'blue',
+           title: 'Hey you, with the fancy shoes',
+            body: 'Nice shoes!!',
+     username_id: 'fred5459',
+             __v: 0,
+        comments:
+           [ { time: 1416354711771,
+               text: 'this is a text comment',
+           username: 'fred5459' } ] }] } ]

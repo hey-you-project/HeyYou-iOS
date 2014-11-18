@@ -32,12 +32,7 @@
   self.kHorizontalCurveOffset = 2;
   self.kVerticalCurveOffset = 15;
   self.kPopupHeight = 480;
-  self.customTeal = [[UIColor alloc] initWithRed:167/255.0 green:219/255.0 blue:216/255.0 alpha:1];
-  
-
-  
-
-  
+  self.customTeal = [UIColor colorWithRed:167/255.0 green:219/255.0 blue:216/255.0 alpha:1];
   
 }
 
@@ -166,6 +161,7 @@
   } else if (sender.state == UIGestureRecognizerStateEnded) {
     PostViewController *postVC = [PostViewController new];
     postVC.location = [self.mapView convertPoint:point toCoordinateFromView:self.view];
+    postVC.delegate = self;
     self.currentPopup = postVC;
     [self spawnPopupAtPoint:point];
   }
@@ -344,6 +340,26 @@
   
 }
 
+-(void) changeDotColor:(NSString *)color {
+  
+  if ([color isEqualToString:@"orange"]) {
+    self.draggableCircle.backgroundColor = [UIColor orangeColor];
+  } else if ([color isEqualToString:@"green"]) {
+    self.draggableCircle.backgroundColor = [UIColor greenColor];
+  } else if ([color isEqualToString:@"blue"]) {
+    self.draggableCircle.backgroundColor = [UIColor blueColor];
+  } else if ([color isEqualToString:@"yellow"]) {
+    self.draggableCircle.backgroundColor = [UIColor yellowColor];
+  } else if ([color isEqualToString:@"pink"]) {
+    self.draggableCircle.backgroundColor = [UIColor redColor];
+  } else if ([color isEqualToString:@"purple"]) {
+    self.draggableCircle.backgroundColor = [UIColor purpleColor];
+  } else if ([color isEqualToString:@"teal"]) {
+    self.draggableCircle.backgroundColor = [UIColor grayColor];
+  }
+  
+}
+
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
   
@@ -364,6 +380,7 @@
   return view;
   
 }
+
 
 
 //  
