@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "Dot.h"
 
-@interface NetworkController : NSObject
+@interface NetworkController : NSObject <NSURLSessionTaskDelegate>
 
 + (id)sharedController;
 

@@ -76,7 +76,7 @@
     NSUInteger length = dotJSONData.length;
     [request setValue:[NSString stringWithFormat:@"%li", length] forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-  request.HTTPBody = dotJSONData;
+    request.HTTPBody = dotJSONData;
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSLog(@"%@", error.localizedDescription);
@@ -100,6 +100,14 @@
     }];
     [dataTask resume];
 }
+
+#pragma mark NSURLSessionTaskDelegate
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
+  
+}
+
+#pragma mark Helper methods
 
 - (NSMutableDictionary*)getCoordRangeFromRegion: (MKCoordinateRegion) coordRegion {
     NSMutableDictionary *rangeDictionary = [[NSMutableDictionary alloc] init];
