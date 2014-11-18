@@ -21,6 +21,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostViewController">
             <connections>
+                <outlet property="bodyTextField" destination="raZ-33-fro" id="Y4b-JD-lU6"/>
+                <outlet property="titleTextField" destination="kd3-Ma-coZ" id="XPN-jF-jn7"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -125,6 +127,9 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="didPressPostButton:" destination="-1" eventType="touchUpInside" id="PrG-P6-dD8"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Dot Color" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vWM-eR-0Vr">
                     <rect key="frame" x="270" y="327" width="62" height="21"/>
@@ -231,8 +236,8 @@
                     <exclude reference="OTz-Or-gfi"/>
                     <exclude reference="fTz-NR-5Q1"/>
                     <exclude reference="Hv0-Ze-5Sv"/>
-                    <exclude reference="1CF-Ey-xKW"/>
                     <exclude reference="6qY-Sj-pRR"/>
+                    <exclude reference="1CF-Ey-xKW"/>
                     <exclude reference="rWf-Vd-jiK"/>
                 </mask>
             </variation>

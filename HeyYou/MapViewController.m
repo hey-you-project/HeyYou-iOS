@@ -155,6 +155,7 @@
   if (sender.state == UIGestureRecognizerStateChanged) {
     self.draggableCircle.center = [sender locationInView:self.view];
   } else if (sender.state == UIGestureRecognizerStateEnded) {
+    self.currentPopup = [PostViewController new];
     [self spawnPopupAtPoint:[sender locationInView:self.view]];
   }
   
@@ -209,7 +210,7 @@
 }
 
 -(void) spawnPopupAtPoint:(CGPoint)point {
-  self.currentPopup = [PostViewController new];
+
   [self addChildViewController:self.currentPopup];
   [self.view addSubview:self.currentPopup.view];
   self.currentPopup.view.alpha = 0;
@@ -266,12 +267,12 @@
     newMapViewFrame.origin.x += 200;
     newDragWrapperFrame.origin.x += 200;
     newDraggableFrame.origin.x += 200;
-    newHamburgerFrame.origin.x += 200;
+    newHamburgerFrame.origin.x += 20;
   } else {
     newMapViewFrame.origin.x -= 200;
     newDragWrapperFrame.origin.x -= 200;
     newDraggableFrame.origin.x -= 200;
-    newHamburgerFrame.origin.x -= 200;
+    newHamburgerFrame.origin.x -= 20;
   }
   [self unpopCurrentComment];
   NSLog(@"Toggle Called!");
@@ -301,7 +302,11 @@
     for (Dot * dot in self.dots) {
       NSLog(@"Adding overlay!");
       NSLog(@"Adding Overlay with Lat:%f and Long:%f", dot.location.latitude, dot.location.longitude);
-      [self.mapView addOverlay:[MKCircle circleWithCenterCoordinate:dot.location radius:100000.0]];
+      //[self.mapView addOverlay:[MKCircle circleWithCenterCoordinate:dot.location radius:100000.0]];
+      MKPointAnnotation *anno = [MKPointAnnotation new];
+      anno.coordinate = dot.location;
+      anno.
+      [self.mapView addAnnotation:anno];
     }
   }];
 }
@@ -313,6 +318,17 @@
   return renderer;
   
 }
+-(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+  
+  BrowseViewController *dotVC = [BrowseViewController new];
+  dotVC
+  
+  
+  self.currentPopup = [BrowseViewController new];
+  
+  
+}
+
 
 //  
 //  if self.mapView.frame.origin.x == 0{

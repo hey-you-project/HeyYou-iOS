@@ -22,5 +22,6 @@
 @property (nonatomic, strong) NSString *username;
 
 +(NSArray *)parseJSONIntoDots:(NSData *) data;
+-(instancetype)initWithLocation: (CLLocationCoordinate2D)location color: (NSString*)color title: (NSString*)title body: (NSString*)body;
 
 @end

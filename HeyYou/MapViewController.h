@@ -12,6 +12,7 @@
 #import "PostViewController.h"
 #import "Dot.h"
 #import "NetworkController.h"
+#import "BrowseViewController.h"
 
 @interface MapViewController : UIViewController <MKMapViewDelegate>
 
