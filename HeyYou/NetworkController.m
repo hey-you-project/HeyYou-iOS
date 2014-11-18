@@ -54,9 +54,8 @@
             if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
                 NSInteger statusCode = httpResponse.statusCode;
                 if (statusCode >= 200 && statusCode <= 299) {
-                    NSError *jsonError;
-                    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-                    NSLog(@"%@", jsonArray);
+                  NSArray *array = [Dot parseJSONIntoDots:data];
+                  completionHandler(nil,array);
                 } else {
                     NSLog(@"%@", httpResponse.description);
                 }

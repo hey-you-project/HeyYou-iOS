@@ -24,7 +24,7 @@
   
   NSError *error;
   NSArray * dotsArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-  
+  NSLog(@"%@", dotsArray.description);
   NSMutableArray *tempArray = [NSMutableArray new];
   
   for (NSDictionary *dotDict in dotsArray) {
@@ -36,8 +36,10 @@
     dot.color = dotDict[@"color"];
     dot.stars = dotDict[@"stars"];
     dot.username = dotDict[@"username_id"];
-    CLLocationDegrees latitude = (long)dotDict[@"latitude"];
-    CLLocationDegrees longitude = (long)dotDict[@"latitude"];
+    double latitude = [dotDict[@"latitude"] doubleValue];
+    double longitude = [dotDict[@"longitude"] doubleValue];
+    NSLog(@"Latitude: %f", latitude);
+    NSLog(@"Longitude: %f", longitude);
     dot.location = CLLocationCoordinate2DMake(latitude, longitude);
     [tempArray addObject:dot];
   }

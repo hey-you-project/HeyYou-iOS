@@ -26,22 +26,22 @@
   [self addCircleView];
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
+  
+  self.mapView.delegate = self;
 
   self.kHorizontalCurveOffset = 2;
   self.kVerticalCurveOffset = 15;
   self.kPopupHeight = 540;
   
-  NSString *path = [[NSBundle mainBundle] pathForResource:@"sampledots" ofType:@"json"];
-  NSData *data = [NSData dataWithContentsOfFile:path];
-  self.dots = [Dot parseJSONIntoDots:data];
-  NSLog(@"%@", self.dots.description);
+  NetworkController *networkController = [NetworkController sharedController];
   
-  /* Post test
-  CLLocationCoordinate2D location = CLLocationCoordinate2DMake(47.606209, -122.332071);
-  Dot *testDot = [[Dot alloc] initWithLocation:location color:@"blue" title:@"Be a man!" body:@"bacon and eggs"];
-  [[NetworkController sharedController] postDot:testDot completionHandler:^(NSString *error, bool success) {
-    NSLog(success ? @"Success!" : @"Fail!");
-  }]; */
+  [networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSString * string, NSArray * array) {
+    self.dots = array;
+    [self populateDotsOnMap];
+    NSLog(@"%@", self.dots.description);
+  }];
+  
+  
 }
 
 - (void)didReceiveMemoryWarning {
@@ -155,6 +155,7 @@
   if (sender.state == UIGestureRecognizerStateChanged) {
     self.draggableCircle.center = [sender locationInView:self.view];
   } else if (sender.state == UIGestureRecognizerStateEnded) {
+    self.currentPopup = [PostViewController new];
     [self spawnPopupAtPoint:[sender locationInView:self.view]];
   }
   
@@ -209,7 +210,7 @@
 }
 
 -(void) spawnPopupAtPoint:(CGPoint)point {
-  self.currentPopup = [PostViewController new];
+
   [self addChildViewController:self.currentPopup];
   [self.view addSubview:self.currentPopup.view];
   self.currentPopup.view.alpha = 0;
@@ -266,12 +267,12 @@
     newMapViewFrame.origin.x += 200;
     newDragWrapperFrame.origin.x += 200;
     newDraggableFrame.origin.x += 200;
-    newHamburgerFrame.origin.x += 200;
+    newHamburgerFrame.origin.x += 20;
   } else {
     newMapViewFrame.origin.x -= 200;
     newDragWrapperFrame.origin.x -= 200;
     newDraggableFrame.origin.x -= 200;
-    newHamburgerFrame.origin.x -= 200;
+    newHamburgerFrame.origin.x -= 20;
   }
   [self unpopCurrentComment];
   NSLog(@"Toggle Called!");
@@ -294,6 +295,43 @@
                     
                    }];
 }
+
+-(void)populateDotsOnMap {
+  
+  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    for (Dot * dot in self.dots) {
+      NSLog(@"Adding overlay!");
+      NSLog(@"Adding Overlay with Lat:%f and Long:%f", dot.location.latitude, dot.location.longitude);
+      //[self.mapView addOverlay:[MKCircle circleWithCenterCoordinate:dot.location radius:100000.0]];
+      MKPointAnnotation *anno = [MKPointAnnotation new];
+      anno.coordinate = dot.location;
+      anno.title = dot.identifier;
+      [self.mapView addAnnotation:anno];
+    }
+  }];
+}
+
+-(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+  
+  MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithOverlay:overlay];
+  renderer.fillColor = [UIColor orangeColor];
+  return renderer;
+  
+}
+-(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+  
+  BrowseViewController *dotVC = [BrowseViewController new];
+  Dot *dot;
+//  for (Dot *dot in self.dots) {
+//    if (dot.identifier == )
+//  }
+  
+  
+  self.currentPopup = [BrowseViewController new];
+  
+  
+}
+
 
 //  
 //  if self.mapView.frame.origin.x == 0{

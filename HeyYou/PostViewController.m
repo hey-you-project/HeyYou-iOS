@@ -7,6 +7,7 @@
 //
 
 #import "PostViewController.h"
+#import "NetworkController.h"
 
 @interface PostViewController ()
 
@@ -36,5 +37,18 @@
   return @"Fart";
 }
 
+- (IBAction)didPressPostButton:(id)sender {
+  NetworkController *networkController = [NetworkController sharedController];
+  NSString *title = self.titleTextField.text;
+  NSString *body = self.titleTextField.text;
+  self.color = @"Orange";
+  
+  Dot *dot = [[Dot alloc] initWithLocation:self.location color:self.color title:title body:body];
+  
+  [networkController postDot:dot completionHandler:^(NSString *error, bool success) {
+    NSLog(success ? @"Success" : @"Fail");
+  }];
+  
+}
 
 @end

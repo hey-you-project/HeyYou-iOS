@@ -12,8 +12,9 @@
 #import "PostViewController.h"
 #import "Dot.h"
 #import "NetworkController.h"
+#import "BrowseViewController.h"
 
-@interface MapViewController : UIViewController
+@interface MapViewController : UIViewController <MKMapViewDelegate>
 
 @property (nonatomic, strong) MKMapView *mapView;
 //@property PostingViewController *popupController;

@@ -24,6 +24,7 @@
 - (instancetype)initWithLocation: (CLLocationCoordinate2D)location color: (NSString*)color title: (NSString*)title body: (NSString*)body;
 
 +(NSArray *)parseJSONIntoDots:(NSData *) data;
+-(instancetype)initWithLocation: (CLLocationCoordinate2D)location color: (NSString*)color title: (NSString*)title body: (NSString*)body;
 
 -(NSData *)parseDotIntoJSON;
 
