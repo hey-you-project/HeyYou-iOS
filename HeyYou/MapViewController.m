@@ -31,7 +31,8 @@
 
   self.kHorizontalCurveOffset = 2;
   self.kVerticalCurveOffset = 15;
-  self.kPopupHeight = 540;
+  self.kPopupHeight = 480;
+  self.customTeal = [[UIColor alloc] initWithRed:167 / 255.0 green:219 / 255.0 blue:216 / 255.0 alpha:1];
   
   NetworkController *networkController = [NetworkController sharedController];
   
@@ -64,7 +65,7 @@
   [self addChildViewController:self.sideMenuVC];
   [self.view addSubview:self.sideMenuVC.view];
   self.sideMenuVC.view.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
-  self.sideMenuVC.view.backgroundColor = [UIColor blackColor];
+  self.sideMenuVC.view.backgroundColor = self.customTeal;
 }
 
 - (void) addCircleView {
@@ -77,14 +78,14 @@
   self.dragCircleWrapper.layer.shadowRadius = 3.0;
   self.dragCircleWrapper.layer.shadowOffset = CGSizeMake(0, 3);
   
-  CGRect miniCircleRect = CGRectMake(self.dragCircleWrapper.frame.origin.x + 17.5, self.dragCircleWrapper.frame.origin.y + 15, 25, 25);
+  CGRect miniCircleRect = CGRectMake(self.dragCircleWrapper.frame.origin.x + 17.5, self.dragCircleWrapper.frame.origin.y + 17.5, 25, 25);
 
   self.draggableCircle = [[UIView alloc] initWithFrame:miniCircleRect];
   self.draggableCircle.layer.cornerRadius = self.draggableCircle.frame.size.height / 2;
   self.draggableCircle.backgroundColor = [UIColor orangeColor];
   self.originalCircleCenter = self.draggableCircle.center;
   
-  self.draggableCircle.layer.shadowColor = [[UIColor whiteColor] CGColor];
+  self.draggableCircle.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.draggableCircle.layer.shadowOpacity = 0.8;
   self.draggableCircle.layer.shadowRadius = 1.0;
   self.draggableCircle.layer.shadowOffset = CGSizeMake(0, 2);
@@ -118,7 +119,7 @@
   self.hamburgerLabel.font = [UIFont fontWithName:@"typicons" size:30];
   self.hamburgerLabel.textColor = [UIColor orangeColor];
   
-  self.hamburgerLabel.layer.shadowColor = [[UIColor whiteColor] CGColor];
+  self.hamburgerLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.hamburgerLabel.layer.shadowOpacity = 0.8;
   self.hamburgerLabel.layer.shadowRadius = 1.0;
   self.hamburgerLabel.layer.shadowOffset = CGSizeMake(0, 2);
@@ -203,7 +204,6 @@
                       options:UIViewAnimationOptionAllowUserInteraction animations:^{
                         self.draggableCircle.center = self.originalCircleCenter;
                       } completion:^(BOOL finished) {
-                        
                         
                       }];
   
@@ -319,15 +319,22 @@
   
 }
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-  
+  [mapView deselectAnnotation:view.annotation animated:false];
   BrowseViewController *dotVC = [BrowseViewController new];
-  Dot *dot;
-//  for (Dot *dot in self.dots) {
-//    if (dot.identifier == )
-//  }
+  Dot *thisDot;
+  for (Dot *dot in self.dots) {
+    NSLog(@"Comparing %@ with %@",dot.identifier, view.annotation.title);
+    if (dot.identifier == view.annotation.title){
+      NSLog(@"Found dot!");
+      thisDot = dot;
+    }
+  }
   
+  dotVC.dot = thisDot;
   
-  self.currentPopup = [BrowseViewController new];
+  self.currentPopup = dotVC;
+  CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
+  [self spawnPopupAtPoint:point];
   
   
 }

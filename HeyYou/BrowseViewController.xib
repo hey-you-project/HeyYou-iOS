@@ -13,7 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BrowseViewController">
             <connections>
                 <outlet property="body" destination="Xkb-pC-YJw" id="SIf-bl-bfb"/>
-                <outlet property="title" destination="QZi-Pi-R6U" id="JQN-lx-Bkt"/>
+                <outlet property="titleLabel" destination="QZi-Pi-R6U" id="WkL-nD-zyY"/>
                 <outlet property="username" destination="uPe-Wt-TzI" id="3Ud-8r-CAa"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
