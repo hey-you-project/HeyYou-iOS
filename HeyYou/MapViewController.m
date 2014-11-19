@@ -305,13 +305,19 @@
   newRect.origin.y += offset;
   CGPoint center = [self.mapView convertCoordinate:self.mapView.centerCoordinate toPointToView:self.view];
   center.y -= offset;
+  MKCoordinateRegion region = [self.mapView region];
   CLLocationCoordinate2D newCoord = [self.mapView convertPoint:center toCoordinateFromView:self.view];
-  
+  region.center = newCoord;
   
   if (offset > 0) {
     [UIView animateWithDuration:0.4 animations:^{
       self.currentPopup.view.frame = newRect;
-      [self.mapView setCenterCoordinate:newCoord animated:false];
+      [self.mapView setRegion:region animated:true];
+      if (self.draggableCircle.center.x != self.originalCircleCenter.x || self.draggableCircle.center.y != self.originalCircleCenter.y ) {
+        CGRect rect = self.draggableCircle.frame;
+        rect.origin.y +=offset;
+        self.draggableCircle.frame = rect;
+      }
     }];
   }
   
