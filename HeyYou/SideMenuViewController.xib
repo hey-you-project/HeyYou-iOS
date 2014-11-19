@@ -19,6 +19,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SideMenuViewController">
             <connections>
+                <outlet property="activityIndicator" destination="eNM-Ze-fP1" id="cRq-sJ-itH"/>
                 <outlet property="bestofView" destination="FUW-qX-3xa" id="npS-uA-Nwl"/>
                 <outlet property="createAccountButton" destination="0xD-Zy-eCq" id="dIa-uc-j2j"/>
                 <outlet property="heyYouTitle" destination="Iii-PY-ydF" id="AFY-mQ-Jcd"/>
@@ -178,6 +179,10 @@
                         <constraint firstItem="PMd-lN-eaw" firstAttribute="top" secondItem="a9a-tz-Mqt" secondAttribute="top" constant="8" id="z48-cc-Z9Z"/>
                     </constraints>
                 </view>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="eNM-Ze-fP1">
+                    <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
+                    <color key="color" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
@@ -185,6 +190,7 @@
                 <constraint firstItem="rQr-Cb-TKH" firstAttribute="top" secondItem="Iii-PY-ydF" secondAttribute="bottom" constant="60" id="6ba-3l-6bX"/>
                 <constraint firstAttribute="bottom" secondItem="0xD-Zy-eCq" secondAttribute="bottom" constant="120" id="9Gi-v2-aAy"/>
                 <constraint firstItem="Iii-PY-ydF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="9xn-BN-R9R"/>
+                <constraint firstAttribute="centerX" secondItem="eNM-Ze-fP1" secondAttribute="centerX" id="FvK-qq-g0S"/>
                 <constraint firstItem="0xD-Zy-eCq" firstAttribute="top" secondItem="PAt-m4-RBY" secondAttribute="bottom" constant="24" id="N9H-0u-sGz"/>
                 <constraint firstItem="PAt-m4-RBY" firstAttribute="centerX" secondItem="Iii-PY-ydF" secondAttribute="centerX" id="UfP-Td-ltr"/>
                 <constraint firstItem="Iii-PY-ydF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="Y0s-Pk-2g8"/>
@@ -194,6 +200,7 @@
                 <constraint firstItem="a9a-tz-Mqt" firstAttribute="centerX" secondItem="Iii-PY-ydF" secondAttribute="centerX" id="iPp-Wc-tE2"/>
                 <constraint firstAttribute="trailing" secondItem="Iii-PY-ydF" secondAttribute="trailing" constant="8" id="oPw-ar-8rO"/>
                 <constraint firstItem="0xD-Zy-eCq" firstAttribute="centerX" secondItem="PAt-m4-RBY" secondAttribute="centerX" id="v20-kG-78I"/>
+                <constraint firstAttribute="centerY" secondItem="eNM-Ze-fP1" secondAttribute="centerY" id="ynL-ay-A5C"/>
             </constraints>
             <point key="canvasLocation" x="207" y="365"/>
         </view>

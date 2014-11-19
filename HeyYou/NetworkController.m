@@ -88,7 +88,9 @@
           if ((self.token = tokenJSON[@"jwt"])) {
             if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
               NSLog(@"Success! Got token!");
-              completionHandler(nil, YES);
+              [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler(nil, YES);
+              }];
             }
           }
         } else {
