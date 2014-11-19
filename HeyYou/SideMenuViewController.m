@@ -28,6 +28,9 @@
   
   self.usernameField.delegate = self;
   self.passwordField.delegate = self;
+  self.createUsernameField.delegate = self;
+  self.createPasswordField.delegate = self;
+  self.createEmailField.delegate = self;
   
   //Set up animation speed
   self.duration = 0.5;
@@ -102,6 +105,7 @@
       break;
     case MenuStateCreateAccountScreen:
       self.state = MenuStateLoggedIn;
+      [self removeCreateAnimation:@"RonSwanson"];
     default:
       break;
   }
@@ -153,6 +157,22 @@
       self.heyYouTitle.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
     }];
+  }];
+}
+
+- (void)removeCreateAnimation: (NSString*)username {
+  self.bestofView.transform = CGAffineTransformMakeTranslation(-175, 0);
+  [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    self.heyYouTitle.transform = self.titleOffstage;
+    self.userPostsView.transform = CGAffineTransformIdentity;
+    self.bestofView.transform = CGAffineTransformIdentity;
+    self.createAccountButton.transform = self.createAccountOffstage;
+    self.createView.transform = self.loginCreateOffstage;
+  } completion:^(BOOL finished) {
+    self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", username];
+    [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      self.heyYouTitle.transform = CGAffineTransformIdentity;
+    } completion: nil];
   }];
 }
 
