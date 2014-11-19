@@ -27,6 +27,9 @@
 		7E1689191A1BDE5E00BA4DE6 /* mediumpurplecircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689121A1BDE5D00BA4DE6 /* mediumpurplecircle.png */; };
 		7E16891A1A1BDE5E00BA4DE6 /* mediumtealcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689131A1BDE5D00BA4DE6 /* mediumtealcircle.png */; };
 		7E16891B1A1BDE5E00BA4DE6 /* mediumyellowcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689141A1BDE5D00BA4DE6 /* mediumyellowcircle.png */; };
+		7E16891F1A1BF22E00BA4DE6 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16891D1A1BF22E00BA4DE6 /* CommentCell.m */; };
+		7E1689201A1BF22E00BA4DE6 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */; };
+		7E1689231A1C44CA00BA4DE6 /* DotAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1689221A1C44CA00BA4DE6 /* DotAnnotationView.m */; };
 		7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */; };
 		7E6E34DC1A1A75A100FF6776 /* SideMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */; };
 		7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DD1A1A7CF900FF6776 /* typicons.ttf */; };
@@ -81,6 +84,11 @@
 		7E1689121A1BDE5D00BA4DE6 /* mediumpurplecircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumpurplecircle.png; sourceTree = "<group>"; };
 		7E1689131A1BDE5D00BA4DE6 /* mediumtealcircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumtealcircle.png; sourceTree = "<group>"; };
 		7E1689141A1BDE5D00BA4DE6 /* mediumyellowcircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumyellowcircle.png; sourceTree = "<group>"; };
+		7E16891C1A1BF22E00BA4DE6 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
+		7E16891D1A1BF22E00BA4DE6 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
+		7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
+		7E1689211A1C44CA00BA4DE6 /* DotAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotAnnotationView.h; sourceTree = "<group>"; };
+		7E1689221A1C44CA00BA4DE6 /* DotAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotAnnotationView.m; sourceTree = "<group>"; };
 		7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideMenuViewController.h; sourceTree = "<group>"; };
 		7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
 		7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideMenuViewController.xib; sourceTree = "<group>"; };
@@ -142,10 +150,15 @@
 				7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */,
 				7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */,
 				7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */,
+				7E16891C1A1BF22E00BA4DE6 /* CommentCell.h */,
+				7E16891D1A1BF22E00BA4DE6 /* CommentCell.m */,
+				7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */,
 				150C41771A1A6DF10062DE29 /* AppDelegate.h */,
 				150C41781A1A6DF10062DE29 /* AppDelegate.m */,
 				150C417D1A1A6DF10062DE29 /* MapViewController.h */,
 				150C417E1A1A6DF10062DE29 /* MapViewController.m */,
+				7E1689211A1C44CA00BA4DE6 /* DotAnnotationView.h */,
+				7E1689221A1C44CA00BA4DE6 /* DotAnnotationView.m */,
 				7E0790321A1BCC3C00858BD7 /* DotAnnotation.h */,
 				7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */,
 				7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */,
@@ -268,6 +281,7 @@
 				TargetAttributes = {
 					150C416F1A1A6DF10062DE29 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 6X3539QT5M;
 					};
 					150C418B1A1A6DF10062DE29 = {
 						CreatedOnToolsVersion = 6.1;
@@ -306,6 +320,7 @@
 				150C41841A1A6DF10062DE29 /* Images.xcassets in Resources */,
 				7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */,
 				7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */,
+				7E1689201A1BF22E00BA4DE6 /* CommentCell.xib in Resources */,
 				7E1689151A1BDE5D00BA4DE6 /* mediumbluecircle.png in Resources */,
 				7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */,
 				7E16891B1A1BDE5E00BA4DE6 /* mediumyellowcircle.png in Resources */,
@@ -328,9 +343,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */,
+				7E16891F1A1BF22E00BA4DE6 /* CommentCell.m in Sources */,
 				150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */,
 				7E6E34E61A1A994A00FF6776 /* MapViewController.m in Sources */,
 				7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */,
+				7E1689231A1C44CA00BA4DE6 /* DotAnnotationView.m in Sources */,
 				7E6E34E41A1A91ED00FF6776 /* PostViewController.m in Sources */,
 				150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */,
 				150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */,
@@ -462,9 +479,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HeyYou/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -472,9 +492,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HeyYou/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

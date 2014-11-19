@@ -28,7 +28,7 @@
   NSMutableArray *tempArray = [NSMutableArray new];
   
   for (NSDictionary *dotDict in dotsArray) {
-    NSLog(@"Parsing Dot!");
+
     Dot *dot = [Dot new];
     dot.title = dotDict[@"title"];
     dot.body = dotDict[@"body"];
@@ -38,12 +38,16 @@
     dot.username = dotDict[@"username_id"];
     double latitude = [dotDict[@"latitude"] doubleValue];
     double longitude = [dotDict[@"longitude"] doubleValue];
-    NSLog(@"Latitude: %f", latitude);
-    NSLog(@"Longitude: %f", longitude);
+    NSArray *commentArray = dotDict[@"comments"];
+    for (NSDictionary *commentDict in commentArray) {
+      Comment *comment = [Comment new];
+      comment.user = [[User alloc] initwithUsername:commentDict[@"username"]];
+      comment.body = commentDict[@"text"];
+      [dot.comments addObject:comment];
+    }
     dot.location = CLLocationCoordinate2DMake(latitude, longitude);
     [tempArray addObject:dot];
   }
-  
   return tempArray;
 }
 

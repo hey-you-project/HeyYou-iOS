@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "Dot.h"
+@class MapViewController;
 
 @interface PostViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
+
+
 
 @property (weak, nonatomic) IBOutlet UITextView *bodyTextField;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextField;
@@ -35,6 +38,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *orangeConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *pinkConstraint;
 
+@property (nonatomic, strong) MapViewController *delegate;
 
 
 
