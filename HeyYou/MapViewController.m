@@ -83,12 +83,12 @@
     NSLog(@"%@", self.dots.description);
   }];
   
-//  [networkController fetchTokenWithUsername:@"foobar123" password:@"mypassword" completionHandler:^(NSString *error, bool success) {
-//    if (success) {
-//      NSLog(@"Token is: %@", networkController.token);
-//    } else {
-//      NSLog(@"Bullshit");
-//    }
+//  [networkController createUserWithUsername:@"ronswanson" password:@"baconandeggs" birthday:birthday email:@"anonymous@fakeemail.com" completionHandler:^(NSString *error, bool success) {
+//      if (success) {
+//        NSLog(@"Token is: %@", networkController.token);
+//      } else {
+//        NSLog(@"Bullshit");
+//      }
 //  }];
   
 }
