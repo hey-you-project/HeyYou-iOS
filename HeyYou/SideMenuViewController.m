@@ -103,9 +103,22 @@
       self.state = MenuStateCreateAccountScreen;
       [self addCreateAnimation];
       break;
-    case MenuStateCreateAccountScreen:
-      self.state = MenuStateLoggedIn;
-      [self removeCreateAnimation:@"RonSwanson"];
+    case MenuStateCreateAccountScreen: {
+      [self.activityIndicator startAnimating];
+      NSString *username = self.createUsernameField.text;
+      NSString *password = self.createPasswordField.text;
+      NSString *email = self.createEmailField.text;
+      NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:508723200];
+      [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSString *error, bool success) {
+        if (success) {
+          [self.activityIndicator stopAnimating];
+          self.state = MenuStateLoggedIn;
+          [self removeCreateAnimation:username];
+          NSLog(@"User created!");
+        }
+      }];
+      
+    }
     default:
       break;
   }
