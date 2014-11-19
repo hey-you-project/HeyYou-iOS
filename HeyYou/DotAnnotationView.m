@@ -11,17 +11,34 @@
 @implementation DotAnnotationView
 
 - (void)drawRect:(CGRect)rect {
-  NSLog(@"Draw Rect Called!");
-  
-  
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  CGContextSetLineWidth(context, 2.0);
-  CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
-  CGContextSetFillColorWithColor(context, self.color.CGColor);
-  CGContextAddEllipseInRect(context, CGRectInset(rect, 3, 3));
-//  CGContextFillEllipseInRect(context, rect);
-//  CGContextStrokePath(context);
-  CGContextDrawPath(context, kCGPathFillStroke);
+  //if(self.type == 1 ) {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, 2.0);
+    CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+    CGContextSetFillColorWithColor(context, self.color.CGColor);
+    CGContextAddEllipseInRect(context, CGRectInset(rect, 3, 3));
+    CGContextDrawPath(context, kCGPathFillStroke);
+//  } else {
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGFloat size = rect.size.width / 2.5;
+//    CGFloat offset = rect.size.width / 4;
+//    CGRect rect1 = CGRectInset(rect, size, size);
+//    rect1 = CGRectOffset(rect1, 0, offset);
+//    CGRect rect2 = CGRectInset(rect, size, size);
+//    rect2 = CGRectOffset(rect1, -offset, offset);
+//    CGRect rect3 = CGRectInset(rect, size, size);
+//    rect3 = CGRectOffset(rect1, offset, offset);
+//    CGContextSetLineWidth(context, 1.0);
+//    CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+//    CGContextSetFillColorWithColor(context, self.color.CGColor);
+//    
+//    CGContextAddEllipseInRect(context, rect1);
+//    CGContextAddEllipseInRect(context, rect2);
+//    CGContextAddEllipseInRect(context, rect3);
+//    
+//    CGContextDrawPath(context, kCGPathFillStroke);
+//    
+//  }
   
 }
 

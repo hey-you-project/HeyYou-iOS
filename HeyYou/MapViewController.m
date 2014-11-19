@@ -31,43 +31,43 @@
 @property (nonatomic, strong) UIColor *flatRed;
 @property (nonatomic, strong) UIColor *flatGray;
 
-
 @end
 
 @implementation MapViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+  self.flatGreen = [UIColor colorWithRed:46/255.0 green:204/255.0 blue:113/255.0 alpha: 1];
+  
   [self setupSideMenu];
   [self setupMapView];
   [self addCircleView];
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
-  
+
   self.mapView.delegate = self;
 
   self.kHorizontalCurveOffset = 2;
   self.kVerticalCurveOffset = 15;
   self.kPopupHeight = 480;
-  
-  self.customTeal = [UIColor colorWithRed:167/255.0 green:219/255.0 blue:216/255.0 alpha:1];
-  self.customDarkOrange = [UIColor colorWithRed:250/255.0 green:105/255.0 blue:0/255.0 alpha: 1];
-  self.customLightOrange = [UIColor colorWithRed: 243 / 255.0 green: 134 / 255.0 blue: 48  / 255.0 alpha: 1];
-  self.customBlue = [UIColor colorWithRed: 105 / 255.0 green: 210 / 255.0 blue: 231 / 255.0 alpha: 1];
-  self.customBeige = [UIColor colorWithRed: 224 / 255.0 green: 228 / 255.0 blue: 204 / 255.0 alpha: 1];
-  
-  self.flatTurquoise = [UIColor colorWithRed:26/255.0 green:188/255.0 blue:156/255.0 alpha:1];
-  self.flatGreen = [UIColor colorWithRed:46/255.0 green:204/255.0 blue:113/255.0 alpha: 1];
-  self.flatBlue = [UIColor colorWithRed: 52 / 255.0 green: 152 / 255.0 blue: 219  / 255.0 alpha: 1];
-  self.flatPurple = [UIColor colorWithRed: 155 / 255.0 green: 89 / 255.0 blue: 182 / 255.0 alpha: 1];
-  self.flatYellow = [UIColor colorWithRed: 241 / 255.0 green: 196 / 255.0 blue: 15 / 255.0 alpha: 1];
-  self.flatOrange = [UIColor colorWithRed: 203 / 255.0 green: 126 / 255.0 blue: 34 / 255.0 alpha: 1];
-  self.flatRed = [UIColor colorWithRed: 231 / 255.0 green: 76 / 255.0 blue: 60 / 255.0 alpha: 1];
-  self.flatGray = [UIColor colorWithRed: 52 / 255.0 green: 73 / 255.0 blue: 94 / 255.0 alpha: 1];
-  
+
+  self.flatTurquoise  = [UIColor colorWithRed: 26  / 255.0 green: 188 / 255.0 blue: 156 / 255.0 alpha: 1];
+  self.flatBlue       = [UIColor colorWithRed: 52  / 255.0 green: 152 / 255.0 blue: 219 / 255.0 alpha: 1];
+  self.flatPurple     = [UIColor colorWithRed: 155 / 255.0 green: 89  / 255.0 blue: 182 / 255.0 alpha: 1];
+  self.flatYellow     = [UIColor colorWithRed: 241 / 255.0 green: 196 / 255.0 blue: 15  / 255.0 alpha: 1];
+  self.flatOrange     = [UIColor colorWithRed: 203 / 255.0 green: 126 / 255.0 blue: 34  / 255.0 alpha: 1];
+  self.flatRed        = [UIColor colorWithRed: 231 / 255.0 green: 76  / 255.0 blue: 60  / 255.0 alpha: 1];
+  self.flatGray       = [UIColor colorWithRed: 52  / 255.0 green: 73  / 255.0 blue: 94  / 255.0 alpha: 1];
   
   UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
-  statusBar.backgroundColor = self.flatGreen;
+  UIVisualEffect *blurEffect;
+  blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+  UIVisualEffectView *visualEffectView;
+  visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+  visualEffectView.frame = statusBar.frame;
+  [self.view addSubview:visualEffectView];
+  statusBar.backgroundColor = [self.flatGreen colorWithAlphaComponent:0.8];
   [self.view addSubview:statusBar];
   
 }
@@ -85,7 +85,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)setupMapView {
@@ -120,7 +119,7 @@
 
   self.draggableCircle = [[UIView alloc] initWithFrame:miniCircleRect];
   self.draggableCircle.layer.cornerRadius = self.draggableCircle.frame.size.height / 2;
-  self.draggableCircle.backgroundColor = [UIColor orangeColor];
+  self.draggableCircle.backgroundColor = self.flatGreen;
   self.originalCircleCenter = self.draggableCircle.center;
   
   self.draggableCircle.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -155,7 +154,7 @@
   self.hamburgerLabel = [[UILabel alloc] initWithFrame:labelRect];
   self.hamburgerLabel.text = @"\ue116";
   self.hamburgerLabel.font = [UIFont fontWithName:@"typicons" size:30];
-  self.hamburgerLabel.textColor = [UIColor orangeColor];
+  self.hamburgerLabel.textColor = self.flatGreen;
   
   self.hamburgerLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.hamburgerLabel.layer.shadowOpacity = 0.8;
@@ -283,9 +282,9 @@
   shapeLayer.path = combinedPath;
   
   self.currentPopup.view.layer.mask = shapeLayer;
-  self.currentPopup.view.transform = CGAffineTransformMakeScale(0.5, 0.5);
+  self.currentPopup.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
   
-  [UIView animateWithDuration:0.2
+  [UIView animateWithDuration:0.4
                         delay:0.0
        usingSpringWithDamping:0.6
         initialSpringVelocity:0.2
@@ -294,15 +293,41 @@
                      self.currentPopup.view.alpha = 1;
                      self.currentPopup.view.transform = CGAffineTransformMakeScale(1, 1);
                    } completion:^(BOOL finished) {
-                     
+                     [self scrollToClearCurrentPopup];
                    }];
   
 }
+
+-(void) scrollToClearCurrentPopup {
+  
+  CGFloat offset = 40 - self.currentPopup.view.frame.origin.y;
+  CGRect newRect = self.currentPopup.view.frame;
+  newRect.origin.y += offset;
+  CGPoint center = [self.mapView convertCoordinate:self.mapView.centerCoordinate toPointToView:self.view];
+  center.y -= offset;
+  CLLocationCoordinate2D newCoord = [self.mapView convertPoint:center toCoordinateFromView:self.view];
+  
+  
+  if (offset > 0) {
+    [UIView animateWithDuration:0.4 animations:^{
+      self.currentPopup.view.frame = newRect;
+      [self.mapView setCenterCoordinate:newCoord animated:false];
+    }];
+  }
+  
+  
+}
+
+
 -(void)toggleSideMenu {
+  
   CGRect newMapViewFrame = self.mapView.frame;
   CGRect newDragWrapperFrame = self.dragCircleWrapper.frame;
   CGRect newDraggableFrame = self.draggableCircle.frame;
   CGRect newHamburgerFrame = self.hamburgerWrapper.frame;
+  CGRect newHamLabelFrame = self.hamburgerLabel.frame;
+  NSString *newString;
+  CGAffineTransform transform;
   
   if (self.mapView.frame.origin.x == 0){
     [self returnDragCircleToHomeBase];
@@ -310,11 +335,17 @@
     newDragWrapperFrame.origin.x += 200;
     newDraggableFrame.origin.x += 200;
     newHamburgerFrame.origin.x += 20;
+    newHamLabelFrame.origin.x += 6;
+    newString = @"\ue122";
+    transform = CGAffineTransformMakeScale(1.4, 1.4);
   } else {
     newMapViewFrame.origin.x -= 200;
     newDragWrapperFrame.origin.x -= 200;
     newDraggableFrame.origin.x -= 200;
     newHamburgerFrame.origin.x -= 20;
+    newHamLabelFrame.origin.x -= 6;
+    newString = @"\ue116";
+    transform = CGAffineTransformMakeScale(1, 1);
   }
   [self unpopCurrentComment];
   NSLog(@"Toggle Called!");
@@ -333,6 +364,9 @@
                      self.dragCircleWrapper.frame = newDragWrapperFrame;
                      self.draggableCircle.frame = newDraggableFrame;
                      self.hamburgerWrapper.frame = newHamburgerFrame;
+                     self.hamburgerLabel.frame = newHamLabelFrame;
+                     self.hamburgerLabel.text = newString;
+                     self.hamburgerLabel.transform = transform;
                    } completion:^(BOOL finished) {
                     
                    }];
@@ -399,7 +433,7 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
   
-  DotAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
+  DotAnnotationView *view = (DotAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
   if (view == nil) {
     NSLog(@"Creating new!");
     view = [[DotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
@@ -408,7 +442,7 @@
   view.color = [self getColorFromString:anno.dot.color];
   
   CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
-  view.frame = CGRectMake(center.x-15, center.y-15, 30, 30);
+  view.frame = CGRectMake(center.x-12.5, center.y-12.5, 25, 25);
   view.backgroundColor = [UIColor clearColor];
 
   view.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -438,21 +472,6 @@
   }
   
 }
-
-
-
-//  
-//  if self.mapView.frame.origin.x == 0{
-//    self.hamburgerLabel.text = "\u{e116}"
-//    self.hamburgerLabel.transform = CGAffineTransformMakeScale(1, 1)
-//    self.hamburgerLabel.center.x -= 6
-//  } else {
-//    self.hamburgerLabel.text = "\u{e122}"
-//    self.hamburgerLabel.transform = CGAffineTransformMakeScale(1.4, 1.4)
-//    self.hamburgerLabel.center.x += 6
-//  }
-//  
-//}
 
 
 @end

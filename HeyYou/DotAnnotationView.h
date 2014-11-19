@@ -11,5 +11,6 @@
 @interface DotAnnotationView : MKAnnotationView
 
 @property (nonatomic, strong) UIColor *color;
+@property NSInteger type;
 
 @end
