@@ -13,6 +13,8 @@
 
 @interface PostViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 
+
+
 @property (weak, nonatomic) IBOutlet UITextView *bodyTextField;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextField;
 

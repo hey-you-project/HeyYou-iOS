@@ -7,6 +7,7 @@
 //
 
 #import "MapViewController.h"
+#import "DotAnnotationView.h"
 
 @interface MapViewController ()
 
@@ -14,6 +15,22 @@
 @property CGFloat kVerticalCurveOffset;
 @property CGFloat kPopupHeight;
 @property NSArray *dots;
+
+//// MARK: Color Palette
+@property (nonatomic, strong) UIColor *customDarkOrange;
+@property (nonatomic, strong) UIColor *customLightOrange;
+@property (nonatomic, strong) UIColor *customBlue;
+@property (nonatomic, strong) UIColor *customTeal;
+@property (nonatomic, strong) UIColor *customBeige;
+@property (nonatomic, strong) UIColor *flatTurquoise;
+@property (nonatomic, strong) UIColor *flatGreen;
+@property (nonatomic, strong) UIColor *flatBlue;
+@property (nonatomic, strong) UIColor *flatPurple;
+@property (nonatomic, strong) UIColor *flatYellow;
+@property (nonatomic, strong) UIColor *flatOrange;
+@property (nonatomic, strong) UIColor *flatRed;
+@property (nonatomic, strong) UIColor *flatGray;
+
 
 @end
 
@@ -32,7 +49,26 @@
   self.kHorizontalCurveOffset = 2;
   self.kVerticalCurveOffset = 15;
   self.kPopupHeight = 480;
+  
   self.customTeal = [UIColor colorWithRed:167/255.0 green:219/255.0 blue:216/255.0 alpha:1];
+  self.customDarkOrange = [UIColor colorWithRed:250/255.0 green:105/255.0 blue:0/255.0 alpha: 1];
+  self.customLightOrange = [UIColor colorWithRed: 243 / 255.0 green: 134 / 255.0 blue: 48  / 255.0 alpha: 1];
+  self.customBlue = [UIColor colorWithRed: 105 / 255.0 green: 210 / 255.0 blue: 231 / 255.0 alpha: 1];
+  self.customBeige = [UIColor colorWithRed: 224 / 255.0 green: 228 / 255.0 blue: 204 / 255.0 alpha: 1];
+  
+  self.flatTurquoise = [UIColor colorWithRed:26/255.0 green:188/255.0 blue:156/255.0 alpha:1];
+  self.flatGreen = [UIColor colorWithRed:46/255.0 green:204/255.0 blue:113/255.0 alpha: 1];
+  self.flatBlue = [UIColor colorWithRed: 52 / 255.0 green: 152 / 255.0 blue: 219  / 255.0 alpha: 1];
+  self.flatPurple = [UIColor colorWithRed: 155 / 255.0 green: 89 / 255.0 blue: 182 / 255.0 alpha: 1];
+  self.flatYellow = [UIColor colorWithRed: 241 / 255.0 green: 196 / 255.0 blue: 15 / 255.0 alpha: 1];
+  self.flatOrange = [UIColor colorWithRed: 203 / 255.0 green: 126 / 255.0 blue: 34 / 255.0 alpha: 1];
+  self.flatRed = [UIColor colorWithRed: 231 / 255.0 green: 76 / 255.0 blue: 60 / 255.0 alpha: 1];
+  self.flatGray = [UIColor colorWithRed: 52 / 255.0 green: 73 / 255.0 blue: 94 / 255.0 alpha: 1];
+  
+  
+  UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
+  statusBar.backgroundColor = self.flatGreen;
+  [self.view addSubview:statusBar];
   
 }
 
@@ -303,19 +339,19 @@
 }
 
 -(void)populateDotsOnMap {
-  
   [[NSOperationQueue mainQueue] addOperationWithBlock:^{
     for (Dot * dot in self.dots) {
-      NSLog(@"Adding overlay!");
-      NSLog(@"Adding Overlay with Lat:%f and Long:%f", dot.location.latitude, dot.location.longitude);
-      //[self.mapView addOverlay:[MKCircle circleWithCenterCoordinate:dot.location radius:100000.0]];
-      DotAnnotation *anno = [DotAnnotation new];
-      anno.coordinate = dot.location;
-      anno.title = dot.identifier;
-      anno.dot = dot;
-      [self.mapView addAnnotation:anno];
+      [self addNewAnnotationForDot:dot];
     }
   }];
+}
+
+-(void)addNewAnnotationForDot:(Dot*) dot {
+  DotAnnotation *anno = [DotAnnotation new];
+  anno.coordinate = dot.location;
+  anno.title = dot.identifier;
+  anno.dot = dot;
+  [self.mapView addAnnotation:anno];
 }
 
 -(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
@@ -343,19 +379,19 @@
 -(void) changeDotColor:(NSString *)color {
   
   if ([color isEqualToString:@"orange"]) {
-    self.draggableCircle.backgroundColor = [UIColor orangeColor];
+    self.draggableCircle.backgroundColor = self.flatOrange;
   } else if ([color isEqualToString:@"green"]) {
-    self.draggableCircle.backgroundColor = [UIColor greenColor];
+    self.draggableCircle.backgroundColor = self.flatGreen;
   } else if ([color isEqualToString:@"blue"]) {
-    self.draggableCircle.backgroundColor = [UIColor blueColor];
+    self.draggableCircle.backgroundColor = self.flatBlue;
   } else if ([color isEqualToString:@"yellow"]) {
-    self.draggableCircle.backgroundColor = [UIColor yellowColor];
+    self.draggableCircle.backgroundColor = self.flatYellow;
   } else if ([color isEqualToString:@"pink"]) {
-    self.draggableCircle.backgroundColor = [UIColor redColor];
+    self.draggableCircle.backgroundColor = self.flatRed;
   } else if ([color isEqualToString:@"purple"]) {
-    self.draggableCircle.backgroundColor = [UIColor purpleColor];
+    self.draggableCircle.backgroundColor = self.flatPurple;
   } else if ([color isEqualToString:@"teal"]) {
-    self.draggableCircle.backgroundColor = [UIColor grayColor];
+    self.draggableCircle.backgroundColor = self.flatTurquoise;
   }
   
 }
@@ -363,21 +399,43 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
   
-//  MKAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
-//  if (view == nil) {
-//    NSLog(@"Creating new!");
-    MKAnnotationView *view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
-//  }
-  
+  DotAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
+  if (view == nil) {
+    NSLog(@"Creating new!");
+    view = [[DotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
+  }
   DotAnnotation *anno = view.annotation;
+  view.color = [self getColorFromString:anno.dot.color];
   
-  NSString *lowercase = [anno.dot.color lowercaseString];
-  view.image = [UIImage imageNamed:[NSString stringWithFormat:@"medium%@circle", lowercase]];
-//  view.layer.shadowColor = [[UIColor blackColor] CGColor];
-//  view.layer.shadowOpacity = 0.6;
-//  view.layer.shadowRadius = 3.0;
-//  view.layer.shadowOffset = CGSizeMake(0, 2);
+  CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
+  view.frame = CGRectMake(center.x-15, center.y-15, 30, 30);
+  view.backgroundColor = [UIColor clearColor];
+
+  view.layer.shadowColor = [[UIColor blackColor] CGColor];
+  view.layer.shadowOpacity = 0.6;
+  view.layer.shadowRadius = 3.0;
+  view.layer.shadowOffset = CGSizeMake(0, 2);
   return view;
+  
+}
+
+-(UIColor *) getColorFromString:(NSString *) colorName {
+  
+  if ([colorName isEqualToString:@"orange"]) {
+    return self.flatOrange;
+  } else if ([colorName isEqualToString:@"blue"]) {
+    return self.flatBlue;
+  } else if ([colorName isEqualToString:@"teal"]) {
+    return self.flatTurquoise;
+  } else if ([colorName isEqualToString:@"purple"]) {
+    return self.flatPurple;
+  } else if ([colorName isEqualToString:@"yellow"]) {
+    return self.flatYellow;
+  } else if ([colorName isEqualToString:@"green"]) {
+    return self.flatGreen;
+  } else {
+    return self.flatRed;
+  }
   
 }
 

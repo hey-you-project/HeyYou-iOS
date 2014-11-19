@@ -30,6 +30,26 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iPu-Gr-buz">
+                    <rect key="frame" x="180" y="236" width="240" height="128"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="OfD-MA-ivP">
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RaE-dE-d0K">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="sPJ-IK-hxb">
+                                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <vibrancyEffect>
+                                    <blurEffect style="light"/>
+                                </vibrancyEffect>
+                            </visualEffectView>
+                        </subviews>
+                    </view>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey Lady!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZi-Pi-R6U" userLabel="Title">
                     <rect key="frame" x="8" y="16" width="576" height="33"/>
                     <fontDescription key="fontDescription" name="Heavyweight" family="Heavyweight" pointSize="32"/>
@@ -110,7 +130,6 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="GPB-wW-99O" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" constant="8" id="1sV-id-oHr"/>
                 <constraint firstItem="Uwf-7O-VD9" firstAttribute="top" secondItem="lva-H3-pJ2" secondAttribute="bottom" id="1yC-U9-Ll1"/>
@@ -119,8 +138,10 @@
                 <constraint firstAttribute="trailing" secondItem="Uwf-7O-VD9" secondAttribute="trailing" id="4ed-j8-YLn"/>
                 <constraint firstItem="lva-H3-pJ2" firstAttribute="leading" secondItem="ulC-Lt-754" secondAttribute="trailing" constant="32" id="6Zd-Tc-qkF"/>
                 <constraint firstAttribute="trailing" secondItem="Xkb-pC-YJw" secondAttribute="trailing" constant="24" id="8i8-uQ-m8y"/>
+                <constraint firstAttribute="trailing" secondItem="iPu-Gr-buz" secondAttribute="trailing" id="8ok-h8-RmX"/>
                 <constraint firstItem="Xkb-pC-YJw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="24" id="AB9-11-Leb"/>
                 <constraint firstAttribute="bottom" secondItem="Uwf-7O-VD9" secondAttribute="bottom" id="BAg-YS-wRn"/>
+                <constraint firstAttribute="bottom" secondItem="iPu-Gr-buz" secondAttribute="bottom" id="Bg3-g3-8BO"/>
                 <constraint firstAttribute="trailing" secondItem="uPe-Wt-TzI" secondAttribute="trailing" constant="16" id="ClF-AK-2p9"/>
                 <constraint firstAttribute="centerX" secondItem="uPe-Wt-TzI" secondAttribute="centerX" id="Dlb-fw-O5k"/>
                 <constraint firstAttribute="trailing" secondItem="QA6-s8-cHm" secondAttribute="trailing" id="E8X-dc-jbr"/>
@@ -141,11 +162,13 @@
                 <constraint firstItem="QA6-s8-cHm" firstAttribute="top" relation="greaterThanOrEqual" secondItem="QZi-Pi-R6U" secondAttribute="bottom" constant="8" id="byd-fL-wQQ"/>
                 <constraint firstItem="Wgp-03-e41" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" constant="4" id="eB2-jq-dnF"/>
                 <constraint firstItem="QZi-Pi-R6U" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="eXp-el-fUq"/>
+                <constraint firstItem="iPu-Gr-buz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="gNs-s9-mJE"/>
                 <constraint firstItem="ulC-Lt-754" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" constant="8" id="mOB-up-Omt"/>
                 <constraint firstItem="Xkb-pC-YJw" firstAttribute="top" secondItem="QZi-Pi-R6U" secondAttribute="bottom" constant="8" id="p0d-8w-Uiu"/>
                 <constraint firstItem="GPB-wW-99O" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="qHy-Qz-UqQ"/>
                 <constraint firstItem="QA6-s8-cHm" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="tDP-wJ-tHF"/>
                 <constraint firstItem="MRg-Is-Hgy" firstAttribute="top" secondItem="Wgp-03-e41" secondAttribute="bottom" constant="4" id="tbt-GS-wAn"/>
+                <constraint firstItem="iPu-Gr-buz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="tqa-n8-xhx"/>
                 <constraint firstItem="MRg-Is-Hgy" firstAttribute="top" secondItem="Xkb-pC-YJw" secondAttribute="bottom" constant="8" id="uTR-iO-AEQ"/>
                 <constraint firstAttribute="trailing" secondItem="MRg-Is-Hgy" secondAttribute="trailing" id="vAk-y0-shY"/>
                 <constraint firstItem="Xkb-pC-YJw" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" constant="8" id="yHO-k0-4hy"/>

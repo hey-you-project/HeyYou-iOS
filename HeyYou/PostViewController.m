@@ -13,6 +13,7 @@
 @interface PostViewController ()
 
 @property (nonatomic, strong) NSArray *colorConstraints;
+@property (nonatomic, strong) NetworkController* networkController;
 @end
 
 @implementation PostViewController
@@ -24,6 +25,10 @@
   [self.colorWrapper addGestureRecognizer:colorPanner];
   self.color = @"orange";
   self.colorConstraints = @[self.orangeConstraint, self.blueConstraint, self.greenConstraint, self.yellowConstraint, self.tealConstraint, self.pinkConstraint, self.purpleConstraint];
+  self.networkController = [NetworkController sharedController];
+  
+  self.bodyTextField.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.3];
+  self.titleTextField.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.3];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,14 +49,21 @@
 }
 
 - (IBAction)didPressPostButton:(id)sender {
-  NetworkController *networkController = [NetworkController sharedController];
   NSString *title = self.titleTextField.text;
   NSString *body = self.bodyTextField.text;
-  
+  NSLog(@"Post button pressed!");
   Dot *dot = [[Dot alloc] initWithLocation:self.location color:self.color title:title body:body];
   
-  [networkController postDot:dot completionHandler:^(NSString *error, bool success) {
-    NSLog(success ? @"Success" : @"Fail");
+  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    [self.delegate addNewAnnotationForDot:dot];
+    [self.delegate unpopCurrentComment];
+    [self.delegate returnDragCircleToHomeBase];
+  }];
+  
+  [self.networkController postDot:dot completionHandler:^(NSString *error, bool success) {
+    if (success) {
+      
+    }
   }];
   
 }
@@ -75,54 +87,51 @@
   
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self.bodyTextField resignFirstResponder];
+  [self.titleTextField resignFirstResponder];
+}
+
 -(void) receivedPanEventFromColorWrapper:(UITapGestureRecognizer *)sender {
   CGPoint point = ([sender locationInView:self.colorWrapper]);
-  NSLog(@"Tap received!");
+
   if (point.x < self.colorWrapper.frame.size.width / 7) {
-    NSLog(@"First one panned on!");
     if (![self.color  isEqual: @"green"]) {
       self.color = @"green";
       [self toggleColorToColor:self.greenConstraint];
       [self.delegate changeDotColor:@"green"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 2) {
-    NSLog(@"Second one panned on!");
     if (![self.color  isEqual: @"yellow"]) {
       self.color = @"yellow";
       [self toggleColorToColor:self.yellowConstraint];
       [self.delegate changeDotColor:@"yellow"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 3) {
-    NSLog(@"Third one panned on!");
     if (![self.color  isEqual: @"teal"]) {
       self.color = @"teal";
       [self toggleColorToColor:self.tealConstraint];
       [self.delegate changeDotColor:@"teal"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 4) {
-    NSLog(@"Fourth one panned on!");
     if (![self.color  isEqual: @"purple"]) {
       self.color = @"purple";
       [self toggleColorToColor:self.purpleConstraint];
       [self.delegate changeDotColor:@"purple"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 5) {
-    NSLog(@"Fifth one panned on!");
     if (![self.color  isEqual: @"blue"]) {
       self.color = @"blue";
       [self toggleColorToColor:self.blueConstraint];
       [self.delegate changeDotColor:@"blue"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 6) {
-    NSLog(@"Sixth one panned on!");
     if (![self.color  isEqual: @"orange"]) {
       self.color = @"orange";
       [self toggleColorToColor:self.orangeConstraint];
       [self.delegate changeDotColor:@"orange"];
     }
   } else {
-    NSLog(@"Seventh one panned on!");
-    NSLog(@"Sixth one panned on!");
     if (![self.color  isEqual: @"pink"]) {
       self.color = @"pink";
       [self toggleColorToColor:self.pinkConstraint];
