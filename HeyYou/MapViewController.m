@@ -13,8 +13,9 @@
 
 @property CGFloat kHorizontalCurveOffset;
 @property CGFloat kVerticalCurveOffset;
-@property CGFloat kPopupHeight;
+@property CGFloat kLargePopupHeight;
 @property NSArray *dots;
+@property NSMutableDictionary *popups;
 
 //// MARK: Color Palette
 @property (nonatomic, strong) UIColor *customDarkOrange;
@@ -37,6 +38,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.popups = [NSMutableDictionary new];
   
   self.flatGreen = [UIColor colorWithRed:46/255.0 green:204/255.0 blue:113/255.0 alpha: 1];
   
@@ -50,8 +52,8 @@
 
   self.kHorizontalCurveOffset = 2;
   self.kVerticalCurveOffset = 15;
-  self.kPopupHeight = 480;
-
+  self.kLargePopupHeight = 480;
+  
   self.flatTurquoise  = [UIColor colorWithRed: 26  / 255.0 green: 188 / 255.0 blue: 156 / 255.0 alpha: 1];
   self.flatBlue       = [UIColor colorWithRed: 52  / 255.0 green: 152 / 255.0 blue: 219 / 255.0 alpha: 1];
   self.flatPurple     = [UIColor colorWithRed: 155 / 255.0 green: 89  / 255.0 blue: 182 / 255.0 alpha: 1];
@@ -193,6 +195,7 @@
   
   [self unpopCurrentComment];
   [self returnDragCircleToHomeBase];
+  //[self hideAllMiniPopups];
   
 }
 
@@ -206,7 +209,7 @@
     postVC.location = [self.mapView convertPoint:point toCoordinateFromView:self.view];
     postVC.delegate = self;
     self.currentPopup = postVC;
-    [self spawnPopupAtPoint:point];
+    [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
   }
   
 }
@@ -258,24 +261,30 @@
   
 }
 
--(void) spawnPopupAtPoint:(CGPoint)point {
+-(void) spawnLargePopupAtPoint:(CGPoint)point withHeight: (CGFloat) height {
+  
+  [self spawnPopup:self.currentPopup atPoint:point withHeight:height];
+  
+}
 
-  [self addChildViewController:self.currentPopup];
-  [self.view addSubview:self.currentPopup.view];
-  self.currentPopup.view.alpha = 0;
+-(void) spawnPopup: (UIViewController *) viewController atPoint:(CGPoint)point withHeight: (CGFloat) height{
+
+  [self addChildViewController:viewController];
+  [self.view addSubview:viewController.view];
+  viewController.view.alpha = 0;
   
-  CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, point.y - (self.kPopupHeight - 30), self.view.frame.size.width - 40, self.kPopupHeight);
+  CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, point.y - (height - 30), self.view.frame.size.width - 40, height);
   
-  self.currentPopup.view.frame = popupFrame;
+  viewController.view.frame = popupFrame;
   
-  CGRect vcBounds = self.currentPopup.view.bounds;
+  CGRect vcBounds = viewController.view.bounds;
   
   CGRect newRect = CGRectMake(vcBounds.origin.x, vcBounds.origin.y, vcBounds.size.width, vcBounds.size.height - 50);
   UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:newRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(10, 10)];
   struct CGPath *combinedPath = CGPathCreateMutableCopy(path.CGPath);
   CGMutablePathRef triangle = CGPathCreateMutable();
   
-  CGPoint newTouchPoint = [self.currentPopup.view convertPoint:point fromView:self.view];
+  CGPoint newTouchPoint = [viewController.view convertPoint:point fromView:self.view];
   
   CGPathMoveToPoint   (triangle, nil, newTouchPoint.x,      newTouchPoint.y);
   CGPathAddArcToPoint (triangle, nil, newTouchPoint.x - 2,  newTouchPoint.y - 15, newTouchPoint.x - 10, newTouchPoint.y - 20, 20);
@@ -289,8 +298,8 @@
   CAShapeLayer *shapeLayer = [CAShapeLayer new];
   shapeLayer.path = combinedPath;
   
-  self.currentPopup.view.layer.mask = shapeLayer;
-  self.currentPopup.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+  viewController.view.layer.mask = shapeLayer;
+  viewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
   
   [UIView animateWithDuration:0.4
                         delay:0.0
@@ -298,8 +307,8 @@
         initialSpringVelocity:0.2
                       options:UIViewAnimationOptionAllowUserInteraction
                    animations:^{
-                     self.currentPopup.view.alpha = 1;
-                     self.currentPopup.view.transform = CGAffineTransformMakeScale(1, 1);
+                     viewController.view.alpha = 1;
+                     viewController.view.transform = CGAffineTransformMakeScale(1, 1);
                    } completion:^(BOOL finished) {
                      [self scrollToClearCurrentPopup];
                    }];
@@ -331,6 +340,29 @@
   
   
 }
+
+//-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+//  
+//  for (DotAnnotation *annotation in mapView.annotations) {
+//    
+//    BrowseViewController * popup = [BrowseViewController new];
+//    popup.dot = annotation.dot;
+//    CGPoint point = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.view];
+//    
+//    if (![self.popups valueForKey:annotation.title]){
+//      [self spawnPopup:popup atPoint:point withHeight:100];
+//      [self.popups setObject:popup forKey:annotation.title];
+//    }
+//  }
+//  
+//}
+//
+//-(void) hideAllMiniPopups {
+//  
+//  for (UIViewController *popup in self.popups) {
+//    popup.view.hidden = true;
+//  }
+//}
 
 
 -(void)toggleSideMenu {
@@ -419,29 +451,13 @@
   
   self.currentPopup = dotVC;
   CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
-  [self spawnPopupAtPoint:point];
+  [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
   
   
 }
 
 -(void) changeDotColor:(NSString *)color {
-  
-  if ([color isEqualToString:@"orange"]) {
-    self.draggableCircle.backgroundColor = self.flatOrange;
-  } else if ([color isEqualToString:@"green"]) {
-    self.draggableCircle.backgroundColor = self.flatGreen;
-  } else if ([color isEqualToString:@"blue"]) {
-    self.draggableCircle.backgroundColor = self.flatBlue;
-  } else if ([color isEqualToString:@"yellow"]) {
-    self.draggableCircle.backgroundColor = self.flatYellow;
-  } else if ([color isEqualToString:@"pink"]) {
-    self.draggableCircle.backgroundColor = self.flatRed;
-  } else if ([color isEqualToString:@"purple"]) {
-    self.draggableCircle.backgroundColor = self.flatPurple;
-  } else if ([color isEqualToString:@"teal"]) {
-    self.draggableCircle.backgroundColor = self.flatTurquoise;
-  }
-  
+  self.draggableCircle.backgroundColor = [self getColorFromString:color];  
 }
 
 
@@ -468,12 +484,12 @@
 }
 
 -(UIColor *) getColorFromString:(NSString *) colorName {
-  
+  NSLog(@"%@", colorName);
   if ([colorName isEqualToString:@"orange"]) {
     return self.flatOrange;
   } else if ([colorName isEqualToString:@"blue"]) {
     return self.flatBlue;
-  } else if ([colorName isEqualToString:@"teal"]) {
+  } else if ([colorName isEqualToString:@"turquoise"]) {
     return self.flatTurquoise;
   } else if ([colorName isEqualToString:@"purple"]) {
     return self.flatPurple;

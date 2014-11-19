@@ -23,6 +23,10 @@
   UIPanGestureRecognizer *colorPanner = [[UIPanGestureRecognizer alloc] init];
   [colorPanner addTarget:self action:@selector(receivedPanEventFromColorWrapper:)];
   [self.colorWrapper addGestureRecognizer:colorPanner];
+  UITapGestureRecognizer *colorTapper = [[UITapGestureRecognizer alloc] init];
+  [colorTapper addTarget:self action:@selector(receivedPanEventFromColorWrapper:)];
+  [self.colorWrapper addGestureRecognizer:colorTapper];
+  
   self.color = @"orange";
   self.colorConstraints = @[self.orangeConstraint, self.blueConstraint, self.greenConstraint, self.yellowConstraint, self.tealConstraint, self.pinkConstraint, self.purpleConstraint];
   self.networkController = [NetworkController sharedController];
@@ -92,26 +96,26 @@
   [self.titleTextField resignFirstResponder];
 }
 
--(void) receivedPanEventFromColorWrapper:(UITapGestureRecognizer *)sender {
+-(void) receivedPanEventFromColorWrapper:(UIGestureRecognizer *)sender {
   CGPoint point = ([sender locationInView:self.colorWrapper]);
 
   if (point.x < self.colorWrapper.frame.size.width / 7) {
-    if (![self.color  isEqual: @"green"]) {
-      self.color = @"green";
+    if (![self.color  isEqual: @"turquoise"]) {
+      self.color = @"turquoise";
       [self toggleColorToColor:self.greenConstraint];
-      [self.delegate changeDotColor:@"green"];
+      [self.delegate changeDotColor:@"turquoise"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 2) {
-    if (![self.color  isEqual: @"yellow"]) {
-      self.color = @"yellow";
+    if (![self.color  isEqual: @"green"]) {
+      self.color = @"green";
       [self toggleColorToColor:self.yellowConstraint];
-      [self.delegate changeDotColor:@"yellow"];
+      [self.delegate changeDotColor:@"green"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 3) {
-    if (![self.color  isEqual: @"teal"]) {
-      self.color = @"teal";
+    if (![self.color  isEqual: @"blue"]) {
+      self.color = @"blue";
       [self toggleColorToColor:self.tealConstraint];
-      [self.delegate changeDotColor:@"teal"];
+      [self.delegate changeDotColor:@"blue"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 4) {
     if (![self.color  isEqual: @"purple"]) {
@@ -120,10 +124,10 @@
       [self.delegate changeDotColor:@"purple"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 5) {
-    if (![self.color  isEqual: @"blue"]) {
-      self.color = @"blue";
+    if (![self.color  isEqual: @"yellow"]) {
+      self.color = @"yellow";
       [self toggleColorToColor:self.blueConstraint];
-      [self.delegate changeDotColor:@"blue"];
+      [self.delegate changeDotColor:@"yellow"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 6) {
     if (![self.color  isEqual: @"orange"]) {
@@ -132,10 +136,10 @@
       [self.delegate changeDotColor:@"orange"];
     }
   } else {
-    if (![self.color  isEqual: @"pink"]) {
-      self.color = @"pink";
+    if (![self.color  isEqual: @"red"]) {
+      self.color = @"red";
       [self toggleColorToColor:self.pinkConstraint];
-      [self.delegate changeDotColor:@"green"];
+      [self.delegate changeDotColor:@"red"];
     }
   }
 }
