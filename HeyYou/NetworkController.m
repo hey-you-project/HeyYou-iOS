@@ -143,13 +143,13 @@
 - (NSMutableDictionary*)getCoordRangeFromRegion: (MKCoordinateRegion) coordRegion {
     NSMutableDictionary *rangeDictionary = [[NSMutableDictionary alloc] init];
     NSNumber *latMin = [NSNumber numberWithDouble:(coordRegion.center.latitude - coordRegion.span.latitudeDelta / 2)];
-    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", latMin] forKey:@"latMin"];
+    [rangeDictionary setValue: latMin forKey:@"latMin"];
     NSNumber *latMax = [NSNumber numberWithDouble:(coordRegion.center.latitude + coordRegion.span.latitudeDelta / 2)];
-    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", latMax] forKey:@"latMax"];
+    [rangeDictionary setValue: latMax forKey:@"latMax"];
     NSNumber *longMin = [NSNumber numberWithDouble:(coordRegion.center.longitude - coordRegion.span.longitudeDelta / 2)];
-    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", longMin] forKey:@"longMin"];
+    [rangeDictionary setValue: longMin forKey:@"longMin"];
     NSNumber *longMax = [NSNumber numberWithDouble:(coordRegion.center.longitude + coordRegion.span.longitudeDelta / 2)];
-    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", longMax] forKey:@"longMax"];
+    [rangeDictionary setValue: longMax forKey:@"longMax"];
     return rangeDictionary;
 }
 
