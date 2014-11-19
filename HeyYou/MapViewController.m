@@ -81,6 +81,14 @@
     NSLog(@"%@", self.dots.description);
   }];
   
+//  [networkController fetchTokenWithUsername:@"foobar123" password:@"mypassword" completionHandler:^(NSString *error, bool success) {
+//    if (success) {
+//      NSLog(@"Token is: %@", networkController.token);
+//    } else {
+//      NSLog(@"Bullshit");
+//    }
+//  }];
+  
 }
 
 - (void)didReceiveMemoryWarning {
@@ -102,7 +110,7 @@
   [self addChildViewController:self.sideMenuVC];
   [self.view addSubview:self.sideMenuVC.view];
   self.sideMenuVC.view.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
-  self.sideMenuVC.view.backgroundColor = self.customTeal;
+  //self.sideMenuVC.view.backgroundColor = self.customTeal;
 }
 
 - (void) addCircleView {

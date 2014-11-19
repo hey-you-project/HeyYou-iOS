@@ -17,7 +17,7 @@
 @implementation NetworkController
 
 - (instancetype)init {
-    self.url = @"https://hey-you-api.herokuapp.com/v1/api/";
+    self.url = @"https://hey-you-api.herokuapp.com/";
     return self;
 }
 
@@ -36,7 +36,7 @@
 #pragma mark GET methods
 
 - (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSArray *))completionHandler {
-    NSString *fullURLString = [NSString stringWithFormat: @"%@dots/all/", self.url];
+    NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
     request.HTTPMethod = @"GET";
@@ -65,18 +65,55 @@
     [dataTask resume];
 }
 
+- (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSString *error, bool success))completionHandler {
+  NSString *fullURLString = [NSString stringWithFormat:@"%@api/users/", self.url];
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"GET";
+  NSString *authStringPlain = [NSString stringWithFormat: @"%@:%@", username, password];
+  NSData *authStringData = [authStringPlain dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *authStringBase64 = [authStringData base64EncodedStringWithOptions:0];
+  NSString *authStringFull = [NSString stringWithFormat:@"Basic %@", authStringBase64];
+  [request setValue:authStringFull forHTTPHeaderField:@"Authorization"];
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error != nil) {
+      NSLog(@"%@", error.localizedDescription);
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          NSError *authError;
+          NSDictionary *tokenJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&authError];
+          if ((self.token = tokenJSON[@"jwt"])) {
+            if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
+              NSLog(@"Success! Got token!");
+              [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler(nil, YES);
+              }];
+            }
+          }
+        } else {
+          NSLog(@"%@", httpResponse.description);
+        }
+      }
+    }
+  }];
+  [dataTask resume];
+}
+
 #pragma mark POST methods
 
 - (void)postDot: (Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler {
-    NSString *fullURLString = [NSString stringWithFormat: @"%@dots/", self.url];
+    NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
     request.HTTPMethod = @"POST";
     NSData *dotJSONData = [dot parseDotIntoJSON];
     NSUInteger length = dotJSONData.length;
-    [request setValue:[NSString stringWithFormat:@"%li", length] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:[NSString stringWithFormat:@"%li", (unsigned long)length] forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-  request.HTTPBody = dotJSONData;
+    request.HTTPBody = dotJSONData;
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSLog(@"%@", error.localizedDescription);
@@ -101,16 +138,18 @@
     [dataTask resume];
 }
 
+#pragma mark Helper methods
+
 - (NSMutableDictionary*)getCoordRangeFromRegion: (MKCoordinateRegion) coordRegion {
     NSMutableDictionary *rangeDictionary = [[NSMutableDictionary alloc] init];
     NSNumber *latMin = [NSNumber numberWithDouble:(coordRegion.center.latitude - coordRegion.span.latitudeDelta / 2)];
-    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", latMin] forKey:@"latMin"];
+    [rangeDictionary setValue: latMin forKey:@"latMin"];
     NSNumber *latMax = [NSNumber numberWithDouble:(coordRegion.center.latitude + coordRegion.span.latitudeDelta / 2)];
-    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", latMax] forKey:@"latMax"];
+    [rangeDictionary setValue: latMax forKey:@"latMax"];
     NSNumber *longMin = [NSNumber numberWithDouble:(coordRegion.center.longitude - coordRegion.span.longitudeDelta / 2)];
-    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", longMin] forKey:@"longMin"];
+    [rangeDictionary setValue: longMin forKey:@"longMin"];
     NSNumber *longMax = [NSNumber numberWithDouble:(coordRegion.center.longitude + coordRegion.span.longitudeDelta / 2)];
-    [rangeDictionary setValue: [NSString stringWithFormat:@"%@", longMax] forKey:@"longMax"];
+    [rangeDictionary setValue: longMax forKey:@"longMax"];
     return rangeDictionary;
 }
 
