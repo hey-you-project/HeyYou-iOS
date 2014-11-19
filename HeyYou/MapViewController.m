@@ -32,10 +32,18 @@
   self.kHorizontalCurveOffset = 2;
   self.kVerticalCurveOffset = 15;
   self.kPopupHeight = 480;
-  self.customTeal = [[UIColor alloc] initWithRed:167 / 255.0 green:219 / 255.0 blue:216 / 255.0 alpha:1];
+  self.customTeal = [[UIColor alloc] initWithRed:167/255.0 green:219/255.0 blue:216/255.0 alpha:1];
   
+
+  
+
+  
+  
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
   NetworkController *networkController = [NetworkController sharedController];
-  
   [networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSString * string, NSArray * array) {
     self.dots = array;
     [self populateDotsOnMap];
@@ -159,12 +167,15 @@
 }
 
 -(void) receivedDragGestureOnDragCircle:(UIPanGestureRecognizer *)sender{
+  CGPoint point = [sender locationInView:self.view];
   
   if (sender.state == UIGestureRecognizerStateChanged) {
-    self.draggableCircle.center = [sender locationInView:self.view];
+    self.draggableCircle.center = point;
   } else if (sender.state == UIGestureRecognizerStateEnded) {
-    self.currentPopup = [PostViewController new];
-    [self spawnPopupAtPoint:[sender locationInView:self.view]];
+    PostViewController *postVC = [PostViewController new];
+    postVC.location = [self.mapView convertPoint:point toCoordinateFromView:self.view];
+    self.currentPopup = postVC;
+    [self spawnPopupAtPoint:point];
   }
   
 }
@@ -310,9 +321,10 @@
       NSLog(@"Adding overlay!");
       NSLog(@"Adding Overlay with Lat:%f and Long:%f", dot.location.latitude, dot.location.longitude);
       //[self.mapView addOverlay:[MKCircle circleWithCenterCoordinate:dot.location radius:100000.0]];
-      MKPointAnnotation *anno = [MKPointAnnotation new];
+      DotAnnotation *anno = [DotAnnotation new];
       anno.coordinate = dot.location;
       anno.title = dot.identifier;
+      anno.dot = dot;
       [self.mapView addAnnotation:anno];
     }
   }];
@@ -328,21 +340,36 @@
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
   [mapView deselectAnnotation:view.annotation animated:false];
   BrowseViewController *dotVC = [BrowseViewController new];
-  Dot *thisDot;
-  for (Dot *dot in self.dots) {
-    NSLog(@"Comparing %@ with %@",dot.identifier, view.annotation.title);
-    if (dot.identifier == view.annotation.title){
-      NSLog(@"Found dot!");
-      thisDot = dot;
-    }
-  }
+
+  DotAnnotation *annotation = view.annotation;
   
-  dotVC.dot = thisDot;
+  dotVC.dot = annotation.dot;
   
   self.currentPopup = dotVC;
   CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
   [self spawnPopupAtPoint:point];
   
+  
+}
+
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+  
+//  MKAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
+//  if (view == nil) {
+//    NSLog(@"Creating new!");
+    MKAnnotationView *view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
+//  }
+  
+  DotAnnotation *anno = view.annotation;
+  
+  NSString *lowercase = [anno.dot.color lowercaseString];
+  view.image = [UIImage imageNamed:[NSString stringWithFormat:@"medium%@circle", lowercase]];
+//  view.layer.shadowColor = [[UIColor blackColor] CGColor];
+//  view.layer.shadowOpacity = 0.6;
+//  view.layer.shadowRadius = 3.0;
+//  view.layer.shadowOffset = CGSizeMake(0, 2);
+  return view;
   
 }
 

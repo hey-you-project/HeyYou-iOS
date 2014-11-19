@@ -13,6 +13,7 @@
 #import "Dot.h"
 #import "NetworkController.h"
 #import "BrowseViewController.h"
+#import "DotAnnotation.h"
 
 @interface MapViewController : UIViewController <MKMapViewDelegate>
 

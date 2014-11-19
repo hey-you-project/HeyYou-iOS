@@ -11,7 +11,7 @@
 @implementation Dot
 
 - (instancetype)initWithLocation: (CLLocationCoordinate2D)location color: (NSString*)color title: (NSString*)title body: (NSString*)body {
-    self.location = CLLocationCoordinate2DMake(47.606209, -122.332071);
+  self.location = location;
     self.color = color;
     self.title = title;
     self.stars = 0;
