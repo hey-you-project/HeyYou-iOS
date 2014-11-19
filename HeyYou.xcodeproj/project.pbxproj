@@ -30,12 +30,10 @@
 		7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */; };
 		7E6E34DC1A1A75A100FF6776 /* SideMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */; };
 		7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DD1A1A7CF900FF6776 /* typicons.ttf */; };
-		7E6E34E01A1A919600FF6776 /* sampledots.json in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DF1A1A919600FF6776 /* sampledots.json */; };
 		7E6E34E41A1A91ED00FF6776 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6E34E21A1A91ED00FF6776 /* PostViewController.m */; };
 		7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */; };
 		7E6E34E61A1A994A00FF6776 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C417E1A1A6DF10062DE29 /* MapViewController.m */; };
 		7E713DE11A1AA0AD00B6C9D3 /* HEAVYWEI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE01A1AA0AD00B6C9D3 /* HEAVYWEI.TTF */; };
-		7E713DE31A1AA94200B6C9D3 /* sampledots.json in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE21A1AA94200B6C9D3 /* sampledots.json */; };
 		7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */; };
 		7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */; };
 /* End PBXBuildFile section */
@@ -87,7 +85,6 @@
 		7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
 		7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideMenuViewController.xib; sourceTree = "<group>"; };
 		7E6E34DD1A1A7CF900FF6776 /* typicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = typicons.ttf; sourceTree = "<group>"; };
-		7E6E34DF1A1A919600FF6776 /* sampledots.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sampledots.json; sourceTree = "<group>"; };
 		7E6E34E11A1A91ED00FF6776 /* PostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewController.h; sourceTree = "<group>"; };
 		7E6E34E21A1A91ED00FF6776 /* PostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewController.m; sourceTree = "<group>"; };
 		7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostViewController.xib; sourceTree = "<group>"; };
@@ -138,7 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				150C41AA1A1AAD3F0062DE29 /* Controller Layer */,
-				150C419C1A1A70BD0062DE29 /* Model */,
+				150C419C1A1A70BD0062DE29 /* Model Layer */,
 				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
 				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
 				7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */,
@@ -194,14 +191,13 @@
 		150C41901A1A6DF10062DE29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7E6E34DF1A1A919600FF6776 /* sampledots.json */,
 				7E6E34DD1A1A7CF900FF6776 /* typicons.ttf */,
 				150C41911A1A6DF10062DE29 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		150C419C1A1A70BD0062DE29 /* Model */ = {
+		150C419C1A1A70BD0062DE29 /* Model Layer */ = {
 			isa = PBXGroup;
 			children = (
 				150C419D1A1A70CF0062DE29 /* Dot.h */,
@@ -211,7 +207,7 @@
 				150C41A31A1A77C20062DE29 /* Comment.h */,
 				150C41A41A1A77C20062DE29 /* Comment.m */,
 			);
-			name = Model;
+			name = "Model Layer";
 			sourceTree = "<group>";
 		};
 		150C41AA1A1AAD3F0062DE29 /* Controller Layer */ = {
@@ -307,15 +303,8 @@
 				150C41821A1A6DF10062DE29 /* Main.storyboard in Resources */,
 				7E713DE11A1AA0AD00B6C9D3 /* HEAVYWEI.TTF in Resources */,
 				150C41871A1A6DF10062DE29 /* LaunchScreen.xib in Resources */,
-				7E1689191A1BDE5E00BA4DE6 /* mediumpurplecircle.png in Resources */,
-				7E6E34E01A1A919600FF6776 /* sampledots.json in Resources */,
-				7E1689161A1BDE5D00BA4DE6 /* mediumgreencircle.png in Resources */,
-				7E1689171A1BDE5D00BA4DE6 /* mediumorangecircle.png in Resources */,
 				150C41841A1A6DF10062DE29 /* Images.xcassets in Resources */,
 				7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */,
-				7E16891A1A1BDE5E00BA4DE6 /* mediumtealcircle.png in Resources */,
-				7E1689051A1BD37F00BA4DE6 /* Oval 3.pdf in Resources */,
-				7E713DE31A1AA94200B6C9D3 /* sampledots.json in Resources */,
 				7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */,
 				7E1689151A1BDE5D00BA4DE6 /* mediumbluecircle.png in Resources */,
 				7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */,
