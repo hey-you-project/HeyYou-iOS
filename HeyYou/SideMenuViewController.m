@@ -60,6 +60,7 @@
 
   
   //Prepare default locations
+  self.createView.transform = self.loginCreateOffstage;
   self.loginView.transform = self.loginCreateOffstage;
 }
 
@@ -97,6 +98,7 @@
   switch (self.state) {
     case MenuStateLoggedOut:
       self.state = MenuStateCreateAccountScreen;
+      [self addCreateAnimation];
       break;
     case MenuStateCreateAccountScreen:
       self.state = MenuStateLoggedIn;
@@ -136,6 +138,21 @@
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.heyYouTitle.transform = CGAffineTransformIdentity;
     } completion: nil];
+  }];
+}
+
+- (void)addCreateAnimation {
+  [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    self.heyYouTitle.transform = self.titleOffstage;
+    self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
+    self.loginButton.transform = self.createAccountOffstage;
+    self.createView.transform = CGAffineTransformIdentity;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      self.heyYouTitle.text = @"Hey, create an account!";
+      self.heyYouTitle.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+    }];
   }];
 }
 

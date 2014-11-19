@@ -217,7 +217,7 @@
                             <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6b3-U3-vbW">
-                            <rect key="frame" x="28" y="222" width="160" height="45"/>
+                            <rect key="frame" x="28" y="202" width="160" height="45"/>
                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="160" id="0aA-wo-CeF"/>
@@ -227,7 +227,7 @@
                             <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tj3-t9-IPr">
-                            <rect key="frame" x="47" y="162" width="123" height="36"/>
+                            <rect key="frame" x="47" y="150" width="123" height="36"/>
                             <fontDescription key="fontDescription" name="Heavyweight" family="Heavyweight" pointSize="23"/>
                             <state key="normal" title="Enter Birthday">
                                 <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -237,14 +237,14 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="Tj3-t9-IPr" firstAttribute="top" secondItem="3Ev-5V-pwl" secondAttribute="bottom" constant="32" id="5UL-WW-eKV"/>
+                        <constraint firstItem="Tj3-t9-IPr" firstAttribute="top" secondItem="3Ev-5V-pwl" secondAttribute="bottom" constant="20" id="5UL-WW-eKV"/>
                         <constraint firstItem="3Ev-5V-pwl" firstAttribute="top" secondItem="Zon-g0-sW1" secondAttribute="bottom" constant="32" id="CTe-kn-9V8"/>
                         <constraint firstAttribute="centerX" secondItem="Zon-g0-sW1" secondAttribute="centerX" id="OJ5-1Z-eps"/>
                         <constraint firstAttribute="width" constant="216" id="SMJ-sc-Rjy"/>
                         <constraint firstItem="3Ev-5V-pwl" firstAttribute="centerX" secondItem="Zon-g0-sW1" secondAttribute="centerX" id="XwU-x8-jGZ"/>
                         <constraint firstItem="Zon-g0-sW1" firstAttribute="top" secondItem="R4u-rg-NlL" secondAttribute="top" constant="8" id="b1q-0b-RbT"/>
                         <constraint firstAttribute="centerX" secondItem="Tj3-t9-IPr" secondAttribute="centerX" id="gSj-SF-Jq4"/>
-                        <constraint firstItem="6b3-U3-vbW" firstAttribute="top" secondItem="Tj3-t9-IPr" secondAttribute="bottom" constant="24" id="ly2-Ai-5yx"/>
+                        <constraint firstItem="6b3-U3-vbW" firstAttribute="top" secondItem="Tj3-t9-IPr" secondAttribute="bottom" constant="16" id="ly2-Ai-5yx"/>
                         <constraint firstAttribute="centerX" secondItem="6b3-U3-vbW" secondAttribute="centerX" id="pK3-Ye-3Ij"/>
                         <constraint firstAttribute="height" constant="308" id="zRg-w7-Q9y"/>
                     </constraints>
