@@ -19,13 +19,8 @@
 		150C41A51A1A77C20062DE29 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41A41A1A77C20062DE29 /* Comment.m */; };
 		150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41AC1A1AAD6F0062DE29 /* NetworkController.m */; };
 		7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */; };
-		7E1689051A1BD37F00BA4DE6 /* Oval 3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689041A1BD37F00BA4DE6 /* Oval 3.pdf */; };
 		7E1689151A1BDE5D00BA4DE6 /* mediumbluecircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E16890E1A1BDE5D00BA4DE6 /* mediumbluecircle.png */; };
-		7E1689161A1BDE5D00BA4DE6 /* mediumgreencircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E16890F1A1BDE5D00BA4DE6 /* mediumgreencircle.png */; };
-		7E1689171A1BDE5D00BA4DE6 /* mediumorangecircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689101A1BDE5D00BA4DE6 /* mediumorangecircle.png */; };
 		7E1689181A1BDE5D00BA4DE6 /* mediumpinkcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689111A1BDE5D00BA4DE6 /* mediumpinkcircle.png */; };
-		7E1689191A1BDE5E00BA4DE6 /* mediumpurplecircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689121A1BDE5D00BA4DE6 /* mediumpurplecircle.png */; };
-		7E16891A1A1BDE5E00BA4DE6 /* mediumtealcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689131A1BDE5D00BA4DE6 /* mediumtealcircle.png */; };
 		7E16891B1A1BDE5E00BA4DE6 /* mediumyellowcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689141A1BDE5D00BA4DE6 /* mediumyellowcircle.png */; };
 		7E16891F1A1BF22E00BA4DE6 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16891D1A1BF22E00BA4DE6 /* CommentCell.m */; };
 		7E1689201A1BF22E00BA4DE6 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */; };
@@ -143,28 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				150C41AA1A1AAD3F0062DE29 /* Controller Layer */,
+				157853311A1D0F1C008CD931 /* View Layer */,
 				150C419C1A1A70BD0062DE29 /* Model Layer */,
-				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
-				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
-				7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */,
-				7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */,
-				7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */,
-				7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */,
-				7E16891C1A1BF22E00BA4DE6 /* CommentCell.h */,
-				7E16891D1A1BF22E00BA4DE6 /* CommentCell.m */,
-				7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */,
-				150C41771A1A6DF10062DE29 /* AppDelegate.h */,
-				150C41781A1A6DF10062DE29 /* AppDelegate.m */,
-				150C417D1A1A6DF10062DE29 /* MapViewController.h */,
-				150C417E1A1A6DF10062DE29 /* MapViewController.m */,
-				7E1689211A1C44CA00BA4DE6 /* DotAnnotationView.h */,
-				7E1689221A1C44CA00BA4DE6 /* DotAnnotationView.m */,
-				7E0790321A1BCC3C00858BD7 /* DotAnnotation.h */,
-				7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */,
-				7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */,
-				7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */,
-				7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */,
-				150C41801A1A6DF10062DE29 /* Main.storyboard */,
 				150C41831A1A6DF10062DE29 /* Images.xcassets */,
 				150C41851A1A6DF10062DE29 /* LaunchScreen.xib */,
 				150C417A1A1A6DF10062DE29 /* HeyYou.xcdatamodeld */,
@@ -228,8 +203,36 @@
 			children = (
 				150C41AB1A1AAD6F0062DE29 /* NetworkController.h */,
 				150C41AC1A1AAD6F0062DE29 /* NetworkController.m */,
+				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
+				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
+				7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */,
+				7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */,
+				150C41771A1A6DF10062DE29 /* AppDelegate.h */,
+				150C41781A1A6DF10062DE29 /* AppDelegate.m */,
+				150C417D1A1A6DF10062DE29 /* MapViewController.h */,
+				150C417E1A1A6DF10062DE29 /* MapViewController.m */,
+				7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */,
+				7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */,
 			);
 			name = "Controller Layer";
+			sourceTree = "<group>";
+		};
+		157853311A1D0F1C008CD931 /* View Layer */ = {
+			isa = PBXGroup;
+			children = (
+				7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */,
+				7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */,
+				7E16891C1A1BF22E00BA4DE6 /* CommentCell.h */,
+				7E16891D1A1BF22E00BA4DE6 /* CommentCell.m */,
+				7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */,
+				7E1689211A1C44CA00BA4DE6 /* DotAnnotationView.h */,
+				7E1689221A1C44CA00BA4DE6 /* DotAnnotationView.m */,
+				7E0790321A1BCC3C00858BD7 /* DotAnnotation.h */,
+				7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */,
+				7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */,
+				150C41801A1A6DF10062DE29 /* Main.storyboard */,
+			);
+			name = "View Layer";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -38,7 +38,7 @@
                         <subviews>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RaE-dE-d0K">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="sPJ-IK-hxb">
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="sPJ-IK-hxb">
                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
@@ -65,21 +65,21 @@
                     <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="-2"/>
                 </label>
-                <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QA6-s8-cHm" userLabel="Line">
+                <view alpha="0.29999999999999999" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QA6-s8-cHm" userLabel="Line">
                     <rect key="frame" x="0.0" y="187" width="600" height="1"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="oUR-R7-iwd"/>
                     </constraints>
                 </view>
-                <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRg-Is-Hgy" userLabel="Line">
+                <view alpha="0.29999999999999999" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MRg-Is-Hgy" userLabel="Line">
                     <rect key="frame" x="0.0" y="154" width="600" height="1"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="J61-zZ-cp2"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USERNAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPe-Wt-TzI">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="USERNAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPe-Wt-TzI">
                     <rect key="frame" x="529" y="152" width="55" height="19"/>
                     <fontDescription key="fontDescription" name="Heavyweight" family="Heavyweight" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -107,7 +107,7 @@
                         <action selector="chatButtonPressed:" destination="-1" eventType="touchUpInside" id="eGe-jo-Lk9"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ulC-Lt-754" userLabel="Invisible Spacer">
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ulC-Lt-754" userLabel="Invisible Spacer">
                     <rect key="frame" x="300" y="196" width="1" height="1"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -115,7 +115,7 @@
                         <constraint firstAttribute="width" constant="1" id="kaM-T0-wtq"/>
                     </constraints>
                 </view>
-                <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GPB-wW-99O" userLabel="Write Comment Text Field">
+                <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.29999999999999999" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GPB-wW-99O" userLabel="Write Comment Text Field">
                     <rect key="frame" x="8" y="196" width="584" height="128"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -178,8 +178,8 @@
                     <exclude reference="IrI-3N-w1d"/>
                     <exclude reference="ViT-ob-VEm"/>
                     <exclude reference="yHO-k0-4hy"/>
-                    <exclude reference="GBS-YK-DGh"/>
                     <exclude reference="uTR-iO-AEQ"/>
+                    <exclude reference="GBS-YK-DGh"/>
                     <exclude reference="Dlb-fw-O5k"/>
                     <exclude reference="Iv7-W2-d57"/>
                     <exclude reference="KQf-ZW-bLQ"/>
