@@ -22,4 +22,6 @@
 
 - (void)postDot: (Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler;
 
+- (void)createUserWithUsername: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email completionHandler:(void (^)(NSString *error, bool success))completionHandler;
+
 @end

@@ -93,6 +93,19 @@
   }
 }
 
+- (IBAction)pressedCreate:(id)sender {
+  switch (self.state) {
+    case MenuStateLoggedOut:
+      self.state = MenuStateCreateAccountScreen;
+      break;
+    case MenuStateCreateAccountScreen:
+      self.state = MenuStateLoggedIn;
+    default:
+      break;
+  }
+}
+
+
 #pragma mark Animation methods
 
 - (void)addLoginAnimation {

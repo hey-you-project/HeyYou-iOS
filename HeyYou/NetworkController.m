@@ -146,7 +146,7 @@
   NSData *jsonData = [self makeNewUserJSON:username password:password birthday:birthday email:email];
   NSUInteger length = jsonData.length;
   [request setValue:[NSString stringWithFormat:@"%li", (unsigned long)length] forHTTPHeaderField:@"Content-Length"];
-  [request setValue:@"application/json" forKey:@"Content-Type"];
+  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   request.HTTPBody = jsonData;
   NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
     if (error != nil) {
