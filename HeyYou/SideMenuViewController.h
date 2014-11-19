@@ -23,6 +23,12 @@
 @property (weak, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
+@property (weak, nonatomic) IBOutlet UIView *createView;
+@property (weak, nonatomic) IBOutlet UITextField *createUsernameField;
+@property (weak, nonatomic) IBOutlet UITextField *createPasswordField;
+@property (weak, nonatomic) IBOutlet UITextField *createEmailField;
+
+
 @end
 
 typedef NS_ENUM(NSInteger, MenuState) {

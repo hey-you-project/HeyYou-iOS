@@ -28,6 +28,9 @@
   
   self.usernameField.delegate = self;
   self.passwordField.delegate = self;
+  self.createUsernameField.delegate = self;
+  self.createPasswordField.delegate = self;
+  self.createEmailField.delegate = self;
   
   //Set up animation speed
   self.duration = 0.5;
@@ -60,6 +63,7 @@
 
   
   //Prepare default locations
+  self.createView.transform = self.loginCreateOffstage;
   self.loginView.transform = self.loginCreateOffstage;
 }
 
@@ -93,6 +97,34 @@
   }
 }
 
+- (IBAction)pressedCreate:(id)sender {
+  switch (self.state) {
+    case MenuStateLoggedOut:
+      self.state = MenuStateCreateAccountScreen;
+      [self addCreateAnimation];
+      break;
+    case MenuStateCreateAccountScreen: {
+      [self.activityIndicator startAnimating];
+      NSString *username = self.createUsernameField.text;
+      NSString *password = self.createPasswordField.text;
+      NSString *email = self.createEmailField.text;
+      NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:508723200];
+      [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSString *error, bool success) {
+        if (success) {
+          [self.activityIndicator stopAnimating];
+          self.state = MenuStateLoggedIn;
+          [self removeCreateAnimation:username];
+          NSLog(@"User created!");
+        }
+      }];
+      
+    }
+    default:
+      break;
+  }
+}
+
+
 #pragma mark Animation methods
 
 - (void)addLoginAnimation {
@@ -118,6 +150,37 @@
     self.bestofView.transform = CGAffineTransformIdentity;
     self.loginButton.transform = self.createAccountOffstage;
     self.loginView.transform = self.loginCreateOffstage;
+  } completion:^(BOOL finished) {
+    self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", username];
+    [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      self.heyYouTitle.transform = CGAffineTransformIdentity;
+    } completion: nil];
+  }];
+}
+
+- (void)addCreateAnimation {
+  [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    self.heyYouTitle.transform = self.titleOffstage;
+    self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
+    self.loginButton.transform = self.createAccountOffstage;
+    self.createView.transform = CGAffineTransformIdentity;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      self.heyYouTitle.text = @"Hey, create an account!";
+      self.heyYouTitle.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+    }];
+  }];
+}
+
+- (void)removeCreateAnimation: (NSString*)username {
+  self.bestofView.transform = CGAffineTransformMakeTranslation(-175, 0);
+  [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    self.heyYouTitle.transform = self.titleOffstage;
+    self.userPostsView.transform = CGAffineTransformIdentity;
+    self.bestofView.transform = CGAffineTransformIdentity;
+    self.createAccountButton.transform = self.createAccountOffstage;
+    self.createView.transform = self.loginCreateOffstage;
   } completion:^(BOOL finished) {
     self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", username];
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{

@@ -40,7 +40,7 @@
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
     request.HTTPMethod = @"GET";
-    NSMutableDictionary *geoframeDictionary = [self getCoordRangeFromRegion:region];
+    NSDictionary *geoframeDictionary = [self getCoordRangeFromRegion:region];
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:geoframeDictionary options:0 error:&error];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -138,9 +138,46 @@
     [dataTask resume];
 }
 
+- (void)createUserWithUsername: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email completionHandler:(void (^)(NSString *error, bool success))completionHandler {
+  NSString *fullURLString = [NSString stringWithFormat: @"%@api/users/", self.url];
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"POST";
+  NSData *jsonData = [self makeNewUserJSON:username password:password birthday:birthday email:email];
+  NSUInteger length = jsonData.length;
+  [request setValue:[NSString stringWithFormat:@"%li", (unsigned long)length] forHTTPHeaderField:@"Content-Length"];
+  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  request.HTTPBody = jsonData;
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error != nil) {
+      NSLog(@"%@", error.localizedDescription);
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          NSError *authError;
+          NSDictionary *tokenJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&authError];
+          if ((self.token = tokenJSON[@"jwt"])) {
+            if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
+              NSLog(@"Success! Created user!");
+              [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler(nil, YES);
+              }];
+            }
+          }
+        } else {
+          NSLog(@"%@", httpResponse.description);
+        }
+      }
+    }
+  }];
+  [dataTask resume];
+}
+
 #pragma mark Helper methods
 
-- (NSMutableDictionary*)getCoordRangeFromRegion: (MKCoordinateRegion) coordRegion {
+- (NSDictionary*)getCoordRangeFromRegion: (MKCoordinateRegion) coordRegion {
     NSMutableDictionary *rangeDictionary = [[NSMutableDictionary alloc] init];
     NSNumber *latMin = [NSNumber numberWithDouble:(coordRegion.center.latitude - coordRegion.span.latitudeDelta / 2)];
     [rangeDictionary setValue: latMin forKey:@"latMin"];
@@ -151,6 +188,20 @@
     NSNumber *longMax = [NSNumber numberWithDouble:(coordRegion.center.longitude + coordRegion.span.longitudeDelta / 2)];
     [rangeDictionary setValue: longMax forKey:@"longMax"];
     return rangeDictionary;
+}
+
+- (NSData*)makeNewUserJSON: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email {
+  NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
+  [userDictionary setObject:username forKey:@"username"];
+  NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
+  NSString *passwordBase64 = [passwordData base64EncodedStringWithOptions:0];
+  [userDictionary setObject:passwordBase64 forKey:@"password"];
+  NSNumber *formattedBirthday = [NSNumber numberWithDouble:[birthday timeIntervalSince1970] * 1000];
+  [userDictionary setObject:formattedBirthday forKey:@"birthday"];
+  [userDictionary setObject:email forKey:@"email"];
+  NSError *error;
+  NSData *userJSONData = [NSJSONSerialization dataWithJSONObject:userDictionary options:0 error:&error];
+  return userJSONData;
 }
 
 @end
