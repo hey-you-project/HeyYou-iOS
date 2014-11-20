@@ -54,7 +54,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  NSLog(@"%@",[self.dot.comments description]);
+  //NSLog(@"%@",[self.dot.comments description]);
   return self.dot.comments.count;
 }
 
