@@ -58,8 +58,8 @@
   self.flatBlue       = [UIColor colorWithRed: 52  / 255.0 green: 152 / 255.0 blue: 219 / 255.0 alpha: 1];
   self.flatPurple     = [UIColor colorWithRed: 155 / 255.0 green: 89  / 255.0 blue: 182 / 255.0 alpha: 1];
   self.flatYellow     = [UIColor colorWithRed: 241 / 255.0 green: 196 / 255.0 blue: 15  / 255.0 alpha: 1];
-  self.flatOrange     = [UIColor colorWithRed: 203 / 255.0 green: 126 / 255.0 blue: 34  / 255.0 alpha: 1];
-  self.flatRed        = [UIColor colorWithRed: 231 / 255.0 green: 76  / 255.0 blue: 60  / 255.0 alpha: 1];
+  self.flatOrange     = [UIColor colorWithRed: 212 / 255.0 green: 83  / 255.0 blue: 36  / 255.0 alpha: 1];
+  self.flatRed        = [UIColor colorWithRed: 212 / 255.0 green: 37  / 255.0 blue: 37  / 255.0 alpha: 1];
   self.flatGray       = [UIColor colorWithRed: 52  / 255.0 green: 73  / 255.0 blue: 94  / 255.0 alpha: 1];
   
   UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];

@@ -24,25 +24,31 @@
   
   NSError *error;
   NSArray * dotsArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-  NSLog(@"%@", dotsArray.description);
+  NSLog(@"DotsArray: %@", dotsArray.description);
   NSMutableArray *tempArray = [NSMutableArray new];
+  if ([dotsArray isKindOfClass:[NSDictionary class]]) {
+    NSLog(@"Found Dict!");
+    dotsArray = @[dotsArray];
+  }
   
   for (NSDictionary *dotDict in dotsArray) {
 
     Dot *dot = [Dot new];
     dot.title = dotDict[@"title"];
-    dot.body = dotDict[@"body"];
+    dot.body = dotDict[@"post"];
     dot.identifier = dotDict[@"_id"];
     dot.color = dotDict[@"color"];
     dot.stars = dotDict[@"stars"];
-    dot.username = dotDict[@"username_id"];
+    dot.username = dotDict[@"username"];
     double latitude = [dotDict[@"latitude"] doubleValue];
     double longitude = [dotDict[@"longitude"] doubleValue];
     NSArray *commentArray = dotDict[@"comments"];
+    dot.comments = [NSMutableArray new];
     for (NSDictionary *commentDict in commentArray) {
       Comment *comment = [Comment new];
       comment.user = [[User alloc] initwithUsername:commentDict[@"username"]];
       comment.body = commentDict[@"text"];
+      NSLog(@"%@", comment.body);
       [dot.comments addObject:comment];
     }
     dot.location = CLLocationCoordinate2DMake(latitude, longitude);
@@ -57,7 +63,7 @@
     [dotJSON setObject:[NSNumber numberWithDouble:self.location.longitude] forKey:@"longitude"];
     [dotJSON setObject:self.color forKey:@"color"];
     [dotJSON setObject:self.title forKey:@"title"];
-    [dotJSON setObject:self.body forKey:@"body"];
+    [dotJSON setObject:self.body forKey:@"post"];
     [dotJSON setObject:self.username forKey:@"username_id"];
     NSError *error;
     NSData *dataToReturn = [NSJSONSerialization dataWithJSONObject:dotJSON options:0 error: &error];

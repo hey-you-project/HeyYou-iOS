@@ -4,6 +4,13 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>SanFranciscoText-Bold.otf</string>
+		<string>SanFranciscoText-Heavy.otf</string>
+		<string>SanFranciscoText-Light.otf</string>
+		<string>SanFranciscoText-Medium.otf</string>
+		<string>SanFranciscoText-Regular.otf</string>
+		<string>SanFranciscoText-Semibold.otf</string>
+		<string>SanFranciscoText-Thin.otf</string>
 		<string>HEAVYWEI.TTF</string>
 		<string>typicons.ttf</string>
 	</array>

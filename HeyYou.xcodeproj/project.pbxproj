@@ -25,6 +25,13 @@
 		7E16891F1A1BF22E00BA4DE6 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E16891D1A1BF22E00BA4DE6 /* CommentCell.m */; };
 		7E1689201A1BF22E00BA4DE6 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */; };
 		7E1689231A1C44CA00BA4DE6 /* DotAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E1689221A1C44CA00BA4DE6 /* DotAnnotationView.m */; };
+		7E4B2AEF1A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E4B2AE11A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf */; };
+		7E4B2AF11A1DB7CE00C931E2 /* SanFranciscoText-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E4B2AE31A1DB7CE00C931E2 /* SanFranciscoText-Heavy.otf */; };
+		7E4B2AF31A1DB7CE00C931E2 /* SanFranciscoText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E4B2AE51A1DB7CE00C931E2 /* SanFranciscoText-Light.otf */; };
+		7E4B2AF51A1DB7CE00C931E2 /* SanFranciscoText-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E4B2AE71A1DB7CE00C931E2 /* SanFranciscoText-Medium.otf */; };
+		7E4B2AF71A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E4B2AE91A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf */; };
+		7E4B2AF91A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E4B2AEB1A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf */; };
+		7E4B2AFB1A1DB7CE00C931E2 /* SanFranciscoText-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E4B2AED1A1DB7CE00C931E2 /* SanFranciscoText-Thin.otf */; };
 		7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */; };
 		7E6E34DC1A1A75A100FF6776 /* SideMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */; };
 		7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DD1A1A7CF900FF6776 /* typicons.ttf */; };
@@ -84,6 +91,13 @@
 		7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		7E1689211A1C44CA00BA4DE6 /* DotAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotAnnotationView.h; sourceTree = "<group>"; };
 		7E1689221A1C44CA00BA4DE6 /* DotAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotAnnotationView.m; sourceTree = "<group>"; };
+		7E4B2AE11A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Bold.otf"; sourceTree = "<group>"; };
+		7E4B2AE31A1DB7CE00C931E2 /* SanFranciscoText-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Heavy.otf"; sourceTree = "<group>"; };
+		7E4B2AE51A1DB7CE00C931E2 /* SanFranciscoText-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Light.otf"; sourceTree = "<group>"; };
+		7E4B2AE71A1DB7CE00C931E2 /* SanFranciscoText-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Medium.otf"; sourceTree = "<group>"; };
+		7E4B2AE91A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Regular.otf"; sourceTree = "<group>"; };
+		7E4B2AEB1A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Semibold.otf"; sourceTree = "<group>"; };
+		7E4B2AED1A1DB7CE00C931E2 /* SanFranciscoText-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Thin.otf"; sourceTree = "<group>"; };
 		7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideMenuViewController.h; sourceTree = "<group>"; };
 		7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
 		7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideMenuViewController.xib; sourceTree = "<group>"; };
@@ -151,6 +165,13 @@
 		150C41731A1A6DF10062DE29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E4B2AE11A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf */,
+				7E4B2AE31A1DB7CE00C931E2 /* SanFranciscoText-Heavy.otf */,
+				7E4B2AE51A1DB7CE00C931E2 /* SanFranciscoText-Light.otf */,
+				7E4B2AE71A1DB7CE00C931E2 /* SanFranciscoText-Medium.otf */,
+				7E4B2AE91A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf */,
+				7E4B2AEB1A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf */,
+				7E4B2AED1A1DB7CE00C931E2 /* SanFranciscoText-Thin.otf */,
 				7E16890E1A1BDE5D00BA4DE6 /* mediumbluecircle.png */,
 				7E16890F1A1BDE5D00BA4DE6 /* mediumgreencircle.png */,
 				7E1689101A1BDE5D00BA4DE6 /* mediumorangecircle.png */,
@@ -316,16 +337,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E4B2AF11A1DB7CE00C931E2 /* SanFranciscoText-Heavy.otf in Resources */,
+				7E4B2AF31A1DB7CE00C931E2 /* SanFranciscoText-Light.otf in Resources */,
 				7E6E34DC1A1A75A100FF6776 /* SideMenuViewController.xib in Resources */,
 				150C41821A1A6DF10062DE29 /* Main.storyboard in Resources */,
+				7E4B2AFB1A1DB7CE00C931E2 /* SanFranciscoText-Thin.otf in Resources */,
 				7E713DE11A1AA0AD00B6C9D3 /* HEAVYWEI.TTF in Resources */,
 				150C41871A1A6DF10062DE29 /* LaunchScreen.xib in Resources */,
 				150C41841A1A6DF10062DE29 /* Images.xcassets in Resources */,
+				7E4B2AEF1A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf in Resources */,
 				7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */,
+				7E4B2AF71A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf in Resources */,
 				7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */,
 				7E1689201A1BF22E00BA4DE6 /* CommentCell.xib in Resources */,
 				7E1689151A1BDE5D00BA4DE6 /* mediumbluecircle.png in Resources */,
+				7E4B2AF51A1DB7CE00C931E2 /* SanFranciscoText-Medium.otf in Resources */,
 				7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */,
+				7E4B2AF91A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf in Resources */,
 				7E16891B1A1BDE5E00BA4DE6 /* mediumyellowcircle.png in Resources */,
 				7E1689181A1BDE5D00BA4DE6 /* mediumpinkcircle.png in Resources */,
 			);
