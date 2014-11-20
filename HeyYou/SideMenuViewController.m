@@ -19,18 +19,26 @@
 @property (nonatomic) CGAffineTransform loginCreateOffstage;
 @property (nonatomic) MenuState state;
 
+@property (nonatomic, strong) NSArray *monthArray;
+@property (nonatomic, strong) NSArray *dateArray;
+@property (nonatomic, strong) NSMutableArray *yearArray;
+
+@property (nonatomic, strong) NSCalendar *localCalendar;
+
 @end
 
 @implementation SideMenuViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
   
   self.usernameField.delegate = self;
   self.passwordField.delegate = self;
   self.createUsernameField.delegate = self;
   self.createPasswordField.delegate = self;
   self.createEmailField.delegate = self;
+  self.birthdayPicker.delegate = self;
+  self.birthdayPicker.dataSource = self;
   
   //Set up animation speed
   self.duration = 0.5;
@@ -55,16 +63,30 @@
       self.bestofView.transform = self.bestofLoggedOut;
       break;
     case MenuStateLoggedIn:
+      self.loginButton.transform = self.loginCreateOffstage;
+      self.createAccountButton.transform = self.loginCreateOffstage;
       break;
     default:
       NSLog(@"Invalid menu state");
       break;
   }
-
   
   //Prepare default locations
   self.createView.transform = self.loginCreateOffstage;
   self.loginView.transform = self.loginCreateOffstage;
+  
+  //Prepare date picker arrays
+  self.monthArray = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
+  self.dateArray = @[@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12,@13,@14,@15,@16,@17,@18,@19,@20,@21,@22,@23,@24,@25,@26,@27,@28,@29,@30,@31];
+  NSLocale *currentLocale = [NSLocale currentLocale];
+  self.localCalendar = [currentLocale objectForKey:NSLocaleCalendar];
+  NSDateComponents *components = [self.localCalendar components:NSCalendarUnitYear fromDate:[NSDate date]];
+  NSInteger maxYear = [components year] - 18;
+  NSInteger minYear = maxYear - 81;
+  self.yearArray = [[NSMutableArray alloc] init];
+  for (NSInteger i = maxYear; i >= minYear; i--) {
+    [self.yearArray addObject:[NSNumber numberWithInteger:i]];
+  }
 }
 
 #pragma mark Button actions
@@ -124,6 +146,15 @@
   }
 }
 
+- (IBAction)pressedBirthday:(id)sender {
+  UIButton *birthdayButton = sender;
+  [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    birthdayButton.transform = CGAffineTransformMakeTranslation(200, 0);
+    self.birthdayPickerView.hidden = NO;
+  } completion:^(BOOL finished) {
+    
+  }];
+}
 
 #pragma mark Animation methods
 
@@ -194,6 +225,83 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
   [textField resignFirstResponder];
   return YES;
+}
+
+#pragma mark UIPickerViewDatasource methods
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+  return 3;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+  switch (component) {
+    case 0:
+      return 12;
+      break;
+    case 1:
+      return 31;
+    case 2:
+      return 81;
+    default:
+      return 0;
+      break;
+  }
+}
+
+#pragma mark UIPickerViewDelegate methods
+
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
+  return 20.0;
+}
+
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+  switch (component) {
+    case 0:
+      return 75;
+    case 1:
+      return 25;
+    case 2:
+      return 50;
+    default:
+      return 0;
+      break;
+  }
+}
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+  UILabel *pickerViewLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, [pickerView rowSizeForComponent:component].width, [pickerView rowSizeForComponent:component].height)];
+
+  
+  if (component == 0) {
+      pickerViewLabel.text = [NSString stringWithFormat:@"%@", self.monthArray[row]];
+      pickerViewLabel.textAlignment = NSTextAlignmentLeft;
+  } else if (component == 1) {
+      pickerViewLabel.text = [NSString stringWithFormat:@"%@", self.dateArray[row]];
+    pickerViewLabel.textAlignment = NSTextAlignmentCenter;
+  } else if (component == 2) {
+      pickerViewLabel.text = [NSString stringWithFormat:@"%@", self.yearArray[row]];
+    pickerViewLabel.textAlignment = NSTextAlignmentRight;
+  } else {
+      NSLog(@"Bad component for view");
+      NSLog(@"tried to get component %ld", (long)component);
+  }
+  
+  pickerViewLabel.font = [UIFont fontWithName: @"Heavyweight" size:16];
+  pickerViewLabel.textColor = [UIColor orangeColor];
+  
+  return pickerViewLabel;
+  
+}
+
+#pragma mark date helper methods
+
+- (NSDate*)dateFromBirthdayPicker: (UIPickerView *) pickerView {
+    NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+    NSDateComponents *components = [[[NSDateComponents alloc] init] autorelease];
+    [components setYear:year];
+    [components setMonth:month];
+    [components setDay:day];
+    return [calendar dateFromComponents:components];
 }
 
 @end
