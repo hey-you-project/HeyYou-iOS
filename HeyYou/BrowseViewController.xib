@@ -3,12 +3,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6246"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <mutableArray key="HEAVYWEI.TTF">
-            <string>Heavyweight</string>
-            <string>Heavyweight</string>
-        </mutableArray>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BrowseViewController">
             <connections>
@@ -49,15 +43,15 @@
                     <blurEffect style="dark"/>
                 </visualEffectView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey Lady!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZi-Pi-R6U" userLabel="Title">
-                    <rect key="frame" x="8" y="16" width="576" height="25"/>
-                    <fontDescription key="fontDescription" name="Heavyweight" family="Heavyweight" pointSize="24"/>
-                    <color key="textColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="12" y="8" width="572" height="33"/>
+                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xkb-pC-YJw" userLabel="Message Body">
-                    <rect key="frame" x="24" y="57" width="552" height="79"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xkb-pC-YJw" userLabel="Message Body">
+                    <rect key="frame" x="24" y="49" width="552" height="79"/>
                     <string key="text">Lorem ipsum dolor sit amet, quis fabulas inermis no his, utroque appellantur et ius. Cu eos omnis tincidunt scriptorem. Eum erant graece accusamus in, iudico pericula duo eu, quodsi verear id mei. Option officiis mei ad, erant consul mel ad. Ne quo efficiantur voluptatibus, in nibh dolorem dissentiet eum, ea duo legimus admodum definitiones.</string>
-                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
+                    <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -78,8 +72,8 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="USERNAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPe-Wt-TzI">
-                    <rect key="frame" x="529" y="151" width="55" height="19"/>
-                    <fontDescription key="fontDescription" name="Heavyweight" family="Heavyweight" pointSize="16"/>
+                    <rect key="frame" x="493" y="144" width="95" height="24"/>
+                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -140,7 +134,7 @@
                 <constraint firstItem="Xkb-pC-YJw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="24" id="AB9-11-Leb"/>
                 <constraint firstAttribute="bottom" secondItem="Uwf-7O-VD9" secondAttribute="bottom" id="BAg-YS-wRn"/>
                 <constraint firstAttribute="bottom" secondItem="iPu-Gr-buz" secondAttribute="bottom" id="Bg3-g3-8BO"/>
-                <constraint firstAttribute="trailing" secondItem="uPe-Wt-TzI" secondAttribute="trailing" constant="16" id="ClF-AK-2p9"/>
+                <constraint firstAttribute="trailing" secondItem="uPe-Wt-TzI" secondAttribute="trailing" constant="12" id="ClF-AK-2p9"/>
                 <constraint firstAttribute="centerX" secondItem="uPe-Wt-TzI" secondAttribute="centerX" id="Dlb-fw-O5k"/>
                 <constraint firstAttribute="trailing" secondItem="QA6-s8-cHm" secondAttribute="trailing" id="E8X-dc-jbr"/>
                 <constraint firstAttribute="trailing" secondItem="QZi-Pi-R6U" secondAttribute="trailing" constant="16" id="Fvn-5g-fmo"/>
@@ -150,7 +144,7 @@
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="Iv7-W2-d57"/>
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="top" secondItem="QZi-Pi-R6U" secondAttribute="bottom" constant="8" id="KQf-ZW-bLQ"/>
                 <constraint firstItem="lva-H3-pJ2" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" constant="4" id="MbZ-tE-EDd"/>
-                <constraint firstItem="QZi-Pi-R6U" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="16" id="OpJ-fa-LdY"/>
+                <constraint firstItem="QZi-Pi-R6U" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="OpJ-fa-LdY"/>
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="top" secondItem="Xkb-pC-YJw" secondAttribute="bottom" constant="16" id="POz-3F-5h5"/>
                 <constraint firstAttribute="centerX" secondItem="Xkb-pC-YJw" secondAttribute="centerX" id="ViT-ob-VEm"/>
                 <constraint firstItem="QA6-s8-cHm" firstAttribute="top" secondItem="uPe-Wt-TzI" secondAttribute="bottom" constant="16" id="Zm2-fw-bxC"/>
@@ -159,7 +153,7 @@
                 <constraint firstItem="Uwf-7O-VD9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ah6-n1-0Wi"/>
                 <constraint firstItem="QA6-s8-cHm" firstAttribute="top" relation="greaterThanOrEqual" secondItem="QZi-Pi-R6U" secondAttribute="bottom" constant="8" id="byd-fL-wQQ"/>
                 <constraint firstItem="Wgp-03-e41" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" constant="4" id="eB2-jq-dnF"/>
-                <constraint firstItem="QZi-Pi-R6U" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="eXp-el-fUq"/>
+                <constraint firstItem="QZi-Pi-R6U" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="eXp-el-fUq"/>
                 <constraint firstItem="iPu-Gr-buz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="gNs-s9-mJE"/>
                 <constraint firstItem="ulC-Lt-754" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" constant="8" id="mOB-up-Omt"/>
                 <constraint firstItem="Xkb-pC-YJw" firstAttribute="top" secondItem="QZi-Pi-R6U" secondAttribute="bottom" constant="8" id="p0d-8w-Uiu"/>
