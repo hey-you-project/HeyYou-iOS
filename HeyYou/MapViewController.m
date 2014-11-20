@@ -18,6 +18,7 @@
 @property NSArray *dots;
 @property NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 //// MARK: Color Palette
 @property (nonatomic, strong) UIColor *customDarkOrange;
@@ -51,7 +52,8 @@
   [self setupGestureRecognizers];
   
   self.networkController = [NetworkController sharedController];
-
+  self.dateFormatter = [NSDateFormatter new];
+  [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
 
   self.mapView.delegate = self;
 
@@ -474,6 +476,7 @@
   DotAnnotation *annotation = view.annotation;
   dotVC.color = [self getColorFromString:annotation.dot.color];
   dotVC.dot = annotation.dot;
+  dotVC.dateFormatter = self.dateFormatter;
   
   self.currentPopup = dotVC;
   CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];

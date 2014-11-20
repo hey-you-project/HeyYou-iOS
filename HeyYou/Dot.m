@@ -43,12 +43,15 @@
     double latitude = [dotDict[@"latitude"] doubleValue];
     double longitude = [dotDict[@"longitude"] doubleValue];
     NSArray *commentArray = dotDict[@"comments"];
+    NSTimeInterval timestamp = [dotDict[@"time"] doubleValue] / 1000;
+    dot.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
     dot.comments = [NSMutableArray new];
     for (NSDictionary *commentDict in commentArray) {
       Comment *comment = [Comment new];
+      NSTimeInterval timestamp = [commentDict[@"time"] doubleValue] / 1000;
+      comment.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
       comment.user = [[User alloc] initwithUsername:commentDict[@"username"]];
       comment.body = commentDict[@"text"];
-      NSLog(@"%@", comment.body);
       [dot.comments addObject:comment];
     }
     dot.location = CLLocationCoordinate2DMake(latitude, longitude);

@@ -37,6 +37,7 @@
   self.username.text = self.dot.username;
   self.titleLabel.text = self.dot.title;
   self.body.text = self.dot.body;
+  self.timeLabel.text = [self.dateFormatter stringFromDate:self.dot.timestamp];
   [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSString *error, Dot *dot) {
     NSLog(@"Returned dot:%@", dot.body);
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -67,7 +68,9 @@
   Comment *comment = self.dot.comments[indexPath.row];
   cell.bodyLabel.text = comment.body;
   cell.usernameLabel.text = comment.user.username;
+  cell.timeLabel.text = [self.dateFormatter stringFromDate:comment.timestamp];
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
+  
   
   return cell;
 }

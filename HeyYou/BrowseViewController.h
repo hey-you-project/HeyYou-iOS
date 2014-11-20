@@ -30,5 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *chatButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bodyTopConstraint;
 @property (nonatomic, strong) UIColor *color;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @end

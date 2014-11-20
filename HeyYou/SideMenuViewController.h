@@ -27,8 +27,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *createUsernameField;
 @property (weak, nonatomic) IBOutlet UITextField *createPasswordField;
 @property (weak, nonatomic) IBOutlet UITextField *createEmailField;
+@property (weak, nonatomic) IBOutlet UIView *birthdayPickerView;
+@property (weak, nonatomic) IBOutlet UIPickerView *birthdayPicker;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-
 
 @end
 
