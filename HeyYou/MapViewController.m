@@ -8,6 +8,7 @@
 
 #import "MapViewController.h"
 #import "DotAnnotationView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface MapViewController ()
 
@@ -16,6 +17,7 @@
 @property CGFloat kLargePopupHeight;
 @property NSArray *dots;
 @property NSMutableDictionary *popups;
+@property (nonatomic, strong) NetworkController *networkController;
 
 //// MARK: Color Palette
 @property (nonatomic, strong) UIColor *customDarkOrange;
@@ -47,6 +49,9 @@
   [self addCircleView];
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
+  
+  self.networkController = [NetworkController sharedController];
+
 
   self.mapView.delegate = self;
 
@@ -76,12 +81,8 @@
 
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  NetworkController *networkController = [NetworkController sharedController];
-  [networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSString * string, NSArray * array) {
-    self.dots = array;
-    [self populateDotsOnMap];
-    NSLog(@"%@", self.dots.description);
-  }];
+ 
+}
   
 //  [networkController createUserWithUsername:@"ronswanson" password:@"baconandeggs" birthday:birthday email:@"anonymous@fakeemail.com" completionHandler:^(NSString *error, bool success) {
 //      if (success) {
@@ -90,7 +91,11 @@
 //        NSLog(@"Bullshit");
 //      }
 //  }];
-  
+
+
+-(void)viewDidAppear:(BOOL)animated{
+  [super viewDidAppear:animated];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -271,11 +276,14 @@
 
   [self addChildViewController:viewController];
   [self.view addSubview:viewController.view];
+  viewController.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
   viewController.view.alpha = 0;
   
   CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, point.y - (height - 30), self.view.frame.size.width - 40, height);
   
   viewController.view.frame = popupFrame;
+  viewController.view.layer.cornerRadius = 10;
+  
   
   CGRect vcBounds = viewController.view.bounds;
   
@@ -295,11 +303,26 @@
   CGPathCloseSubpath  (triangle);
   
   CGPathAddPath(combinedPath, nil, triangle);
+
   CAShapeLayer *shapeLayer = [CAShapeLayer new];
   shapeLayer.path = combinedPath;
   
+  
+  CAShapeLayer *subLayer = [CAShapeLayer new];
+  //[viewController.view.layer addSublayer:subLayer];
+  subLayer.path = combinedPath;
+  subLayer.backgroundColor = [[UIColor clearColor] CGColor];
+  subLayer.frame = viewController.view.layer.bounds;
+  subLayer.borderColor = self.flatBlue.CGColor;
+  subLayer.borderWidth = 2;
+  
   viewController.view.layer.mask = shapeLayer;
+  [viewController.view.layer setNeedsDisplay];
+  [subLayer setNeedsDisplay];
+  
   viewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+
+ 
   
   [UIView animateWithDuration:0.4
                         delay:0.0
@@ -311,6 +334,7 @@
                      viewController.view.transform = CGAffineTransformMakeScale(1, 1);
                    } completion:^(BOOL finished) {
                      [self scrollToClearCurrentPopup];
+      
                    }];
   
 }
@@ -441,12 +465,14 @@
   return renderer;
   
 }
+
+
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
   [mapView deselectAnnotation:view.annotation animated:false];
   BrowseViewController *dotVC = [BrowseViewController new];
 
   DotAnnotation *annotation = view.annotation;
-  
+  dotVC.color = [self getColorFromString:annotation.dot.color];
   dotVC.dot = annotation.dot;
   
   self.currentPopup = dotVC;
@@ -479,9 +505,19 @@
   view.layer.shadowOpacity = 0.6;
   view.layer.shadowRadius = 3.0;
   view.layer.shadowOffset = CGSizeMake(0, 2);
+  
+  view.transform = CGAffineTransformMakeScale(0.5, 0.5);
+  
+  [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+    view.transform = CGAffineTransformIdentity;
+  } completion:^(BOOL finished) {
+    
+  }];
   return view;
   
 }
+
+
 
 -(UIColor *) getColorFromString:(NSString *) colorName {
   NSLog(@"%@", colorName);
@@ -501,6 +537,16 @@
     return self.flatRed;
   }
   
+}
+
+-(void)mapViewWillStartRenderingMap:(MKMapView *)mapView {
+  
+  [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSString * string, NSArray * array) {
+    self.dots = array;
+    [self populateDotsOnMap];
+    NSLog(@"%@", self.dots.description);
+    
+  }];
 }
 
 

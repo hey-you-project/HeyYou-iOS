@@ -32,6 +32,8 @@
 		7E4B2AF71A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E4B2AE91A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf */; };
 		7E4B2AF91A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E4B2AEB1A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf */; };
 		7E4B2AFB1A1DB7CE00C931E2 /* SanFranciscoText-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E4B2AED1A1DB7CE00C931E2 /* SanFranciscoText-Thin.otf */; };
+		7E5F2C7E1A1E6E6E0052713F /* tinker-451865.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E5F2C7D1A1E6E6E0052713F /* tinker-451865.jpg */; };
+		7E5F2C801A1E6E830052713F /* color-circles-408988.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E5F2C7F1A1E6E830052713F /* color-circles-408988.jpg */; };
 		7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */; };
 		7E6E34DC1A1A75A100FF6776 /* SideMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */; };
 		7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E6E34DD1A1A7CF900FF6776 /* typicons.ttf */; };
@@ -98,6 +100,8 @@
 		7E4B2AE91A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Regular.otf"; sourceTree = "<group>"; };
 		7E4B2AEB1A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Semibold.otf"; sourceTree = "<group>"; };
 		7E4B2AED1A1DB7CE00C931E2 /* SanFranciscoText-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Thin.otf"; sourceTree = "<group>"; };
+		7E5F2C7D1A1E6E6E0052713F /* tinker-451865.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "tinker-451865.jpg"; sourceTree = "<group>"; };
+		7E5F2C7F1A1E6E830052713F /* color-circles-408988.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "color-circles-408988.jpg"; sourceTree = "<group>"; };
 		7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideMenuViewController.h; sourceTree = "<group>"; };
 		7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideMenuViewController.m; sourceTree = "<group>"; };
 		7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideMenuViewController.xib; sourceTree = "<group>"; };
@@ -165,6 +169,8 @@
 		150C41731A1A6DF10062DE29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E5F2C7F1A1E6E830052713F /* color-circles-408988.jpg */,
+				7E5F2C7D1A1E6E6E0052713F /* tinker-451865.jpg */,
 				7E4B2AE11A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf */,
 				7E4B2AE31A1DB7CE00C931E2 /* SanFranciscoText-Heavy.otf */,
 				7E4B2AE51A1DB7CE00C931E2 /* SanFranciscoText-Light.otf */,
@@ -348,6 +354,7 @@
 				7E4B2AEF1A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf in Resources */,
 				7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */,
 				7E4B2AF71A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf in Resources */,
+				7E5F2C7E1A1E6E6E0052713F /* tinker-451865.jpg in Resources */,
 				7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */,
 				7E1689201A1BF22E00BA4DE6 /* CommentCell.xib in Resources */,
 				7E1689151A1BDE5D00BA4DE6 /* mediumbluecircle.png in Resources */,
@@ -355,6 +362,7 @@
 				7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */,
 				7E4B2AF91A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf in Resources */,
 				7E16891B1A1BDE5E00BA4DE6 /* mediumyellowcircle.png in Resources */,
+				7E5F2C801A1E6E830052713F /* color-circles-408988.jpg in Resources */,
 				7E1689181A1BDE5D00BA4DE6 /* mediumpinkcircle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

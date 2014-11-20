@@ -41,16 +41,20 @@
     NSLog(@"Returned dot:%@", dot.body);
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
       NSLog(@"Back in VC, dot body = %@", dot.body);
-      
       self.dot = dot;
       [self.tableView reloadData];
     }];
   }];
+  
+  
+  self.view.layer.borderColor = [self.color CGColor];
+  self.view.layer.borderWidth = 2;
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -67,6 +71,17 @@
   
   return cell;
 }
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  cell.alpha = 0;
+  
+  [UIView animateWithDuration:0.3 animations:^{
+    cell.alpha = 1;
+  }];
+  
+}
+
 - (IBAction)commentButtonPressed:(id)sender {
   
   if (self.commentWriterDisplayed == NO) {
@@ -86,15 +101,12 @@
                         options:UIViewAnimationOptionAllowUserInteraction animations:^{
                           [self.view layoutSubviews];
                           self.writeCommentTextField.alpha = 0.3;
-
-                        } completion:^(BOOL finished) {
                           
+                        } completion:^(BOOL finished) {
+                          self.commentButton.titleLabel.text = @"Cancel";
+                          self.chatButton.titleLabel.text = @"Submit";
                         }];
   } else {
-    [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSString *error, bool success) {
-      [self.tableView reloadData];
-    }];
-    
     
     self.commentWriterDisplayed = NO;
     self.commentConstraint.constant -= 140;
@@ -110,7 +122,8 @@
                           [self.view layoutSubviews];
                           self.writeCommentTextField.alpha = 0.0;
                         } completion:^(BOOL finished) {
-                          
+                          self.commentButton.titleLabel.text = @"Comment";
+                          self.chatButton.titleLabel.text = @"Chat with User";
                            self.writeCommentTextField.hidden = true;
                             self.writeCommentTextField.alpha = 0;
                         }];

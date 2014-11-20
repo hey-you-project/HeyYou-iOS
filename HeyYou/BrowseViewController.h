@@ -29,5 +29,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *chatButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bodyTopConstraint;
+@property (nonatomic, strong) UIColor *color;
 
 @end
