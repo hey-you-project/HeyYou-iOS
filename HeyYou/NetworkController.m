@@ -37,6 +37,9 @@
 
 - (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSArray *))completionHandler {
     NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
+    NSNumber *latitude = [NSNumber numberWithDouble:(region.center.latitude)];
+    NSLog(@"%@", [latitude stringValue]);
+    NSLog(@"Sent Region: Longitude: %f", region.center.latitude);
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
     request.HTTPMethod = @"GET";

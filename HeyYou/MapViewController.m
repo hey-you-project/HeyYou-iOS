@@ -8,6 +8,7 @@
 
 #import "MapViewController.h"
 #import "DotAnnotationView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface MapViewController ()
 
@@ -15,7 +16,11 @@
 @property CGFloat kVerticalCurveOffset;
 @property CGFloat kLargePopupHeight;
 @property NSArray *dots;
+@property NSMutableArray *poppedDotIDs;
+
 @property NSMutableDictionary *popups;
+@property (nonatomic, strong) NetworkController *networkController;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 //// MARK: Color Palette
 @property (nonatomic, strong) UIColor *customDarkOrange;
@@ -47,7 +52,12 @@
   [self addCircleView];
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
-
+  
+  self.networkController = [NetworkController sharedController];
+  self.dateFormatter = [NSDateFormatter new];
+  [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
+  self.poppedDotIDs = [NSMutableArray new];
+  
   self.mapView.delegate = self;
 
   self.kHorizontalCurveOffset = 2;
@@ -76,13 +86,21 @@
 
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  NetworkController *networkController = [NetworkController sharedController];
-  [networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSString * string, NSArray * array) {
-    self.dots = array;
-    [self populateDotsOnMap];
-    NSLog(@"%@", self.dots.description);
-  }];
+ 
+}
   
+//  [networkController createUserWithUsername:@"ronswanson" password:@"baconandeggs" birthday:birthday email:@"anonymous@fakeemail.com" completionHandler:^(NSString *error, bool success) {
+//      if (success) {
+//        NSLog(@"Token is: %@", networkController.token);
+//      } else {
+//        NSLog(@"Bullshit");
+//      }
+//  }];
+
+
+-(void)viewDidAppear:(BOOL)animated{
+  [super viewDidAppear:animated];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -263,11 +281,13 @@
 
   [self addChildViewController:viewController];
   [self.view addSubview:viewController.view];
+  viewController.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
   viewController.view.alpha = 0;
   
   CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, point.y - (height - 30), self.view.frame.size.width - 40, height);
   
   viewController.view.frame = popupFrame;
+  viewController.view.layer.cornerRadius = 10;
   
   CGRect vcBounds = viewController.view.bounds;
   
@@ -287,10 +307,22 @@
   CGPathCloseSubpath  (triangle);
   
   CGPathAddPath(combinedPath, nil, triangle);
+
   CAShapeLayer *shapeLayer = [CAShapeLayer new];
   shapeLayer.path = combinedPath;
   
+  CAShapeLayer *subLayer = [CAShapeLayer new];
+  //[viewController.view.layer addSublayer:subLayer];
+  subLayer.path = combinedPath;
+  subLayer.backgroundColor = [[UIColor clearColor] CGColor];
+  subLayer.frame = viewController.view.layer.bounds;
+  subLayer.borderColor = self.flatBlue.CGColor;
+  subLayer.borderWidth = 2;
+
   viewController.view.layer.mask = shapeLayer;
+  [viewController.view.layer setNeedsDisplay];
+  [subLayer setNeedsDisplay];
+  
   viewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
   
   [UIView animateWithDuration:0.4
@@ -303,6 +335,7 @@
                      viewController.view.transform = CGAffineTransformMakeScale(1, 1);
                    } completion:^(BOOL finished) {
                      [self scrollToClearCurrentPopup];
+      
                    }];
   
 }
@@ -413,8 +446,12 @@
 -(void)populateDotsOnMap {
   [[NSOperationQueue mainQueue] addOperationWithBlock:^{
     for (Dot * dot in self.dots) {
-      [self addNewAnnotationForDot:dot];
+      if (![self.poppedDotIDs containsObject:dot.identifier]) {
+        [self.poppedDotIDs addObject:dot.identifier];
+        [self addNewAnnotationForDot:dot];
+      }
     }
+    
   }];
 }
 
@@ -433,13 +470,16 @@
   return renderer;
   
 }
+
+
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
   [mapView deselectAnnotation:view.annotation animated:false];
   BrowseViewController *dotVC = [BrowseViewController new];
 
   DotAnnotation *annotation = view.annotation;
-  
+  dotVC.color = [self getColorFromString:annotation.dot.color];
   dotVC.dot = annotation.dot;
+  dotVC.dateFormatter = self.dateFormatter;
   
   self.currentPopup = dotVC;
   CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
@@ -462,6 +502,7 @@
   }
   DotAnnotation *anno = view.annotation;
   view.color = [self getColorFromString:anno.dot.color];
+  NSLog(@"%@", anno.dot.color);
   
   CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
   view.frame = CGRectMake(center.x-12.5, center.y-12.5, 25, 25);
@@ -471,6 +512,14 @@
   view.layer.shadowOpacity = 0.6;
   view.layer.shadowRadius = 3.0;
   view.layer.shadowOffset = CGSizeMake(0, 2);
+  
+  view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+  
+  [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.4 initialSpringVelocity:0.7 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+    view.transform = CGAffineTransformIdentity;
+  } completion:^(BOOL finished) {
+    
+  }];
   return view;
   
 }
@@ -495,5 +544,13 @@
   
 }
 
+-(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
+  [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSString * string, NSArray * array) {
+    self.dots = array;
+    [self populateDotsOnMap];
+    NSLog(@"%@", self.dots.description);
+    }];
+  
+}
 
 @end
