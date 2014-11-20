@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSNumber *stars;
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic, strong) NSString *username;
+@property BOOL annotationAdded;
 
 - (instancetype)initWithLocation: (CLLocationCoordinate2D)location color: (NSString*)color title: (NSString*)title body: (NSString*)body;
 

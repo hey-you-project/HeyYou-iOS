@@ -36,7 +36,9 @@
   [super viewWillAppear:animated];
   self.username.text = self.dot.username;
   self.titleLabel.text = self.dot.title;
+  self.titleLabel.textColor = self.color;
   self.body.text = self.dot.body;
+  self.colorBar.backgroundColor = self.color;
   self.timeLabel.text = [self.dateFormatter stringFromDate:self.dot.timestamp];
   [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSString *error, Dot *dot) {
     NSLog(@"Returned dot:%@", dot.body);
@@ -46,7 +48,6 @@
       [self.tableView reloadData];
     }];
   }];
-  
   
   self.view.layer.borderColor = [self.color CGColor];
   self.view.layer.borderWidth = 2;
@@ -70,6 +71,7 @@
   cell.usernameLabel.text = comment.user.username;
   cell.timeLabel.text = [self.dateFormatter stringFromDate:comment.timestamp];
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
+  cell.bottomLine.backgroundColor = self.color;
   
   
   return cell;
@@ -106,8 +108,8 @@
                           self.writeCommentTextField.alpha = 0.3;
                           
                         } completion:^(BOOL finished) {
-                          self.commentButton.titleLabel.text = @"Cancel";
-                          self.chatButton.titleLabel.text = @"Submit";
+                          //self.commentButton.titleLabel.text = @"Cancel";
+                          //self.chatButton.titleLabel.text = @"Submit";
                         }];
   } else {
     
@@ -125,8 +127,8 @@
                           [self.view layoutSubviews];
                           self.writeCommentTextField.alpha = 0.0;
                         } completion:^(BOOL finished) {
-                          self.commentButton.titleLabel.text = @"Comment";
-                          self.chatButton.titleLabel.text = @"Chat with User";
+                          //self.commentButton.titleLabel.text = @"Comment";
+                          //self.chatButton.titleLabel.text = @"Chat with User";
                            self.writeCommentTextField.hidden = true;
                             self.writeCommentTextField.alpha = 0;
                         }];
@@ -142,30 +144,28 @@
   }];
   
 }
-//
-//-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-//  self.isTouching = NO;
-//}
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//  self.isTouching = YES;
-//}
-//
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//  
-//  if (scrollView.contentOffset.y > self.lastOffset.y && self.body.frame.origin.y > self.body.intrinsicContentSize.height * -1 && scrollView.contentOffset.y > 0) {
-//    self.bodyTopConstraint.constant -= (scrollView.contentOffset.y - self.lastOffset.y);
-//  } else if (scrollView.contentOffset.y < self.lastOffset.y && self.bodyTopConstraint.constant < 8 && self.isTouching == YES){
-//    self.bodyTopConstraint.constant -= (scrollView.contentOffset.y - self.lastOffset.y);
-//  }
-//
-//  [self.view layoutSubviews];
-//  
-//  self.lastOffset = scrollView.contentOffset;
-//  
-//}
 
+- (IBAction)didPressStar:(id)sender {
+  self.userDidStar = !self.userDidStar;
+  
+  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+  [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+  NSNumber *stars = [formatter numberFromString:self.numberOfStarsLabel.text];
+  NSInteger starsIntValue = [stars integerValue];
+  
+  if (self.userDidStar) {
+    NSLog(@"Changing to filled!");
+    self.starButton.titleLabel.text = @"\ue105";
+    starsIntValue++;
+  } else {
+    NSLog(@"Changing to empty!");
+    self.starButton.titleLabel.text = @"\ue108";
+    starsIntValue--;
+  }
+  stars = [NSNumber numberWithInteger:starsIntValue];
+  self.numberOfStarsLabel.text = [stars stringValue];
 
-
-
+  
+}
 
 @end

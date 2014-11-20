@@ -55,6 +55,7 @@
       [dot.comments addObject:comment];
     }
     dot.location = CLLocationCoordinate2DMake(latitude, longitude);
+    dot.annotationAdded = NO;
     [tempArray addObject:dot];
   }
   return tempArray;

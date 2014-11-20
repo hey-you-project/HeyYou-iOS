@@ -16,6 +16,8 @@
 @property CGFloat kVerticalCurveOffset;
 @property CGFloat kLargePopupHeight;
 @property NSArray *dots;
+@property NSMutableArray *poppedDotIDs;
+
 @property NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
@@ -54,7 +56,8 @@
   self.networkController = [NetworkController sharedController];
   self.dateFormatter = [NSDateFormatter new];
   [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
-
+  self.poppedDotIDs = [NSMutableArray new];
+  
   self.mapView.delegate = self;
 
   self.kHorizontalCurveOffset = 2;
@@ -286,7 +289,6 @@
   viewController.view.frame = popupFrame;
   viewController.view.layer.cornerRadius = 10;
   
-  
   CGRect vcBounds = viewController.view.bounds;
   
   CGRect newRect = CGRectMake(vcBounds.origin.x, vcBounds.origin.y, vcBounds.size.width, vcBounds.size.height - 50);
@@ -309,7 +311,6 @@
   CAShapeLayer *shapeLayer = [CAShapeLayer new];
   shapeLayer.path = combinedPath;
   
-  
   CAShapeLayer *subLayer = [CAShapeLayer new];
   //[viewController.view.layer addSublayer:subLayer];
   subLayer.path = combinedPath;
@@ -317,14 +318,12 @@
   subLayer.frame = viewController.view.layer.bounds;
   subLayer.borderColor = self.flatBlue.CGColor;
   subLayer.borderWidth = 2;
-  
+
   viewController.view.layer.mask = shapeLayer;
   [viewController.view.layer setNeedsDisplay];
   [subLayer setNeedsDisplay];
   
   viewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-
- 
   
   [UIView animateWithDuration:0.4
                         delay:0.0
@@ -447,8 +446,12 @@
 -(void)populateDotsOnMap {
   [[NSOperationQueue mainQueue] addOperationWithBlock:^{
     for (Dot * dot in self.dots) {
-      [self addNewAnnotationForDot:dot];
+      if (![self.poppedDotIDs containsObject:dot.identifier]) {
+        [self.poppedDotIDs addObject:dot.identifier];
+        [self addNewAnnotationForDot:dot];
+      }
     }
+    
   }];
 }
 
@@ -499,6 +502,7 @@
   }
   DotAnnotation *anno = view.annotation;
   view.color = [self getColorFromString:anno.dot.color];
+  NSLog(@"%@", anno.dot.color);
   
   CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
   view.frame = CGRectMake(center.x-12.5, center.y-12.5, 25, 25);
@@ -509,9 +513,9 @@
   view.layer.shadowRadius = 3.0;
   view.layer.shadowOffset = CGSizeMake(0, 2);
   
-  view.transform = CGAffineTransformMakeScale(0.5, 0.5);
+  view.transform = CGAffineTransformMakeScale(0.1, 0.1);
   
-  [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+  [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.4 initialSpringVelocity:0.7 options:UIViewAnimationOptionAllowUserInteraction animations:^{
     view.transform = CGAffineTransformIdentity;
   } completion:^(BOOL finished) {
     
@@ -519,8 +523,6 @@
   return view;
   
 }
-
-
 
 -(UIColor *) getColorFromString:(NSString *) colorName {
   NSLog(@"%@", colorName);
@@ -542,15 +544,13 @@
   
 }
 
--(void)mapViewWillStartRenderingMap:(MKMapView *)mapView {
-  
+-(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSString * string, NSArray * array) {
     self.dots = array;
     [self populateDotsOnMap];
     NSLog(@"%@", self.dots.description);
-    
-  }];
+    }];
+  
 }
-
 
 @end
