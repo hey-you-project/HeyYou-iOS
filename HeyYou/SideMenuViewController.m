@@ -130,7 +130,7 @@
       NSString *username = self.createUsernameField.text;
       NSString *password = self.createPasswordField.text;
       NSString *email = self.createEmailField.text;
-      NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:508723200];
+      NSDate *birthday = [self dateFromBirthdayPicker:self.birthdayPicker];
       [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSString *error, bool success) {
         if (success) {
           [self.activityIndicator stopAnimating];
@@ -296,12 +296,14 @@
 #pragma mark date helper methods
 
 - (NSDate*)dateFromBirthdayPicker: (UIPickerView *) pickerView {
-    NSCalendar *calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
-    NSDateComponents *components = [[[NSDateComponents alloc] init] autorelease];
-    [components setYear:year];
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+  NSInteger month = [pickerView selectedRowInComponent: 0] + 1;
+  NSInteger day = [pickerView selectedRowInComponent:1] + 1;
+  NSInteger year = [self.yearArray[[pickerView selectedRowInComponent:2]] integerValue];
+    [components setYear: year];
     [components setMonth:month];
     [components setDay:day];
-    return [calendar dateFromComponents:components];
+    return [self.localCalendar dateFromComponents:components];
 }
 
 @end
