@@ -46,6 +46,10 @@
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSLog(@"%@", jsonString);
     [request setValue:jsonString forHTTPHeaderField:@"Zone"];
+  // NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+//    NSLog(@"Token:%@", token);
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    [request setValue:token forHTTPHeaderField:@"jwt"];
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSLog(@"%@", error.localizedDescription);
@@ -63,6 +67,35 @@
         }
     }];
     [dataTask resume];
+}
+
+- (void)getDotByID: (NSString *)dotID completionHandler: (void (^)(NSString * error, Dot * dot))completionHandler {
+  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/%@", self.url, dotID];
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"GET";
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error != nil) {
+      NSLog(@"%@", error.localizedDescription);
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          NSArray *array = [Dot parseJSONIntoDots:data];
+          NSLog(@"getDotByID: received %@", [array description]);
+          if (array.count > 0 && [array[0] isKindOfClass:[Dot class]]) {
+            Dot *dot = array[0];
+            NSLog(@"dot body = %@", dot.body);
+            completionHandler(nil,dot);
+          }
+        } else {
+          NSLog(@"%@", httpResponse.description);
+        }
+      }
+    }
+  }];
+  [dataTask resume];
 }
 
 - (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSString *error, bool success))completionHandler {
@@ -89,6 +122,8 @@
             if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
               NSLog(@"Success! Got token!");
               [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 completionHandler(nil, YES);
               }];
             }
@@ -113,6 +148,9 @@
     NSUInteger length = dotJSONData.length;
     [request setValue:[NSString stringWithFormat:@"%li", (unsigned long)length] forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:token forHTTPHeaderField:@"jwt"];
     request.HTTPBody = dotJSONData;
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
@@ -136,6 +174,47 @@
         }
     }];
     [dataTask resume];
+}
+
+- (void)postComment: (NSString *) comment forDot:(Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler {
+  NSLog(@"Post Comment Called!");
+  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/comments/%@", self.url, dot.identifier];
+  NSLog(@"%@", fullURLString);
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"POST";
+  NSDictionary *commentDictionary = @{@"text" : comment};
+  NSError *error;
+  NSData *JSONData = [NSJSONSerialization dataWithJSONObject:commentDictionary options:NSJSONWritingPrettyPrinted error:&error];
+  //NSUInteger length = JSONData.length;
+  //[request setValue:[NSString stringWithFormat:@"%li", (unsigned long)length] forHTTPHeaderField:@"Content-Length"];
+  NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  [request setValue:token forHTTPHeaderField:@"jwt"];
+  request.HTTPBody = JSONData;
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error != nil) {
+      NSLog(@"%@", error.localizedDescription);
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          NSError *postError;
+          NSDictionary *successJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error: &postError];
+          NSLog(successJSON.description);
+//          NSString *returnString = [successJSON[@"time"] doubleValue] / 1000;
+//          dot.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
+//          dot.identifier = successJSON[@"dot_id"];
+//          NSLog(@"Time: %@ Id: %@", dot.timestamp.description, dot.identifier);
+          completionHandler(nil, YES);
+        } else {
+          NSLog(@"%@", httpResponse.description);
+        }
+      }
+    }
+  }];
+  [dataTask resume];
 }
 
 - (void)createUserWithUsername: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email completionHandler:(void (^)(NSString *error, bool success))completionHandler {

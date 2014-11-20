@@ -24,4 +24,8 @@
 
 - (void)createUserWithUsername: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email completionHandler:(void (^)(NSString *error, bool success))completionHandler;
 
+- (void)postComment: (NSString *) comment forDot:(Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler;
+
+- (void)getDotByID: (NSString *)dotID completionHandler: (void (^)(NSString * error, Dot * dot))completionHandler;
+
 @end
