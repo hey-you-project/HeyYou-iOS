@@ -10,8 +10,7 @@
 
 typedef NS_ENUM(NSInteger, TextFieldContext) {
   TextFieldContextDefault,
-  TextFieldContextPassword,
-  TextFieldContextUsername
+  TextFieldContextEmail
 };
 
 @interface NSString (Validate)

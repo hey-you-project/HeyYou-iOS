@@ -11,7 +11,7 @@
 @implementation NSString (Validate)
 
 - (BOOL)validate {
-  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\h" options:0 error:nil];
+  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[  ]" options:0 error:nil];
   NSUInteger match = [regex numberOfMatchesInString:self options:0 range: NSMakeRange(0, self.length)];
   if (match > 0) {
     return false;
