@@ -205,7 +205,7 @@
         if (statusCode >= 200 && statusCode <= 299) {
           NSError *postError;
           NSDictionary *successJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error: &postError];
-          NSLog(successJSON.description);
+          NSLog(@"%@", successJSON.description);
 //          NSString *returnString = [successJSON[@"time"] doubleValue] / 1000;
 //          dot.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
 //          dot.identifier = successJSON[@"dot_id"];

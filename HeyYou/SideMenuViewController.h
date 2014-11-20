@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NetworkController.h"
 
-@interface SideMenuViewController : UIViewController <UITextFieldDelegate>
+@interface SideMenuViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *userPostsView;
 @property (weak, nonatomic) IBOutlet UIView *bestofView;
