@@ -231,19 +231,18 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 
   if (![string validate]) {
-    CGRect warningRect = CGRectMake(textField.frame.origin.x, textField.frame.origin.y, textField.frame.size.width, 40);
+    CGRect warningRect = CGRectMake(textField.center.x - (textField.bounds.size.width / 2) + 12, textField.center.y + textField.bounds.size.height + 8, textField.frame.size.width, 40);
     UILabel *warningLabel = [[UILabel alloc] init];
     warningLabel.frame = warningRect;
     warningLabel.backgroundColor = [UIColor redColor];
     warningLabel.textColor = [UIColor whiteColor];
-    warningLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    warningLabel.numberOfLines = 2;
+    warningLabel.minimumScaleFactor = 0.8;
     warningLabel.font = [UIFont fontWithName: @"Heavyweight" size:12];
     warningLabel.textAlignment = NSTextAlignmentCenter;
     warningLabel.layer.cornerRadius = 8;
     warningLabel.clipsToBounds = YES;
     warningLabel.alpha = 0;
-    warningLabel.text = [NSString stringWithFormat: @"%@ does not support whitespace", textField.placeholder];
+    warningLabel.text = [NSString stringWithFormat: @"%@ does not support spaces", textField.placeholder];
     [self.view addSubview:warningLabel];
     [UIView animateWithDuration:0.8 delay:0.0 options:0 animations:^{
       warningLabel.alpha = 1.0;
