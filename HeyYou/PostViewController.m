@@ -24,7 +24,7 @@
   [super viewDidLoad];
   [self setupGestureRecognizers];
   
-  self.color = @"orange";
+  self.color = @"purple";
   self.colorConstraints = @[self.orangeConstraint, self.blueConstraint, self.greenConstraint, self.yellowConstraint, self.tealConstraint, self.pinkConstraint, self.purpleConstraint];
   self.networkController = [NetworkController sharedController];
   
@@ -61,7 +61,7 @@
   [self.networkController postDot:dot completionHandler:^(NSError *error, bool success) {
     if (success) {
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self.delegate addNewAnnotationForDot:dot];
+        [self.delegate requestDots];
         [self.delegate unpopCurrentComment];
         [self.delegate returnDragCircleToHomeBase];
       }];

@@ -40,7 +40,7 @@
   self.body.text = self.dot.body;
   self.numberOfStarsLabel.text = [self.dot.stars stringValue];
   self.colorBar.backgroundColor = self.color;
-  self.timeLabel.text = [self.dateFormatter stringFromDate:self.dot.timestamp];
+  self.timeLabel.text = [self getFuzzyDateFromDate:self.dot.timestamp];
   [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
     if (dot != nil) {
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -86,7 +86,7 @@
   Comment *comment = self.dot.comments[indexPath.row];
   cell.bodyLabel.text = comment.body;
   cell.usernameLabel.text = comment.user.username;
-  cell.timeLabel.text = [self.dateFormatter stringFromDate:comment.timestamp];
+  cell.timeLabel.text = [self getFuzzyDateFromDate:comment.timestamp];
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
   cell.bottomLine.backgroundColor = self.color;
   
@@ -217,6 +217,25 @@
     alert.message = @"An error occurred. Please try again later.";
   }
   [alert show];
+}
+
+-(NSString *) getFuzzyDateFromDate: (NSDate *) date{
+  
+  NSTimeInterval secondsSinceNow = [date timeIntervalSinceNow] * -1;
+  
+  if (secondsSinceNow < 10) {
+    return @"Just now";
+  }
+  if (secondsSinceNow < 60) {
+    return [NSString stringWithFormat:@"%d seconds ago", (int)(secondsSinceNow / 1)];
+  }
+  if (secondsSinceNow < (60 * 60)) {
+    return [NSString stringWithFormat:@"%d minutes ago", (int)(secondsSinceNow / 60)];
+  }
+  if (secondsSinceNow < (60 * 60 * 24)) {
+    return [NSString stringWithFormat:@"%d hours ago", (int)(secondsSinceNow / 60 / 60)];
+  }
+  return @"Unknown!";
 }
   
 

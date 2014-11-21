@@ -21,6 +21,7 @@
 -(void)addNewAnnotationForDot:(Dot*) dot;
 -(void) unpopCurrentComment;
 -(void) returnDragCircleToHomeBase;
+-(void) requestDots;
 
 @property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) UIViewController *currentPopup;

@@ -512,6 +512,9 @@
   PostViewController *vc = (PostViewController *)self.currentPopup;
   vc.view.layer.borderColor = [colorUI CGColor];
   vc.titleLabel.textColor = colorUI;
+  vc.titleTextField.backgroundColor = [colorUI colorWithAlphaComponent:0.3];
+  vc.bodyTextField.backgroundColor = [colorUI colorWithAlphaComponent:0.3];
+  
 }
 
 
