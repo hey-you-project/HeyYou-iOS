@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "NetworkController.h"
+@import MessageUI;
 
-@interface SideMenuViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface SideMenuViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, MFMessageComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *userPostsView;
 @property (weak, nonatomic) IBOutlet UIView *bestofView;

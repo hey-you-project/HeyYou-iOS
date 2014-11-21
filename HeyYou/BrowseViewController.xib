@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="body" destination="Xkb-pC-YJw" id="SIf-bl-bfb"/>
                 <outlet property="bodyTopConstraint" destination="p0d-8w-Uiu" id="Hbd-Wf-vAG"/>
+                <outlet property="cancelButton" destination="yq3-eV-dB1" id="mXO-63-oif"/>
                 <outlet property="chatButton" destination="lva-H3-pJ2" id="X0s-bu-WPJ"/>
                 <outlet property="chatConstraint" destination="MbZ-tE-EDd" id="lEq-YL-uG0"/>
                 <outlet property="colorBar" destination="tJ5-r4-DvF" id="FOP-EF-lfN"/>
@@ -21,6 +22,7 @@
                 <outlet property="commentConstraint" destination="eB2-jq-dnF" id="SkP-yR-4vt"/>
                 <outlet property="numberOfStarsLabel" destination="UbH-QT-P5f" id="2zT-Nf-nPG"/>
                 <outlet property="starButton" destination="XV6-0d-1eJ" id="Zeh-Xn-vvR"/>
+                <outlet property="submitButton" destination="PdL-ug-2Dx" id="mgF-Cy-ktl"/>
                 <outlet property="tableView" destination="Uwf-7O-VD9" id="UUm-Js-3Sg"/>
                 <outlet property="timeLabel" destination="FGj-g5-42J" id="puf-P3-0RY"/>
                 <outlet property="titleLabel" destination="QZi-Pi-R6U" id="WkL-nD-zyY"/>
@@ -93,6 +95,17 @@
                     <rect key="frame" x="0.0" y="185" width="600" height="41"/>
                     <color key="backgroundColor" red="0.13725490200000001" green="0.43137254899999999" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yq3-eV-dB1" userLabel="Cancel">
+                    <rect key="frame" x="201" y="189" width="67" height="33"/>
+                    <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="15"/>
+                    <state key="normal" title="Cancel">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="cancelPressed:" destination="-1" eventType="touchUpInside" id="vIk-mE-ogL"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wgp-03-e41">
                     <rect key="frame" x="201" y="189" width="67" height="33"/>
                     <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="15"/>
@@ -102,6 +115,17 @@
                     </state>
                     <connections>
                         <action selector="commentButtonPressed:" destination="-1" eventType="touchUpInside" id="7aD-Fn-1cv"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PdL-ug-2Dx">
+                    <rect key="frame" x="358" y="189" width="48" height="33"/>
+                    <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="15"/>
+                    <state key="normal" title="Submit">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="submitPressed:" destination="-1" eventType="touchUpInside" id="QvI-nA-jhS"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lva-H3-pJ2">
@@ -175,10 +199,12 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="lva-H3-pJ2" firstAttribute="centerY" secondItem="PdL-ug-2Dx" secondAttribute="centerY" id="0Ma-2v-w79"/>
                 <constraint firstItem="GPB-wW-99O" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" constant="8" id="1sV-id-oHr"/>
                 <constraint firstItem="Uwf-7O-VD9" firstAttribute="top" secondItem="lva-H3-pJ2" secondAttribute="bottom" id="1yC-U9-Ll1"/>
                 <constraint firstAttribute="trailing" secondItem="GPB-wW-99O" secondAttribute="trailing" constant="8" id="23V-07-ToN"/>
                 <constraint firstItem="MRg-Is-Hgy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="348-uV-2Ql"/>
+                <constraint firstItem="lva-H3-pJ2" firstAttribute="centerX" secondItem="PdL-ug-2Dx" secondAttribute="centerX" id="3Jl-dM-7VE"/>
                 <constraint firstAttribute="trailing" secondItem="Uwf-7O-VD9" secondAttribute="trailing" id="4ed-j8-YLn"/>
                 <constraint firstItem="lva-H3-pJ2" firstAttribute="leading" secondItem="ulC-Lt-754" secondAttribute="trailing" constant="32" id="6Zd-Tc-qkF"/>
                 <constraint firstAttribute="trailing" secondItem="Xkb-pC-YJw" secondAttribute="trailing" constant="24" id="8i8-uQ-m8y"/>
@@ -201,9 +227,11 @@
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="Iv7-W2-d57"/>
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="top" secondItem="QZi-Pi-R6U" secondAttribute="bottom" constant="8" id="KQf-ZW-bLQ"/>
                 <constraint firstItem="lva-H3-pJ2" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" constant="4" id="MbZ-tE-EDd"/>
+                <constraint firstItem="yq3-eV-dB1" firstAttribute="centerY" secondItem="Wgp-03-e41" secondAttribute="centerY" id="MnD-Kd-YVj"/>
                 <constraint firstItem="tJ5-r4-DvF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="N7q-cb-ZbK"/>
                 <constraint firstItem="QZi-Pi-R6U" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="OpJ-fa-LdY"/>
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="top" secondItem="Xkb-pC-YJw" secondAttribute="bottom" constant="16" id="POz-3F-5h5"/>
+                <constraint firstItem="yq3-eV-dB1" firstAttribute="centerX" secondItem="Wgp-03-e41" secondAttribute="centerX" id="TEe-jk-MhK"/>
                 <constraint firstAttribute="centerX" secondItem="Xkb-pC-YJw" secondAttribute="centerX" id="ViT-ob-VEm"/>
                 <constraint firstItem="Pvd-om-1VJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="Xl5-Fy-SCN"/>
                 <constraint firstItem="MRg-Is-Hgy" firstAttribute="top" secondItem="tJ5-r4-DvF" secondAttribute="bottom" id="YLD-qh-2jS"/>

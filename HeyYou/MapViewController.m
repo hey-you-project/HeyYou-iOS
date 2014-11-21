@@ -59,8 +59,6 @@
   [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
   self.poppedDotIDs = [NSMutableArray new];
   
-
-  
   self.mapView.delegate = self;
 
   self.kHorizontalCurveOffset = 2;

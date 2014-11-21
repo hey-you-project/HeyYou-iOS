@@ -9,6 +9,7 @@
 #import "SideMenuViewController.h"
 #import "NSString+Validate.h"
 
+
 @interface SideMenuViewController ()
 
 @property (nonatomic) NSTimeInterval duration;
@@ -405,6 +406,22 @@
     [components setMonth:month];
     [components setDay:day];
     return [self.localCalendar dateFromComponents:components];
+}
+
+
+- (IBAction)didPressShare:(id)sender {
+  
+  MFMessageComposeViewController *messageVC = [MFMessageComposeViewController new];
+  
+  messageVC.messageComposeDelegate = self;
+  [messageVC setBody:@"Check out this great new app! http://itunes.com/app/HeyYou"];
+  [self presentViewController:messageVC animated:true completion:nil];
+  
+  
+}
+
+-(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+  
 }
 
 @end

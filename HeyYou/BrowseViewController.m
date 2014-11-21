@@ -35,6 +35,8 @@
 -(void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   self.writeCommentTextField.layer.cornerRadius = 10;
+  self.cancelButton.alpha = 0;
+  self.submitButton.alpha = 0;
   self.username.text = self.dot.username;
   self.titleLabel.text = self.dot.title;
   self.titleLabel.textColor = self.color;
@@ -111,15 +113,10 @@
 
 - (IBAction)commentButtonPressed:(id)sender {
   
-  if (self.commentWriterDisplayed == NO) {
-    self.commentWriterDisplayed = YES;
-  
     self.commentConstraint.constant += 140;
     self.chatConstraint.constant += 140;
     self.writeCommentTextField.hidden = false;
     self.writeCommentTextField.alpha = 0;
-    self.commentButton.titleLabel.text = @"Cancel";
-    self.chatButton.titleLabel.text = @"Submit";
     
     [UIView animateWithDuration:0.4
                           delay:0.0
@@ -128,69 +125,38 @@
                         options:UIViewAnimationOptionAllowUserInteraction animations:^{
                           [self.view layoutSubviews];
                           self.writeCommentTextField.alpha = 1;
+                          self.commentButton.alpha = 0;
+                          self.chatButton.alpha = 0;
+                          self.cancelButton.alpha = 1;
+                          self.submitButton.alpha = 1;
                           
                         } completion:^(BOOL finished) {
-                          //self.commentButton.titleLabel.text = @"Cancel";
-                          //self.chatButton.titleLabel.text = @"Submit";
+                          self.commentButton.enabled = false;
+                          self.chatButton.enabled = false;
                         }];
-  } else {
+}
+
+- (IBAction)chatButtonPressed:(id)sender {
+  NSLog(@"Chat Button Pressed with text %@",self.writeCommentTextField.text);
+}
+
+
+- (IBAction)cancelPressed:(id)sender {
+  
+  [self removeCommentBox];
+  
+}
+- (IBAction)submitPressed:(id)sender {
+  
     [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
       if (success) {
         [self.tableView reloadData];
+        self.writeCommentTextField.text = @"";
       } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:[error localizedDescription]
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        if (error == nil) {
-          alert.message = @"An error occurred. Please try again later.";
-        }
-        [alert show];
+        [self showAlertViewWithError:error];
       }
     }];
-    
-    self.commentWriterDisplayed = NO;
-    self.commentConstraint.constant -= 140;
-    self.chatConstraint.constant -= 140;
-    self.commentButton.titleLabel.text = @"Comment";
-    self.chatButton.titleLabel.text = @"Chat with User";
-    
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-         usingSpringWithDamping:0.7
-          initialSpringVelocity:0.4
-                        options:UIViewAnimationOptionAllowUserInteraction animations:^{
-                          [self.view layoutSubviews];
-                          self.writeCommentTextField.alpha = 0.0;
-                        } completion:^(BOOL finished) {
-                          //self.commentButton.titleLabel.text = @"Comment";
-                          //self.chatButton.titleLabel.text = @"Chat with User";
-                           self.writeCommentTextField.hidden = true;
-                            self.writeCommentTextField.alpha = 0;
-                        }];
-
-  }
-  
-}
-- (IBAction)chatButtonPressed:(id)sender {
-  NSLog(@"Chat Button Pressed with text %@",self.writeCommentTextField.text);
-  
-  [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
-    if (success) {
-      [self.tableView reloadData];
-    } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [alert show];
-    }
-  }];
+  [self removeCommentBox];
   
 }
 
@@ -214,7 +180,46 @@
   stars = [NSNumber numberWithInteger:starsIntValue];
   self.numberOfStarsLabel.text = [stars stringValue];
 
+}
+
+-(void) removeCommentBox {
+  self.commentConstraint.constant -= 140;
+  self.chatConstraint.constant -= 140;
+  
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+       usingSpringWithDamping:0.7
+        initialSpringVelocity:0.4
+                      options:UIViewAnimationOptionAllowUserInteraction animations:^{
+                        [self.view layoutSubviews];
+                        self.writeCommentTextField.alpha = 0.0;
+                        self.commentButton.alpha = 1;
+                        self.chatButton.alpha = 1;
+                        self.cancelButton.alpha = 0;
+                        self.submitButton.alpha = 0;
+                      } completion:^(BOOL finished) {
+                        self.commentButton.enabled = true;
+                        self.chatButton.enabled = true;
+                        self.writeCommentTextField.hidden = true;
+                        self.writeCommentTextField.alpha = 0;
+                      }];
+
   
 }
+
+-(void) showAlertViewWithError:(NSError *) error {
+  
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                  message:[error localizedDescription]
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  if (error == nil) {
+    alert.message = @"An error occurred. Please try again later.";
+  }
+  [alert show];
+}
+  
+
 
 @end
