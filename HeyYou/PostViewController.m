@@ -58,15 +58,24 @@
   NSLog(@"Post button pressed!");
   Dot *dot = [[Dot alloc] initWithLocation:self.location color:self.color title:title body:body];
   
-  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-    [self.delegate addNewAnnotationForDot:dot];
-    [self.delegate unpopCurrentComment];
-    [self.delegate returnDragCircleToHomeBase];
-  }];
-  
   [self.networkController postDot:dot completionHandler:^(NSError *error, bool success) {
     if (success) {
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self.delegate addNewAnnotationForDot:dot];
+        [self.delegate unpopCurrentComment];
+        [self.delegate returnDragCircleToHomeBase];
+      }];
       
+    } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      if (error == nil) {
+        alert.message = @"An error occurred. Please try again later.";
+      }
+      [alert show];
     }
   }];
   

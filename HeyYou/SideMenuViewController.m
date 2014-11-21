@@ -148,6 +148,17 @@
           self.state = MenuStateLoggedIn;
           [self removeCreateAnimation:username];
           NSLog(@"User created!");
+        } else {
+          [self.activityIndicator stopAnimating];
+          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                          message:[error localizedDescription]
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+          if (error == nil) {
+            alert.message = @"An error occurred. Please try again later.";
+          }
+          [alert show];
         }
       }];
       

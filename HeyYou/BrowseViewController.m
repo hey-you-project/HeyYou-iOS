@@ -38,13 +38,25 @@
   self.titleLabel.text = self.dot.title;
   self.body.text = self.dot.body;
   [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
-    NSLog(@"Returned dot:%@", dot.body);
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-      NSLog(@"Back in VC, dot body = %@", dot.body);
-      
-      self.dot = dot;
-      [self.tableView reloadData];
-    }];
+    if (dot != nil) {
+      NSLog(@"Returned dot:%@", dot.body);
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSLog(@"Back in VC, dot body = %@", dot.body);
+        
+        self.dot = dot;
+        [self.tableView reloadData];
+      }];
+    } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      if (error == nil) {
+        alert.message = @"An error occurred. Please try again later.";
+      }
+      [alert show];
+    }
   }];
 }
 
@@ -92,7 +104,19 @@
                         }];
   } else {
     [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
-      [self.tableView reloadData];
+      if (success) {
+        [self.tableView reloadData];
+      } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:[error localizedDescription]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        if (error == nil) {
+          alert.message = @"An error occurred. Please try again later.";
+        }
+        [alert show];
+      }
     }];
     
     
@@ -122,7 +146,19 @@
   NSLog(@"Chat Button Pressed with text %@",self.writeCommentTextField.text);
   
   [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
-    [self.tableView reloadData];
+    if (success) {
+      [self.tableView reloadData];
+    } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      if (error == nil) {
+        alert.message = @"An error occurred. Please try again later.";
+      }
+      [alert show];
+    }
   }];
   
 }

@@ -77,10 +77,22 @@
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   NetworkController *networkController = [NetworkController sharedController];
-  [networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError * string, NSArray * array) {
-    self.dots = array;
-    [self populateDotsOnMap];
-    NSLog(@"%@", self.dots.description);
+  [networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
+    if (dots != nil) {
+      self.dots = dots;
+      [self populateDotsOnMap];
+      NSLog(@"%@", self.dots.description);
+    } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      if (error == nil) {
+        alert.message = @"An error occurred. Please try again later.";
+      }
+      [alert show];
+    }
   }];
   
 }
