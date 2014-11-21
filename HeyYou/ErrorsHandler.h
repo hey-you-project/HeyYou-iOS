@@ -27,6 +27,6 @@ enum {
 
 @interface ErrorHandler : NSObject
 
-+ (NSError*)returnErrorFromHTTPResponse: (NSHTTPURLResponse*)response data:(NSData*)data;
++ (NSError*)errorFromHTTPResponse: (NSHTTPURLResponse*)response data:(NSData*)data;
 
 @end

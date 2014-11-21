@@ -12,17 +12,6 @@
 "1003" = "That username is taken!";
 "1004" = "Your username must be between 3 and 12 characters!";
 "1005" = "You password must be longer than 6 characters!";
-"1006" = "You are not old enough to use Hey You!"
+"1006" = "You are not old enough to use Hey You!";
 "1007" = "An error occurred! Try again later.";
 "1008" = "An error occurred! Try again later.";
-
-
-/*  HYUserNotLoggedInError = 1000,
-    HYUserBadToken,
-    HYBadUsernamePasswordError,
-    HYUsernameTaken,
-    HYUsernameLengthError,
-    HYPasswordLengthError,
-    HYUserCreateUnderageError,
-    HYClientError,
-    HYServerError */
