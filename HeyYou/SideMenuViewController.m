@@ -285,7 +285,7 @@
     //self.userPostsView.transform = CGAffineTransformIdentity;
     self.bestofView.transform = CGAffineTransformIdentity;
     self.createAccountButton.transform = self.createAccountOffstage;
-    //self.createView.transform = self.loginCreateOffstage;
+    self.createView.transform = self.loginCreateOffstage;
     self.loginView.transform = self.loginCreateOffstage;
   } completion:^(BOOL finished) {
     self.heyYouTitle.text = [NSString stringWithFormat:@"Hey You!"];

@@ -53,24 +53,9 @@
   }
   self.colorBar.backgroundColor = self.color;
   self.timeLabel.text = [self getFuzzyDateFromDate:self.dot.timestamp];
-  [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
-    if (dot != nil) {
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        self.dot = dot;
-        [self.tableView reloadData];
-      }];
-    } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [alert show];
-    }
-  }];
+  
+  [self requestDot];
+
   NSArray *sublayers = self.view.layer.sublayers;
   for (CAShapeLayer *layer in sublayers) {
     if ([layer isKindOfClass:[CAShapeLayer class]]) {
@@ -158,8 +143,8 @@
   
     [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
       if (success) {
+        [self requestDot];
         [self.tableView reloadData];
-        self.writeCommentTextField.text = @"";
       } else {
         [self showAlertViewWithError:error];
       }
@@ -248,6 +233,29 @@
     return [NSString stringWithFormat:@"%d hours ago", (int)(secondsSinceNow / 60 / 60)];
   }
   return @"Unknown!";
+}
+
+-(void)requestDot {
+  
+  [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
+    if (dot != nil) {
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        self.dot = dot;
+        [self.tableView reloadData];
+      }];
+    } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      if (error == nil) {
+        alert.message = @"An error occurred. Please try again later.";
+      }
+      [alert show];
+    }
+  }];
+  
 }
   
 

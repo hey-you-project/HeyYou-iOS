@@ -280,6 +280,8 @@
             if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
               NSLog(@"Success! Created user!");
               [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 completionHandler(nil, YES);
               }];
             }
