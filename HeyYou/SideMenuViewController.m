@@ -169,6 +169,8 @@
       NSDate *birthday = [self dateFromBirthdayPicker:self.birthdayPicker];
       [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSError *error, bool success) {
         if (success) {
+          [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
+          [[NSUserDefaults standardUserDefaults] synchronize];
           [self.activityIndicator stopAnimating];
           self.state = MenuStateLoggedIn;
           [self removeCreateAnimation:username];
@@ -266,6 +268,7 @@
     self.bestofView.transform = CGAffineTransformIdentity;
     self.createAccountButton.transform = self.createAccountOffstage;
     self.createView.transform = self.loginCreateOffstage;
+    self.cancelButtonTwo.alpha = 0;
   } completion:^(BOOL finished) {
     self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", username];
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -421,7 +424,7 @@
 }
 
 -(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
-  
+  [self dismissViewControllerAnimated:true completion:nil];
 }
 
 @end

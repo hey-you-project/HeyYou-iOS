@@ -11,7 +11,7 @@
 #import "Dot.h"
 @class MapViewController;
 
-@interface PostViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
+@interface PostViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextView *bodyTextField;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextField;

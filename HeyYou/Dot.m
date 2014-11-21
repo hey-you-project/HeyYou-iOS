@@ -15,7 +15,6 @@
     self.color = color;
     self.title = title;
     self.stars = 0;
-    self.username = @"RonSwanson";
   self.body = body;
     return self;
 }
@@ -24,10 +23,10 @@
   
   NSError *error;
   NSArray * dotsArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-  NSLog(@"DotsArray: %@", dotsArray.description);
+  // NSLog(@"DotsArray: %@", dotsArray.description);
   NSMutableArray *tempArray = [NSMutableArray new];
   if ([dotsArray isKindOfClass:[NSDictionary class]]) {
-    NSLog(@"Found Dict!");
+    //NSLog(@"Found Dict!");
     dotsArray = @[dotsArray];
   }
   
@@ -69,7 +68,7 @@
     [dotJSON setObject:self.title forKey:@"title"];
     [dotJSON setObject:self.body forKey:@"post"];
     [dotJSON setObject:self.username forKey:@"username_id"];
-    NSLog(@"%@", [dotJSON description]);
+  //NSLog(@"%@", [dotJSON description]);
     NSError *error;
     NSData *dataToReturn = [NSJSONSerialization dataWithJSONObject:dotJSON options:0 error: &error];
     return dataToReturn;

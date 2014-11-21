@@ -22,6 +22,7 @@
 		151264101A1EB96C00D13419 /* ErrorsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1512640F1A1EB96C00D13419 /* ErrorsHandler.m */; };
 		151264121A1EC10800D13419 /* ErrorsHandler.strings in Resources */ = {isa = PBXBuildFile; fileRef = 151264111A1EC10800D13419 /* ErrorsHandler.strings */; };
 		7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */; };
+		7E089DE31A1F658100D78F38 /* generated (1).json in Resources */ = {isa = PBXBuildFile; fileRef = 7E089DE21A1F658100D78F38 /* generated (1).json */; };
 		7E1689151A1BDE5D00BA4DE6 /* mediumbluecircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E16890E1A1BDE5D00BA4DE6 /* mediumbluecircle.png */; };
 		7E1689181A1BDE5D00BA4DE6 /* mediumpinkcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689111A1BDE5D00BA4DE6 /* mediumpinkcircle.png */; };
 		7E16891B1A1BDE5E00BA4DE6 /* mediumyellowcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689141A1BDE5D00BA4DE6 /* mediumyellowcircle.png */; };
@@ -88,6 +89,7 @@
 		151264111A1EC10800D13419 /* ErrorsHandler.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ErrorsHandler.strings; sourceTree = "<group>"; };
 		7E0790321A1BCC3C00858BD7 /* DotAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotAnnotation.h; sourceTree = "<group>"; };
 		7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotAnnotation.m; sourceTree = "<group>"; };
+		7E089DE21A1F658100D78F38 /* generated (1).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "generated (1).json"; sourceTree = "<group>"; };
 		7E1689041A1BD37F00BA4DE6 /* Oval 3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Oval 3.pdf"; sourceTree = "<group>"; };
 		7E16890E1A1BDE5D00BA4DE6 /* mediumbluecircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumbluecircle.png; sourceTree = "<group>"; };
 		7E16890F1A1BDE5D00BA4DE6 /* mediumgreencircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumgreencircle.png; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 		150C41731A1A6DF10062DE29 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7E089DE21A1F658100D78F38 /* generated (1).json */,
 				7E5F2C7F1A1E6E830052713F /* color-circles-408988.jpg */,
 				7E5F2C7D1A1E6E6E0052713F /* tinker-451865.jpg */,
 				7E4B2AE11A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf */,
@@ -382,6 +385,7 @@
 				7E1689151A1BDE5D00BA4DE6 /* mediumbluecircle.png in Resources */,
 				7E4B2AF51A1DB7CE00C931E2 /* SanFranciscoText-Medium.otf in Resources */,
 				7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */,
+				7E089DE31A1F658100D78F38 /* generated (1).json in Resources */,
 				7E4B2AF91A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf in Resources */,
 				7E16891B1A1BDE5E00BA4DE6 /* mediumyellowcircle.png in Resources */,
 				7E5F2C801A1E6E830052713F /* color-circles-408988.jpg in Resources */,

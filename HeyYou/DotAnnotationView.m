@@ -12,8 +12,9 @@
 
 - (void)drawRect:(CGRect)rect {
   //if(self.type == 1 ) {
+  CGFloat width = rect.size.width;
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetLineWidth(context, 2.0);
+    CGContextSetLineWidth(context, width / 10.0f);
     CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
     CGContextSetFillColorWithColor(context, self.color.CGColor);
     CGContextAddEllipseInRect(context, CGRectInset(rect, 3, 3));

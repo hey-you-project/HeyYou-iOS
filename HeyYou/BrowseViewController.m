@@ -45,9 +45,7 @@
   self.timeLabel.text = [self.dateFormatter stringFromDate:self.dot.timestamp];
   [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
     if (dot != nil) {
-      NSLog(@"Returned dot:%@", dot.body);
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        NSLog(@"Back in VC, dot body = %@", dot.body);
         self.dot = dot;
         [self.tableView reloadData];
       }];
@@ -137,13 +135,14 @@
 }
 
 - (IBAction)chatButtonPressed:(id)sender {
-  NSLog(@"Chat Button Pressed with text %@",self.writeCommentTextField.text);
+  //NSLog(@"Chat Button Pressed with text %@",self.writeCommentTextField.text);
 }
 
 
 - (IBAction)cancelPressed:(id)sender {
   
   [self removeCommentBox];
+  
   
 }
 - (IBAction)submitPressed:(id)sender {
@@ -183,6 +182,7 @@
 }
 
 -(void) removeCommentBox {
+  [self.writeCommentTextField resignFirstResponder];
   self.commentConstraint.constant -= 140;
   self.chatConstraint.constant -= 140;
   

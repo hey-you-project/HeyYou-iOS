@@ -36,10 +36,8 @@
 #pragma mark GET methods
 
 - (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSError *error, NSArray *dots))completionHandler {
+  NSLog(@"Making dot request!");
     NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
-    NSNumber *latitude = [NSNumber numberWithDouble:(region.center.latitude)];
-    NSLog(@"%@", [latitude stringValue]);
-    NSLog(@"Sent Region: Longitude: %f", region.center.latitude);
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
     request.HTTPMethod = @"GET";
@@ -47,7 +45,6 @@
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:geoframeDictionary options:0 error:&error];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", jsonString);
     [request setValue:jsonString forHTTPHeaderField:@"Zone"];
   // NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
   //    NSLog(@"Token:%@", token);
@@ -96,14 +93,14 @@
         NSInteger statusCode = httpResponse.statusCode;
         if (statusCode >= 200 && statusCode <= 299) {
           NSArray *array = [Dot parseJSONIntoDots:data];
-          NSLog(@"getDotByID: received %@", [array description]);
+          //NSLog(@"getDotByID: received %@", [array description]);
           if (array.count > 0 && [array[0] isKindOfClass:[Dot class]]) {
             Dot *dot = array[0];
-            NSLog(@"dot body = %@", dot.body);
+            //NSLog(@"dot body = %@", dot.body);
             completionHandler(nil,dot);
           }
         } else {
-          NSLog(@"%@", httpResponse.description);
+          //NSLog(@"%@", httpResponse.description);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(responseError, nil);

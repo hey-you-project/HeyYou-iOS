@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSOperationQueue *processingQueue;
 
 //// MARK: Color Palette
 @property (nonatomic, strong) UIColor *customDarkOrange;
@@ -60,6 +61,7 @@
   self.poppedDotIDs = [NSMutableArray new];
   
   self.mapView.delegate = self;
+  self.processingQueue = [NSOperationQueue new];
 
   self.kHorizontalCurveOffset = 2;
   self.kVerticalCurveOffset = 15;
@@ -227,7 +229,6 @@
 }
 
 -(void) receivedTapGestureOnHamburgerButton:(UITapGestureRecognizer *)sender{
-  NSLog(@"REcongiexed Touch!");
   
   if (sender.state == UIGestureRecognizerStateEnded) {
     [self toggleSideMenu];
@@ -311,6 +312,8 @@
   CGPathCloseSubpath  (triangle);
   
   CGPathAddPath(combinedPath, nil, triangle);
+  
+  
 
   CAShapeLayer *shapeLayer = [CAShapeLayer new];
   shapeLayer.path = combinedPath;
@@ -322,6 +325,11 @@
   subLayer.strokeColor = [self getColorFromString:self.clickedDot.color].CGColor;
   subLayer.lineWidth = 5;
   subLayer.fillColor = nil;
+  
+  CALayer *reduceLayer = [CALayer new];
+  reduceLayer.frame = CGRectMake(newTouchPoint.x - 7, newTouchPoint.y - 23, 14, 2);
+  reduceLayer.backgroundColor = [UIColor whiteColor].CGColor;
+  [viewController.view.layer addSublayer:reduceLayer];
   
   viewController.view.layer.mask = shapeLayer;
   viewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
@@ -443,15 +451,18 @@
 }
 
 -(void)populateDotsOnMap {
-  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+  
+  [self.processingQueue addOperationWithBlock:^{
     for (Dot * dot in self.dots) {
       if (![self.poppedDotIDs containsObject:dot.identifier]) {
         [self.poppedDotIDs addObject:dot.identifier];
-        [self addNewAnnotationForDot:dot];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+          [self addNewAnnotationForDot:dot];
+        }];
       }
     }
-    
   }];
+
 }
 
 -(void)addNewAnnotationForDot:(Dot*) dot {
@@ -501,28 +512,25 @@
   
   DotAnnotationView *view = (DotAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
   if (view == nil) {
-    NSLog(@"Creating new!");
     view = [[DotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
   }
   DotAnnotation *anno = view.annotation;
   view.color = [self getColorFromString:anno.dot.color];
-  NSLog(@"%@", anno.dot.color);
   
   CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
-  view.frame = CGRectMake(center.x-12.5, center.y-12.5, 25, 25);
+  view.frame = CGRectMake(center.x-20, center.y-20, 40, 40);
   view.backgroundColor = [UIColor clearColor];
 
-  view.layer.shadowColor = [[UIColor blackColor] CGColor];
-  view.layer.shadowOpacity = 0.6;
-  view.layer.shadowRadius = 3.0;
-  view.layer.shadowOffset = CGSizeMake(0, 2);
+//  view.layer.shadowColor = [[UIColor blackColor] CGColor];
+//  view.layer.shadowOpacity = 0.6;
+//  view.layer.shadowRadius = 3.0;
+//  view.layer.shadowOffset = CGSizeMake(0, 2);
   
   view.transform = CGAffineTransformMakeScale(0.1, 0.1);
   int random = arc4random_uniform(400);
   double random2 = random / 1000.0f;
   
   NSTimeInterval delay = (NSTimeInterval)random2;
-  NSLog(@"%f", delay);
   view.alpha = 0;
   
   [UIView animateWithDuration:0.5 delay:delay usingSpringWithDamping:0.3 initialSpringVelocity:0.9 options:UIViewAnimationOptionAllowUserInteraction animations:^{
@@ -536,7 +544,6 @@
 }
 
 -(UIColor *) getColorFromString:(NSString *) colorName {
-  NSLog(@"%@", colorName);
   if ([colorName isEqualToString:@"orange"]) {
     return self.flatOrange;
   } else if ([colorName isEqualToString:@"blue"]) {
@@ -556,11 +563,14 @@
 }
 
 -(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
+
+}
+
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
     if (dots != nil) {
       self.dots = dots;
       [self populateDotsOnMap];
-      NSLog(@"%@", self.dots.description);
     } else {
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                       message:[error localizedDescription]
@@ -573,6 +583,7 @@
       [alert show];
     }
   }];
+  
 }
   
 
