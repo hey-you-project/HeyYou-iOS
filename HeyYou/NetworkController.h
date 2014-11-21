@@ -16,16 +16,16 @@
 
 + (id)sharedController;
 
-- (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSString *, NSArray *))completionHandler;
+- (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSError **error, NSArray *dots))completionHandler;
 
-- (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSString *error, bool success))completionHandler;
+- (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSError **error, bool success))completionHandler;
 
-- (void)postDot: (Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler;
+- (void)postDot: (Dot*)dot completionHandler: (void (^)(NSError **error, bool success))completionHandler;
 
-- (void)createUserWithUsername: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email completionHandler:(void (^)(NSString *error, bool success))completionHandler;
+- (void)createUserWithUsername: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email completionHandler:(void (^)(NSError **error, bool success))completionHandler;
 
-- (void)postComment: (NSString *) comment forDot:(Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler;
+- (void)postComment: (NSString *) comment forDot:(Dot*)dot completionHandler: (void (^)(NSError **error, bool success))completionHandler;
 
-- (void)getDotByID: (NSString *)dotID completionHandler: (void (^)(NSString * error, Dot * dot))completionHandler;
+- (void)getDotByID: (NSString *)dotID completionHandler: (void (^)(NSError ** error, Dot * dot))completionHandler;
 
 @end

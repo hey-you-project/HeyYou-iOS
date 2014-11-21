@@ -19,6 +19,7 @@
 		150C41A51A1A77C20062DE29 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41A41A1A77C20062DE29 /* Comment.m */; };
 		150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41AC1A1AAD6F0062DE29 /* NetworkController.m */; };
 		1512640D1A1E7F5500D13419 /* NSString+Validate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1512640C1A1E7F5500D13419 /* NSString+Validate.m */; };
+		151264101A1EB96C00D13419 /* ErrorsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1512640F1A1EB96C00D13419 /* ErrorsHandler.m */; };
 		7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */; };
 		7E1689151A1BDE5D00BA4DE6 /* mediumbluecircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E16890E1A1BDE5D00BA4DE6 /* mediumbluecircle.png */; };
 		7E1689181A1BDE5D00BA4DE6 /* mediumpinkcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689111A1BDE5D00BA4DE6 /* mediumpinkcircle.png */; };
@@ -79,6 +80,8 @@
 		150C41AC1A1AAD6F0062DE29 /* NetworkController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkController.m; sourceTree = "<group>"; };
 		1512640B1A1E7F5500D13419 /* NSString+Validate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Validate.h"; sourceTree = "<group>"; };
 		1512640C1A1E7F5500D13419 /* NSString+Validate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Validate.m"; sourceTree = "<group>"; };
+		1512640E1A1EB8CB00D13419 /* ErrorsHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorsHandler.h; sourceTree = "<group>"; };
+		1512640F1A1EB96C00D13419 /* ErrorsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorsHandler.m; sourceTree = "<group>"; };
 		7E0790321A1BCC3C00858BD7 /* DotAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotAnnotation.h; sourceTree = "<group>"; };
 		7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotAnnotation.m; sourceTree = "<group>"; };
 		7E1689041A1BD37F00BA4DE6 /* Oval 3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Oval 3.pdf"; sourceTree = "<group>"; };
@@ -227,6 +230,8 @@
 			children = (
 				150C41AB1A1AAD6F0062DE29 /* NetworkController.h */,
 				150C41AC1A1AAD6F0062DE29 /* NetworkController.m */,
+				1512640E1A1EB8CB00D13419 /* ErrorsHandler.h */,
+				1512640F1A1EB96C00D13419 /* ErrorsHandler.m */,
 				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
 				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
 				7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */,
@@ -383,6 +388,7 @@
 				150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */,
 				1512640D1A1E7F5500D13419 /* NSString+Validate.m in Sources */,
 				7E6E34E61A1A994A00FF6776 /* MapViewController.m in Sources */,
+				151264101A1EB96C00D13419 /* ErrorsHandler.m in Sources */,
 				7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */,
 				7E1689231A1C44CA00BA4DE6 /* DotAnnotationView.m in Sources */,
 				7E6E34E41A1A91ED00FF6776 /* PostViewController.m in Sources */,
