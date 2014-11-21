@@ -30,4 +30,6 @@
 
 - (void)getDotByID: (NSString *)dotID completionHandler: (void (^)(NSError * error, Dot * dot))completionHandler;
 
+- (void)postToggleStarOnDot: (Dot*)dot completionHandler:(void (^)(NSError *error, bool success))completionHandler;
+
 @end

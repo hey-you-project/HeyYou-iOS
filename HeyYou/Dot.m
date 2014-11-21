@@ -37,7 +37,8 @@
     dot.body = dotDict[@"post"];
     dot.identifier = dotDict[@"_id"];
     dot.color = dotDict[@"color"];
-    dot.stars = dotDict[@"stars"];
+    dot.stars = [NSNumber numberWithInteger: [dotDict[@"stars"] integerValue]];
+    NSLog(@"stars are: %@", dot.stars);
     NSString *hasStarred = dotDict[@"starred"];
     if ([hasStarred  isEqual: @"1"]) {
       dot.userHasStarred = YES;

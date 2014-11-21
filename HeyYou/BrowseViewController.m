@@ -156,22 +156,35 @@
 - (void)didTapStar:(UITapGestureRecognizer *)sender {
   self.userDidStar = !self.userDidStar;
   
-  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-  [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-  NSNumber *stars = [formatter numberFromString:self.numberOfStarsLabel.text];
-  NSInteger starsIntValue = [stars integerValue];
-  
-  if (self.userDidStar) {
-    NSLog(@"Changing to filled!");
-    self.star.text = @"\ue105";
-    starsIntValue++;
-  } else {
-    NSLog(@"Changing to empty!");
-    self.star.text = @"\ue108";
-    starsIntValue--;
-  }
-  stars = [NSNumber numberWithInteger:starsIntValue];
-  self.numberOfStarsLabel.text = [stars stringValue];
+  [[NetworkController sharedController] postToggleStarOnDot:self.dot completionHandler:^(NSError *error, bool success) {
+    if (success) {
+      NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+      [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+      NSNumber *stars = [formatter numberFromString:self.numberOfStarsLabel.text];
+      NSInteger starsIntValue = [stars integerValue];
+      if (self.userDidStar) {
+        NSLog(@"Changing to filled!");
+        self.star.text = @"\ue105";
+        starsIntValue++;
+      } else {
+        NSLog(@"Changing to empty!");
+        self.star.text = @"\ue108";
+        starsIntValue--;
+      }
+      stars = [NSNumber numberWithInteger:starsIntValue];
+      self.numberOfStarsLabel.text = [stars stringValue];
+    } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      if (error == nil) {
+        alert.message = @"An error occurred. Please try again later.";
+      }
+      [alert show];
+    }
+  }];
 
 }
 
@@ -242,6 +255,7 @@
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         self.dot = dot;
         [self.tableView reloadData];
+        self.numberOfStarsLabel.text = [self.dot.stars stringValue];
       }];
     } else {
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"

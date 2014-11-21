@@ -301,6 +301,42 @@
   [dataTask resume];
 }
 
+- (void)postToggleStarOnDot: (Dot*)dot completionHandler:(void (^)(NSError *error, bool success))completionHandler {
+  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/stars/%@", self.url, dot.identifier];
+  NSLog(@"%@", fullURLString);
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"POST";
+  NSString *token = [[NetworkController sharedController] token];
+  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  [request setValue:token forHTTPHeaderField:@"jwt"];
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error != nil) {
+      NSLog(@"%@", error.localizedDescription);
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        completionHandler(error, NO);
+      }];
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            completionHandler(nil, YES);
+          }];
+        } else {
+          NSLog(@"%@", httpResponse.description);
+          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
+          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            completionHandler(responseError, NO);
+          }];
+        }
+      }
+    }
+  }];
+  [dataTask resume];
+}
+
 #pragma mark Helper methods
 
 - (NSDictionary*)getCoordRangeFromRegion: (MKCoordinateRegion) coordRegion {
