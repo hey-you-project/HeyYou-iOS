@@ -77,7 +77,7 @@
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   NetworkController *networkController = [NetworkController sharedController];
-  [networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSString * string, NSArray * array) {
+  [networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError * string, NSArray * array) {
     self.dots = array;
     [self populateDotsOnMap];
     NSLog(@"%@", self.dots.description);

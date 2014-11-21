@@ -64,7 +64,7 @@
     [self.delegate returnDragCircleToHomeBase];
   }];
   
-  [self.networkController postDot:dot completionHandler:^(NSString *error, bool success) {
+  [self.networkController postDot:dot completionHandler:^(NSError *error, bool success) {
     if (success) {
       
     }

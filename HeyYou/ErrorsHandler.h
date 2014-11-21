@@ -10,7 +10,12 @@ FOUNDATION_EXPORT NSString *const HeyYouErrorDomain;
 
 enum {
   HYUserNotLoggedInError = 1000,
-  HYBadRequestError,
-  HYJSONParsingError,
-  HY500LevelError
+  HYUserBadToken,                 //1001
+  HYBadUsernamePasswordError,     //1002
+  HYUsernameTaken,                //1003
+  HYUsernameLengthError,          //1004
+  HYPasswordLengthError,          //1005
+  HYUserCreateUnderageError,      //1006
+  HYClientError,                  //1007
+  HYServerError                   //1008
 };

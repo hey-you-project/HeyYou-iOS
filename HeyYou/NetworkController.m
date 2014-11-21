@@ -35,7 +35,7 @@
 
 #pragma mark GET methods
 
-- (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSError **error, NSArray *dots))completionHandler {
+- (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSError *error, NSArray *dots))completionHandler {
     NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -69,7 +69,7 @@
     [dataTask resume];
 }
 
-- (void)getDotByID: (NSString *)dotID completionHandler: (void (^)(NSError **error, Dot * dot))completionHandler {
+- (void)getDotByID: (NSString *)dotID completionHandler: (void (^)(NSError *error, Dot * dot))completionHandler {
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/%@", self.url, dotID];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -98,7 +98,7 @@
   [dataTask resume];
 }
 
-- (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSError **error, bool success))completionHandler {
+- (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSError *error, bool success))completionHandler {
   NSString *fullURLString = [NSString stringWithFormat:@"%@api/users/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -129,7 +129,9 @@
             }
           }
         } else {
-          NSLog(@"%@", httpResponse.description);
+          NSLog(@"%@", httpResponse);
+          NSString *responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+          NSLog(@"%@", responseBody);
         }
       }
     }
@@ -139,7 +141,7 @@
 
 #pragma mark POST methods
 
-- (void)postDot: (Dot*)dot completionHandler: (void (^)(NSError **error, bool success))completionHandler {
+- (void)postDot: (Dot*)dot completionHandler: (void (^)(NSError *error, bool success))completionHandler {
     NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
     NSURL *fullURL = [NSURL URLWithString:fullURLString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -176,7 +178,7 @@
     [dataTask resume];
 }
 
-- (void)postComment: (NSString *) comment forDot:(Dot*)dot completionHandler: (void (^)(NSError **error, bool success))completionHandler {
+- (void)postComment: (NSString *) comment forDot:(Dot*)dot completionHandler: (void (^)(NSError *error, bool success))completionHandler {
   NSLog(@"Post Comment Called!");
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/comments/%@", self.url, dot.identifier];
   NSLog(@"%@", fullURLString);
@@ -217,7 +219,7 @@
   [dataTask resume];
 }
 
-- (void)createUserWithUsername: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email completionHandler:(void (^)(NSError **error, bool success))completionHandler {
+- (void)createUserWithUsername: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email completionHandler:(void (^)(NSError *error, bool success))completionHandler {
   NSString *fullURLString = [NSString stringWithFormat: @"%@api/users/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];

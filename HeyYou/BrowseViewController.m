@@ -37,7 +37,7 @@
   self.username.text = self.dot.username;
   self.titleLabel.text = self.dot.title;
   self.body.text = self.dot.body;
-  [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSString *error, Dot *dot) {
+  [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
     NSLog(@"Returned dot:%@", dot.body);
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
       NSLog(@"Back in VC, dot body = %@", dot.body);
@@ -91,7 +91,7 @@
                           
                         }];
   } else {
-    [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSString *error, bool success) {
+    [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
       [self.tableView reloadData];
     }];
     
@@ -121,7 +121,7 @@
 - (IBAction)chatButtonPressed:(id)sender {
   NSLog(@"Chat Button Pressed with text %@",self.writeCommentTextField.text);
   
-  [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSString *error, bool success) {
+  [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
     [self.tableView reloadData];
   }];
   

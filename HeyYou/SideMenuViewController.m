@@ -104,7 +104,7 @@
     {
       NSString *username = self.usernameField.text;
       [self.activityIndicator startAnimating];
-      [[NetworkController sharedController] fetchTokenWithUsername:username password:self.passwordField.text completionHandler:^(NSString *error, bool success) {
+      [[NetworkController sharedController] fetchTokenWithUsername:username password:self.passwordField.text completionHandler:^(NSError *error, bool success) {
         if (success) {
           [self.activityIndicator stopAnimating];
           [self removeLoginAnimation:username];
@@ -132,7 +132,7 @@
       NSString *password = self.createPasswordField.text;
       NSString *email = self.createEmailField.text;
       NSDate *birthday = [self dateFromBirthdayPicker:self.birthdayPicker];
-      [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSString *error, bool success) {
+      [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSError *error, bool success) {
         if (success) {
           [self.activityIndicator stopAnimating];
           self.state = MenuStateLoggedIn;
