@@ -1,0 +1,17 @@
+/* 
+  ErrorsHandler.strings
+  HeyYou
+
+  Created by William Richman on 11/20/14.
+  Copyright (c) 2014 Hey You!. All rights reserved.
+*/
+
+"1000" = "You must be logged in to do this!";
+"1001" = "You need to log out and back in!";
+"1002" = "Your Username and/or password are incorrect!";
+"1003" = "That username is taken!";
+"1004" = "Your username must be between 3 and 12 characters!";
+"1005" = "You password must be longer than 6 characters!";
+"1006" = "You are not old enough to use Hey You!";
+"1007" = "An error occurred! Try again later.";
+"1008" = "An error occurred! Try again later.";
