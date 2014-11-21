@@ -76,6 +76,8 @@
   //Prepare default locations
   self.createView.transform = self.loginCreateOffstage;
   self.loginView.transform = self.loginCreateOffstage;
+  self.cancelButtonOne.transform = self.loginCreateOffstage;
+  self.cancelButtonTwo.transform = self.loginCreateOffstage;
   
   //Prepare date picker arrays
   self.monthArray = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
@@ -205,20 +207,21 @@
   }];
 }
 - (IBAction)pressedCancel:(id)sender {
-  
-  [self layoutBackToNormal];
-  
+  if (self.state == MenuStateCreateAccountScreen || self.state == MenuStateLoginScreen) {
+    self.state = MenuStateLoggedOut;
+    [self layoutBackToNormal];
+  }
 }
 
 #pragma mark Animation methods
 
 - (void)addLoginAnimation {
-  self.cancelButtonOne.hidden = NO;
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.heyYouTitle.transform = self.titleOffstage;
     self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
     self.createAccountButton.transform = self.createAccountOffstage;
     self.loginView.transform = CGAffineTransformIdentity;
+    self.cancelButtonOne.transform = CGAffineTransformIdentity;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.heyYouTitle.text = @"Hey you, log in!";
@@ -245,12 +248,13 @@
 }
 
 - (void)addCreateAnimation {
-  self.cancelButtonTwo.hidden = NO;
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.heyYouTitle.transform = self.titleOffstage;
     self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
     self.loginButton.transform = self.createAccountOffstage;
     self.createView.transform = CGAffineTransformIdentity;
+    self.createAccountButton.transform = CGAffineTransformMakeTranslation(0, -80);
+    self.cancelButtonTwo.transform = CGAffineTransformMakeTranslation(0, -80);
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.heyYouTitle.text = @"Hey, create an account!";
@@ -268,7 +272,7 @@
     self.bestofView.transform = CGAffineTransformIdentity;
     self.createAccountButton.transform = self.createAccountOffstage;
     self.createView.transform = self.loginCreateOffstage;
-    self.cancelButtonTwo.alpha = 0;
+    self.cancelButtonTwo.transform = self.loginCreateOffstage;
   } completion:^(BOOL finished) {
     self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", username];
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -278,23 +282,22 @@
 }
 
 - (void)layoutBackToNormal {
-  self.state = MenuStateLoggedOut;
-  self.bestofView.transform = CGAffineTransformMakeTranslation(-175, 0);
+  self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.heyYouTitle.transform = self.titleOffstage;
-    //self.userPostsView.transform = CGAffineTransformIdentity;
-    self.bestofView.transform = CGAffineTransformIdentity;
-    self.createAccountButton.transform = self.createAccountOffstage;
-    self.createView.transform = self.loginCreateOffstage;
+    self.bestofView.transform = self.bestofLoggedOut;
     self.loginView.transform = self.loginCreateOffstage;
+    self.createView.transform = self.loginCreateOffstage;
+    self.cancelButtonOne.transform = self.loginCreateOffstage;
+    self.cancelButtonTwo.transform = self.loginCreateOffstage;
+    self.loginButton.transform = CGAffineTransformIdentity;
+    self.createAccountButton.transform = CGAffineTransformIdentity;
   } completion:^(BOOL finished) {
     self.heyYouTitle.text = [NSString stringWithFormat:@"Hey You!"];
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.heyYouTitle.transform = CGAffineTransformIdentity;
     } completion: nil];
   }];
-
-  
   
 }
 
