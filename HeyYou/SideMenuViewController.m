@@ -311,7 +311,8 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 
   if (![string validate]) {
-    CGRect warningRect = CGRectMake(textField.center.x - (textField.bounds.size.width / 2) + 12, textField.center.y + textField.bounds.size.height + 8, textField.frame.size.width, 40);
+    CGSize warningSize = CGSizeMake(textField.frame.size.width, 40);
+    CGRect warningRect = CGRectMake(100 - warningSize.width / 2, textField.center.y + textField.bounds.size.height + 8, textField.frame.size.width, 40);
     UILabel *warningLabel = [[UILabel alloc] init];
     warningLabel.frame = warningRect;
     warningLabel.backgroundColor = [UIColor redColor];
