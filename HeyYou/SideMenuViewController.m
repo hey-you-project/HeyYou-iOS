@@ -90,6 +90,20 @@
   }
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+  
+  [super viewDidAppear:animated];
+  
+  [UIView animateWithDuration:40.0
+                        delay:0.0
+                      options:(UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut)
+                   animations:^{
+    self.imageView.transform = CGAffineTransformMakeTranslation(-2150, 0);
+                 } completion:^(BOOL finished) {
+                              }];
+
+}
+
 #pragma mark Button actions
 
 - (IBAction)pressedLogin:(id)sender {

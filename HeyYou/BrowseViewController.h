@@ -18,16 +18,23 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *body;
 @property (weak, nonatomic) IBOutlet UILabel *username;
+@property (weak, nonatomic) IBOutlet UIView *colorBar;
 
 @property (nonatomic, strong) Dot *dot;
+@property BOOL userDidStar;
+@property (weak, nonatomic) IBOutlet UIButton *starButton;
 
 @property (nonatomic, strong) NSArray *comments;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *chatConstraint;
 @property (weak, nonatomic) IBOutlet UITextView *writeCommentTextField;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfStarsLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *chatButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bodyTopConstraint;
+@property (nonatomic, strong) UIColor *color;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @end
