@@ -152,6 +152,7 @@
     [request setValue:[NSString stringWithFormat:@"%li", (unsigned long)length] forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+    NSLog(@"Token: %@", token);
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:token forHTTPHeaderField:@"jwt"];
     request.HTTPBody = dotJSONData;

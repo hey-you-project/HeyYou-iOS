@@ -146,7 +146,7 @@
                     <rect key="frame" x="184" y="328" width="232" height="51"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pNM-O0-4pk">
-                            <rect key="frame" x="104" y="0.0" width="24" height="51"/>
+                            <rect key="frame" x="104" y="-16" width="24" height="67"/>
                             <fontDescription key="fontDescription" name="typicons" family="Typicons" pointSize="48"/>
                             <color key="textColor" red="0.4549019608" green="0.15686274510000001" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -193,7 +193,7 @@
                         <constraint firstAttribute="bottom" secondItem="b0g-0y-Pkg" secondAttribute="bottom" id="2Uf-Hd-Kzt"/>
                         <constraint firstAttribute="bottom" secondItem="6nE-6F-RH5" secondAttribute="bottom" id="3wo-MR-L1A"/>
                         <constraint firstItem="pNM-O0-4pk" firstAttribute="leading" secondItem="9zs-vx-o76" secondAttribute="trailing" constant="8" id="47m-9M-utU"/>
-                        <constraint firstItem="pNM-O0-4pk" firstAttribute="top" secondItem="1hP-7J-iGM" secondAttribute="top" id="4Yp-cY-m99"/>
+                        <constraint firstItem="pNM-O0-4pk" firstAttribute="top" secondItem="1hP-7J-iGM" secondAttribute="top" constant="-16" id="4Yp-cY-m99"/>
                         <constraint firstAttribute="centerX" secondItem="pNM-O0-4pk" secondAttribute="centerX" id="7wj-P2-vaT"/>
                         <constraint firstItem="7aF-Fz-8sC" firstAttribute="top" secondItem="1hP-7J-iGM" secondAttribute="top" id="B19-1q-Jbd"/>
                         <constraint firstItem="7aF-Fz-8sC" firstAttribute="leading" secondItem="b0g-0y-Pkg" secondAttribute="trailing" constant="8" id="B4a-6d-b0C"/>

@@ -16,9 +16,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
   //self.window.rootViewController = [MapViewController new];
-  
   return YES;
 }
 

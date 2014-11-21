@@ -69,6 +69,7 @@
     [dotJSON setObject:self.title forKey:@"title"];
     [dotJSON setObject:self.body forKey:@"post"];
     [dotJSON setObject:self.username forKey:@"username_id"];
+    NSLog(@"%@", [dotJSON description]);
     NSError *error;
     NSData *dataToReturn = [NSJSONSerialization dataWithJSONObject:dotJSON options:0 error: &error];
     return dataToReturn;

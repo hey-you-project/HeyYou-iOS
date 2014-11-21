@@ -43,8 +43,8 @@
 -(void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  self.view.layer.borderColor = [self.colorUI CGColor];
-  self.view.layer.borderWidth = 2;
+//  self.view.layer.borderColor = [self.colorUI CGColor];
+//  self.view.layer.borderWidth = 2;
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {

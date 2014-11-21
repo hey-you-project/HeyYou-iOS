@@ -34,6 +34,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  self.writeCommentTextField.layer.cornerRadius = 10;
   self.username.text = self.dot.username;
   self.titleLabel.text = self.dot.title;
   self.titleLabel.textColor = self.color;
@@ -48,9 +49,18 @@
       [self.tableView reloadData];
     }];
   }];
+  NSArray *sublayers = self.view.layer.sublayers;
+  for (CAShapeLayer *layer in sublayers) {
+    if ([layer isKindOfClass:[CAShapeLayer class]]) {
+      NSLog(@"Found shape layer!");
+       layer.strokeColor = self.color.CGColor;
+      [layer setNeedsDisplay];
+      [layer setNeedsLayout];
+    }
+    
+  }
+  [self.view.layer setNeedsDisplay];
   
-  self.view.layer.borderColor = [self.color CGColor];
-  self.view.layer.borderWidth = 2;
 
 }
 
@@ -105,7 +115,7 @@
           initialSpringVelocity:0.4
                         options:UIViewAnimationOptionAllowUserInteraction animations:^{
                           [self.view layoutSubviews];
-                          self.writeCommentTextField.alpha = 0.3;
+                          self.writeCommentTextField.alpha = 1;
                           
                         } completion:^(BOOL finished) {
                           //self.commentButton.titleLabel.text = @"Cancel";

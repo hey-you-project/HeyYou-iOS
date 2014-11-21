@@ -15,10 +15,10 @@
 @property CGFloat kHorizontalCurveOffset;
 @property CGFloat kVerticalCurveOffset;
 @property CGFloat kLargePopupHeight;
-@property NSArray *dots;
-@property NSMutableArray *poppedDotIDs;
-
-@property NSMutableDictionary *popups;
+@property (nonatomic, strong) NSArray *dots;
+@property (nonatomic, strong) NSMutableArray *poppedDotIDs;
+@property (nonatomic, strong) Dot *clickedDot;
+@property (nonatomic, strong) NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
@@ -46,6 +46,7 @@
   self.popups = [NSMutableDictionary new];
   
   self.flatGreen = [UIColor colorWithRed:46/255.0 green:204/255.0 blue:113/255.0 alpha: 1];
+    self.flatPurple     = [UIColor colorWithRed: 155 / 255.0 green: 89  / 255.0 blue: 182 / 255.0 alpha: 1];
   
   [self setupSideMenu];
   [self setupMapView];
@@ -58,6 +59,8 @@
   [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
   self.poppedDotIDs = [NSMutableArray new];
   
+
+  
   self.mapView.delegate = self;
 
   self.kHorizontalCurveOffset = 2;
@@ -66,7 +69,7 @@
   
   self.flatTurquoise  = [UIColor colorWithRed: 26  / 255.0 green: 188 / 255.0 blue: 156 / 255.0 alpha: 1];
   self.flatBlue       = [UIColor colorWithRed: 52  / 255.0 green: 152 / 255.0 blue: 219 / 255.0 alpha: 1];
-  self.flatPurple     = [UIColor colorWithRed: 155 / 255.0 green: 89  / 255.0 blue: 182 / 255.0 alpha: 1];
+
   self.flatYellow     = [UIColor colorWithRed: 241 / 255.0 green: 196 / 255.0 blue: 15  / 255.0 alpha: 1];
   self.flatOrange     = [UIColor colorWithRed: 212 / 255.0 green: 83  / 255.0 blue: 36  / 255.0 alpha: 1];
   self.flatRed        = [UIColor colorWithRed: 212 / 255.0 green: 37  / 255.0 blue: 37  / 255.0 alpha: 1];
@@ -78,9 +81,9 @@
   UIVisualEffectView *visualEffectView;
   visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
   visualEffectView.frame = statusBar.frame;
-  [self.view addSubview:visualEffectView];
+  [self.mapView addSubview:visualEffectView];
   statusBar.backgroundColor = [self.flatGreen colorWithAlphaComponent:0.8];
-  [self.view addSubview:statusBar];
+  [self.mapView addSubview:statusBar];
   
 }
 
@@ -108,7 +111,7 @@
 }
 
 - (void)setupMapView {
-  self.mapView = [[MKMapView alloc] initWithFrame:self.view.frame];
+  self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width + 100, self.view.frame.size.height)];
   [self.view addSubview:self.mapView];
   self.mapView.clipsToBounds = true;
   self.mapView.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -139,7 +142,7 @@
 
   self.draggableCircle = [[UIView alloc] initWithFrame:miniCircleRect];
   self.draggableCircle.layer.cornerRadius = self.draggableCircle.frame.size.height / 2;
-  self.draggableCircle.backgroundColor = self.flatGreen;
+  self.draggableCircle.backgroundColor = self.flatPurple;
   self.originalCircleCenter = self.draggableCircle.center;
   
   self.draggableCircle.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -174,7 +177,7 @@
   self.hamburgerLabel = [[UILabel alloc] initWithFrame:labelRect];
   self.hamburgerLabel.text = @"\ue116";
   self.hamburgerLabel.font = [UIFont fontWithName:@"typicons" size:30];
-  self.hamburgerLabel.textColor = self.flatGreen;
+  self.hamburgerLabel.textColor = self.flatPurple;
   
   self.hamburgerLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.hamburgerLabel.layer.shadowOpacity = 0.8;
@@ -218,6 +221,7 @@
     PostViewController *postVC = [PostViewController new];
     postVC.location = [self.mapView convertPoint:point toCoordinateFromView:self.view];
     postVC.delegate = self;
+    postVC.colorUI = self.flatPurple;
     self.currentPopup = postVC;
     [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
   }
@@ -265,6 +269,7 @@
         initialSpringVelocity:0.4
                       options:UIViewAnimationOptionAllowUserInteraction animations:^{
                         self.draggableCircle.center = self.originalCircleCenter;
+                        self.draggableCircle.backgroundColor = self.flatPurple;
                       } completion:^(BOOL finished) {
                         
                       }];
@@ -299,6 +304,7 @@
   CGPoint newTouchPoint = [viewController.view convertPoint:point fromView:self.view];
   
   CGPathMoveToPoint   (triangle, nil, newTouchPoint.x,      newTouchPoint.y);
+
   CGPathAddArcToPoint (triangle, nil, newTouchPoint.x - 2,  newTouchPoint.y - 15, newTouchPoint.x - 10, newTouchPoint.y - 20, 20);
   CGPathAddLineToPoint(triangle, nil, newTouchPoint.x - 10, newTouchPoint.y - 20);
   CGPathAddLineToPoint(triangle, nil, newTouchPoint.x + 10, newTouchPoint.y - 20);
@@ -312,17 +318,14 @@
   shapeLayer.path = combinedPath;
   
   CAShapeLayer *subLayer = [CAShapeLayer new];
-  //[viewController.view.layer addSublayer:subLayer];
+  [viewController.view.layer addSublayer:subLayer];
   subLayer.path = combinedPath;
-  subLayer.backgroundColor = [[UIColor clearColor] CGColor];
   subLayer.frame = viewController.view.layer.bounds;
-  subLayer.borderColor = self.flatBlue.CGColor;
-  subLayer.borderWidth = 2;
-
-  viewController.view.layer.mask = shapeLayer;
-  [viewController.view.layer setNeedsDisplay];
-  [subLayer setNeedsDisplay];
+  subLayer.strokeColor = [self getColorFromString:self.clickedDot.color].CGColor;
+  subLayer.lineWidth = 5;
+  subLayer.fillColor = nil;
   
+  viewController.view.layer.mask = shapeLayer;
   viewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
   
   [UIView animateWithDuration:0.4
@@ -402,10 +405,11 @@
   
   if (self.mapView.frame.origin.x == 0){
     [self returnDragCircleToHomeBase];
+    self.sideMenuVC.blueEffectView.hidden = NO;
     newMapViewFrame.origin.x += 200;
     newDragWrapperFrame.origin.x += 200;
     newDraggableFrame.origin.x += 200;
-    newHamburgerFrame.origin.x += 20;
+    newHamburgerFrame.origin.x += 30;
     newHamLabelFrame.origin.x += 6;
     newString = @"\ue122";
     transform = CGAffineTransformMakeScale(1.4, 1.4);
@@ -413,14 +417,12 @@
     newMapViewFrame.origin.x -= 200;
     newDragWrapperFrame.origin.x -= 200;
     newDraggableFrame.origin.x -= 200;
-    newHamburgerFrame.origin.x -= 20;
+    newHamburgerFrame.origin.x -= 30;
     newHamLabelFrame.origin.x -= 6;
     newString = @"\ue116";
-    transform = CGAffineTransformMakeScale(1, 1);
+    transform = CGAffineTransformIdentity;
   }
   [self unpopCurrentComment];
-  NSLog(@"Toggle Called!");
-  
   
   [UIView animateWithDuration:0.4
                         delay:0.0
@@ -428,9 +430,6 @@
         initialSpringVelocity:0.4
                       options:UIViewAnimationOptionAllowUserInteraction
                    animations:^{
-                     NSLog(@"Checking for animations!");
-                   
-                     NSLog(@"Animations Called");
                      self.mapView.frame = newMapViewFrame;
                      self.dragCircleWrapper.frame = newDragWrapperFrame;
                      self.draggableCircle.frame = newDraggableFrame;
@@ -439,7 +438,9 @@
                      self.hamburgerLabel.text = newString;
                      self.hamburgerLabel.transform = transform;
                    } completion:^(BOOL finished) {
-                    
+                     if (self.mapView.frame.origin.x == 0){
+                       self.sideMenuVC.blueEffectView.hidden = YES;
+                     }
                    }];
 }
 
@@ -479,6 +480,7 @@
   DotAnnotation *annotation = view.annotation;
   dotVC.color = [self getColorFromString:annotation.dot.color];
   dotVC.dot = annotation.dot;
+  self.clickedDot = annotation.dot;
   dotVC.dateFormatter = self.dateFormatter;
   
   self.currentPopup = dotVC;
@@ -518,8 +520,8 @@
   view.layer.shadowOffset = CGSizeMake(0, 2);
   
   view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-  int random = arc4random_uniform(4);
-  double random2 = random / 10.0f;
+  int random = arc4random_uniform(400);
+  double random2 = random / 1000.0f;
   
   NSTimeInterval delay = (NSTimeInterval)random2;
   NSLog(@"%f", delay);
@@ -563,5 +565,6 @@
     }];
   
 }
+
 
 @end

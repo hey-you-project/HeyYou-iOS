@@ -36,5 +36,6 @@
 @property (nonatomic, strong) UIColor *color;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) CAShapeLayer *sublayer;
 
 @end

@@ -90,15 +90,25 @@
   }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  self.usernameField.layer.cornerRadius = 10;
+  self.passwordField.layer.cornerRadius = 10;
+  self.createUsernameField.layer.cornerRadius =10;
+  self.createPasswordField.layer.cornerRadius = 10;
+  self.createEmailField.layer.cornerRadius = 10;
+
+}
+
 - (void)viewDidAppear:(BOOL)animated {
   
   [super viewDidAppear:animated];
   
-  [UIView animateWithDuration:40.0
+  [UIView animateWithDuration:70.0
                         delay:0.0
                       options:(UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut)
                    animations:^{
-    self.imageView.transform = CGAffineTransformMakeTranslation(-2150, 0);
+                     self.imageView.transform = CGAffineTransformMakeTranslation(-3000, 0);
                  } completion:^(BOOL finished) {
                               }];
 
@@ -170,10 +180,16 @@
     
   }];
 }
+- (IBAction)pressedCancel:(id)sender {
+  
+  [self layoutBackToNormal];
+  
+}
 
 #pragma mark Animation methods
 
 - (void)addLoginAnimation {
+  self.cancelButtonOne.hidden = NO;
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.heyYouTitle.transform = self.titleOffstage;
     self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
@@ -181,7 +197,7 @@
     self.loginView.transform = CGAffineTransformIdentity;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-      self.heyYouTitle.text = @"Hey you, Log In!";
+      self.heyYouTitle.text = @"Hey you, log in!";
       self.heyYouTitle.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
     }];
@@ -205,6 +221,7 @@
 }
 
 - (void)addCreateAnimation {
+  self.cancelButtonTwo.hidden = NO;
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.heyYouTitle.transform = self.titleOffstage;
     self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
@@ -233,6 +250,27 @@
       self.heyYouTitle.transform = CGAffineTransformIdentity;
     } completion: nil];
   }];
+}
+
+- (void)layoutBackToNormal {
+  self.state = MenuStateLoggedOut;
+  self.bestofView.transform = CGAffineTransformMakeTranslation(-175, 0);
+  [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    self.heyYouTitle.transform = self.titleOffstage;
+    //self.userPostsView.transform = CGAffineTransformIdentity;
+    self.bestofView.transform = CGAffineTransformIdentity;
+    self.createAccountButton.transform = self.createAccountOffstage;
+    //self.createView.transform = self.loginCreateOffstage;
+    self.loginView.transform = self.loginCreateOffstage;
+  } completion:^(BOOL finished) {
+    self.heyYouTitle.text = [NSString stringWithFormat:@"Hey You!"];
+    [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      self.heyYouTitle.transform = CGAffineTransformIdentity;
+    } completion: nil];
+  }];
+
+  
+  
 }
 
 #pragma mark UITextFieldDelegate methods
