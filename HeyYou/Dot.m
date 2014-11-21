@@ -23,7 +23,7 @@
   
   NSError *error;
   NSArray * dotsArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-  NSLog(@"DotsArray: %@", dotsArray.description);
+  //NSLog(@"DotsArray: %@", dotsArray.description);
   NSMutableArray *tempArray = [NSMutableArray new];
   if ([dotsArray isKindOfClass:[NSDictionary class]]) {
     //NSLog(@"Found Dict!");
