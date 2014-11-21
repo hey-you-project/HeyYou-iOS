@@ -38,12 +38,13 @@
   self.titleLabel.text = self.dot.title;
   self.titleLabel.textColor = self.color;
   self.body.text = self.dot.body;
+  self.colorBar.backgroundColor = self.color;
+  self.timeLabel.text = [self.dateFormatter stringFromDate:self.dot.timestamp];
   [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
     if (dot != nil) {
       NSLog(@"Returned dot:%@", dot.body);
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         NSLog(@"Back in VC, dot body = %@", dot.body);
-        
         self.dot = dot;
         [self.tableView reloadData];
       }];
@@ -138,7 +139,6 @@
         [alert show];
       }
     }];
-    
     
     self.commentWriterDisplayed = NO;
     self.commentConstraint.constant -= 140;

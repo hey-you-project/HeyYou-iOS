@@ -86,24 +86,8 @@
 
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  NetworkController *networkController = [NetworkController sharedController];
-  [networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
-    if (dots != nil) {
-      self.dots = dots;
-      [self populateDotsOnMap];
-      NSLog(@"%@", self.dots.description);
-    } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [alert show];
-    }
-  }];
+ 
+}
   
 //  [networkController createUserWithUsername:@"ronswanson" password:@"baconandeggs" birthday:birthday email:@"anonymous@fakeemail.com" completionHandler:^(NSString *error, bool success) {
 //      if (success) {
@@ -561,12 +545,25 @@
 }
 
 -(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
-  [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSString * string, NSArray * array) {
-    self.dots = array;
-    [self populateDotsOnMap];
-    NSLog(@"%@", self.dots.description);
-    }];
-  
+  [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
+    if (dots != nil) {
+      self.dots = dots;
+      [self populateDotsOnMap];
+      NSLog(@"%@", self.dots.description);
+    } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      if (error == nil) {
+        alert.message = @"An error occurred. Please try again later.";
+      }
+      [alert show];
+    }
+  }];
 }
+  
+
 
 @end

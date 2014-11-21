@@ -36,16 +36,19 @@
 #pragma mark GET methods
 
 - (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSError *error, NSArray *dots))completionHandler {
-  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
-  NSURL *fullURL = [NSURL URLWithString:fullURLString];
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
-  request.HTTPMethod = @"GET";
-  NSDictionary *geoframeDictionary = [self getCoordRangeFromRegion:region];
-  NSError *error;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:geoframeDictionary options:0 error:&error];
-  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-  NSLog(@"%@", jsonString);
-  [request setValue:jsonString forHTTPHeaderField:@"Zone"];
+    NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
+    NSNumber *latitude = [NSNumber numberWithDouble:(region.center.latitude)];
+    NSLog(@"%@", [latitude stringValue]);
+    NSLog(@"Sent Region: Longitude: %f", region.center.latitude);
+    NSURL *fullURL = [NSURL URLWithString:fullURLString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+    request.HTTPMethod = @"GET";
+    NSDictionary *geoframeDictionary = [self getCoordRangeFromRegion:region];
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:geoframeDictionary options:0 error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", jsonString);
+    [request setValue:jsonString forHTTPHeaderField:@"Zone"];
   // NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
   //    NSLog(@"Token:%@", token);
   //    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
