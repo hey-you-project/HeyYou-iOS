@@ -41,13 +41,25 @@
   self.body.text = self.dot.body;
   self.colorBar.backgroundColor = self.color;
   self.timeLabel.text = [self.dateFormatter stringFromDate:self.dot.timestamp];
-  [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSString *error, Dot *dot) {
-    NSLog(@"Returned dot:%@", dot.body);
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-      NSLog(@"Back in VC, dot body = %@", dot.body);
-      self.dot = dot;
-      [self.tableView reloadData];
-    }];
+  [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
+    if (dot != nil) {
+      NSLog(@"Returned dot:%@", dot.body);
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSLog(@"Back in VC, dot body = %@", dot.body);
+        self.dot = dot;
+        [self.tableView reloadData];
+      }];
+    } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      if (error == nil) {
+        alert.message = @"An error occurred. Please try again later.";
+      }
+      [alert show];
+    }
   }];
   NSArray *sublayers = self.view.layer.sublayers;
   for (CAShapeLayer *layer in sublayers) {
@@ -122,6 +134,21 @@
                           //self.chatButton.titleLabel.text = @"Submit";
                         }];
   } else {
+    [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
+      if (success) {
+        [self.tableView reloadData];
+      } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:[error localizedDescription]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        if (error == nil) {
+          alert.message = @"An error occurred. Please try again later.";
+        }
+        [alert show];
+      }
+    }];
     
     self.commentWriterDisplayed = NO;
     self.commentConstraint.constant -= 140;
@@ -149,8 +176,20 @@
 - (IBAction)chatButtonPressed:(id)sender {
   NSLog(@"Chat Button Pressed with text %@",self.writeCommentTextField.text);
   
-  [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSString *error, bool success) {
-    [self.tableView reloadData];
+  [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
+    if (success) {
+      [self.tableView reloadData];
+    } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      if (error == nil) {
+        alert.message = @"An error occurred. Please try again later.";
+      }
+      [alert show];
+    }
   }];
   
 }
