@@ -22,7 +22,7 @@
 
 @property (nonatomic, strong) Dot *dot;
 @property BOOL userDidStar;
-@property (weak, nonatomic) IBOutlet UIButton *starButton;
+@property (weak, nonatomic) IBOutlet UILabel *star;
 
 @property (nonatomic, strong) NSArray *comments;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentConstraint;

@@ -23,7 +23,7 @@
   
   NSError *error;
   NSArray * dotsArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-  // NSLog(@"DotsArray: %@", dotsArray.description);
+  NSLog(@"DotsArray: %@", dotsArray.description);
   NSMutableArray *tempArray = [NSMutableArray new];
   if ([dotsArray isKindOfClass:[NSDictionary class]]) {
     //NSLog(@"Found Dict!");
@@ -38,6 +38,12 @@
     dot.identifier = dotDict[@"_id"];
     dot.color = dotDict[@"color"];
     dot.stars = dotDict[@"stars"];
+    NSString *hasStarred = dotDict[@"starred"];
+    if ([hasStarred  isEqual: @"1"]) {
+      dot.userHasStarred = YES;
+    } else {
+      dot.userHasStarred = NO;
+    }
     dot.username = dotDict[@"username"];
     double latitude = [dotDict[@"latitude"] doubleValue];
     double longitude = [dotDict[@"longitude"] doubleValue];

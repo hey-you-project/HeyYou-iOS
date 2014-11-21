@@ -15,13 +15,15 @@
 
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *body;
-@property (nonatomic) CLLocationCoordinate2D location;
-@property (nonatomic, strong) NSDate *timestamp;
+@property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *identifier;
 @property (nonatomic, strong) NSString *color;
+@property BOOL userHasStarred;
+
 @property (nonatomic, strong) NSNumber *stars;
 @property (nonatomic, strong) NSMutableArray *comments;
-@property (nonatomic, strong) NSString *username;
+@property (nonatomic) CLLocationCoordinate2D location;
+@property (nonatomic, strong) NSDate *timestamp;
 @property BOOL annotationAdded;
 
 - (instancetype)initWithLocation: (CLLocationCoordinate2D)location color: (NSString*)color title: (NSString*)title body: (NSString*)body;

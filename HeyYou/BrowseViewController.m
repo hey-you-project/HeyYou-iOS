@@ -24,6 +24,10 @@
   [self.tableView registerNib:[UINib nibWithNibName:@"CommentCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"COMMENT_CELL"];
  
   self.networkController = [NetworkController sharedController];
+  
+  UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
+  [tapper addTarget:self action:@selector(didTapStar:)];
+  [self.star addGestureRecognizer:tapper];
  
 }
 
@@ -39,6 +43,14 @@
   self.titleLabel.textColor = self.color;
   self.body.text = self.dot.body;
   self.numberOfStarsLabel.text = [self.dot.stars stringValue];
+  self.userDidStar = self.dot.userHasStarred;
+  if (self.userDidStar) {
+    NSLog(@"Changing to filled!");
+    self.star.text = @"\ue105";
+  } else {
+    NSLog(@"Changing to empty!");
+    self.star.text = @"\ue108";
+  }
   self.colorBar.backgroundColor = self.color;
   self.timeLabel.text = [self getFuzzyDateFromDate:self.dot.timestamp];
   [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
@@ -156,7 +168,7 @@
   
 }
 
-- (IBAction)didPressStar:(id)sender {
+- (void)didTapStar:(UITapGestureRecognizer *)sender {
   self.userDidStar = !self.userDidStar;
   
   NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
@@ -166,11 +178,11 @@
   
   if (self.userDidStar) {
     NSLog(@"Changing to filled!");
-    self.starButton.titleLabel.text = @"\ue105";
+    self.star.text = @"\ue105";
     starsIntValue++;
   } else {
     NSLog(@"Changing to empty!");
-    self.starButton.titleLabel.text = @"\ue108";
+    self.star.text = @"\ue108";
     starsIntValue--;
   }
   stars = [NSNumber numberWithInteger:starsIntValue];
