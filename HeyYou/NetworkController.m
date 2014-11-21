@@ -164,25 +164,6 @@
 
 #pragma mark POST methods
 
-<<<<<<< HEAD
-- (void)postDot: (Dot*)dot completionHandler: (void (^)(NSString *error, bool success))completionHandler {
-    NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
-    NSURL *fullURL = [NSURL URLWithString:fullURLString];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
-    request.HTTPMethod = @"POST";
-    NSData *dotJSONData = [dot parseDotIntoJSON];
-    NSUInteger length = dotJSONData.length;
-    [request setValue:[NSString stringWithFormat:@"%li", (unsigned long)length] forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
-    NSLog(@"Token: %@", token);
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:token forHTTPHeaderField:@"jwt"];
-    request.HTTPBody = dotJSONData;
-    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error != nil) {
-            NSLog(@"%@", error.localizedDescription);
-=======
 - (void)postDot: (Dot*)dot completionHandler: (void (^)(NSError *error, bool success))completionHandler {
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
@@ -214,7 +195,6 @@
           dot.identifier = successJSON[@"dot_id"];
           NSLog(@"Time: %@ Id: %@", dot.timestamp.description, dot.identifier);
           completionHandler(nil, YES);
->>>>>>> master
         } else {
           NSLog(@"%@", httpResponse.description);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
