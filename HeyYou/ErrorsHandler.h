@@ -20,7 +20,13 @@ enum {
   HYServerError                   //1008
 };
 
-// error handling ...
+// error handling macros
 
-#define FS_ERROR_KEY(code)                    [NSString stringWithFormat:@"%d", code]
-#define FS_ERROR_LOCALIZED_DESCRIPTION(code)  NSLocalizedStringFromTable(FS_ERROR_KEY(code), @"FSError", nil)
+#define HY_ERROR_KEY(code)                    [NSString stringWithFormat:@"%d", code]
+#define HY_ERROR_LOCALIZED_DESCRIPTION(code)  NSLocalizedStringFromTable(HY_ERROR_KEY(code), @"ErrorsHandler", nil)
+
+@interface ErrorHandler : NSObject
+
++ (NSError*)returnErrorFromHTTPResponse: (NSHTTPURLResponse*)response data:(NSData*)data;
+
+@end

@@ -130,8 +130,7 @@
           }
         } else {
           NSLog(@"%@", httpResponse);
-          NSString *responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-          NSLog(@"%@", responseBody);
+          
         }
       }
     }

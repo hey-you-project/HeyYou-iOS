@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import "Dot.h"
+#import "ErrorsHandler.h"
 
 @interface NetworkController : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
