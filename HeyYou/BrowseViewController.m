@@ -38,6 +38,7 @@
   self.titleLabel.text = self.dot.title;
   self.titleLabel.textColor = self.color;
   self.body.text = self.dot.body;
+  self.numberOfStarsLabel.text = [self.dot.stars stringValue];
   self.colorBar.backgroundColor = self.color;
   self.timeLabel.text = [self.dateFormatter stringFromDate:self.dot.timestamp];
   [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {

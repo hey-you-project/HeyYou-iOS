@@ -12,8 +12,8 @@
 
 @interface MapViewController ()
 
-@property (nonatomic, strong) NSArray *dots;
-@property (nonatomic, strong) NSMutableArray *poppedDotIDs;
+@property (nonatomic, strong) NSMutableDictionary *dots;
+@property (nonatomic, strong) NSMutableArray *poppedDots;
 @property (nonatomic, strong) Dot *clickedDot;
 @property (nonatomic, strong) NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
@@ -49,6 +49,7 @@
   [super viewDidLoad];
   self.popups = [NSMutableDictionary new];
   self.mapFullyLoaded = false;
+  self.dots = [NSMutableDictionary new];
   
   self.flatGreen = [UIColor colorWithRed:46/255.0 green:204/255.0 blue:113/255.0 alpha: 1];
   self.flatPurple     = [UIColor colorWithRed: 155 / 255.0 green: 89  / 255.0 blue: 182 / 255.0 alpha: 1];
@@ -66,7 +67,7 @@
   self.networkController = [NetworkController sharedController];
   self.dateFormatter = [NSDateFormatter new];
   self.dateFormatter.dateFormat = @"h:mm TT";
-  self.poppedDotIDs = [NSMutableArray new];
+  self.poppedDots = [NSMutableArray new];
   
   self.mapView.delegate = self;
   self.processingQueue = [NSOperationQueue new];
@@ -452,9 +453,10 @@
 -(void)populateDotsOnMap {
   
   [self.processingQueue addOperationWithBlock:^{
-    for (Dot * dot in self.dots) {
-      if (![self.poppedDotIDs containsObject:dot.identifier]) {
-        [self.poppedDotIDs addObject:dot.identifier];
+    for (NSString* dotID in self.dots) {
+      Dot *dot = [self.dots objectForKey:dotID];
+      if (![self.poppedDots containsObject:dot]) {
+        [self.poppedDots addObject:dot];
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
           [self addNewAnnotationForDot:dot];
         }];
@@ -482,19 +484,25 @@
 
 
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-  [mapView deselectAnnotation:view.annotation animated:false];
-  BrowseViewController *dotVC = [BrowseViewController new];
+  if ([view isKindOfClass:[DotAnnotationView class]]){
+    [mapView deselectAnnotation:view.annotation animated:false];
+    BrowseViewController *dotVC = [BrowseViewController new];
 
-  DotAnnotation *annotation = view.annotation;
-  dotVC.color = [self getColorFromString:annotation.dot.color];
-  dotVC.dot = annotation.dot;
-  self.clickedDot = annotation.dot;
-  dotVC.dateFormatter = self.dateFormatter;
-  
-  self.currentPopup = dotVC;
-  CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
-  [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
-  
+    DotAnnotation *annotation = view.annotation;
+    dotVC.color = [self getColorFromString:annotation.dot.color];
+    dotVC.dot = annotation.dot;
+    self.clickedDot = annotation.dot;
+    dotVC.dateFormatter = self.dateFormatter;
+    
+    self.currentPopup = dotVC;
+    CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
+    [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
+  } else {
+    
+    [self.mapView setRegion:MKCoordinateRegionMake(self.locationManager.location.coordinate, MKCoordinateSpanMake(2.0, 3.0)) animated:true];
+    
+    
+  }
   
 }
 
@@ -509,16 +517,23 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
   
-  if (![annotation isKindOfClass:[MKUserLocation class]]) {
+  if ([annotation isKindOfClass:[MKUserLocation class]]) {
+    return nil;
+  } else {
+    
     DotAnnotationView *view = (DotAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
     if (view == nil) {
       view = [[DotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
     }
     DotAnnotation *anno = view.annotation;
     view.color = [self getColorFromString:anno.dot.color];
+    NSTimeInterval timeSincePost = [anno.dot.timestamp timeIntervalSinceNow];
+    NSLog(@"%f", timeSincePost);
     
+    double ratio = -timeSincePost / (60.0f * 60.0f * 48.0f);
     CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
-    view.frame = CGRectMake(center.x-17.5, center.y-17.5, 35, 35);
+    CGFloat width = 35.0f - (ratio * 25.0f);
+    view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
     view.backgroundColor = [UIColor clearColor];
 
   //  view.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -540,8 +555,6 @@
       
     }];
   return view;
-  } else {
-    return nil;
   }
   
 }
@@ -582,8 +595,7 @@
   
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
     if (dots != nil) {
-      self.dots = dots;
-      [self populateDotsOnMap];
+      [self addDotsToDictionaryFromArray:dots];
     } else {
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                       message:[error localizedDescription]
@@ -597,6 +609,15 @@
     }
   }];
   
+}
+
+-(void) addDotsToDictionaryFromArray:(NSArray*) dots {
+  for (Dot *dot in dots) {
+    if ([self.dots objectForKey:dot.identifier] == nil) {
+      [self.dots setObject:dot forKey:dot.identifier];
+    }
+  }
+  [self populateDotsOnMap];
 }
 
 -(void) checkLocationAuthorizationStatus {
