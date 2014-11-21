@@ -105,7 +105,7 @@
   
   [super viewDidAppear:animated];
   
-  [UIView animateWithDuration:70.0
+  [UIView animateWithDuration:60.0
                         delay:0.0
                       options:(UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut)
                    animations:^{
@@ -115,7 +115,7 @@
 
 }
 
-#pragma mark Button actions
+#pragma mark Button Actions
 
 - (IBAction)pressedLogin:(id)sender {
   switch (self.state) {

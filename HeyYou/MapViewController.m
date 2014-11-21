@@ -12,9 +12,6 @@
 
 @interface MapViewController ()
 
-@property CGFloat kHorizontalCurveOffset;
-@property CGFloat kVerticalCurveOffset;
-@property CGFloat kLargePopupHeight;
 @property (nonatomic, strong) NSArray *dots;
 @property (nonatomic, strong) NSMutableArray *poppedDotIDs;
 @property (nonatomic, strong) Dot *clickedDot;
@@ -22,13 +19,11 @@
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSOperationQueue *processingQueue;
+@property (nonatomic, strong) CLLocationManager* locationManager;
+@property BOOL mapFullyLoaded;
 
-//// MARK: Color Palette
-@property (nonatomic, strong) UIColor *customDarkOrange;
-@property (nonatomic, strong) UIColor *customLightOrange;
-@property (nonatomic, strong) UIColor *customBlue;
-@property (nonatomic, strong) UIColor *customTeal;
-@property (nonatomic, strong) UIColor *customBeige;
+#pragma mark Color Palette
+
 @property (nonatomic, strong) UIColor *flatTurquoise;
 @property (nonatomic, strong) UIColor *flatGreen;
 @property (nonatomic, strong) UIColor *flatBlue;
@@ -38,16 +33,25 @@
 @property (nonatomic, strong) UIColor *flatRed;
 @property (nonatomic, strong) UIColor *flatGray;
 
+#pragma mark Constants
+
+@property CGFloat kHorizontalCurveOffset;
+@property CGFloat kVerticalCurveOffset;
+@property CGFloat kLargePopupHeight;
+
 @end
 
 @implementation MapViewController
 
+#pragma mark Lifecycle Methods
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.popups = [NSMutableDictionary new];
+  self.mapFullyLoaded = false;
   
   self.flatGreen = [UIColor colorWithRed:46/255.0 green:204/255.0 blue:113/255.0 alpha: 1];
-    self.flatPurple     = [UIColor colorWithRed: 155 / 255.0 green: 89  / 255.0 blue: 182 / 255.0 alpha: 1];
+  self.flatPurple     = [UIColor colorWithRed: 155 / 255.0 green: 89  / 255.0 blue: 182 / 255.0 alpha: 1];
   
   [self setupSideMenu];
   [self setupMapView];
@@ -55,9 +59,13 @@
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
   
+  self.locationManager = [[CLLocationManager alloc] init];
+  self.locationManager.delegate = self;
+  [self checkLocationAuthorizationStatus];
+  
   self.networkController = [NetworkController sharedController];
   self.dateFormatter = [NSDateFormatter new];
-  [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
+  self.dateFormatter.dateFormat = @"h:mm TT";
   self.poppedDotIDs = [NSMutableArray new];
   
   self.mapView.delegate = self;
@@ -69,37 +77,22 @@
   
   self.flatTurquoise  = [UIColor colorWithRed: 26  / 255.0 green: 188 / 255.0 blue: 156 / 255.0 alpha: 1];
   self.flatBlue       = [UIColor colorWithRed: 52  / 255.0 green: 152 / 255.0 blue: 219 / 255.0 alpha: 1];
-
   self.flatYellow     = [UIColor colorWithRed: 241 / 255.0 green: 196 / 255.0 blue: 15  / 255.0 alpha: 1];
   self.flatOrange     = [UIColor colorWithRed: 212 / 255.0 green: 83  / 255.0 blue: 36  / 255.0 alpha: 1];
   self.flatRed        = [UIColor colorWithRed: 212 / 255.0 green: 37  / 255.0 blue: 37  / 255.0 alpha: 1];
   self.flatGray       = [UIColor colorWithRed: 52  / 255.0 green: 73  / 255.0 blue: 94  / 255.0 alpha: 1];
   
   UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
-  UIVisualEffect *blurEffect;
-  blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-  UIVisualEffectView *visualEffectView;
-  visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-  visualEffectView.frame = statusBar.frame;
-  [self.mapView addSubview:visualEffectView];
-  statusBar.backgroundColor = [self.flatGreen colorWithAlphaComponent:0.8];
+  statusBar.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
   [self.mapView addSubview:statusBar];
   
 }
 
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  self.mapView.showsUserLocation = true;
  
 }
-  
-//  [networkController createUserWithUsername:@"ronswanson" password:@"baconandeggs" birthday:birthday email:@"anonymous@fakeemail.com" completionHandler:^(NSString *error, bool success) {
-//      if (success) {
-//        NSLog(@"Token is: %@", networkController.token);
-//      } else {
-//        NSLog(@"Bullshit");
-//      }
-//  }];
-
 
 -(void)viewDidAppear:(BOOL)animated{
   [super viewDidAppear:animated];
@@ -109,6 +102,8 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
+#pragma mark Setup Subview Methods
 
 - (void)setupMapView {
   self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width + 100, self.view.frame.size.height)];
@@ -204,6 +199,8 @@
   [self.view addGestureRecognizer:edgePanRecognizer];
 }
 
+#pragma mark Gesture Recognizer Methods
+
 -(void)receivedTapGestureOnMapView:(UITapGestureRecognizer *)sender{
   
   [self unpopCurrentComment];
@@ -245,6 +242,8 @@
 //  }
   
 }
+
+#pragma mark Helper Methods
 
 -(void) unpopCurrentComment {
   
@@ -510,36 +509,40 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
   
-  DotAnnotationView *view = (DotAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
-  if (view == nil) {
-    view = [[DotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
-  }
-  DotAnnotation *anno = view.annotation;
-  view.color = [self getColorFromString:anno.dot.color];
-  
-  CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
-  view.frame = CGRectMake(center.x-20, center.y-20, 40, 40);
-  view.backgroundColor = [UIColor clearColor];
-
-//  view.layer.shadowColor = [[UIColor blackColor] CGColor];
-//  view.layer.shadowOpacity = 0.6;
-//  view.layer.shadowRadius = 3.0;
-//  view.layer.shadowOffset = CGSizeMake(0, 2);
-  
-  view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-  int random = arc4random_uniform(400);
-  double random2 = random / 1000.0f;
-  
-  NSTimeInterval delay = (NSTimeInterval)random2;
-  view.alpha = 0;
-  
-  [UIView animateWithDuration:0.5 delay:delay usingSpringWithDamping:0.3 initialSpringVelocity:0.9 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-    view.transform = CGAffineTransformIdentity;
-    view.alpha = 1;
-  } completion:^(BOOL finished) {
+  if (![annotation isKindOfClass:[MKUserLocation class]]) {
+    DotAnnotationView *view = (DotAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
+    if (view == nil) {
+      view = [[DotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
+    }
+    DotAnnotation *anno = view.annotation;
+    view.color = [self getColorFromString:anno.dot.color];
     
-  }];
+    CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
+    view.frame = CGRectMake(center.x-17.5, center.y-17.5, 35, 35);
+    view.backgroundColor = [UIColor clearColor];
+
+  //  view.layer.shadowColor = [[UIColor blackColor] CGColor];
+  //  view.layer.shadowOpacity = 0.6;
+  //  view.layer.shadowRadius = 3.0;
+  //  view.layer.shadowOffset = CGSizeMake(0, 2);
+    
+    view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+    int random = arc4random_uniform(400);
+    double random2 = random / 1000.0f;
+    
+    NSTimeInterval delay = (NSTimeInterval)random2;
+    view.alpha = 0;
+    
+    [UIView animateWithDuration:0.5 delay:delay usingSpringWithDamping:0.3 initialSpringVelocity:0.9 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+      view.transform = CGAffineTransformIdentity;
+      view.alpha = 1;
+    } completion:^(BOOL finished) {
+      
+    }];
   return view;
+  } else {
+    return nil;
+  }
   
 }
 
@@ -563,10 +566,20 @@
 }
 
 -(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
-
+  if (!self.mapFullyLoaded) {
+    [self requestDots];
+    self.mapFullyLoaded= true;
+  }
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+  if (self.mapFullyLoaded) {
+    [self requestDots];
+  }
+}
+
+-(void) requestDots {
+  
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
     if (dots != nil) {
       self.dots = dots;
@@ -585,7 +598,35 @@
   }];
   
 }
+
+-(void) checkLocationAuthorizationStatus {
+  NSLog(@"Check called.");
   
+  switch ([CLLocationManager authorizationStatus]) {
+    case kCLAuthorizationStatusAuthorizedAlways:
+      [self.locationManager startUpdatingLocation];
+      break;
+    case kCLAuthorizationStatusAuthorizedWhenInUse:
+      [self.locationManager startUpdatingLocation];
+      break;
+    case kCLAuthorizationStatusNotDetermined:
+      NSLog(@"Found not determined");
+      [self.locationManager requestAlwaysAuthorization];
+      break;
+    default:
+      break;
+  }
+  
+}
+
+-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+  
+  if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+    [self.locationManager startUpdatingLocation];
+  }
+  
+}
+
 
 
 

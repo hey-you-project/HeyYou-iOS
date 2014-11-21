@@ -11,32 +11,29 @@
 
 @interface BrowseViewController ()
 
-@property BOOL commentWriterDisplayed;
-@property BOOL isTouching;
-@property CGPoint lastOffset;
 @property (nonatomic, strong) NetworkController *networkController;
 
 @end
 
 @implementation BrowseViewController
 
+#pragma mark Lifecycle Methods
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self.tableView registerNib:[UINib nibWithNibName:@"CommentCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"COMMENT_CELL"];
-  self.tableView.delegate = self;
-  self.tableView.dataSource = self;
-  self.commentWriterDisplayed = NO;
-  self.isTouching = NO;
-  self.lastOffset = CGPointMake(0, 0);
+ 
   self.networkController = [NetworkController sharedController];
  
 }
 
 -(void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  
   self.writeCommentTextField.layer.cornerRadius = 10;
   self.cancelButton.alpha = 0;
   self.submitButton.alpha = 0;
+  
   self.username.text = self.dot.username;
   self.titleLabel.text = self.dot.title;
   self.titleLabel.textColor = self.color;
@@ -76,10 +73,7 @@
 
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-
-}
+#pragma mark <UITableViewDataSource>
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   //NSLog(@"%@",[self.dot.comments description]);
@@ -108,6 +102,8 @@
   }];
   
 }
+
+#pragma mark IBActions
 
 - (IBAction)commentButtonPressed:(id)sender {
   
@@ -180,6 +176,8 @@
   self.numberOfStarsLabel.text = [stars stringValue];
 
 }
+
+#pragma mark Helper Methods
 
 -(void) removeCommentBox {
   [self.writeCommentTextField resignFirstResponder];

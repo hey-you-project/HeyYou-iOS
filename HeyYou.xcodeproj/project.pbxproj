@@ -23,6 +23,7 @@
 		151264121A1EC10800D13419 /* ErrorsHandler.strings in Resources */ = {isa = PBXBuildFile; fileRef = 151264111A1EC10800D13419 /* ErrorsHandler.strings */; };
 		7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */; };
 		7E089DE31A1F658100D78F38 /* generated (1).json in Resources */ = {isa = PBXBuildFile; fileRef = 7E089DE21A1F658100D78F38 /* generated (1).json */; };
+		7E089DE51A1F710A00D78F38 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E089DE41A1F710A00D78F38 /* MapKit.framework */; };
 		7E1689151A1BDE5D00BA4DE6 /* mediumbluecircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E16890E1A1BDE5D00BA4DE6 /* mediumbluecircle.png */; };
 		7E1689181A1BDE5D00BA4DE6 /* mediumpinkcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689111A1BDE5D00BA4DE6 /* mediumpinkcircle.png */; };
 		7E16891B1A1BDE5E00BA4DE6 /* mediumyellowcircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E1689141A1BDE5D00BA4DE6 /* mediumyellowcircle.png */; };
@@ -90,6 +91,7 @@
 		7E0790321A1BCC3C00858BD7 /* DotAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotAnnotation.h; sourceTree = "<group>"; };
 		7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotAnnotation.m; sourceTree = "<group>"; };
 		7E089DE21A1F658100D78F38 /* generated (1).json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "generated (1).json"; sourceTree = "<group>"; };
+		7E089DE41A1F710A00D78F38 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		7E1689041A1BD37F00BA4DE6 /* Oval 3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Oval 3.pdf"; sourceTree = "<group>"; };
 		7E16890E1A1BDE5D00BA4DE6 /* mediumbluecircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumbluecircle.png; sourceTree = "<group>"; };
 		7E16890F1A1BDE5D00BA4DE6 /* mediumgreencircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumgreencircle.png; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E089DE51A1F710A00D78F38 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +150,7 @@
 		150C41671A1A6DF10062DE29 = {
 			isa = PBXGroup;
 			children = (
+				7E089DE41A1F710A00D78F38 /* MapKit.framework */,
 				150C41721A1A6DF10062DE29 /* HeyYou */,
 				150C418F1A1A6DF10062DE29 /* HeyYouTests */,
 				150C41711A1A6DF10062DE29 /* Products */,
@@ -336,6 +340,11 @@
 					150C416F1A1A6DF10062DE29 = {
 						CreatedOnToolsVersion = 6.1;
 						DevelopmentTeam = 6X3539QT5M;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					150C418B1A1A6DF10062DE29 = {
 						CreatedOnToolsVersion = 6.1;
