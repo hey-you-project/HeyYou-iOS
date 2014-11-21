@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "NetworkController.h"
+@import MessageUI;
 
-@interface SideMenuViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface SideMenuViewController : UIViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, MFMessageComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *userPostsView;
 @property (weak, nonatomic) IBOutlet UIView *bestofView;
 
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *createAccountButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButtonOne;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButtonTwo;
+
 @property (weak, nonatomic) IBOutlet UILabel *heyYouTitle;
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
@@ -30,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIView *birthdayPickerView;
 @property (weak, nonatomic) IBOutlet UIPickerView *birthdayPicker;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIVisualEffectView *blueEffectView;
 
 @end
 

@@ -11,65 +11,67 @@
 
 @interface BrowseViewController ()
 
-@property BOOL commentWriterDisplayed;
-@property BOOL isTouching;
-@property CGPoint lastOffset;
 @property (nonatomic, strong) NetworkController *networkController;
 
 @end
 
 @implementation BrowseViewController
 
+#pragma mark Lifecycle Methods
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self.tableView registerNib:[UINib nibWithNibName:@"CommentCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"COMMENT_CELL"];
-  self.tableView.delegate = self;
-  self.tableView.dataSource = self;
-  self.commentWriterDisplayed = NO;
-  self.isTouching = NO;
-  self.lastOffset = CGPointMake(0, 0);
+ 
   self.networkController = [NetworkController sharedController];
+  
+  UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
+  [tapper addTarget:self action:@selector(didTapStar:)];
+  [self.star addGestureRecognizer:tapper];
  
 }
 
 -(void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  
+  self.writeCommentTextField.layer.cornerRadius = 10;
+  self.cancelButton.alpha = 0;
+  self.submitButton.alpha = 0;
+  
   self.username.text = self.dot.username;
   self.titleLabel.text = self.dot.title;
   self.titleLabel.textColor = self.color;
   self.body.text = self.dot.body;
+  self.numberOfStarsLabel.text = [self.dot.stars stringValue];
+  self.userDidStar = self.dot.userHasStarred;
+  if (self.userDidStar) {
+    NSLog(@"Changing to filled!");
+    self.star.text = @"\ue105";
+  } else {
+    NSLog(@"Changing to empty!");
+    self.star.text = @"\ue108";
+  }
   self.colorBar.backgroundColor = self.color;
-  self.timeLabel.text = [self.dateFormatter stringFromDate:self.dot.timestamp];
-  [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
-    if (dot != nil) {
-      NSLog(@"Returned dot:%@", dot.body);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        NSLog(@"Back in VC, dot body = %@", dot.body);
-        self.dot = dot;
-        [self.tableView reloadData];
-      }];
-    } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [alert show];
-    }
-  }];
+  self.timeLabel.text = [self getFuzzyDateFromDate:self.dot.timestamp];
   
-  self.view.layer.borderColor = [self.color CGColor];
-  self.view.layer.borderWidth = 2;
+  [self requestDot];
+
+  NSArray *sublayers = self.view.layer.sublayers;
+  for (CAShapeLayer *layer in sublayers) {
+    if ([layer isKindOfClass:[CAShapeLayer class]]) {
+      NSLog(@"Found shape layer!");
+       layer.strokeColor = self.color.CGColor;
+      [layer setNeedsDisplay];
+      [layer setNeedsLayout];
+    }
+    
+  }
+  [self.view.layer setNeedsDisplay];
+  
 
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-
-}
+#pragma mark <UITableViewDataSource>
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   //NSLog(@"%@",[self.dot.comments description]);
@@ -81,7 +83,7 @@
   Comment *comment = self.dot.comments[indexPath.row];
   cell.bodyLabel.text = comment.body;
   cell.usernameLabel.text = comment.user.username;
-  cell.timeLabel.text = [self.dateFormatter stringFromDate:comment.timestamp];
+  cell.timeLabel.text = [self getFuzzyDateFromDate:comment.timestamp];
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
   cell.bottomLine.backgroundColor = self.color;
   
@@ -99,17 +101,14 @@
   
 }
 
+#pragma mark IBActions
+
 - (IBAction)commentButtonPressed:(id)sender {
-  
-  if (self.commentWriterDisplayed == NO) {
-    self.commentWriterDisplayed = YES;
   
     self.commentConstraint.constant += 140;
     self.chatConstraint.constant += 140;
     self.writeCommentTextField.hidden = false;
     self.writeCommentTextField.alpha = 0;
-    self.commentButton.titleLabel.text = @"Cancel";
-    self.chatButton.titleLabel.text = @"Submit";
     
     [UIView animateWithDuration:0.4
                           delay:0.0
@@ -117,58 +116,133 @@
           initialSpringVelocity:0.4
                         options:UIViewAnimationOptionAllowUserInteraction animations:^{
                           [self.view layoutSubviews];
-                          self.writeCommentTextField.alpha = 0.3;
+                          self.writeCommentTextField.alpha = 1;
+                          self.commentButton.alpha = 0;
+                          self.chatButton.alpha = 0;
+                          self.cancelButton.alpha = 1;
+                          self.submitButton.alpha = 1;
                           
                         } completion:^(BOOL finished) {
-                          //self.commentButton.titleLabel.text = @"Cancel";
-                          //self.chatButton.titleLabel.text = @"Submit";
+                          self.commentButton.enabled = false;
+                          self.chatButton.enabled = false;
                         }];
-  } else {
-    [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
-      if (success) {
-        [self.tableView reloadData];
-      } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:[error localizedDescription]
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        if (error == nil) {
-          alert.message = @"An error occurred. Please try again later.";
-        }
-        [alert show];
-      }
-    }];
-    
-    self.commentWriterDisplayed = NO;
-    self.commentConstraint.constant -= 140;
-    self.chatConstraint.constant -= 140;
-    self.commentButton.titleLabel.text = @"Comment";
-    self.chatButton.titleLabel.text = @"Chat with User";
-    
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-         usingSpringWithDamping:0.7
-          initialSpringVelocity:0.4
-                        options:UIViewAnimationOptionAllowUserInteraction animations:^{
-                          [self.view layoutSubviews];
-                          self.writeCommentTextField.alpha = 0.0;
-                        } completion:^(BOOL finished) {
-                          //self.commentButton.titleLabel.text = @"Comment";
-                          //self.chatButton.titleLabel.text = @"Chat with User";
-                           self.writeCommentTextField.hidden = true;
-                            self.writeCommentTextField.alpha = 0;
-                        }];
+}
 
-  }
+- (IBAction)chatButtonPressed:(id)sender {
+  //NSLog(@"Chat Button Pressed with text %@",self.writeCommentTextField.text);
+}
+
+
+- (IBAction)cancelPressed:(id)sender {
+  
+  [self removeCommentBox];
+  
   
 }
-- (IBAction)chatButtonPressed:(id)sender {
-  NSLog(@"Chat Button Pressed with text %@",self.writeCommentTextField.text);
+- (IBAction)submitPressed:(id)sender {
   
-  [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
-    if (success) {
-      [self.tableView reloadData];
+    [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
+      if (success) {
+        [self requestDot];
+        [self.tableView reloadData];
+      } else {
+        [self showAlertViewWithError:error];
+      }
+    }];
+  [self removeCommentBox];
+  
+}
+
+- (void)didTapStar:(UITapGestureRecognizer *)sender {
+  self.userDidStar = !self.userDidStar;
+  
+  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+  [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+  NSNumber *stars = [formatter numberFromString:self.numberOfStarsLabel.text];
+  NSInteger starsIntValue = [stars integerValue];
+  
+  if (self.userDidStar) {
+    NSLog(@"Changing to filled!");
+    self.star.text = @"\ue105";
+    starsIntValue++;
+  } else {
+    NSLog(@"Changing to empty!");
+    self.star.text = @"\ue108";
+    starsIntValue--;
+  }
+  stars = [NSNumber numberWithInteger:starsIntValue];
+  self.numberOfStarsLabel.text = [stars stringValue];
+
+}
+
+#pragma mark Helper Methods
+
+-(void) removeCommentBox {
+  [self.writeCommentTextField resignFirstResponder];
+  self.commentConstraint.constant -= 140;
+  self.chatConstraint.constant -= 140;
+  
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+       usingSpringWithDamping:0.7
+        initialSpringVelocity:0.4
+                      options:UIViewAnimationOptionAllowUserInteraction animations:^{
+                        [self.view layoutSubviews];
+                        self.writeCommentTextField.alpha = 0.0;
+                        self.commentButton.alpha = 1;
+                        self.chatButton.alpha = 1;
+                        self.cancelButton.alpha = 0;
+                        self.submitButton.alpha = 0;
+                      } completion:^(BOOL finished) {
+                        self.commentButton.enabled = true;
+                        self.chatButton.enabled = true;
+                        self.writeCommentTextField.hidden = true;
+                        self.writeCommentTextField.alpha = 0;
+                      }];
+
+  
+}
+
+-(void) showAlertViewWithError:(NSError *) error {
+  
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                  message:[error localizedDescription]
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  if (error == nil) {
+    alert.message = @"An error occurred. Please try again later.";
+  }
+  [alert show];
+}
+
+-(NSString *) getFuzzyDateFromDate: (NSDate *) date{
+  
+  NSTimeInterval secondsSinceNow = [date timeIntervalSinceNow] * -1;
+  
+  if (secondsSinceNow < 10) {
+    return @"Just now";
+  }
+  if (secondsSinceNow < 60) {
+    return [NSString stringWithFormat:@"%d seconds ago", (int)(secondsSinceNow / 1)];
+  }
+  if (secondsSinceNow < (60 * 60)) {
+    return [NSString stringWithFormat:@"%d minutes ago", (int)(secondsSinceNow / 60)];
+  }
+  if (secondsSinceNow < (60 * 60 * 24)) {
+    return [NSString stringWithFormat:@"%d hours ago", (int)(secondsSinceNow / 60 / 60)];
+  }
+  return @"Unknown!";
+}
+
+-(void)requestDot {
+  
+  [self.networkController getDotByID:self.dot.identifier completionHandler:^(NSError *error, Dot *dot) {
+    if (dot != nil) {
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        self.dot = dot;
+        [self.tableView reloadData];
+      }];
     } else {
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                       message:[error localizedDescription]
@@ -183,28 +257,7 @@
   }];
   
 }
+  
 
-- (IBAction)didPressStar:(id)sender {
-  self.userDidStar = !self.userDidStar;
-  
-  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-  [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-  NSNumber *stars = [formatter numberFromString:self.numberOfStarsLabel.text];
-  NSInteger starsIntValue = [stars integerValue];
-  
-  if (self.userDidStar) {
-    NSLog(@"Changing to filled!");
-    self.starButton.titleLabel.text = @"\ue105";
-    starsIntValue++;
-  } else {
-    NSLog(@"Changing to empty!");
-    self.starButton.titleLabel.text = @"\ue108";
-    starsIntValue--;
-  }
-  stars = [NSNumber numberWithInteger:starsIntValue];
-  self.numberOfStarsLabel.text = [stars stringValue];
-
-  
-}
 
 @end

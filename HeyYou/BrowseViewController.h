@@ -22,7 +22,7 @@
 
 @property (nonatomic, strong) Dot *dot;
 @property BOOL userDidStar;
-@property (weak, nonatomic) IBOutlet UIButton *starButton;
+@property (weak, nonatomic) IBOutlet UILabel *star;
 
 @property (nonatomic, strong) NSArray *comments;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentConstraint;
@@ -32,9 +32,13 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *chatButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet UIButton *submitButton;
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bodyTopConstraint;
 @property (nonatomic, strong) UIColor *color;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) CAShapeLayer *sublayer;
 
 @end

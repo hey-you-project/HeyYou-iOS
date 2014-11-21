@@ -15,7 +15,6 @@
     self.color = color;
     self.title = title;
     self.stars = 0;
-    self.username = @"RonSwanson";
   self.body = body;
     return self;
 }
@@ -27,7 +26,7 @@
   NSLog(@"DotsArray: %@", dotsArray.description);
   NSMutableArray *tempArray = [NSMutableArray new];
   if ([dotsArray isKindOfClass:[NSDictionary class]]) {
-    NSLog(@"Found Dict!");
+    //NSLog(@"Found Dict!");
     dotsArray = @[dotsArray];
   }
   
@@ -39,6 +38,12 @@
     dot.identifier = dotDict[@"_id"];
     dot.color = dotDict[@"color"];
     dot.stars = dotDict[@"stars"];
+    NSString *hasStarred = dotDict[@"starred"];
+    if ([hasStarred  isEqual: @"1"]) {
+      dot.userHasStarred = YES;
+    } else {
+      dot.userHasStarred = NO;
+    }
     dot.username = dotDict[@"username"];
     double latitude = [dotDict[@"latitude"] doubleValue];
     double longitude = [dotDict[@"longitude"] doubleValue];
@@ -69,6 +74,7 @@
     [dotJSON setObject:self.title forKey:@"title"];
     [dotJSON setObject:self.body forKey:@"post"];
     [dotJSON setObject:self.username forKey:@"username_id"];
+  //NSLog(@"%@", [dotJSON description]);
     NSError *error;
     NSData *dataToReturn = [NSJSONSerialization dataWithJSONObject:dotJSON options:0 error: &error];
     return dataToReturn;

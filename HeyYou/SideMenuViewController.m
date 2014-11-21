@@ -9,6 +9,7 @@
 #import "SideMenuViewController.h"
 #import "NSString+Validate.h"
 
+
 @interface SideMenuViewController ()
 
 @property (nonatomic) NSTimeInterval duration;
@@ -90,21 +91,31 @@
   }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  self.usernameField.layer.cornerRadius = 10;
+  self.passwordField.layer.cornerRadius = 10;
+  self.createUsernameField.layer.cornerRadius =10;
+  self.createPasswordField.layer.cornerRadius = 10;
+  self.createEmailField.layer.cornerRadius = 10;
+
+}
+
 - (void)viewDidAppear:(BOOL)animated {
   
   [super viewDidAppear:animated];
   
-  [UIView animateWithDuration:40.0
+  [UIView animateWithDuration:60.0
                         delay:0.0
                       options:(UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut)
                    animations:^{
-    self.imageView.transform = CGAffineTransformMakeTranslation(-2150, 0);
+                     self.imageView.transform = CGAffineTransformMakeTranslation(-3000, 0);
                  } completion:^(BOOL finished) {
                               }];
 
 }
 
-#pragma mark Button actions
+#pragma mark Button Actions
 
 - (IBAction)pressedLogin:(id)sender {
   switch (self.state) {
@@ -158,6 +169,8 @@
       NSDate *birthday = [self dateFromBirthdayPicker:self.birthdayPicker];
       [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSError *error, bool success) {
         if (success) {
+          [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
+          [[NSUserDefaults standardUserDefaults] synchronize];
           [self.activityIndicator stopAnimating];
           self.state = MenuStateLoggedIn;
           [self removeCreateAnimation:username];
@@ -191,10 +204,16 @@
     
   }];
 }
+- (IBAction)pressedCancel:(id)sender {
+  
+  [self layoutBackToNormal];
+  
+}
 
 #pragma mark Animation methods
 
 - (void)addLoginAnimation {
+  self.cancelButtonOne.hidden = NO;
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.heyYouTitle.transform = self.titleOffstage;
     self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
@@ -202,7 +221,7 @@
     self.loginView.transform = CGAffineTransformIdentity;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-      self.heyYouTitle.text = @"Hey you, Log In!";
+      self.heyYouTitle.text = @"Hey you, log in!";
       self.heyYouTitle.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
     }];
@@ -226,6 +245,7 @@
 }
 
 - (void)addCreateAnimation {
+  self.cancelButtonTwo.hidden = NO;
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
     self.heyYouTitle.transform = self.titleOffstage;
     self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
@@ -248,12 +268,34 @@
     self.bestofView.transform = CGAffineTransformIdentity;
     self.createAccountButton.transform = self.createAccountOffstage;
     self.createView.transform = self.loginCreateOffstage;
+    self.cancelButtonTwo.alpha = 0;
   } completion:^(BOOL finished) {
     self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", username];
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.heyYouTitle.transform = CGAffineTransformIdentity;
     } completion: nil];
   }];
+}
+
+- (void)layoutBackToNormal {
+  self.state = MenuStateLoggedOut;
+  self.bestofView.transform = CGAffineTransformMakeTranslation(-175, 0);
+  [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    self.heyYouTitle.transform = self.titleOffstage;
+    //self.userPostsView.transform = CGAffineTransformIdentity;
+    self.bestofView.transform = CGAffineTransformIdentity;
+    self.createAccountButton.transform = self.createAccountOffstage;
+    self.createView.transform = self.loginCreateOffstage;
+    self.loginView.transform = self.loginCreateOffstage;
+  } completion:^(BOOL finished) {
+    self.heyYouTitle.text = [NSString stringWithFormat:@"Hey You!"];
+    [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+      self.heyYouTitle.transform = CGAffineTransformIdentity;
+    } completion: nil];
+  }];
+
+  
+  
 }
 
 #pragma mark UITextFieldDelegate methods
@@ -367,6 +409,22 @@
     [components setMonth:month];
     [components setDay:day];
     return [self.localCalendar dateFromComponents:components];
+}
+
+
+- (IBAction)didPressShare:(id)sender {
+  
+  MFMessageComposeViewController *messageVC = [MFMessageComposeViewController new];
+  
+  messageVC.messageComposeDelegate = self;
+  [messageVC setBody:@"Check out this great new app! http://itunes.com/app/HeyYou"];
+  [self presentViewController:messageVC animated:true completion:nil];
+  
+  
+}
+
+-(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+  [self dismissViewControllerAnimated:true completion:nil];
 }
 
 @end

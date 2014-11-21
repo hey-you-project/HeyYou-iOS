@@ -15,28 +15,22 @@
 #import "BrowseViewController.h"
 #import "DotAnnotation.h"
 
-@interface MapViewController : UIViewController <MKMapViewDelegate>
+@interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 
 -(void) changeDotColor:(NSString *)color;
 -(void)addNewAnnotationForDot:(Dot*) dot;
 -(void) unpopCurrentComment;
 -(void) returnDragCircleToHomeBase;
+-(void) requestDots;
 
 @property (nonatomic, strong) MKMapView *mapView;
-//@property PostingViewController *popupController;
 @property (nonatomic, strong) UIViewController *currentPopup;
 @property (nonatomic, strong) SideMenuViewController *sideMenuVC;
 @property (nonatomic, strong) UILabel *hamburgerLabel;
 @property (nonatomic, strong) UIView *hamburgerWrapper;
 @property (nonatomic, strong) UIView *draggableCircle;
-@property UIView *dragCircleWrapper;
+@property (nonatomic, strong) UIView *dragCircleWrapper;
 @property CGPoint originalCircleCenter;
 
-
-//
-//// MARK: Constants
-//var kHorizontalCurveOffset : CGFloat = 2
-//var kVerticalCurveOffset   : CGFloat = 15
-//var kPopupHeight           : CGFloat = 540
 @end
 
