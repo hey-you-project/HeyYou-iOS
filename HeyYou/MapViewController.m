@@ -50,6 +50,7 @@
   self.popups = [NSMutableDictionary new];
   self.mapFullyLoaded = false;
   self.dots = [NSMutableDictionary new];
+  self.poppedDots = [NSMutableArray new];
   
   self.flatGreen = [UIColor colorWithRed:46/255.0 green:204/255.0 blue:113/255.0 alpha: 1];
   self.flatPurple     = [UIColor colorWithRed: 155 / 255.0 green: 89  / 255.0 blue: 182 / 255.0 alpha: 1];
@@ -67,7 +68,7 @@
   self.networkController = [NetworkController sharedController];
   self.dateFormatter = [NSDateFormatter new];
   self.dateFormatter.dateFormat = @"h:mm TT";
-  self.poppedDots = [NSMutableArray new];
+  
   
   self.mapView.delegate = self;
   self.processingQueue = [NSOperationQueue new];
@@ -312,8 +313,6 @@
   CGPathCloseSubpath  (triangle);
   
   CGPathAddPath(combinedPath, nil, triangle);
-  
-  
 
   CAShapeLayer *shapeLayer = [CAShapeLayer new];
   shapeLayer.path = combinedPath;
@@ -344,7 +343,6 @@
                      viewController.view.transform = CGAffineTransformMakeScale(1, 1);
                    } completion:^(BOOL finished) {
                      [self scrollToClearCurrentPopup];
-      
                    }];
   
 }
@@ -452,7 +450,6 @@
 
 -(void)populateDotsOnMap {
   
-  [self.processingQueue addOperationWithBlock:^{
     for (NSString* dotID in self.dots) {
       Dot *dot = [self.dots objectForKey:dotID];
       if (![self.poppedDots containsObject:dot]) {
@@ -462,11 +459,10 @@
         }];
       }
     }
-  }];
-
 }
 
 -(void)addNewAnnotationForDot:(Dot*) dot {
+  NSLog(@"Adding new annotation!");
   DotAnnotation *anno = [DotAnnotation new];
   anno.coordinate = dot.location;
   anno.title = dot.identifier;
@@ -500,13 +496,12 @@
   } else {
     
     [self.mapView setRegion:MKCoordinateRegionMake(self.locationManager.location.coordinate, MKCoordinateSpanMake(2.0, 3.0)) animated:true];
-    
-    
   }
   
 }
 
 -(void) changeDotColor:(NSString *)color {
+  
   UIColor *colorUI = [self getColorFromString:color];
   self.draggableCircle.backgroundColor = colorUI;
   PostViewController *vc = (PostViewController *)self.currentPopup;
@@ -528,17 +523,18 @@
     if (view == nil) {
       view = [[DotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
     }
-    DotAnnotation *anno = view.annotation;
+    DotAnnotation *anno = annotation;
+    anno.dot = [self.dots objectForKey:anno.title];
     view.color = [self getColorFromString:anno.dot.color];
+    NSLog(@"%@", view.color);
     NSTimeInterval timeSincePost = [anno.dot.timestamp timeIntervalSinceNow];
-    NSLog(@"%f", timeSincePost);
     
     double ratio = -timeSincePost / (60.0f * 60.0f * 48.0f);
     CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
     CGFloat width = 35.0f - (ratio * 25.0f);
     view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
     view.backgroundColor = [UIColor clearColor];
-
+    
   //  view.layer.shadowColor = [[UIColor blackColor] CGColor];
   //  view.layer.shadowOpacity = 0.6;
   //  view.layer.shadowRadius = 3.0;
@@ -557,6 +553,7 @@
     } completion:^(BOOL finished) {
       
     }];
+    [view setNeedsDisplay];
   return view;
   }
   
@@ -598,7 +595,10 @@
   
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
     if (dots != nil) {
-      [self addDotsToDictionaryFromArray:dots];
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self addDotsToDictionaryFromArray:dots];
+      }];
+      
     } else {
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                       message:[error localizedDescription]
@@ -614,10 +614,13 @@
   
 }
 
--(void) addDotsToDictionaryFromArray:(NSArray*) dots {
-  for (Dot *dot in dots) {
-    if ([self.dots objectForKey:dot.identifier] == nil) {
+-(void) addDotsToDictionaryFromArray:(NSArray*) dotsArray {
+  for (Dot *dot in dotsArray) {
+    if (![self.dots objectForKey:dot.identifier]) {
+      NSLog(@"Found new dot!");
       [self.dots setObject:dot forKey:dot.identifier];
+    } else {
+      NSLog(@"Found old dot!");
     }
   }
   [self populateDotsOnMap];

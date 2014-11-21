@@ -34,6 +34,8 @@
 
 -(void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  self.bodyTextField.layer.cornerRadius = 10;
+  self.titleTextField.layer.cornerRadius = 10;
 }
 
 #pragma mark Helper Methods

@@ -14,6 +14,7 @@
 @interface NetworkController : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
 @property (nonatomic, strong) NSString *token;
+@property (nonatomic, strong) NSString *username;
 
 + (id)sharedController;
 
