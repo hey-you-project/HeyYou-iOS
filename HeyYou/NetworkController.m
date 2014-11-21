@@ -18,6 +18,8 @@
 
 - (instancetype)init {
   self.url = @"https://hey-you-api.herokuapp.com/";
+  self.token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+  self.username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
   return self;
 }
 

@@ -54,6 +54,10 @@
   
   if ([[NetworkController sharedController] token] != nil) {
     self.state = MenuStateLoggedIn;
+    NSString *savedUsername = [[NetworkController sharedController] username];
+    if (savedUsername != nil) {
+      self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", savedUsername];
+    }
   } else {
     self.state = MenuStateLoggedOut;
   }
@@ -134,6 +138,8 @@
       [[NetworkController sharedController] fetchTokenWithUsername:username password:self.passwordField.text completionHandler:^(NSError *error, bool success) {
         if (success) {
           [self.activityIndicator stopAnimating];
+          [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
+          [[NSUserDefaults standardUserDefaults] synchronize];
           [self removeLoginAnimation:username];
           self.state = MenuStateLoggedIn;
           NSLog(@"You are logged in!!!");
@@ -239,6 +245,7 @@
     self.bestofView.transform = CGAffineTransformIdentity;
     self.loginButton.transform = self.createAccountOffstage;
     self.loginView.transform = self.loginCreateOffstage;
+    self.cancelButtonOne.transform = self.loginCreateOffstage;
   } completion:^(BOOL finished) {
     self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", username];
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
