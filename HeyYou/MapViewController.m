@@ -489,7 +489,11 @@
 }
 
 -(void) changeDotColor:(NSString *)color {
-  self.draggableCircle.backgroundColor = [self getColorFromString:color];  
+  UIColor *colorUI = [self getColorFromString:color];
+  self.draggableCircle.backgroundColor = colorUI;
+  PostViewController *vc = (PostViewController *)self.currentPopup;
+  vc.view.layer.borderColor = [colorUI CGColor];
+  vc.titleLabel.textColor = colorUI;
 }
 
 
@@ -514,9 +518,16 @@
   view.layer.shadowOffset = CGSizeMake(0, 2);
   
   view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+  int random = arc4random_uniform(4);
+  double random2 = random / 10.0f;
   
-  [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.4 initialSpringVelocity:0.7 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+  NSTimeInterval delay = (NSTimeInterval)random2;
+  NSLog(@"%f", delay);
+  view.alpha = 0;
+  
+  [UIView animateWithDuration:0.5 delay:delay usingSpringWithDamping:0.3 initialSpringVelocity:0.9 options:UIViewAnimationOptionAllowUserInteraction animations:^{
     view.transform = CGAffineTransformIdentity;
+    view.alpha = 1;
   } completion:^(BOOL finished) {
     
   }];
