@@ -230,11 +230,9 @@
 		150C41AA1A1AAD3F0062DE29 /* Controller Layer */ = {
 			isa = PBXGroup;
 			children = (
+				151264131A1EDB2500D13419 /* Error Handling */,
 				150C41AB1A1AAD6F0062DE29 /* NetworkController.h */,
 				150C41AC1A1AAD6F0062DE29 /* NetworkController.m */,
-				1512640E1A1EB8CB00D13419 /* ErrorsHandler.h */,
-				1512640F1A1EB96C00D13419 /* ErrorsHandler.m */,
-				151264111A1EC10800D13419 /* ErrorsHandler.strings */,
 				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
 				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
 				7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */,
@@ -249,6 +247,16 @@
 				1512640C1A1E7F5500D13419 /* NSString+Validate.m */,
 			);
 			name = "Controller Layer";
+			sourceTree = "<group>";
+		};
+		151264131A1EDB2500D13419 /* Error Handling */ = {
+			isa = PBXGroup;
+			children = (
+				1512640E1A1EB8CB00D13419 /* ErrorsHandler.h */,
+				1512640F1A1EB96C00D13419 /* ErrorsHandler.m */,
+				151264111A1EC10800D13419 /* ErrorsHandler.strings */,
+			);
+			name = "Error Handling";
 			sourceTree = "<group>";
 		};
 		157853311A1D0F1C008CD931 /* View Layer */ = {

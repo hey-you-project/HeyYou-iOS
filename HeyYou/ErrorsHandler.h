@@ -19,3 +19,8 @@ enum {
   HYClientError,                  //1007
   HYServerError                   //1008
 };
+
+// error handling ...
+
+#define FS_ERROR_KEY(code)                    [NSString stringWithFormat:@"%d", code]
+#define FS_ERROR_LOCALIZED_DESCRIPTION(code)  NSLocalizedStringFromTable(FS_ERROR_KEY(code), @"FSError", nil)
