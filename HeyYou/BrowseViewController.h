@@ -12,8 +12,9 @@
 #import "Comment.h"
 #import "User.h"
 #import "PopupView.h"
+#import "PopupViewController.h"
 
-@interface BrowseViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface BrowseViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PopupViewController>
 
 #pragma mark IBOutlets
 

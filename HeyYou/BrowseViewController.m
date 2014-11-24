@@ -56,7 +56,6 @@
   
   [self requestDot];
   
-  self.borderView.touchPoint = self.touchPoint;
   self.borderView.strokeColor = self.color;
   self.borderView.frame = self.view.frame;
   self.borderView.backgroundColor = [UIColor clearColor];

@@ -283,22 +283,19 @@
   
 }
 
--(void) spawnPopup: (UIViewController *) viewController atPoint:(CGPoint)point withHeight: (CGFloat) height{
+-(void) spawnPopup: (UIViewController<PopupViewController> *) viewController atPoint:(CGPoint)point withHeight: (CGFloat) height{
 
-  
   CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, point.y - height, self.view.frame.size.width - 40, height);
   viewController.view.frame = popupFrame;
-  BrowseViewController *browseVC = (BrowseViewController *)viewController;
-  NSLog(@"Original Point: %f,%f", point.x, point.y);
-  browseVC.touchPoint = [self.view convertPoint:point toView:viewController.view];
-  NSLog(@"New Point: %f,%f", browseVC.touchPoint.x, browseVC.touchPoint.y);
+  
   [self addChildViewController:viewController];
   [self.view addSubview:viewController.view];
   [viewController didMoveToParentViewController:self];
+  
+  viewController.borderView.touchPoint = [self.view convertPoint:point toView:viewController.view];
+  
   viewController.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
 
-  
-  
   viewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
   viewController.view.alpha = 0;
   [UIView animateWithDuration:0.4

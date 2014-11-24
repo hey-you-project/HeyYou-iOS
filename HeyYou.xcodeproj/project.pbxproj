@@ -129,6 +129,7 @@
 		7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseViewController.xib; sourceTree = "<group>"; };
 		7ECAB0961A23CC280047DA04 /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
 		7ECAB0981A23D2170047DA04 /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
+		7EF174301A23F5E900B5541D /* PopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +258,7 @@
 				150C41781A1A6DF10062DE29 /* AppDelegate.m */,
 				150C417D1A1A6DF10062DE29 /* MapViewController.h */,
 				150C417E1A1A6DF10062DE29 /* MapViewController.m */,
+				7EF174301A23F5E900B5541D /* PopupViewController.h */,
 				7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */,
 				7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */,
 				1512640B1A1E7F5500D13419 /* NSString+Validate.h */,

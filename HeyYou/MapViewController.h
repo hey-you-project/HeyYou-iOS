@@ -14,6 +14,7 @@
 #import "NetworkController.h"
 #import "BrowseViewController.h"
 #import "DotAnnotation.h"
+#import "PopupViewController.h"
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 
@@ -24,7 +25,7 @@
 -(void) requestDots;
 
 @property (nonatomic, strong) MKMapView *mapView;
-@property (nonatomic, strong) UIViewController *currentPopup;
+@property (nonatomic, strong) UIViewController<PopupViewController> *currentPopup;
 @property (nonatomic, strong) SideMenuViewController *sideMenuVC;
 @property (nonatomic, strong) UILabel *hamburgerLabel;
 @property (nonatomic, strong) UIView *hamburgerWrapper;
