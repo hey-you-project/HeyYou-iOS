@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="body" destination="Xkb-pC-YJw" id="SIf-bl-bfb"/>
                 <outlet property="bodyTopConstraint" destination="p0d-8w-Uiu" id="Hbd-Wf-vAG"/>
+                <outlet property="borderView" destination="xTp-di-LkQ" id="ULq-ov-ScR"/>
                 <outlet property="cancelButton" destination="yq3-eV-dB1" id="mXO-63-oif"/>
                 <outlet property="chatButton" destination="lva-H3-pJ2" id="X0s-bu-WPJ"/>
                 <outlet property="chatConstraint" destination="MbZ-tE-EDd" id="lEq-YL-uG0"/>
@@ -36,7 +37,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <visualEffectView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iPu-Gr-buz">
+                <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iPu-Gr-buz">
                     <rect key="frame" x="634" y="0.0" width="600" height="600"/>
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="OfD-MA-ivP">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
@@ -54,6 +55,10 @@
                     </view>
                     <blurEffect style="light"/>
                 </visualEffectView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xTp-di-LkQ" userLabel="Border View" customClass="PopupView">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" text="Hey Lady!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZi-Pi-R6U" userLabel="Title">
                     <rect key="frame" x="12" y="8" width="107" height="33"/>
                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
@@ -205,9 +210,11 @@
                 <constraint firstItem="MRg-Is-Hgy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="348-uV-2Ql"/>
                 <constraint firstItem="lva-H3-pJ2" firstAttribute="centerX" secondItem="PdL-ug-2Dx" secondAttribute="centerX" id="3Jl-dM-7VE"/>
                 <constraint firstItem="YL1-Zf-YA6" firstAttribute="leading" secondItem="UbH-QT-P5f" secondAttribute="trailing" priority="999" constant="8" id="3x4-zX-siF"/>
+                <constraint firstAttribute="bottom" secondItem="xTp-di-LkQ" secondAttribute="bottom" id="3xF-1h-bRg"/>
                 <constraint firstAttribute="trailing" secondItem="Uwf-7O-VD9" secondAttribute="trailing" id="4ed-j8-YLn"/>
                 <constraint firstItem="lva-H3-pJ2" firstAttribute="leading" secondItem="ulC-Lt-754" secondAttribute="trailing" constant="32" id="6Zd-Tc-qkF"/>
                 <constraint firstItem="UbH-QT-P5f" firstAttribute="leading" secondItem="QZi-Pi-R6U" secondAttribute="trailing" id="79C-nI-gtY"/>
+                <constraint firstAttribute="trailing" secondItem="xTp-di-LkQ" secondAttribute="trailing" id="8eQ-V3-jfG"/>
                 <constraint firstAttribute="trailing" secondItem="Xkb-pC-YJw" secondAttribute="trailing" constant="24" id="8i8-uQ-m8y"/>
                 <constraint firstAttribute="trailing" secondItem="iPu-Gr-buz" secondAttribute="trailing" id="8ok-h8-RmX"/>
                 <constraint firstItem="Xkb-pC-YJw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="24" id="AB9-11-Leb"/>
@@ -230,6 +237,7 @@
                 <constraint firstItem="QZi-Pi-R6U" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="OpJ-fa-LdY"/>
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="top" secondItem="Xkb-pC-YJw" secondAttribute="bottom" constant="16" id="POz-3F-5h5"/>
                 <constraint firstItem="QZi-Pi-R6U" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="PtQ-NE-d7g"/>
+                <constraint firstItem="xTp-di-LkQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="SEU-xQ-i7k"/>
                 <constraint firstItem="yq3-eV-dB1" firstAttribute="centerX" secondItem="Wgp-03-e41" secondAttribute="centerX" id="TEe-jk-MhK"/>
                 <constraint firstAttribute="centerX" secondItem="Xkb-pC-YJw" secondAttribute="centerX" id="ViT-ob-VEm"/>
                 <constraint firstItem="Pvd-om-1VJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="Xl5-Fy-SCN"/>
@@ -246,6 +254,7 @@
                 <constraint firstItem="QZi-Pi-R6U" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="eXp-el-fUq"/>
                 <constraint firstItem="QA6-s8-cHm" firstAttribute="top" secondItem="tJ5-r4-DvF" secondAttribute="bottom" id="gMX-RG-x8N"/>
                 <constraint firstItem="iPu-Gr-buz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="gNs-s9-mJE"/>
+                <constraint firstItem="xTp-di-LkQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hoH-Fr-MYI"/>
                 <constraint firstAttribute="trailing" secondItem="YL1-Zf-YA6" secondAttribute="trailing" constant="12" id="lcj-7x-1ya"/>
                 <constraint firstItem="iPu-Gr-buz" firstAttribute="leading" secondItem="YL1-Zf-YA6" secondAttribute="trailing" constant="12" id="mGX-5e-Mgi"/>
                 <constraint firstItem="ulC-Lt-754" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" constant="8" id="mOB-up-Omt"/>

@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import "DotAnnotationView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "PopupView.h"
 
 @interface MapViewController ()
 
@@ -284,55 +285,22 @@
 
 -(void) spawnPopup: (UIViewController *) viewController atPoint:(CGPoint)point withHeight: (CGFloat) height{
 
+  
+  CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, point.y - height, self.view.frame.size.width - 40, height);
+  viewController.view.frame = popupFrame;
+  BrowseViewController *browseVC = (BrowseViewController *)viewController;
+  NSLog(@"Original Point: %f,%f", point.x, point.y);
+  browseVC.touchPoint = [self.view convertPoint:point toView:viewController.view];
+  NSLog(@"New Point: %f,%f", browseVC.touchPoint.x, browseVC.touchPoint.y);
   [self addChildViewController:viewController];
   [self.view addSubview:viewController.view];
+  [viewController didMoveToParentViewController:self];
   viewController.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
-  viewController.view.alpha = 0;
-  
-  CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, point.y - (height - 30), self.view.frame.size.width - 40, height);
-  
-  viewController.view.frame = popupFrame;
-  viewController.view.layer.cornerRadius = 10;
-  
-  CGRect vcBounds = viewController.view.bounds;
-  
-  CGRect newRect = CGRectMake(vcBounds.origin.x, vcBounds.origin.y, vcBounds.size.width, vcBounds.size.height - 50);
-  UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:newRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(10, 10)];
-  struct CGPath *combinedPath = CGPathCreateMutableCopy(path.CGPath);
-  CGMutablePathRef triangle = CGPathCreateMutable();
-  
-  CGPoint newTouchPoint = [viewController.view convertPoint:point fromView:self.view];
-  
-  CGPathMoveToPoint   (triangle, nil, newTouchPoint.x,      newTouchPoint.y);
 
-  CGPathAddArcToPoint (triangle, nil, newTouchPoint.x - 2,  newTouchPoint.y - 15, newTouchPoint.x - 10, newTouchPoint.y - 20, 20);
-  CGPathAddLineToPoint(triangle, nil, newTouchPoint.x - 10, newTouchPoint.y - 20);
-  CGPathAddLineToPoint(triangle, nil, newTouchPoint.x + 10, newTouchPoint.y - 20);
-  CGPathAddArcToPoint (triangle, nil, newTouchPoint.x + 3,  newTouchPoint.y - 15, newTouchPoint.x, newTouchPoint.y, 20);
-  CGPathAddLineToPoint(triangle, nil, newTouchPoint.x,      newTouchPoint.y);
-  CGPathCloseSubpath  (triangle);
   
-  CGPathAddPath(combinedPath, nil, triangle);
-
-  CAShapeLayer *shapeLayer = [CAShapeLayer new];
-  shapeLayer.path = combinedPath;
   
-  CAShapeLayer *subLayer = [CAShapeLayer new];
-  [viewController.view.layer addSublayer:subLayer];
-  subLayer.path = combinedPath;
-  subLayer.frame = viewController.view.layer.bounds;
-  subLayer.strokeColor = [self getColorFromString:self.clickedDot.color].CGColor;
-  subLayer.lineWidth = 5;
-  subLayer.fillColor = nil;
-  
-  CALayer *reduceLayer = [CALayer new];
-  reduceLayer.frame = CGRectMake(newTouchPoint.x - 7, newTouchPoint.y - 23, 14, 2);
-  reduceLayer.backgroundColor = [UIColor whiteColor].CGColor;
-  [viewController.view.layer addSublayer:reduceLayer];
-  
-  viewController.view.layer.mask = shapeLayer;
   viewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-  
+  viewController.view.alpha = 0;
   [UIView animateWithDuration:0.4
                         delay:0.0
        usingSpringWithDamping:0.6
@@ -470,28 +438,19 @@
   [self.mapView addAnnotation:anno];
 }
 
--(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
-  
-  MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithOverlay:overlay];
-  renderer.fillColor = [UIColor orangeColor];
-  return renderer;
-  
-}
-
-
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
   if ([view isKindOfClass:[DotAnnotationView class]]){
     [mapView deselectAnnotation:view.annotation animated:false];
     BrowseViewController *dotVC = [BrowseViewController new];
-
+    
     DotAnnotation *annotation = view.annotation;
     dotVC.color = [self getColorFromString:annotation.dot.color];
     dotVC.dot = annotation.dot;
     self.clickedDot = annotation.dot;
-    dotVC.dateFormatter = self.dateFormatter;
     
     self.currentPopup = dotVC;
     CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
+    dotVC.touchPoint = point;
     [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
   } else {
     

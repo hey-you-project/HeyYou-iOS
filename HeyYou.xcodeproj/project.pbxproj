@@ -48,6 +48,7 @@
 		7E713DE11A1AA0AD00B6C9D3 /* HEAVYWEI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE01A1AA0AD00B6C9D3 /* HEAVYWEI.TTF */; };
 		7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */; };
 		7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */; };
+		7ECAB0971A23CC280047DA04 /* PopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECAB0961A23CC280047DA04 /* PopupView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +127,8 @@
 		7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseViewController.h; sourceTree = "<group>"; };
 		7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseViewController.m; sourceTree = "<group>"; };
 		7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseViewController.xib; sourceTree = "<group>"; };
+		7ECAB0961A23CC280047DA04 /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
+		7ECAB0981A23D2170047DA04 /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +278,8 @@
 		157853311A1D0F1C008CD931 /* View Layer */ = {
 			isa = PBXGroup;
 			children = (
+				7ECAB0981A23D2170047DA04 /* PopupView.h */,
+				7ECAB0961A23CC280047DA04 /* PopupView.m */,
 				7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */,
 				7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */,
 				7E16891C1A1BF22E00BA4DE6 /* CommentCell.h */,
@@ -430,6 +435,7 @@
 				7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */,
 				150C41A51A1A77C20062DE29 /* Comment.m in Sources */,
 				150C41A21A1A772E0062DE29 /* User.m in Sources */,
+				7ECAB0971A23CC280047DA04 /* PopupView.m in Sources */,
 				150C419F1A1A70CF0062DE29 /* Dot.m in Sources */,
 				150C41761A1A6DF10062DE29 /* main.m in Sources */,
 			);

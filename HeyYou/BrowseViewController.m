@@ -55,20 +55,12 @@
   self.timeLabel.text = [self getFuzzyDateFromDate:self.dot.timestamp];
   
   [self requestDot];
-
-  NSArray *sublayers = self.view.layer.sublayers;
-  for (CAShapeLayer *layer in sublayers) {
-    if ([layer isKindOfClass:[CAShapeLayer class]]) {
-      NSLog(@"Found shape layer!");
-       layer.strokeColor = self.color.CGColor;
-      [layer setNeedsDisplay];
-      [layer setNeedsLayout];
-    }
-    
-  }
-  [self.view.layer setNeedsDisplay];
   
-
+  self.borderView.touchPoint = self.touchPoint;
+  self.borderView.strokeColor = self.color;
+  self.borderView.frame = self.view.frame;
+  self.borderView.backgroundColor = [UIColor clearColor];
+  
 }
 
 #pragma mark <UITableViewDataSource>

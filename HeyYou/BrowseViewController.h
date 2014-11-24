@@ -11,34 +11,38 @@
 #import "CommentCell.h"
 #import "Comment.h"
 #import "User.h"
+#import "PopupView.h"
 
 @interface BrowseViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
+#pragma mark IBOutlets
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *body;
 @property (weak, nonatomic) IBOutlet UILabel *username;
 @property (weak, nonatomic) IBOutlet UIView *colorBar;
-
-@property (nonatomic, strong) Dot *dot;
-@property BOOL userDidStar;
-@property (weak, nonatomic) IBOutlet UILabel *star;
-
-@property (nonatomic, strong) NSArray *comments;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *chatConstraint;
 @property (weak, nonatomic) IBOutlet UITextView *writeCommentTextField;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfStarsLabel;
-
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *chatButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
-
+@property (weak, nonatomic) IBOutlet UILabel *star;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bodyTopConstraint;
-@property (nonatomic, strong) UIColor *color;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet PopupView *borderView;
+
+#pragma mark Properties
+
+@property (nonatomic, strong) Dot *dot;
+@property (nonatomic, strong) NSArray *comments;
+@property (nonatomic, strong) UIColor *color;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
-@property (nonatomic, strong) CAShapeLayer *sublayer;
+
+@property BOOL userDidStar;
+@property CGPoint touchPoint;
 
 @end
