@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "Dot.h"
+#import "PopupView.h"
+#import "PopupViewController.h"
+
 @class MapViewController;
 
-@interface PostViewController : UIViewController
+@interface PostViewController : UIViewController <PopupViewController>
 
 @property (weak, nonatomic) IBOutlet UITextView *bodyTextField;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextField;
@@ -36,6 +39,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *greenConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *orangeConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *pinkConstraint;
+@property (weak, nonatomic) IBOutlet PopupView *borderView;
 
 @property (nonatomic, strong) MapViewController *delegate;
 @property (nonatomic, strong) UIColor *colorUI;
