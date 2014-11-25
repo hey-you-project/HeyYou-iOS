@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "UserDotsViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,7 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
-  //self.window.rootViewController = [MapViewController new];
+  self.window.rootViewController = [[UserDotsViewController alloc] initWithNibName:@"UserDotsViewController" bundle:[NSBundle mainBundle]];
   return YES;
 }
 

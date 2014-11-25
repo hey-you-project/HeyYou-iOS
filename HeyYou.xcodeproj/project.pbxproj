@@ -49,6 +49,8 @@
 		7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */; };
 		7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */; };
 		7ECAB0971A23CC280047DA04 /* PopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECAB0961A23CC280047DA04 /* PopupView.m */; };
+		7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174321A24FBF500B5541D /* UserDotsViewController.m */; };
+		7EF174351A24FBF500B5541D /* UserDotsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF174331A24FBF500B5541D /* UserDotsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +132,9 @@
 		7ECAB0961A23CC280047DA04 /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
 		7ECAB0981A23D2170047DA04 /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
 		7EF174301A23F5E900B5541D /* PopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupViewController.h; sourceTree = "<group>"; };
+		7EF174311A24FBF500B5541D /* UserDotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDotsViewController.h; sourceTree = "<group>"; };
+		7EF174321A24FBF500B5541D /* UserDotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDotsViewController.m; sourceTree = "<group>"; };
+		7EF174331A24FBF500B5541D /* UserDotsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserDotsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +252,9 @@
 		150C41AA1A1AAD3F0062DE29 /* Controller Layer */ = {
 			isa = PBXGroup;
 			children = (
+				7EF174311A24FBF500B5541D /* UserDotsViewController.h */,
+				7EF174321A24FBF500B5541D /* UserDotsViewController.m */,
+				7EF174331A24FBF500B5541D /* UserDotsViewController.xib */,
 				151264131A1EDB2500D13419 /* Error Handling */,
 				150C41AB1A1AAD6F0062DE29 /* NetworkController.h */,
 				150C41AC1A1AAD6F0062DE29 /* NetworkController.m */,
@@ -394,6 +402,7 @@
 				7E4B2AEF1A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf in Resources */,
 				7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */,
 				7E4B2AF71A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf in Resources */,
+				7EF174351A24FBF500B5541D /* UserDotsViewController.xib in Resources */,
 				7E5F2C7E1A1E6E6E0052713F /* tinker-451865.jpg in Resources */,
 				7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */,
 				151264121A1EC10800D13419 /* ErrorsHandler.strings in Resources */,
@@ -432,6 +441,7 @@
 				7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */,
 				7E1689231A1C44CA00BA4DE6 /* DotAnnotationView.m in Sources */,
 				7E6E34E41A1A91ED00FF6776 /* PostViewController.m in Sources */,
+				7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */,
 				150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */,
 				150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */,
 				7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */,

@@ -32,4 +32,6 @@
 
 - (void)postToggleStarOnDot: (Dot*)dot completionHandler:(void (^)(NSError *error, bool success))completionHandler;
 
+- (void)getAllMyDotsWithCompletionHandler: (void (^)(NSError *error, NSArray * dots))completionHandler;
+
 @end
