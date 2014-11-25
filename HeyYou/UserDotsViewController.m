@@ -46,11 +46,13 @@
    CGFloat offset = 0;
   for (Dot *dot in self.myDots) {
     NSLog(@"Adding dot!");
-    DotAnnotationView *circle = [DotAnnotationView new];
+    UIView *circle = [UIView new];
     circle.frame = CGRectMake(100, 100 + offset, 25, 25);
-    circle.color = [UIColor blackColor];
+    circle.backgroundColor = [UIColor blackColor];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      [self.view addSubview:circle];
+    }];
     
-    [self.view addSubview:circle];
     offset += 50;
   }
 }

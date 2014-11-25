@@ -18,7 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
-  self.window.rootViewController = [[UserDotsViewController alloc] initWithNibName:@"UserDotsViewController" bundle:[NSBundle mainBundle]];
+  //self.window.rootViewController = [[UserDotsViewController alloc] initWithNibName:@"UserDotsViewController" bundle:[NSBundle mainBundle]];
   return YES;
 }
 
