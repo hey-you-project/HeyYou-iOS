@@ -49,6 +49,7 @@
 		7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */; };
 		7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */; };
 		7ECAB0971A23CC280047DA04 /* PopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECAB0961A23CC280047DA04 /* PopupView.m */; };
+		7EE1FC361A2670ED00AA6B5F /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE1FC351A2670ED00AA6B5F /* ContainerViewController.m */; };
 		7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174321A24FBF500B5541D /* UserDotsViewController.m */; };
 		7EF174351A24FBF500B5541D /* UserDotsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF174331A24FBF500B5541D /* UserDotsViewController.xib */; };
 		7EF1743A1A250B1800B5541D /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174391A250B1800B5541D /* Colors.m */; };
@@ -133,6 +134,8 @@
 		7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseViewController.xib; sourceTree = "<group>"; };
 		7ECAB0961A23CC280047DA04 /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
 		7ECAB0981A23D2170047DA04 /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
+		7EE1FC341A2670ED00AA6B5F /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContainerViewController.h; path = ../ContainerViewController.h; sourceTree = "<group>"; };
+		7EE1FC351A2670ED00AA6B5F /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContainerViewController.m; path = ../ContainerViewController.m; sourceTree = "<group>"; };
 		7EF174301A23F5E900B5541D /* PopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupViewController.h; sourceTree = "<group>"; };
 		7EF174311A24FBF500B5541D /* UserDotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDotsViewController.h; sourceTree = "<group>"; };
 		7EF174321A24FBF500B5541D /* UserDotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDotsViewController.m; sourceTree = "<group>"; };
@@ -259,6 +262,8 @@
 			isa = PBXGroup;
 			children = (
 				7EF174361A2507A000B5541D /* App Delegate */,
+				7EE1FC341A2670ED00AA6B5F /* ContainerViewController.h */,
+				7EE1FC351A2670ED00AA6B5F /* ContainerViewController.m */,
 				7EF174311A24FBF500B5541D /* UserDotsViewController.h */,
 				7EF174321A24FBF500B5541D /* UserDotsViewController.m */,
 				150C41AB1A1AAD6F0062DE29 /* NetworkController.h */,
@@ -460,6 +465,7 @@
 			files = (
 				7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */,
 				7E16891F1A1BF22E00BA4DE6 /* CommentCell.m in Sources */,
+				7EE1FC361A2670ED00AA6B5F /* ContainerViewController.m in Sources */,
 				7EFE023C1A25486F0037C1F0 /* DotView.m in Sources */,
 				150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */,
 				1512640D1A1E7F5500D13419 /* NSString+Validate.m in Sources */,

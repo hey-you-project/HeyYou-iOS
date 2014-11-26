@@ -19,8 +19,6 @@
 @property (nonatomic, strong) Dot *clickedDot;
 @property (nonatomic, strong) NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
-@property (nonatomic, strong) NSDateFormatter *dateFormatter;
-@property (nonatomic, strong) NSOperationQueue *processingQueue;
 @property (nonatomic, strong) CLLocationManager* locationManager;
 @property BOOL mapFullyLoaded;
 
@@ -30,8 +28,6 @@
 
 #pragma mark Constants
 
-@property CGFloat kHorizontalCurveOffset;
-@property CGFloat kVerticalCurveOffset;
 @property CGFloat kLargePopupHeight;
 
 @end
@@ -49,10 +45,9 @@
   
   self.colors = [Colors new];
   
-  [self setupSideMenu];
   [self setupMapView];
   [self addCircleView];
-  [self addHamburgerMenuCircle];
+  
   [self setupGestureRecognizers];
   
   self.locationManager = [[CLLocationManager alloc] init];
@@ -60,18 +55,10 @@
   [self checkLocationAuthorizationStatus];
   
   self.networkController = [NetworkController sharedController];
-  self.dateFormatter = [NSDateFormatter new];
-  self.dateFormatter.dateFormat = @"h:mm TT";
-  
   
   self.mapView.delegate = self;
-  self.processingQueue = [NSOperationQueue new];
 
-  self.kHorizontalCurveOffset = 2;
-  self.kVerticalCurveOffset = 15;
   self.kLargePopupHeight = 480;
-  
-
   
   UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
   statusBar.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
@@ -145,50 +132,9 @@
 
 }
 
--(void) addHamburgerMenuCircle{
-  
-  CGRect hamburgerRect = CGRectMake(self.view.frame.origin.x + 40, self.view.frame.size.height - 100, 60, 60);
-  
-  self.hamburgerWrapper = [[UIView alloc] initWithFrame:hamburgerRect];
-  self.hamburgerWrapper.layer.cornerRadius = self.hamburgerWrapper.frame.size.height / 2;
-  self.hamburgerWrapper.backgroundColor = [UIColor whiteColor];
-  self.hamburgerWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
-  self.hamburgerWrapper.layer.shadowOpacity = 0.6;
-  self.hamburgerWrapper.layer.shadowRadius = 3.0;
-  self.hamburgerWrapper.layer.shadowOffset = CGSizeMake(0, 3);
-  [self.view addSubview:self.hamburgerWrapper];
-  
-  CGRect labelRect = CGRectMake(self.hamburgerWrapper.bounds.origin.x + 19, self.hamburgerWrapper.bounds.origin.y + 17.5, 25, 25);
-  
-  self.hamburgerLabel = [[UILabel alloc] initWithFrame:labelRect];
-  self.hamburgerLabel.text = @"\ue116";
-  self.hamburgerLabel.font = [UIFont fontWithName:@"typicons" size:30];
-  self.hamburgerLabel.textColor = self.colors.flatPurple;
-  
-  self.hamburgerLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
-  self.hamburgerLabel.layer.shadowOpacity = 0.8;
-  self.hamburgerLabel.layer.shadowRadius = 1.0;
-  self.hamburgerLabel.layer.shadowOffset = CGSizeMake(0, 2);
-  
-  [self.hamburgerWrapper addSubview:self.hamburgerLabel];
-  
-  UITapGestureRecognizer *tap = [UITapGestureRecognizer new];
-  [tap addTarget:self action:@selector(receivedTapGestureOnHamburgerButton:)];
-  [self.hamburgerWrapper addGestureRecognizer:tap];
-  
-}
 
--(void) setupGestureRecognizers {
-  
-  UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer new];
-  [tapRecognizer addTarget:self action:@selector(receivedTapGestureOnMapView:)];
-  [self.mapView addGestureRecognizer:tapRecognizer];
-  
-  UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [UIScreenEdgePanGestureRecognizer new];
-  [edgePanRecognizer addTarget:self action:@selector(receivedPanFromLeftEdge:)];
-  edgePanRecognizer.edges = UIRectEdgeLeft;
-  [self.view addGestureRecognizer:edgePanRecognizer];
-}
+
+
 
 #pragma mark Gesture Recognizer Methods
 
@@ -216,22 +162,12 @@
   
 }
 
--(void) receivedTapGestureOnHamburgerButton:(UITapGestureRecognizer *)sender{
+- (void) setupGestureRecognizers {
   
-  if (sender.state == UIGestureRecognizerStateEnded) {
-    [self toggleSideMenu];
-  }
-  
-}
+  UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer new];
+  [tapRecognizer addTarget:self action:@selector(receivedTapGestureOnMapView:)];
+  [self.mapView addGestureRecognizer:tapRecognizer];
 
--(void) receivedPanFromLeftEdge:(UIScreenEdgePanGestureRecognizer *)sender {
-  
-//  if (sender.state == UIGestureRecognizerStateChanged) {
-//    CGPoint offsetX = [sender locationInView:self.view];
-//    self.mapView.frame.origin.x = offsetX.x;
-//    
-//  }
-  
 }
 
 #pragma mark Helper Methods
@@ -350,56 +286,6 @@
 //}
 
 
--(void)toggleSideMenu {
-  
-  CGRect newMapViewFrame = self.mapView.frame;
-  CGRect newDragWrapperFrame = self.dragCircleWrapper.frame;
-  CGRect newDraggableFrame = self.draggableCircle.frame;
-  CGRect newHamburgerFrame = self.hamburgerWrapper.frame;
-  CGRect newHamLabelFrame = self.hamburgerLabel.frame;
-  NSString *newString;
-  CGAffineTransform transform;
-  
-  if (self.mapView.frame.origin.x == 0){
-    [self returnDragCircleToHomeBase];
-    self.sideMenuVC.blueEffectView.hidden = NO;
-    newMapViewFrame.origin.x += 200;
-    newDragWrapperFrame.origin.x += 200;
-    newDraggableFrame.origin.x += 200;
-    newHamburgerFrame.origin.x += 30;
-    newHamLabelFrame.origin.x += 6;
-    newString = @"\ue122";
-    transform = CGAffineTransformMakeScale(1.4, 1.4);
-  } else {
-    newMapViewFrame.origin.x -= 200;
-    newDragWrapperFrame.origin.x -= 200;
-    newDraggableFrame.origin.x -= 200;
-    newHamburgerFrame.origin.x -= 30;
-    newHamLabelFrame.origin.x -= 6;
-    newString = @"\ue116";
-    transform = CGAffineTransformIdentity;
-  }
-  [self unpopCurrentComment];
-  
-  [UIView animateWithDuration:0.4
-                        delay:0.0
-       usingSpringWithDamping:0.7
-        initialSpringVelocity:0.4
-                      options:UIViewAnimationOptionAllowUserInteraction
-                   animations:^{
-                     self.mapView.frame = newMapViewFrame;
-                     self.dragCircleWrapper.frame = newDragWrapperFrame;
-                     self.draggableCircle.frame = newDraggableFrame;
-                     self.hamburgerWrapper.frame = newHamburgerFrame;
-                     self.hamburgerLabel.frame = newHamLabelFrame;
-                     self.hamburgerLabel.text = newString;
-                     self.hamburgerLabel.transform = transform;
-                   } completion:^(BOOL finished) {
-                     if (self.mapView.frame.origin.x == 0){
-                       self.sideMenuVC.blueEffectView.hidden = YES;
-                     }
-                   }];
-}
 
 -(void)populateDotsOnMap {
   

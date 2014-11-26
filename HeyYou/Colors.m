@@ -10,6 +10,17 @@
 
 @implementation Colors
 
+#pragma mark Singleton method
+
++ (id)singleton{
+  static Colors *colors = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    colors = [[self alloc] init];
+  });
+  return colors;
+}
+
 - (instancetype)init
 {
   self = [super init];
