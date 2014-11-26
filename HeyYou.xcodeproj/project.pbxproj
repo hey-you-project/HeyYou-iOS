@@ -52,6 +52,7 @@
 		7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174321A24FBF500B5541D /* UserDotsViewController.m */; };
 		7EF174351A24FBF500B5541D /* UserDotsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF174331A24FBF500B5541D /* UserDotsViewController.xib */; };
 		7EF1743A1A250B1800B5541D /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174391A250B1800B5541D /* Colors.m */; };
+		7EFE023C1A25486F0037C1F0 /* DotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE023B1A25486F0037C1F0 /* DotView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,8 @@
 		7EF174331A24FBF500B5541D /* UserDotsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserDotsViewController.xib; sourceTree = "<group>"; };
 		7EF174381A250B1800B5541D /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
 		7EF174391A250B1800B5541D /* Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colors.m; sourceTree = "<group>"; };
+		7EFE023A1A25486F0037C1F0 /* DotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotView.h; sourceTree = "<group>"; };
+		7EFE023B1A25486F0037C1F0 /* DotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,6 +296,8 @@
 				7EF174391A250B1800B5541D /* Colors.m */,
 				7EF174371A25081100B5541D /* Nibs */,
 				7ECAB0981A23D2170047DA04 /* PopupView.h */,
+				7EFE023A1A25486F0037C1F0 /* DotView.h */,
+				7EFE023B1A25486F0037C1F0 /* DotView.m */,
 				7ECAB0961A23CC280047DA04 /* PopupView.m */,
 				7E16891C1A1BF22E00BA4DE6 /* CommentCell.h */,
 				7E16891D1A1BF22E00BA4DE6 /* CommentCell.m */,
@@ -455,6 +460,7 @@
 			files = (
 				7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */,
 				7E16891F1A1BF22E00BA4DE6 /* CommentCell.m in Sources */,
+				7EFE023C1A25486F0037C1F0 /* DotView.m in Sources */,
 				150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */,
 				1512640D1A1E7F5500D13419 /* NSString+Validate.m in Sources */,
 				7EF1743A1A250B1800B5541D /* Colors.m in Sources */,

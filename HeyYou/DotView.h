@@ -1,5 +1,5 @@
 //
-//  UserDotsViewController.h
+//  DotView.h
 //  HeyYou
 //
 //  Created by Cameron Klein on 11/25/14.
@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Dot.h"
 
-@interface UserDotsViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@interface DotView : UIView
+
+@property (nonatomic, strong) UIColor *color;
+@property (nonatomic, strong) Dot *dot;
 
 @end
