@@ -10,6 +10,7 @@
 #import "DotAnnotationView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PopupView.h"
+#import "Colors.h"
 
 @interface MapViewController ()
 
@@ -25,14 +26,7 @@
 
 #pragma mark Color Palette
 
-@property (nonatomic, strong) UIColor *flatTurquoise;
-@property (nonatomic, strong) UIColor *flatGreen;
-@property (nonatomic, strong) UIColor *flatBlue;
-@property (nonatomic, strong) UIColor *flatPurple;
-@property (nonatomic, strong) UIColor *flatYellow;
-@property (nonatomic, strong) UIColor *flatOrange;
-@property (nonatomic, strong) UIColor *flatRed;
-@property (nonatomic, strong) UIColor *flatGray;
+@property (nonatomic, strong) Colors *colors;
 
 #pragma mark Constants
 
@@ -53,8 +47,7 @@
   self.dots = [NSMutableDictionary new];
   self.poppedDots = [NSMutableArray new];
   
-  self.flatGreen = [UIColor colorWithRed:46/255.0 green:204/255.0 blue:113/255.0 alpha: 1];
-  self.flatPurple     = [UIColor colorWithRed: 155 / 255.0 green: 89  / 255.0 blue: 182 / 255.0 alpha: 1];
+  self.colors = [Colors new];
   
   [self setupSideMenu];
   [self setupMapView];
@@ -78,12 +71,7 @@
   self.kVerticalCurveOffset = 15;
   self.kLargePopupHeight = 480;
   
-  self.flatTurquoise  = [UIColor colorWithRed: 26  / 255.0 green: 188 / 255.0 blue: 156 / 255.0 alpha: 1];
-  self.flatBlue       = [UIColor colorWithRed: 52  / 255.0 green: 152 / 255.0 blue: 219 / 255.0 alpha: 1];
-  self.flatYellow     = [UIColor colorWithRed: 241 / 255.0 green: 196 / 255.0 blue: 15  / 255.0 alpha: 1];
-  self.flatOrange     = [UIColor colorWithRed: 212 / 255.0 green: 83  / 255.0 blue: 36  / 255.0 alpha: 1];
-  self.flatRed        = [UIColor colorWithRed: 212 / 255.0 green: 37  / 255.0 blue: 37  / 255.0 alpha: 1];
-  self.flatGray       = [UIColor colorWithRed: 52  / 255.0 green: 73  / 255.0 blue: 94  / 255.0 alpha: 1];
+
   
   UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
   statusBar.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
@@ -140,7 +128,7 @@
 
   self.draggableCircle = [[UIView alloc] initWithFrame:miniCircleRect];
   self.draggableCircle.layer.cornerRadius = self.draggableCircle.frame.size.height / 2;
-  self.draggableCircle.backgroundColor = self.flatPurple;
+  self.draggableCircle.backgroundColor = self.colors.flatPurple;
   self.originalCircleCenter = self.draggableCircle.center;
   
   self.draggableCircle.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -175,7 +163,7 @@
   self.hamburgerLabel = [[UILabel alloc] initWithFrame:labelRect];
   self.hamburgerLabel.text = @"\ue116";
   self.hamburgerLabel.font = [UIFont fontWithName:@"typicons" size:30];
-  self.hamburgerLabel.textColor = self.flatPurple;
+  self.hamburgerLabel.textColor = self.colors.flatPurple;
   
   self.hamburgerLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.hamburgerLabel.layer.shadowOpacity = 0.8;
@@ -221,7 +209,7 @@
     PostViewController *postVC = [PostViewController new];
     postVC.location = [self.mapView convertPoint:point toCoordinateFromView:self.view];
     postVC.delegate = self;
-    postVC.colorUI = self.flatPurple;
+    postVC.colorUI = self.colors.flatPurple;
     self.currentPopup = postVC;
     [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
   }
@@ -270,7 +258,7 @@
         initialSpringVelocity:0.4
                       options:UIViewAnimationOptionAllowUserInteraction animations:^{
                         self.draggableCircle.center = self.originalCircleCenter;
-                        self.draggableCircle.backgroundColor = self.flatPurple;
+                        self.draggableCircle.backgroundColor = self.colors.flatPurple;
                       } completion:^(BOOL finished) {
                         
                       }];
@@ -441,7 +429,7 @@
     BrowseViewController *dotVC = [BrowseViewController new];
     
     DotAnnotation *annotation = view.annotation;
-    dotVC.color = [self getColorFromString:annotation.dot.color];
+    dotVC.color = [self.colors getColorFromString:annotation.dot.color];
     dotVC.dot = annotation.dot;
     self.clickedDot = annotation.dot;
     
@@ -458,7 +446,7 @@
 
 -(void) changeDotColor:(NSString *)color {
   
-  UIColor *colorUI = [self getColorFromString:color];
+  UIColor *colorUI = [self.colors getColorFromString:color];
   self.draggableCircle.backgroundColor = colorUI;
   PostViewController *vc = (PostViewController *)self.currentPopup;
   vc.view.layer.borderColor = [colorUI CGColor];
@@ -481,7 +469,7 @@
     }
     DotAnnotation *anno = annotation;
     anno.dot = [self.dots objectForKey:anno.title];
-    view.color = [self getColorFromString:anno.dot.color];
+    view.color = [self.colors getColorFromString:anno.dot.color];
     NSLog(@"%@", view.color);
     NSTimeInterval timeSincePost = [anno.dot.timestamp timeIntervalSinceNow];
     
@@ -511,25 +499,6 @@
     }];
     [view setNeedsDisplay];
   return view;
-  }
-  
-}
-
--(UIColor *) getColorFromString:(NSString *) colorName {
-  if ([colorName isEqualToString:@"orange"]) {
-    return self.flatOrange;
-  } else if ([colorName isEqualToString:@"blue"]) {
-    return self.flatBlue;
-  } else if ([colorName isEqualToString:@"turquoise"]) {
-    return self.flatTurquoise;
-  } else if ([colorName isEqualToString:@"purple"]) {
-    return self.flatPurple;
-  } else if ([colorName isEqualToString:@"yellow"]) {
-    return self.flatYellow;
-  } else if ([colorName isEqualToString:@"green"]) {
-    return self.flatGreen;
-  } else {
-    return self.flatRed;
   }
   
 }

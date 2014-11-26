@@ -114,6 +114,44 @@
   [dataTask resume];
 }
 
+- (void)getAllMyDotsWithCompletionHandler: (void (^)(NSError *error, NSArray * dots))completionHandler {
+  NSLog(@"Get all dots called!");
+  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/mydots", self.url];
+  NSLog(@"%@", fullURLString);
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"GET";
+  NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+  NSLog(@"%@", token);
+  [request setValue:token forHTTPHeaderField:@"jwt"];
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error != nil) {
+      NSLog(@"%@", error.localizedDescription);
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        completionHandler(error, nil);
+      }];
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      NSLog(@"%@", httpResponse.description);
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          NSLog(@"%ld", (long)statusCode);
+          NSArray *array = [Dot parseJSONIntoDots:data];
+          NSLog(@"%@", [array description]);
+          completionHandler(nil,array);
+        } else {
+          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
+          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            completionHandler(responseError, nil);
+          }];
+        }
+      }
+    }
+  }];
+  [dataTask resume];
+}
+
 - (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSError *error, bool success))completionHandler {
   NSString *fullURLString = [NSString stringWithFormat:@"%@api/users/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
@@ -173,7 +211,6 @@
   [request setValue:[NSString stringWithFormat:@"%li", (unsigned long)length] forHTTPHeaderField:@"Content-Length"];
   [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
-  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   [request setValue:token forHTTPHeaderField:@"jwt"];
   request.HTTPBody = dotJSONData;
   NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -336,6 +373,8 @@
   }];
   [dataTask resume];
 }
+
+
 
 #pragma mark Helper methods
 

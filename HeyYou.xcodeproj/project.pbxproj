@@ -49,6 +49,10 @@
 		7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */; };
 		7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */; };
 		7ECAB0971A23CC280047DA04 /* PopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECAB0961A23CC280047DA04 /* PopupView.m */; };
+		7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174321A24FBF500B5541D /* UserDotsViewController.m */; };
+		7EF174351A24FBF500B5541D /* UserDotsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF174331A24FBF500B5541D /* UserDotsViewController.xib */; };
+		7EF1743A1A250B1800B5541D /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174391A250B1800B5541D /* Colors.m */; };
+		7EFE023C1A25486F0037C1F0 /* DotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE023B1A25486F0037C1F0 /* DotView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +134,13 @@
 		7ECAB0961A23CC280047DA04 /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
 		7ECAB0981A23D2170047DA04 /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
 		7EF174301A23F5E900B5541D /* PopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupViewController.h; sourceTree = "<group>"; };
+		7EF174311A24FBF500B5541D /* UserDotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDotsViewController.h; sourceTree = "<group>"; };
+		7EF174321A24FBF500B5541D /* UserDotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDotsViewController.m; sourceTree = "<group>"; };
+		7EF174331A24FBF500B5541D /* UserDotsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserDotsViewController.xib; sourceTree = "<group>"; };
+		7EF174381A250B1800B5541D /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
+		7EF174391A250B1800B5541D /* Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colors.m; sourceTree = "<group>"; };
+		7EFE023A1A25486F0037C1F0 /* DotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotView.h; sourceTree = "<group>"; };
+		7EFE023B1A25486F0037C1F0 /* DotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,15 +258,15 @@
 		150C41AA1A1AAD3F0062DE29 /* Controller Layer */ = {
 			isa = PBXGroup;
 			children = (
-				151264131A1EDB2500D13419 /* Error Handling */,
+				7EF174361A2507A000B5541D /* App Delegate */,
+				7EF174311A24FBF500B5541D /* UserDotsViewController.h */,
+				7EF174321A24FBF500B5541D /* UserDotsViewController.m */,
 				150C41AB1A1AAD6F0062DE29 /* NetworkController.h */,
 				150C41AC1A1AAD6F0062DE29 /* NetworkController.m */,
 				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
 				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
 				7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */,
 				7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */,
-				150C41771A1A6DF10062DE29 /* AppDelegate.h */,
-				150C41781A1A6DF10062DE29 /* AppDelegate.m */,
 				150C417D1A1A6DF10062DE29 /* MapViewController.h */,
 				150C417E1A1A6DF10062DE29 /* MapViewController.m */,
 				7EF174301A23F5E900B5541D /* PopupViewController.h */,
@@ -263,6 +274,7 @@
 				7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */,
 				1512640B1A1E7F5500D13419 /* NSString+Validate.h */,
 				1512640C1A1E7F5500D13419 /* NSString+Validate.m */,
+				151264131A1EDB2500D13419 /* Error Handling */,
 			);
 			name = "Controller Layer";
 			sourceTree = "<group>";
@@ -280,21 +292,43 @@
 		157853311A1D0F1C008CD931 /* View Layer */ = {
 			isa = PBXGroup;
 			children = (
+				7EF174381A250B1800B5541D /* Colors.h */,
+				7EF174391A250B1800B5541D /* Colors.m */,
+				7EF174371A25081100B5541D /* Nibs */,
 				7ECAB0981A23D2170047DA04 /* PopupView.h */,
+				7EFE023A1A25486F0037C1F0 /* DotView.h */,
+				7EFE023B1A25486F0037C1F0 /* DotView.m */,
 				7ECAB0961A23CC280047DA04 /* PopupView.m */,
-				7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */,
-				7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */,
 				7E16891C1A1BF22E00BA4DE6 /* CommentCell.h */,
 				7E16891D1A1BF22E00BA4DE6 /* CommentCell.m */,
-				7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */,
 				7E1689211A1C44CA00BA4DE6 /* DotAnnotationView.h */,
 				7E1689221A1C44CA00BA4DE6 /* DotAnnotationView.m */,
 				7E0790321A1BCC3C00858BD7 /* DotAnnotation.h */,
 				7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */,
+			);
+			name = "View Layer";
+			sourceTree = "<group>";
+		};
+		7EF174361A2507A000B5541D /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				150C41771A1A6DF10062DE29 /* AppDelegate.h */,
+				150C41781A1A6DF10062DE29 /* AppDelegate.m */,
+			);
+			name = "App Delegate";
+			sourceTree = "<group>";
+		};
+		7EF174371A25081100B5541D /* Nibs */ = {
+			isa = PBXGroup;
+			children = (
+				7EF174331A24FBF500B5541D /* UserDotsViewController.xib */,
+				7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */,
+				7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */,
+				7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */,
 				7E6E34DA1A1A75A100FF6776 /* SideMenuViewController.xib */,
 				150C41801A1A6DF10062DE29 /* Main.storyboard */,
 			);
-			name = "View Layer";
+			name = Nibs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -394,6 +428,7 @@
 				7E4B2AEF1A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf in Resources */,
 				7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */,
 				7E4B2AF71A1DB7CE00C931E2 /* SanFranciscoText-Regular.otf in Resources */,
+				7EF174351A24FBF500B5541D /* UserDotsViewController.xib in Resources */,
 				7E5F2C7E1A1E6E6E0052713F /* tinker-451865.jpg in Resources */,
 				7E6E34DE1A1A7CF900FF6776 /* typicons.ttf in Resources */,
 				151264121A1EC10800D13419 /* ErrorsHandler.strings in Resources */,
@@ -425,13 +460,16 @@
 			files = (
 				7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */,
 				7E16891F1A1BF22E00BA4DE6 /* CommentCell.m in Sources */,
+				7EFE023C1A25486F0037C1F0 /* DotView.m in Sources */,
 				150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */,
 				1512640D1A1E7F5500D13419 /* NSString+Validate.m in Sources */,
+				7EF1743A1A250B1800B5541D /* Colors.m in Sources */,
 				7E6E34E61A1A994A00FF6776 /* MapViewController.m in Sources */,
 				151264101A1EB96C00D13419 /* ErrorsHandler.m in Sources */,
 				7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */,
 				7E1689231A1C44CA00BA4DE6 /* DotAnnotationView.m in Sources */,
 				7E6E34E41A1A91ED00FF6776 /* PostViewController.m in Sources */,
+				7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */,
 				150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */,
 				150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */,
 				7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */,
