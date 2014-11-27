@@ -11,5 +11,6 @@
 @interface ContainerViewController : UIViewController
 
 - (void) switchToUserDotView;
+- (void) switchToMapView;
 
 @end

@@ -97,9 +97,14 @@
     [self.yearArray addObject:[NSNumber numberWithInteger:i]];
   }
   
-  UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
-  [tapper addTarget:self action:@selector(didPressUserDotsLabel:)];
-  [self.userDotsLabel addGestureRecognizer:tapper];
+  UITapGestureRecognizer *userTapper = [UITapGestureRecognizer new];
+  [userTapper addTarget:self action:@selector(didPressUserDotsLabel:)];
+  [self.userDotsLabel addGestureRecognizer:userTapper];
+  
+  UITapGestureRecognizer *mapTapper = [UITapGestureRecognizer new];
+  [mapTapper addTarget:self action:@selector(didPressMapLabel:)];
+  [self.mapViewLabel addGestureRecognizer:mapTapper];
+  
   
 }
 
@@ -449,6 +454,15 @@
   if (sender.state == UIGestureRecognizerStateEnded) {
     ContainerViewController *parent = (ContainerViewController *)[self parentViewController];
     [parent switchToUserDotView];
+  }
+  
+}
+
+- (void) didPressMapLabel: (UITapGestureRecognizer *)sender {
+  NSLog(@"DidPRess!");
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    ContainerViewController *parent = (ContainerViewController *)[self parentViewController];
+    [parent switchToMapView];
   }
   
 }

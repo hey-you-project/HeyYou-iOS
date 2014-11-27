@@ -177,7 +177,9 @@
 }
 
 - (void) switchToUserDotView {
+  NSLog(@"Switch to user dots called!");
   if (![self.currentMainViewController isKindOfClass:[UserDotsViewController class]]) {
+    NSLog(@"And activated");
     [self addChildViewController:self.userDotsViewController];
     [self.view insertSubview:self.userDotsViewController.view aboveSubview:self.mapViewController.view];
     [self.userDotsViewController didMoveToParentViewController:self];
@@ -190,16 +192,28 @@
                        
                   } completion:^(BOOL finished) {
                     self.currentMainViewController = self.userDotsViewController;
-                    [self.mapViewController.view removeFromSuperview];
                     [self toggleSideMenu];
                   }];
     
-  } else {
-    
+  }
+}
+
+- (void) switchToMapView {
+  NSLog(@"Switch to map view called!");
+  if (![self.currentMainViewController isKindOfClass:[MapViewController class]]) {
+    NSLog(@"And activated");
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                       self.userDotsViewController.view.alpha = 0;
+                       
+                     } completion:^(BOOL finished) {
+                       self.currentMainViewController = self.mapViewController;
+                       [self.userDotsViewController.view removeFromSuperview];
+                       [self.userDotsViewController removeFromParentViewController];
+                       [self toggleSideMenu];
+                     }];
     
   }
-  
-  
 }
 
 @end

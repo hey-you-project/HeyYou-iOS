@@ -22,8 +22,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *createAccountButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButtonOne;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButtonTwo;
-@property (weak, nonatomic) IBOutlet UILabel *userDotsLabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *userDotsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *mapViewLabel;
 @property (weak, nonatomic) IBOutlet UILabel *heyYouTitle;
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
