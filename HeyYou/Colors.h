@@ -10,6 +10,7 @@
 
 @interface Colors : NSObject
 
++ (id)singleton;
 - (UIColor *) getColorFromString: (NSString *) colorName;
 
 @property (nonatomic, strong) UIColor *flatTurquoise;

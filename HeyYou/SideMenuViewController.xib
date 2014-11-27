@@ -9,6 +9,7 @@
             <string>typicons</string>
             <string>typicons</string>
             <string>typicons</string>
+            <string>typicons</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -30,7 +31,9 @@
                 <outlet property="imageView" destination="9Rt-Ar-g7Y" id="VfW-lB-10N"/>
                 <outlet property="loginButton" destination="PAt-m4-RBY" id="Eug-L6-UTg"/>
                 <outlet property="loginView" destination="a9a-tz-Mqt" id="Zap-XC-83w"/>
+                <outlet property="mapViewLabel" destination="Yhb-zx-fbW" id="1Og-EY-3ar"/>
                 <outlet property="passwordField" destination="5g0-iw-7Bt" id="3zZ-nf-yYp"/>
+                <outlet property="userDotsLabel" destination="ntM-nx-ULe" id="WkJ-07-VdI"/>
                 <outlet property="userPostsView" destination="rQr-Cb-TKH" id="guz-jG-Umn"/>
                 <outlet property="usernameField" destination="PMd-lN-eaw" id="Ahp-NX-4DO"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -115,16 +118,16 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rQr-Cb-TKH">
-                    <rect key="frame" x="8" y="133" width="166" height="82"/>
+                    <rect key="frame" x="8" y="133" width="166" height="120"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Posts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yhb-zx-fbW">
-                            <rect key="frame" x="28" y="8" width="85" height="25"/>
+                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey You Map" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yhb-zx-fbW">
+                            <rect key="frame" x="28" y="8" width="110" height="25"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" red="0.1019607843" green="0.73725490199999999" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Messages" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntM-nx-ULe">
-                            <rect key="frame" x="28" y="50" width="125" height="25"/>
+                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Dots" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntM-nx-ULe">
+                            <rect key="frame" x="28" y="50" width="81" height="25"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -141,23 +144,39 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Your Chats" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F7f-ic-AC4">
+                            <rect key="frame" x="28" y="93" width="125" height="25"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jee-d7-NVw">
+                            <rect key="frame" x="8" y="92" width="12" height="26"/>
+                            <fontDescription key="fontDescription" name="typicons" family="Typicons" pointSize="24"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="166" id="2YF-eq-awW"/>
-                        <constraint firstAttribute="height" constant="82" id="7fh-s8-NiQ"/>
+                        <constraint firstAttribute="height" constant="120" id="7fh-s8-NiQ"/>
                         <constraint firstItem="ntM-nx-ULe" firstAttribute="leading" secondItem="YKV-y7-Myk" secondAttribute="trailing" constant="8" id="8ud-sM-Mt3"/>
                         <constraint firstItem="REX-n7-Xp2" firstAttribute="leading" secondItem="rQr-Cb-TKH" secondAttribute="leading" constant="8" id="Ca4-U1-eS8"/>
+                        <constraint firstItem="Jee-d7-NVw" firstAttribute="top" secondItem="YKV-y7-Myk" secondAttribute="bottom" constant="16" id="DcA-T5-PMO"/>
                         <constraint firstItem="REX-n7-Xp2" firstAttribute="centerY" secondItem="Yhb-zx-fbW" secondAttribute="centerY" id="OT0-6A-XCf"/>
+                        <constraint firstItem="F7f-ic-AC4" firstAttribute="leading" secondItem="Jee-d7-NVw" secondAttribute="trailing" constant="8" id="USg-hj-9P8"/>
+                        <constraint firstItem="Jee-d7-NVw" firstAttribute="centerY" secondItem="F7f-ic-AC4" secondAttribute="centerY" id="awi-Ge-Kco"/>
                         <constraint firstItem="YKV-y7-Myk" firstAttribute="top" secondItem="REX-n7-Xp2" secondAttribute="bottom" constant="16" id="meN-ov-LIX"/>
                         <constraint firstItem="REX-n7-Xp2" firstAttribute="top" secondItem="rQr-Cb-TKH" secondAttribute="top" constant="8" id="nCl-4L-bTl"/>
                         <constraint firstItem="Yhb-zx-fbW" firstAttribute="leading" secondItem="REX-n7-Xp2" secondAttribute="trailing" constant="8" id="tjK-9E-fLR"/>
+                        <constraint firstItem="YKV-y7-Myk" firstAttribute="centerX" secondItem="Jee-d7-NVw" secondAttribute="centerX" id="ugj-lm-BqI"/>
                         <constraint firstItem="YKV-y7-Myk" firstAttribute="centerY" secondItem="ntM-nx-ULe" secondAttribute="centerY" id="xnS-IQ-ul8"/>
                         <constraint firstItem="REX-n7-Xp2" firstAttribute="centerX" secondItem="YKV-y7-Myk" secondAttribute="centerX" id="yIe-dB-hJE"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FUW-qX-3xa">
-                    <rect key="frame" x="8" y="239" width="166" height="82"/>
+                    <rect key="frame" x="8" y="277" width="166" height="82"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hC5-mh-2a2">
                             <rect key="frame" x="9" y="8" width="12" height="26"/>

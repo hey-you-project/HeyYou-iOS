@@ -36,7 +36,6 @@
       }];
     }
   }];
-  
 }
 
 - (void)viewWillAppear:(BOOL)animated{

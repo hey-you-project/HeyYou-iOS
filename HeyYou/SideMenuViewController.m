@@ -8,6 +8,7 @@
 
 #import "SideMenuViewController.h"
 #import "NSString+Validate.h"
+#import "ContainerViewController.h"
 
 
 @interface SideMenuViewController ()
@@ -95,6 +96,16 @@
   for (NSInteger i = maxYear; i >= minYear; i--) {
     [self.yearArray addObject:[NSNumber numberWithInteger:i]];
   }
+  
+  UITapGestureRecognizer *userTapper = [UITapGestureRecognizer new];
+  [userTapper addTarget:self action:@selector(didPressUserDotsLabel:)];
+  [self.userDotsLabel addGestureRecognizer:userTapper];
+  
+  UITapGestureRecognizer *mapTapper = [UITapGestureRecognizer new];
+  [mapTapper addTarget:self action:@selector(didPressMapLabel:)];
+  [self.mapViewLabel addGestureRecognizer:mapTapper];
+  
+  
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -434,8 +445,26 @@
   
 }
 
--(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+-(void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
   [self dismissViewControllerAnimated:true completion:nil];
+}
+
+- (void) didPressUserDotsLabel: (UITapGestureRecognizer *)sender {
+  NSLog(@"DidPRess!");
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    ContainerViewController *parent = (ContainerViewController *)[self parentViewController];
+    [parent switchToUserDotView];
+  }
+  
+}
+
+- (void) didPressMapLabel: (UITapGestureRecognizer *)sender {
+  NSLog(@"DidPRess!");
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    ContainerViewController *parent = (ContainerViewController *)[self parentViewController];
+    [parent switchToMapView];
+  }
+  
 }
 
 @end
