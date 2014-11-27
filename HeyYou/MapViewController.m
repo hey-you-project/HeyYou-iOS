@@ -43,11 +43,10 @@
   self.dots = [NSMutableDictionary new];
   self.poppedDots = [NSMutableArray new];
   
-  self.colors = [Colors new];
+  self.colors = [Colors singleton];
   
   [self setupMapView];
   [self addCircleView];
-  
   [self setupGestureRecognizers];
   
   self.locationManager = [[CLLocationManager alloc] init];
@@ -87,10 +86,7 @@
   self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width + 100, self.view.frame.size.height)];
   [self.view addSubview:self.mapView];
   self.mapView.clipsToBounds = true;
-  self.mapView.layer.shadowColor = [[UIColor blackColor] CGColor];
-  self.mapView.layer.shadowOpacity = 0.6;
-  self.mapView.layer.shadowRadius = 3.0;
-  self.mapView.layer.shadowOffset = CGSizeMake(-5, 0);
+
 }
 
 - (void) setupSideMenu {
@@ -131,10 +127,6 @@
   [self.draggableCircle addGestureRecognizer:dragger];
 
 }
-
-
-
-
 
 #pragma mark Gesture Recognizer Methods
 
@@ -341,7 +333,6 @@
   vc.bodyTextField.backgroundColor = [colorUI colorWithAlphaComponent:0.3];
   
 }
-
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
   

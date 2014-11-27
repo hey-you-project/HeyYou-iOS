@@ -31,6 +31,7 @@
                 <outlet property="loginButton" destination="PAt-m4-RBY" id="Eug-L6-UTg"/>
                 <outlet property="loginView" destination="a9a-tz-Mqt" id="Zap-XC-83w"/>
                 <outlet property="passwordField" destination="5g0-iw-7Bt" id="3zZ-nf-yYp"/>
+                <outlet property="userDotsLabel" destination="Yhb-zx-fbW" id="rgh-u8-zLK"/>
                 <outlet property="userPostsView" destination="rQr-Cb-TKH" id="guz-jG-Umn"/>
                 <outlet property="usernameField" destination="PMd-lN-eaw" id="Ahp-NX-4DO"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -117,7 +118,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rQr-Cb-TKH">
                     <rect key="frame" x="8" y="133" width="166" height="82"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Posts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yhb-zx-fbW">
+                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Posts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yhb-zx-fbW">
                             <rect key="frame" x="28" y="8" width="85" height="25"/>
                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

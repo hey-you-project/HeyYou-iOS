@@ -9,15 +9,18 @@
 #import "ContainerViewController.h"
 #import "SideMenuViewController.h"
 #import "MapViewController.h"
+#import "UserDotsViewController.h"
 #import "Colors.h"
 
 @interface ContainerViewController ()
 
 @property (nonatomic, strong) MapViewController *mapViewController;
+@property (nonatomic, strong) UserDotsViewController *userDotsViewController;
 @property (nonatomic, strong) SideMenuViewController * sideMenuViewController;
 @property (nonatomic, strong) UILabel *hamburgerLabel;
 @property (nonatomic, strong) UIView *hamburgerWrapper;
 @property (nonatomic, strong) Colors *colors;
+@property (nonatomic, strong) UIViewController *currentMainViewController;
 
 @end
 
@@ -29,9 +32,9 @@
   self.colors = [Colors singleton];
   
   [self setupSideMenuViewController];
+  [self setupUserDotsViewController];
   [self setupMapViewController];
   [self addHamburgerMenuCircle];
-  
   [self setupGestureRecognizers];
   
 }
@@ -47,6 +50,17 @@
   self.mapViewController.view.frame = self.view.frame;
   [self.view addSubview:self.mapViewController.view];
   [self.mapViewController didMoveToParentViewController:self];
+  self.mapViewController.mapView.layer.shadowColor = [[UIColor blackColor] CGColor];
+  self.mapViewController.mapView.layer.shadowOpacity = 0.6;
+  self.mapViewController.mapView.layer.shadowRadius = 3.0;
+  self.mapViewController.mapView.layer.shadowOffset = CGSizeMake(-5, 0);
+  self.currentMainViewController = self.mapViewController;
+}
+
+- (void) setupUserDotsViewController {
+  self.userDotsViewController = [UserDotsViewController new];
+  self.mapViewController.view.frame = self.view.frame;
+  
 }
 
 - (void)setupSideMenuViewController {
@@ -109,23 +123,23 @@
 
 - (void)toggleSideMenu {
   
-  CGRect newMapViewFrame = self.mapViewController.view.frame;
+  CGRect newCurrentViewFrame = self.currentMainViewController.view.frame;
 
   CGRect newHamburgerFrame = self.hamburgerWrapper.frame;
   CGRect newHamLabelFrame = self.hamburgerLabel.frame;
   NSString *newString;
   CGAffineTransform transform;
   
-  if (self.mapViewController.view.frame.origin.x == 0){
+  if (self.currentMainViewController.view.frame.origin.x == 0){
     [self.mapViewController returnDragCircleToHomeBase];
     self.sideMenuViewController.blueEffectView.hidden = NO;
-    newMapViewFrame.origin.x += 200;
+    newCurrentViewFrame.origin.x += 200;
     newHamburgerFrame.origin.x += 30;
     newHamLabelFrame.origin.x += 6;
     newString = @"\ue122";
     transform = CGAffineTransformMakeScale(1.4, 1.4);
   } else {
-    newMapViewFrame.origin.x -= 200;
+    newCurrentViewFrame.origin.x -= 200;
     newHamburgerFrame.origin.x -= 30;
     newHamLabelFrame.origin.x -= 6;
     newString = @"\ue116";
@@ -139,7 +153,7 @@
         initialSpringVelocity:0.4
                       options:UIViewAnimationOptionAllowUserInteraction
                    animations:^{
-                     self.mapViewController.view.frame = newMapViewFrame;
+                     self.currentMainViewController.view.frame = newCurrentViewFrame;
                      self.hamburgerWrapper.frame = newHamburgerFrame;
                      self.hamburgerLabel.frame = newHamLabelFrame;
                      self.hamburgerLabel.text = newString;
@@ -159,6 +173,32 @@
   //    self.mapView.frame.origin.x = offsetX.x;
   //
   //  }
+  
+}
+
+- (void) switchToUserDotView {
+  if (![self.currentMainViewController isKindOfClass:[UserDotsViewController class]]) {
+    [self addChildViewController:self.userDotsViewController];
+    [self.view insertSubview:self.userDotsViewController.view aboveSubview:self.mapViewController.view];
+    [self.userDotsViewController didMoveToParentViewController:self];
+    self.userDotsViewController.view.frame = self.currentMainViewController.view.frame;
+    self.userDotsViewController.view.alpha = 0;
+    
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                       self.userDotsViewController.view.alpha = 1;
+                       
+                  } completion:^(BOOL finished) {
+                    self.currentMainViewController = self.userDotsViewController;
+                    [self.mapViewController.view removeFromSuperview];
+                    [self toggleSideMenu];
+                  }];
+    
+  } else {
+    
+    
+  }
+  
   
 }
 

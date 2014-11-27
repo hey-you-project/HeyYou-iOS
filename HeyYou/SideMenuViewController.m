@@ -8,6 +8,7 @@
 
 #import "SideMenuViewController.h"
 #import "NSString+Validate.h"
+#import "ContainerViewController.h"
 
 
 @interface SideMenuViewController ()
@@ -95,6 +96,11 @@
   for (NSInteger i = maxYear; i >= minYear; i--) {
     [self.yearArray addObject:[NSNumber numberWithInteger:i]];
   }
+  
+  UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
+  [tapper addTarget:self action:@selector(didPressUserDotsLabel:)];
+  [self.userDotsLabel addGestureRecognizer:tapper];
+  
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -434,8 +440,17 @@
   
 }
 
--(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+-(void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
   [self dismissViewControllerAnimated:true completion:nil];
+}
+
+- (void) didPressUserDotsLabel: (UITapGestureRecognizer *)sender {
+  NSLog(@"DidPRess!");
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    ContainerViewController *parent = (ContainerViewController *)[self parentViewController];
+    [parent switchToUserDotView];
+  }
+  
 }
 
 @end
