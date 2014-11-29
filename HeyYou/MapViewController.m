@@ -89,14 +89,6 @@
 
 }
 
-- (void) setupSideMenu {
-  self.sideMenuVC = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:[NSBundle mainBundle]];
-  [self addChildViewController:self.sideMenuVC];
-  [self.view addSubview:self.sideMenuVC.view];
-  self.sideMenuVC.view.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
-  //self.sideMenuVC.view.backgroundColor = self.customTeal;
-}
-
 - (void) addCircleView {
   
   self.dragCircleWrapper = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 100, self.view.frame.size.height - 100, 60, 60)];
@@ -128,9 +120,9 @@
 
 }
 
-#pragma mark Gesture Recognizer Methods
+#pragma mark UI Gesture Recognizer Methods
 
--(void)receivedTapGestureOnMapView:(UITapGestureRecognizer *)sender{
+- (void) receivedTapGestureOnMapView:(UITapGestureRecognizer *)sender{
   
   [self unpopCurrentComment];
   [self returnDragCircleToHomeBase];
@@ -138,7 +130,7 @@
   
 }
 
--(void) receivedDragGestureOnDragCircle:(UIPanGestureRecognizer *)sender{
+- (void) receivedDragGestureOnDragCircle:(UIPanGestureRecognizer *)sender{
   CGPoint point = [sender locationInView:self.view];
   
   if (sender.state == UIGestureRecognizerStateChanged) {
@@ -160,6 +152,88 @@
   [tapRecognizer addTarget:self action:@selector(receivedTapGestureOnMapView:)];
   [self.mapView addGestureRecognizer:tapRecognizer];
 
+}
+
+#pragma mark <MKMapViewDelegate>
+
+-(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+  if ([view isKindOfClass:[DotAnnotationView class]]){
+    [mapView deselectAnnotation:view.annotation animated:false];
+    BrowseViewController *dotVC = [BrowseViewController new];
+    
+    DotAnnotation *annotation = view.annotation;
+    dotVC.color = [self.colors getColorFromString:annotation.dot.color];
+    dotVC.dot = annotation.dot;
+    self.clickedDot = annotation.dot;
+    
+    self.currentPopup = dotVC;
+    CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
+    dotVC.touchPoint = point;
+    [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
+  } else {
+    
+    [self.mapView setRegion:MKCoordinateRegionMake(self.locationManager.location.coordinate, MKCoordinateSpanMake(2.0, 3.0)) animated:true];
+  }
+  
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+  
+  if ([annotation isKindOfClass:[MKUserLocation class]]) {
+    return nil;
+  } else {
+    
+    DotAnnotationView *view = (DotAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
+    if (view == nil) {
+      view = [[DotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
+    }
+    DotAnnotation *anno = annotation;
+    anno.dot = [self.dots objectForKey:anno.title];
+    view.color = [self.colors getColorFromString:anno.dot.color];
+    NSLog(@"%@", view.color);
+    NSTimeInterval timeSincePost = [anno.dot.timestamp timeIntervalSinceNow];
+    
+    double ratio = -timeSincePost / (60.0f * 60.0f * 48.0f);
+    CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
+    CGFloat width = 35.0f - (ratio * 25.0f);
+    view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
+    view.backgroundColor = [UIColor clearColor];
+    
+    //  view.layer.shadowColor = [[UIColor blackColor] CGColor];
+    //  view.layer.shadowOpacity = 0.6;
+    //  view.layer.shadowRadius = 3.0;
+    //  view.layer.shadowOffset = CGSizeMake(0, 2);
+    
+    view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+    int random = arc4random_uniform(400);
+    double random2 = random / 1000.0f;
+    
+    NSTimeInterval delay = (NSTimeInterval)random2;
+    view.alpha = 0;
+    
+    [UIView animateWithDuration:0.5 delay:delay usingSpringWithDamping:0.3 initialSpringVelocity:0.9 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+      view.transform = CGAffineTransformIdentity;
+      view.alpha = 1;
+    } completion:^(BOOL finished) {
+      
+    }];
+    [view setNeedsDisplay];
+    return view;
+  }
+  
+}
+
+-(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
+  if (!self.mapFullyLoaded) {
+    [self requestDots];
+    self.mapFullyLoaded= true;
+  }
+}
+
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+  if (self.mapFullyLoaded) {
+    [self requestDots];
+  }
 }
 
 #pragma mark Helper Methods
@@ -277,8 +351,6 @@
 //  }
 //}
 
-
-
 -(void)populateDotsOnMap {
   
     for (NSString* dotID in self.dots) {
@@ -301,27 +373,6 @@
   [self.mapView addAnnotation:anno];
 }
 
--(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-  if ([view isKindOfClass:[DotAnnotationView class]]){
-    [mapView deselectAnnotation:view.annotation animated:false];
-    BrowseViewController *dotVC = [BrowseViewController new];
-    
-    DotAnnotation *annotation = view.annotation;
-    dotVC.color = [self.colors getColorFromString:annotation.dot.color];
-    dotVC.dot = annotation.dot;
-    self.clickedDot = annotation.dot;
-    
-    self.currentPopup = dotVC;
-    CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
-    dotVC.touchPoint = point;
-    [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
-  } else {
-    
-    [self.mapView setRegion:MKCoordinateRegionMake(self.locationManager.location.coordinate, MKCoordinateSpanMake(2.0, 3.0)) animated:true];
-  }
-  
-}
-
 -(void) changeDotColor:(NSString *)color {
   
   UIColor *colorUI = [self.colors getColorFromString:color];
@@ -332,65 +383,6 @@
   vc.titleTextField.backgroundColor = [colorUI colorWithAlphaComponent:0.3];
   vc.bodyTextField.backgroundColor = [colorUI colorWithAlphaComponent:0.3];
   
-}
-
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-  
-  if ([annotation isKindOfClass:[MKUserLocation class]]) {
-    return nil;
-  } else {
-    
-    DotAnnotationView *view = (DotAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
-    if (view == nil) {
-      view = [[DotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
-    }
-    DotAnnotation *anno = annotation;
-    anno.dot = [self.dots objectForKey:anno.title];
-    view.color = [self.colors getColorFromString:anno.dot.color];
-    NSLog(@"%@", view.color);
-    NSTimeInterval timeSincePost = [anno.dot.timestamp timeIntervalSinceNow];
-    
-    double ratio = -timeSincePost / (60.0f * 60.0f * 48.0f);
-    CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
-    CGFloat width = 35.0f - (ratio * 25.0f);
-    view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
-    view.backgroundColor = [UIColor clearColor];
-    
-  //  view.layer.shadowColor = [[UIColor blackColor] CGColor];
-  //  view.layer.shadowOpacity = 0.6;
-  //  view.layer.shadowRadius = 3.0;
-  //  view.layer.shadowOffset = CGSizeMake(0, 2);
-    
-    view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-    int random = arc4random_uniform(400);
-    double random2 = random / 1000.0f;
-    
-    NSTimeInterval delay = (NSTimeInterval)random2;
-    view.alpha = 0;
-    
-    [UIView animateWithDuration:0.5 delay:delay usingSpringWithDamping:0.3 initialSpringVelocity:0.9 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-      view.transform = CGAffineTransformIdentity;
-      view.alpha = 1;
-    } completion:^(BOOL finished) {
-      
-    }];
-    [view setNeedsDisplay];
-  return view;
-  }
-  
-}
-
--(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
-  if (!self.mapFullyLoaded) {
-    [self requestDots];
-    self.mapFullyLoaded= true;
-  }
-}
-
--(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-  if (self.mapFullyLoaded) {
-    [self requestDots];
-  }
 }
 
 -(void) requestDots {
