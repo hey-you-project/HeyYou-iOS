@@ -9,11 +9,13 @@
 #import "PostViewController.h"
 #import "NetworkController.h"
 #import "MapViewController.h"
+#import "Colors.h"
 
 @interface PostViewController ()
 
 @property (nonatomic, strong) NSArray *colorConstraints;
 @property (nonatomic, strong) NetworkController* networkController;
+@property (nonatomic, strong) Colors *colors;
 @end
 
 @implementation PostViewController
@@ -23,6 +25,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self setupGestureRecognizers];
+  self.colors = [Colors singleton];
   
   self.color = @"purple";
   self.colorConstraints = @[self.orangeConstraint, self.blueConstraint, self.greenConstraint, self.yellowConstraint, self.tealConstraint, self.pinkConstraint, self.purpleConstraint];
@@ -34,6 +37,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  self.borderView.strokeColor = [self.colors getColorFromString:@"purple"];
   self.bodyTextField.layer.cornerRadius = 10;
   self.titleTextField.layer.cornerRadius = 10;
 }
@@ -45,13 +49,12 @@
   UIPanGestureRecognizer *colorPanner = [[UIPanGestureRecognizer alloc] init];
   [colorPanner addTarget:self action:@selector(receivedPanEventFromColorWrapper:)];
   [self.colorWrapper addGestureRecognizer:colorPanner];
+  
   UITapGestureRecognizer *colorTapper = [[UITapGestureRecognizer alloc] init];
   [colorTapper addTarget:self action:@selector(receivedPanEventFromColorWrapper:)];
   [self.colorWrapper addGestureRecognizer:colorTapper];
   
 }
-
-
 
 - (IBAction)didPressPostButton:(id)sender {
   NSString *title = self.titleTextField.text;
@@ -113,19 +116,16 @@
     if (![self.color  isEqual: @"turquoise"]) {
       [self changeAllTheThingsToColor:@"turquoise"];
       [self toggleColorToColor:self.greenConstraint];
-      [self.delegate changeDotColor:@"turquoise"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 2) {
     if (![self.color  isEqual: @"green"]) {
       [self changeAllTheThingsToColor:@"green"];
       [self toggleColorToColor:self.yellowConstraint];
-      [self.delegate changeDotColor:@"green"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 3) {
     if (![self.color  isEqual: @"blue"]) {
       [self changeAllTheThingsToColor:@"blue"];
       [self toggleColorToColor:self.tealConstraint];
-      [self.delegate changeDotColor:@"blue"];
     }
   } else if (point.x < (self.colorWrapper.frame.size.width / 7) * 4) {
     if (![self.color  isEqual: @"purple"]) {
@@ -151,8 +151,13 @@
 }
 
 -(void) changeAllTheThingsToColor: (NSString *)color {
-  [self.delegate changeDotColor:color];
   self.color = color;
+  UIColor *colorUI = [self.colors getColorFromString:color];
+  self.borderView.strokeColor = colorUI;
+  //self.titleLabel.textColor = colorUI;
+  [self.borderView setNeedsDisplay];
+  [self.delegate changeDotColor:colorUI];
+  
 }
 
 @end
