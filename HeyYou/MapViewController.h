@@ -18,7 +18,7 @@
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 
--(void) changeDotColor:(NSString *)color;
+-(void) changeDotColor:(UIColor *)color;
 -(void) addNewAnnotationForDot:(Dot*) dot;
 -(void) unpopCurrentComment;
 -(void) returnDragCircleToHomeBase;

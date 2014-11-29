@@ -212,7 +212,6 @@
                        [self.userDotsViewController removeFromParentViewController];
                        [self toggleSideMenu];
                      }];
-    
   }
 }
 

@@ -16,12 +16,12 @@
 
 @interface PostViewController : UIViewController <PopupViewController>
 
+#pragma mark IBOutlets
+
 @property (weak, nonatomic) IBOutlet UITextView *bodyTextField;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextField;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
-@property CLLocationCoordinate2D location;
-@property (nonatomic, strong) NSString *color;
 @property (weak, nonatomic) IBOutlet UIView *colorWrapper;
 
 @property (weak, nonatomic) IBOutlet UILabel *purpleLabel;
@@ -41,8 +41,12 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *pinkConstraint;
 @property (weak, nonatomic) IBOutlet PopupView *borderView;
 
+#pragma mark properties
+
 @property (nonatomic, strong) MapViewController *delegate;
 @property (nonatomic, strong) UIColor *colorUI;
+@property CLLocationCoordinate2D location;
+@property (nonatomic, strong) NSString *color;
 
 
 
