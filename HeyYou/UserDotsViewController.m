@@ -28,6 +28,12 @@
   [super viewDidLoad];
   self.networkController = [NetworkController sharedController];
   self.colors = [Colors new];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+  [super viewWillAppear:animated];
+  self.view.backgroundColor = [UIColor blueColor];
   [self.networkController getAllMyDotsWithCompletionHandler:^(NSError *error, NSArray *dots) {
     if (error == nil) {
       self.myDots = dots;
@@ -36,12 +42,6 @@
       }];
     }
   }];
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-  [super viewWillAppear:animated];
-  self.view.backgroundColor = [UIColor blueColor];
-
 }
 
 - (void)didReceiveMemoryWarning {
