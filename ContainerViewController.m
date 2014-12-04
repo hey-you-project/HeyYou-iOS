@@ -19,9 +19,15 @@
 @property (nonatomic, strong) UserDotsViewController *userDotsViewController;
 @property (nonatomic, strong) SideMenuViewController * sideMenuViewController;
 @property (nonatomic, strong) UILabel *hamburgerLabel;
-@property (nonatomic, strong) HamburgerWrapperView *hamburgerWrapper;
+@property (nonatomic, strong) UIView *hamburgerWrapper;
 @property (nonatomic, strong) Colors *colors;
 @property (nonatomic, strong) UIViewController *currentMainViewController;
+@property (nonatomic, strong) UIView *userDotsButton;
+@property (nonatomic, strong) UIView *chatButton;
+@property (nonatomic, strong) UIView *loginButton;
+@property (nonatomic, strong) UIView *mapButton;
+@property (nonatomic, strong) UIView *coverView;
+
 @property BOOL hamburgerMenuExpanded;
 
 @end
@@ -33,11 +39,18 @@
   
   self.colors = [Colors singleton];
   
+  
   [self setupSideMenuViewController];
   [self setupUserDotsViewController];
   [self setupMapViewController];
+  [self setupButtons];
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
+  
+  self.coverView = [UIView new];
+  self.coverView.frame = self.view.frame;
+  self.coverView.backgroundColor = [UIColor blackColor];
+  self.coverView.alpha = 0.0;
   
   self.hamburgerMenuExpanded = false;
   
@@ -79,13 +92,13 @@
   
   CGRect hamburgerRect = CGRectMake(self.view.frame.origin.x + 40, self.view.frame.size.height - 100, 60, 60);
   
-  self.hamburgerWrapper = [[HamburgerWrapperView alloc] initWithFrame:hamburgerRect];
-  //self.hamburgerWrapper.layer.cornerRadius = self.hamburgerWrapper.frame.size.height / 2;
-    self.hamburgerWrapper.backgroundColor = [UIColor whiteColor];
-//  self.hamburgerWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
-//  self.hamburgerWrapper.layer.shadowOpacity = 0.6;
-//  self.hamburgerWrapper.layer.shadowRadius = 3.0;
-//  self.hamburgerWrapper.layer.shadowOffset = CGSizeMake(0, 3);
+  self.hamburgerWrapper = [[UIView alloc] initWithFrame:hamburgerRect];
+  self.hamburgerWrapper.layer.cornerRadius = self.hamburgerWrapper.frame.size.height / 2;
+  self.hamburgerWrapper.backgroundColor = self.colors.flatGreen;
+  self.hamburgerWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
+  self.hamburgerWrapper.layer.shadowOpacity = 0.6;
+  self.hamburgerWrapper.layer.shadowRadius = 3.0;
+  self.hamburgerWrapper.layer.shadowOffset = CGSizeMake(0, 3);
   self.hamburgerWrapper.layer.masksToBounds = false;
   //self.hamburgerWrapper.layer.anchorPoint = CGPointMake(self.hamburgerWrapper.bounds.origin.x, self.hamburgerWrapper.bounds.origin.y);
   [self.view addSubview:self.hamburgerWrapper];
@@ -95,7 +108,7 @@
   self.hamburgerLabel = [[UILabel alloc] initWithFrame:labelRect];
   self.hamburgerLabel.text = @"\ue116";
   self.hamburgerLabel.font = [UIFont fontWithName:@"typicons" size:30];
-  self.hamburgerLabel.textColor = self.colors.flatPurple;
+  self.hamburgerLabel.textColor = [UIColor whiteColor];
   
   self.hamburgerLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.hamburgerLabel.layer.shadowOpacity = 0.8;
@@ -106,6 +119,57 @@
   UITapGestureRecognizer *tap = [UITapGestureRecognizer new];
   [tap addTarget:self action:@selector(receivedTapGestureOnHamburgerButton:)];
   [self.hamburgerWrapper addGestureRecognizer:tap];
+  
+}
+
+- (void) setupButtons {
+  self.userDotsButton = [UIView new];
+  self.mapButton = [UIView new];
+  self.chatButton = [UIView new];
+  self.loginButton = [UIView new];
+  
+  self.userDotsButton.backgroundColor = self.colors.flatRed;
+  self.mapButton.backgroundColor = self.colors.flatBlue;
+  self.chatButton.backgroundColor = self.colors.flatOrange;
+  self.loginButton.backgroundColor = self.colors.flatYellow;
+
+  NSArray *buttonArray = @[self.userDotsButton, self.mapButton, self.chatButton, self.loginButton];
+  for (UIView *button in buttonArray) {
+    NSLog(@"Button added.");
+    button.frame = CGRectMake(self.view.frame.origin.x + 55, self.view.frame.size.height - 85, 40, 40);
+    button.layer.shadowColor = [[UIColor blackColor] CGColor];
+    button.layer.cornerRadius = button.frame.size.height / 2;
+    button.layer.shadowOpacity = 0.6;
+    button.layer.shadowRadius = 3.0;
+    button.layer.shadowOffset = CGSizeMake(0, 3);
+    [self.view addSubview:button];
+  }
+  
+  UILabel *userDotsLabel = [UILabel new];
+  UILabel *mapLabel = [UILabel new];
+  UILabel *chatLabel = [UILabel new];
+  UILabel *loginLabel = [UILabel new];
+  
+  [self.userDotsButton addSubview:userDotsLabel];
+  [self.mapButton addSubview:mapLabel];
+  [self.chatButton addSubview:chatLabel];
+  [self.loginButton addSubview:loginLabel];
+  
+  userDotsLabel.text = @"\ue0b1";
+  mapLabel.text = @"\ue0a6";
+  chatLabel.text = @"\ue0b9";
+  loginLabel.text = @"\ue030";
+  
+  NSArray *labelArray = @[userDotsLabel, mapLabel, chatLabel, loginLabel];
+  for (UILabel *label in labelArray) {
+    label.font = [UIFont fontWithName:@"typicons" size:24];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.frame = label.superview.bounds;
+    NSLog(@"%f", label.center.x);
+  }
+  
+
   
 }
 
@@ -122,26 +186,73 @@
   
   if (sender.state == UIGestureRecognizerStateEnded) {
     //[self toggleSideMenu];
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-         usingSpringWithDamping:0.7
-          initialSpringVelocity:0.4
-                        options:UIViewAnimationOptionAllowUserInteraction
-                     animations:^{
-                       if (self.hamburgerMenuExpanded) {
-                         self.hamburgerWrapper.frame = CGRectMake(self.view.frame.origin.x + 40, self.view.frame.size.height - 100, 60, 60);
-                         self.hamburgerMenuExpanded = false;
-                       } else {
-                       self.hamburgerWrapper.frame = CGRectMake(self.view.frame.origin.x + 40, self.view.frame.size.height - 240, 300, 200);
-                         self.hamburgerMenuExpanded = true;
-                       }
-                       [self.hamburgerWrapper setNeedsDisplay];
-                     } completion:^(BOOL finished) {
-                    
-                     }];
-   
+    [self expandHamburgerMenuToRadial];
   }
   
+}
+
+- (void) expandHamburgerMenuToPopup {
+  
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+       usingSpringWithDamping:0.7
+        initialSpringVelocity:0.4
+                      options:UIViewAnimationOptionAllowUserInteraction
+                   animations:^{
+                     if (self.hamburgerMenuExpanded) {
+                       self.hamburgerWrapper.frame = CGRectMake(self.view.frame.origin.x + 40, self.view.frame.size.height - 100, 60, 60);
+                       self.hamburgerMenuExpanded = false;
+                     } else {
+                       self.hamburgerWrapper.frame = CGRectMake(self.view.frame.origin.x + 40, self.view.frame.size.height - 240, 300, 200);
+                       self.hamburgerMenuExpanded = true;
+                     }
+                     [self.hamburgerWrapper setNeedsDisplay];
+                   } completion:^(BOOL finished) {
+                     
+                   }];
+  
+}
+
+- (void) expandHamburgerMenuToRadial {
+  
+  CGAffineTransform labelTransform = CGAffineTransformMakeScale(1.4, 1.4);
+  labelTransform = CGAffineTransformTranslate(labelTransform, 4, 0);
+  
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+       usingSpringWithDamping:0.7
+        initialSpringVelocity:0.4
+                      options:UIViewAnimationOptionAllowUserInteraction
+                   animations:^{
+                     if (self.hamburgerMenuExpanded) {
+                       self.loginButton.transform = CGAffineTransformIdentity;
+                       self.chatButton.transform = CGAffineTransformIdentity;
+                       self.userDotsButton.transform = CGAffineTransformIdentity;
+                       self.hamburgerLabel.text =  @"\ue116";
+                       self.hamburgerLabel.transform = CGAffineTransformIdentity;
+                       self.coverView.alpha = 0.0;
+                       self.hamburgerMenuExpanded = false;
+                     } else {
+                       NSLog(@"Trying to move views!");
+                       self.userDotsButton.transform = CGAffineTransformMakeTranslation(12, -75);
+                       self.chatButton.transform = CGAffineTransformMakeTranslation(60, -40);
+                       self.loginButton.transform = CGAffineTransformMakeTranslation(63, 20);
+                       self.hamburgerLabel.transform = labelTransform;
+                       self.hamburgerLabel.text = @"\ue122";
+                       self.coverView.alpha = 0.3;
+                       [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
+                       self.hamburgerMenuExpanded = true;
+                     }
+                     [self.hamburgerWrapper setNeedsDisplay];
+                   } completion:^(BOOL finished) {
+                     
+                     [UIView animateWithDuration:
+                      
+                                      animations:^{
+                                        <#code#>
+                                      }]
+                     
+                   }];
 }
 
 - (void)toggleSideMenu {
