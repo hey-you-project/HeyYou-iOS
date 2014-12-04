@@ -11,6 +11,7 @@
 #import "MapViewController.h"
 #import "UserDotsViewController.h"
 #import "Colors.h"
+#import "HamburgerWrapperView.h"
 
 @interface ContainerViewController ()
 
@@ -18,9 +19,10 @@
 @property (nonatomic, strong) UserDotsViewController *userDotsViewController;
 @property (nonatomic, strong) SideMenuViewController * sideMenuViewController;
 @property (nonatomic, strong) UILabel *hamburgerLabel;
-@property (nonatomic, strong) UIView *hamburgerWrapper;
+@property (nonatomic, strong) HamburgerWrapperView *hamburgerWrapper;
 @property (nonatomic, strong) Colors *colors;
 @property (nonatomic, strong) UIViewController *currentMainViewController;
+@property BOOL hamburgerMenuExpanded;
 
 @end
 
@@ -36,6 +38,8 @@
   [self setupMapViewController];
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
+  
+  self.hamburgerMenuExpanded = false;
   
 }
 
@@ -75,16 +79,18 @@
   
   CGRect hamburgerRect = CGRectMake(self.view.frame.origin.x + 40, self.view.frame.size.height - 100, 60, 60);
   
-  self.hamburgerWrapper = [[UIView alloc] initWithFrame:hamburgerRect];
-  self.hamburgerWrapper.layer.cornerRadius = self.hamburgerWrapper.frame.size.height / 2;
-  self.hamburgerWrapper.backgroundColor = [UIColor whiteColor];
-  self.hamburgerWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
-  self.hamburgerWrapper.layer.shadowOpacity = 0.6;
-  self.hamburgerWrapper.layer.shadowRadius = 3.0;
-  self.hamburgerWrapper.layer.shadowOffset = CGSizeMake(0, 3);
+  self.hamburgerWrapper = [[HamburgerWrapperView alloc] initWithFrame:hamburgerRect];
+  //self.hamburgerWrapper.layer.cornerRadius = self.hamburgerWrapper.frame.size.height / 2;
+    self.hamburgerWrapper.backgroundColor = [UIColor whiteColor];
+//  self.hamburgerWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
+//  self.hamburgerWrapper.layer.shadowOpacity = 0.6;
+//  self.hamburgerWrapper.layer.shadowRadius = 3.0;
+//  self.hamburgerWrapper.layer.shadowOffset = CGSizeMake(0, 3);
+  self.hamburgerWrapper.layer.masksToBounds = false;
+  //self.hamburgerWrapper.layer.anchorPoint = CGPointMake(self.hamburgerWrapper.bounds.origin.x, self.hamburgerWrapper.bounds.origin.y);
   [self.view addSubview:self.hamburgerWrapper];
   
-  CGRect labelRect = CGRectMake(self.hamburgerWrapper.bounds.origin.x + 19, self.hamburgerWrapper.bounds.origin.y + 17.5, 25, 25);
+  CGRect labelRect = CGRectMake(self.hamburgerWrapper.frame.origin.x + 19, self.hamburgerWrapper.frame.origin.y + 17.5, 25, 25);
   
   self.hamburgerLabel = [[UILabel alloc] initWithFrame:labelRect];
   self.hamburgerLabel.text = @"\ue116";
@@ -95,8 +101,7 @@
   self.hamburgerLabel.layer.shadowOpacity = 0.8;
   self.hamburgerLabel.layer.shadowRadius = 1.0;
   self.hamburgerLabel.layer.shadowOffset = CGSizeMake(0, 2);
-  
-  [self.hamburgerWrapper addSubview:self.hamburgerLabel];
+  [self.view addSubview:self.hamburgerLabel];
   
   UITapGestureRecognizer *tap = [UITapGestureRecognizer new];
   [tap addTarget:self action:@selector(receivedTapGestureOnHamburgerButton:)];
@@ -116,7 +121,25 @@
 - (void) receivedTapGestureOnHamburgerButton:(UITapGestureRecognizer *)sender{
   
   if (sender.state == UIGestureRecognizerStateEnded) {
-    [self toggleSideMenu];
+    //[self toggleSideMenu];
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+         usingSpringWithDamping:0.7
+          initialSpringVelocity:0.4
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^{
+                       if (self.hamburgerMenuExpanded) {
+                         self.hamburgerWrapper.frame = CGRectMake(self.view.frame.origin.x + 40, self.view.frame.size.height - 100, 60, 60);
+                         self.hamburgerMenuExpanded = false;
+                       } else {
+                       self.hamburgerWrapper.frame = CGRectMake(self.view.frame.origin.x + 40, self.view.frame.size.height - 240, 300, 200);
+                         self.hamburgerMenuExpanded = true;
+                       }
+                       [self.hamburgerWrapper setNeedsDisplay];
+                     } completion:^(BOOL finished) {
+                    
+                     }];
+   
   }
   
 }

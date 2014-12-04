@@ -48,6 +48,7 @@
 		7E713DE11A1AA0AD00B6C9D3 /* HEAVYWEI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE01A1AA0AD00B6C9D3 /* HEAVYWEI.TTF */; };
 		7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */; };
 		7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */; };
+		7E90DAA21A2E2950007EE342 /* HamburgerWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E90DAA11A2E2950007EE342 /* HamburgerWrapperView.m */; };
 		7ECAB0971A23CC280047DA04 /* PopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECAB0961A23CC280047DA04 /* PopupView.m */; };
 		7EE1FC361A2670ED00AA6B5F /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE1FC351A2670ED00AA6B5F /* ContainerViewController.m */; };
 		7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174321A24FBF500B5541D /* UserDotsViewController.m */; };
@@ -132,6 +133,8 @@
 		7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseViewController.h; sourceTree = "<group>"; };
 		7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseViewController.m; sourceTree = "<group>"; };
 		7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseViewController.xib; sourceTree = "<group>"; };
+		7E90DAA01A2E2950007EE342 /* HamburgerWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HamburgerWrapperView.h; sourceTree = "<group>"; };
+		7E90DAA11A2E2950007EE342 /* HamburgerWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HamburgerWrapperView.m; sourceTree = "<group>"; };
 		7ECAB0961A23CC280047DA04 /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
 		7ECAB0981A23D2170047DA04 /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
 		7EE1FC341A2670ED00AA6B5F /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContainerViewController.h; path = ../ContainerViewController.h; sourceTree = "<group>"; };
@@ -297,6 +300,8 @@
 		157853311A1D0F1C008CD931 /* View Layer */ = {
 			isa = PBXGroup;
 			children = (
+				7E90DAA01A2E2950007EE342 /* HamburgerWrapperView.h */,
+				7E90DAA11A2E2950007EE342 /* HamburgerWrapperView.m */,
 				7EF174381A250B1800B5541D /* Colors.h */,
 				7EF174391A250B1800B5541D /* Colors.m */,
 				7EF174371A25081100B5541D /* Nibs */,
@@ -477,6 +482,7 @@
 				7E6E34E41A1A91ED00FF6776 /* PostViewController.m in Sources */,
 				7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */,
 				150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */,
+				7E90DAA21A2E2950007EE342 /* HamburgerWrapperView.m in Sources */,
 				150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */,
 				7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */,
 				150C41A51A1A77C20062DE29 /* Comment.m in Sources */,
