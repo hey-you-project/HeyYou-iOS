@@ -27,6 +27,9 @@
 @property (nonatomic, strong) UIView *loginButton;
 @property (nonatomic, strong) UIView *mapButton;
 @property (nonatomic, strong) UIView *coverView;
+@property (nonatomic, strong) UILabel *chatLabel;
+@property (nonatomic, strong) UILabel *dotsLabel;
+@property (nonatomic, strong) UILabel *loginLabel;
 
 @property BOOL hamburgerMenuExpanded;
 
@@ -135,7 +138,6 @@
 
   NSArray *buttonArray = @[self.userDotsButton, self.mapButton, self.chatButton, self.loginButton];
   for (UIView *button in buttonArray) {
-    NSLog(@"Button added.");
     button.frame = CGRectMake(self.view.frame.origin.x + 55, self.view.frame.size.height - 85, 40, 40);
     button.layer.shadowColor = [[UIColor blackColor] CGColor];
     button.layer.cornerRadius = button.frame.size.height / 2;
@@ -166,11 +168,25 @@
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.frame = label.superview.bounds;
-    NSLog(@"%f", label.center.x);
   }
   
-
+  UITapGestureRecognizer *tap = [UITapGestureRecognizer new];
+  [tap addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
+  [self.userDotsButton addGestureRecognizer:tap];
   
+  UITapGestureRecognizer *tap2 = [UITapGestureRecognizer new];
+  [tap2 addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
+  [self.userDotsButton addGestureRecognizer:tap2];
+  
+  UITapGestureRecognizer *tap3 = [UITapGestureRecognizer new];
+  [tap3 addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
+  [self.userDotsButton addGestureRecognizer:tap3];
+  
+  UITapGestureRecognizer *tap4 = [UITapGestureRecognizer new];
+  [tap4 addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
+  [self.userDotsButton addGestureRecognizer:tap4];
+
+
 }
 
 - (void) setupGestureRecognizers {
@@ -232,8 +248,10 @@
                        self.hamburgerLabel.transform = CGAffineTransformIdentity;
                        self.coverView.alpha = 0.0;
                        self.hamburgerMenuExpanded = false;
+                       self.chatLabel.alpha = 0;
+                       self.loginLabel.alpha = 0;
+                       self.dotsLabel.alpha = 0;
                      } else {
-                       NSLog(@"Trying to move views!");
                        self.userDotsButton.transform = CGAffineTransformMakeTranslation(12, -75);
                        self.chatButton.transform = CGAffineTransformMakeTranslation(60, -40);
                        self.loginButton.transform = CGAffineTransformMakeTranslation(63, 20);
@@ -245,14 +263,44 @@
                      }
                      [self.hamburgerWrapper setNeedsDisplay];
                    } completion:^(BOOL finished) {
+                     if (self.hamburgerMenuExpanded) {
+                       self.chatLabel = [UILabel new];
+                       self.dotsLabel = [UILabel new];
+                       self.loginLabel  = [UILabel new];
+                       self.chatLabel.text = @"Chat";
+                       self.dotsLabel.text = @"Mine";
+                       self.loginLabel.text = @"Login";
+                       self.dotsLabel.textColor = [UIColor whiteColor];
+                       self.loginLabel.textColor = [UIColor whiteColor];
+                       self.chatLabel.textColor = [UIColor whiteColor];
+                       self.chatLabel.frame = self.chatButton.frame;
+                       self.dotsLabel.frame = self.userDotsButton.frame;
+                       self.loginLabel.frame = self.loginButton.frame;
+                       self.chatLabel.font = [UIFont fontWithName:@"Avenir Light" size:14];
+                       self.loginLabel.font = [UIFont fontWithName:@"Avenir Light" size:14];
+                       self.dotsLabel.font = [UIFont fontWithName:@"Avenir Light" size:14];
+                       self.chatLabel.transform = CGAffineTransformMakeTranslation(43, 0);
+                       self.dotsLabel.transform = CGAffineTransformMakeTranslation(43, 0);
+                       self.loginLabel.transform = CGAffineTransformMakeTranslation(43, 0);
+                       self.chatLabel.alpha = 0;
+                       self.loginLabel.alpha = 0;
+                       self.dotsLabel.alpha = 0;
+                       [self.view addSubview:self.chatLabel];
+                       [self.view addSubview:self.loginLabel];
+                       [self.view addSubview:self.dotsLabel];
+                       
+                       [UIView animateWithDuration: 0.4
+                                        animations:^{
+                                          self.chatLabel.alpha = 1;
+                                          self.loginLabel.alpha = 1;
+                                          self.dotsLabel.alpha = 1;
+                                        }];
+                     } else{
+                       
+                     }
                      
-                     [UIView animateWithDuration:
-                      
-                                      animations:^{
-                                        <#code#>
-                                      }]
-                     
-                   }];
+                     }];
+                  
 }
 
 - (void)toggleSideMenu {
@@ -326,7 +374,7 @@
                        
                   } completion:^(BOOL finished) {
                     self.currentMainViewController = self.userDotsViewController;
-                    [self toggleSideMenu];
+                    //[self toggleSideMenu];
                   }];
     
   }
@@ -346,6 +394,17 @@
                        [self.userDotsViewController removeFromParentViewController];
                        [self toggleSideMenu];
                      }];
+  }
+}
+
+-(void) receivedTapGestureOnSmallButton:(UITapGestureRecognizer *)sender {
+  NSLog(@"Got small button tap!");
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    if (sender.view == self.mapButton) {
+      [self switchToMapView];
+    } else if (sender.view == self.userDotsButton) {
+      [self switchToUserDotView];
+    }
   }
 }
 
