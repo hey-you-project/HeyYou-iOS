@@ -93,7 +93,7 @@
   
   self.dragCircleWrapper = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 100, self.view.frame.size.height - 100, 60, 60)];
   self.dragCircleWrapper.layer.cornerRadius = self.dragCircleWrapper.frame.size.height / 2;
-  self.dragCircleWrapper.layer.backgroundColor = [[UIColor whiteColor] CGColor];
+  self.dragCircleWrapper.layer.backgroundColor = [self.colors.flatGreen CGColor];
   self.dragCircleWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.dragCircleWrapper.layer.shadowOpacity = 0.6;
   self.dragCircleWrapper.layer.shadowRadius = 3.0;
@@ -103,7 +103,7 @@
 
   self.draggableCircle = [[UIView alloc] initWithFrame:miniCircleRect];
   self.draggableCircle.layer.cornerRadius = self.draggableCircle.frame.size.height / 2;
-  self.draggableCircle.backgroundColor = self.colors.flatPurple;
+  self.draggableCircle.backgroundColor = [UIColor whiteColor];
   self.originalCircleCenter = self.draggableCircle.center;
   
   self.draggableCircle.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -260,7 +260,7 @@
         initialSpringVelocity:0.4
                       options:UIViewAnimationOptionAllowUserInteraction animations:^{
                         self.draggableCircle.center = self.originalCircleCenter;
-                        self.draggableCircle.backgroundColor = self.colors.flatPurple;
+                        self.draggableCircle.backgroundColor = [UIColor whiteColor];
                       } completion:^(BOOL finished) {
                         
                       }];

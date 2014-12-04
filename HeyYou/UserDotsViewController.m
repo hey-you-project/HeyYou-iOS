@@ -33,7 +33,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
   [super viewWillAppear:animated];
-  self.view.backgroundColor = [UIColor blueColor];
+  //self.view.backgroundColor = [UIColor blueColor];
   [self.networkController getAllMyDotsWithCompletionHandler:^(NSError *error, NSArray *dots) {
     if (error == nil) {
       self.myDots = dots;
@@ -51,21 +51,35 @@
 
 - (void)addDots {
    CGFloat offset = 0;
+   CGFloat delay = 0.1;
   for (Dot *dot in self.myDots) {
     NSLog(@"Adding dot!");
     DotView *circle = [DotView new];
     circle.dot = dot;
     circle.color = [self.colors getColorFromString:dot.color];
-    circle.frame = CGRectMake(50 + offset, self.view.frame.size.height - 50, 25, 25);
+    circle.frame = CGRectMake(25, 100 + offset, 25, 25);
     circle.backgroundColor = [UIColor clearColor];
+    circle.transform = CGAffineTransformMakeTranslation(self.view.frame.size.width, 0);
 
     [self.scrollView addSubview:circle];
+    
+    [UIView animateWithDuration:0.7
+                          delay:delay
+         usingSpringWithDamping:0.7
+          initialSpringVelocity:0.2
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^{
+                       circle.transform = CGAffineTransformIdentity;
+                     } completion:^(BOOL finished) {
+                       
+                     }];
     
     UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
     [tapper addTarget:self action:@selector(didTapView:)];
     [circle addGestureRecognizer:tapper];
     
     offset += 50;
+    delay += 0.2;
   }
 }
 
