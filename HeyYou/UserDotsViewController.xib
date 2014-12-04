@@ -15,16 +15,46 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J6Y-tQ-aYq">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="NOC-cH-HCq">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K5A-TQ-LVi">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Qqx-DJ-mfK">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <vibrancyEffect>
+                                    <blurEffect style="light"/>
+                                </vibrancyEffect>
+                            </visualEffectView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="K5A-TQ-LVi" firstAttribute="top" secondItem="NOC-cH-HCq" secondAttribute="top" id="22z-fB-h0X"/>
+                            <constraint firstItem="K5A-TQ-LVi" firstAttribute="leading" secondItem="NOC-cH-HCq" secondAttribute="leading" id="FV2-85-UyP"/>
+                            <constraint firstAttribute="trailing" secondItem="K5A-TQ-LVi" secondAttribute="trailing" id="J67-cV-omJ"/>
+                            <constraint firstAttribute="bottom" secondItem="K5A-TQ-LVi" secondAttribute="bottom" id="nOw-bE-dKu"/>
+                        </constraints>
+                    </view>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y9l-qk-KtT">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                 </scrollView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Y9l-qk-KtT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3rd-SR-QzF"/>
                 <constraint firstItem="Y9l-qk-KtT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="LrJ-Fw-QHH"/>
+                <constraint firstAttribute="trailing" secondItem="J6Y-tQ-aYq" secondAttribute="trailing" id="NGs-72-JOB"/>
+                <constraint firstItem="J6Y-tQ-aYq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="SA7-Ws-hyh"/>
                 <constraint firstAttribute="bottom" secondItem="Y9l-qk-KtT" secondAttribute="bottom" id="TlM-Fz-ATt"/>
+                <constraint firstAttribute="bottom" secondItem="J6Y-tQ-aYq" secondAttribute="bottom" id="Vmp-ek-mcy"/>
                 <constraint firstAttribute="trailing" secondItem="Y9l-qk-KtT" secondAttribute="trailing" id="biF-QU-9sz"/>
+                <constraint firstItem="J6Y-tQ-aYq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hhu-nd-jrT"/>
             </constraints>
         </view>
     </objects>

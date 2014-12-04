@@ -50,13 +50,21 @@
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
   
+//  UIVisualEffect *blurEffect;
+//  blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+//  
+//  self.coverView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+//
   self.coverView = [UIView new];
-  self.coverView.frame = self.view.frame;
+  self.coverView.frame = self.view.bounds;
   self.coverView.backgroundColor = [UIColor blackColor];
   self.coverView.alpha = 0.0;
-  
   self.hamburgerMenuExpanded = false;
   
+  UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
+  logo.frame = CGRectMake((self.view.frame.size.width / 2) - (176/2), 30, 176, 28);
+  [self.view addSubview:logo];
+                       
 }
 
 - (void)didReceiveMemoryWarning {
@@ -191,18 +199,21 @@
 
 - (void) setupGestureRecognizers {
   
-  UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [UIScreenEdgePanGestureRecognizer new];
-  [edgePanRecognizer addTarget:self action:@selector(receivedPanFromLeftEdge:)];
-  edgePanRecognizer.edges = UIRectEdgeLeft;
-  [self.view addGestureRecognizer:edgePanRecognizer];
+//  UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [UIScreenEdgePanGestureRecognizer new];
+//  [edgePanRecognizer addTarget:self action:@selector(receivedPanFromLeftEdge:)];
+//  edgePanRecognizer.edges = UIRectEdgeLeft;
+//  [self.view addGestureRecognizer:edgePanRecognizer];
+  
+  UITapGestureRecognizer *tap = [UITapGestureRecognizer new];
+  [tap addTarget:self action:@selector(receivedTapGestureOnCoverView:)];
+  [self.coverView addGestureRecognizer:tap];
   
 }
 
 - (void) receivedTapGestureOnHamburgerButton:(UITapGestureRecognizer *)sender{
   
   if (sender.state == UIGestureRecognizerStateEnded) {
-    //[self toggleSideMenu];
-    [self expandHamburgerMenuToRadial];
+    [self toggleRadialMenu];
   }
   
 }
@@ -229,7 +240,27 @@
   
 }
 
-- (void) expandHamburgerMenuToRadial {
+- (void) toggleRadialMenu {
+  
+
+  
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+       usingSpringWithDamping:0.7
+        initialSpringVelocity:0.4
+                      options:UIViewAnimationOptionAllowUserInteraction
+                   animations:^{
+                     if (self.hamburgerMenuExpanded) {
+                       [self retractRadialView];
+                     } else {
+                       [self expandRadialView];
+                     }} completion:^(BOOL finished) {
+                       
+                     }];
+                  
+}
+
+- (void) expandRadialView {
   
   CGAffineTransform labelTransform = CGAffineTransformMakeScale(1.4, 1.4);
   labelTransform = CGAffineTransformTranslate(labelTransform, 4, 0);
@@ -240,30 +271,15 @@
         initialSpringVelocity:0.4
                       options:UIViewAnimationOptionAllowUserInteraction
                    animations:^{
-                     if (self.hamburgerMenuExpanded) {
-                       self.loginButton.transform = CGAffineTransformIdentity;
-                       self.chatButton.transform = CGAffineTransformIdentity;
-                       self.userDotsButton.transform = CGAffineTransformIdentity;
-                       self.hamburgerLabel.text =  @"\ue116";
-                       self.hamburgerLabel.transform = CGAffineTransformIdentity;
-                       self.coverView.alpha = 0.0;
-                       self.hamburgerMenuExpanded = false;
-                       self.chatLabel.alpha = 0;
-                       self.loginLabel.alpha = 0;
-                       self.dotsLabel.alpha = 0;
-                     } else {
                        self.userDotsButton.transform = CGAffineTransformMakeTranslation(12, -75);
                        self.chatButton.transform = CGAffineTransformMakeTranslation(60, -40);
                        self.loginButton.transform = CGAffineTransformMakeTranslation(63, 20);
                        self.hamburgerLabel.transform = labelTransform;
                        self.hamburgerLabel.text = @"\ue122";
-                       self.coverView.alpha = 0.3;
+                       self.coverView.alpha = 0.5;
                        [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
                        self.hamburgerMenuExpanded = true;
-                     }
-                     [self.hamburgerWrapper setNeedsDisplay];
                    } completion:^(BOOL finished) {
-                     if (self.hamburgerMenuExpanded) {
                        self.chatLabel = [UILabel new];
                        self.dotsLabel = [UILabel new];
                        self.loginLabel  = [UILabel new];
@@ -295,12 +311,31 @@
                                           self.loginLabel.alpha = 1;
                                           self.dotsLabel.alpha = 1;
                                         }];
-                     } else{
-                       
-                     }
+                   }];
+}
+
+- (void)retractRadialView {
+  
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+       usingSpringWithDamping:0.7
+        initialSpringVelocity:0.4
+                      options:UIViewAnimationOptionAllowUserInteraction
+                   animations:^{
+                       self.loginButton.transform = CGAffineTransformIdentity;
+                       self.chatButton.transform = CGAffineTransformIdentity;
+                       self.userDotsButton.transform = CGAffineTransformIdentity;
+                       self.hamburgerLabel.text =  @"\ue116";
+                       self.hamburgerLabel.transform = CGAffineTransformIdentity;
+                       self.coverView.alpha = 0.0;
+                       self.hamburgerMenuExpanded = false;
+                       self.chatLabel.alpha = 0;
+                       self.loginLabel.alpha = 0;
+                       self.dotsLabel.alpha = 0;
+                   }completion:^(BOOL finished) {
                      
-                     }];
-                  
+                   }];
+  
 }
 
 - (void)toggleSideMenu {
@@ -359,9 +394,7 @@
 }
 
 - (void) switchToUserDotView {
-  NSLog(@"Switch to user dots called!");
   if (![self.currentMainViewController isKindOfClass:[UserDotsViewController class]]) {
-    NSLog(@"And activated");
     [self addChildViewController:self.userDotsViewController];
     [self.view insertSubview:self.userDotsViewController.view aboveSubview:self.mapViewController.view];
     [self.userDotsViewController didMoveToParentViewController:self];
@@ -371,6 +404,7 @@
     [UIView animateWithDuration:0.4
                      animations:^{
                        self.userDotsViewController.view.alpha = 1;
+                       self.coverView.alpha = 0;
                        
                   } completion:^(BOOL finished) {
                     self.currentMainViewController = self.userDotsViewController;
@@ -405,7 +439,17 @@
     } else if (sender.view == self.userDotsButton) {
       [self switchToUserDotView];
     }
+    
+    [self toggleRadialMenu];
   }
+}
+
+- (void) receivedTapGestureOnCoverView:(UITapGestureRecognizer *)sender {
+  NSLog(@"Received tap!");
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    [self toggleRadialMenu];
+  }
+  
 }
 
 @end
