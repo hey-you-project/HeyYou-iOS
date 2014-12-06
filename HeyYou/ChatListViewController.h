@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ChatListViewController : UIViewController <UITableViewDataSource, UITableViewDataSource>
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
