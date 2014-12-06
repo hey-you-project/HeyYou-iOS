@@ -23,15 +23,15 @@
   if (self.popFromSide) {
     
     [path moveToPoint:CGPointMake(minX + 10, minY)];
-    [path addLineToPoint:CGPointMake(maxX - 10, minY)];
-    [path addQuadCurveToPoint:CGPointMake(maxX, minY + 10) controlPoint:CGPointMake(maxX, minY)];
-    [path addLineToPoint:CGPointMake(maxX, self.touchPoint.y - 20)];
+    [path addLineToPoint:CGPointMake(maxX - 40, minY)];
+    [path addQuadCurveToPoint:CGPointMake(maxX - 30, minY + 10) controlPoint:CGPointMake(maxX-30, minY)];
+    [path addLineToPoint:CGPointMake(maxX - 30, self.touchPoint.y - 20)];
     [path addQuadCurveToPoint:self.touchPoint controlPoint:CGPointMake(self.touchPoint.x - 20, self.touchPoint.y)];
-    [path addQuadCurveToPoint:CGPointMake(maxX, self.touchPoint.y + 20) controlPoint:CGPointMake(self.touchPoint.x - 20, self.touchPoint.y)];
-    [path addLineToPoint:CGPointMake(maxX, maxY - 10)];
-    [path addQuadCurveToPoint:CGPointMake(maxX - 10, maxY) controlPoint:CGPointMake(maxX, maxY)];
-    [path addLineToPoint:CGPointMake(minX, maxY)];
-    [path addQuadCurveToPoint:CGPointMake(minX - 10, maxY - 10) controlPoint:CGPointMake(minX, maxY)];
+    [path addQuadCurveToPoint:CGPointMake(maxX - 30, self.touchPoint.y + 20) controlPoint:CGPointMake(self.touchPoint.x - 20, self.touchPoint.y)];
+    [path addLineToPoint:CGPointMake(maxX - 30, maxY - 10)];
+    [path addQuadCurveToPoint:CGPointMake(maxX - 40, maxY) controlPoint:CGPointMake(maxX - 30, maxY)];
+    [path addLineToPoint:CGPointMake(minX + 10, maxY)];
+    [path addQuadCurveToPoint:CGPointMake(minX, maxY - 10) controlPoint:CGPointMake(minX, maxY)];
     [path addLineToPoint:CGPointMake(minX, minY + 10)];
     [path addQuadCurveToPoint:CGPointMake(minX + 10, minY) controlPoint:rect.origin];
     

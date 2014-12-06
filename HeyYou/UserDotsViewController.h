@@ -11,4 +11,6 @@
 @interface UserDotsViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
+- (void) removeDots;
+
 @end

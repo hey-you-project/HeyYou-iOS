@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="body" destination="Xkb-pC-YJw" id="SIf-bl-bfb"/>
                 <outlet property="borderView" destination="xTp-di-LkQ" id="ULq-ov-ScR"/>
+                <outlet property="borderViewRightSideConstraint" destination="8eQ-V3-jfG" id="YVy-0u-jLg"/>
                 <outlet property="cancelButton" destination="yq3-eV-dB1" id="mXO-63-oif"/>
                 <outlet property="chatButton" destination="lva-H3-pJ2" id="X0s-bu-WPJ"/>
                 <outlet property="chatConstraint" destination="MbZ-tE-EDd" id="lEq-YL-uG0"/>

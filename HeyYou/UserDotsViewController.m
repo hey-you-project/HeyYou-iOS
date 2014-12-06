@@ -57,6 +57,29 @@
   
 }
 
+- (void) removeDots {
+  
+  CGFloat delay = 0.1;
+  
+  for (UIView *view in self.scrollView.subviews) {
+    if ([view isKindOfClass:[DotView class]]){
+    [UIView animateWithDuration:0.7
+                          delay:delay
+         usingSpringWithDamping:0.7
+          initialSpringVelocity:0.2
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^{
+                       view.transform = CGAffineTransformMakeTranslation(-self.view.frame.size.width, 0);
+                     } completion:^(BOOL finished) {
+                       
+                     }];
+    delay += 0.2;
+    [view removeFromSuperview];
+    }
+  }
+  
+}
+
 - (void)addDots {
   
    CGFloat offset = 0;
@@ -127,10 +150,11 @@
   [self.scrollView addSubview:dotVC.view];
   [dotVC didMoveToParentViewController:self];
   
+  dotVC.borderViewRightSideConstraint.constant = -30;
   dotVC.borderView.popFromSide = true;
   dotVC.borderView.touchPoint = [self.scrollView convertPoint:view.center toView:dotVC.view];
   
-  dotVC.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
+  dotVC.view.backgroundColor = [UIColor whiteColor];
   
   dotVC.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
   dotVC.view.alpha = 0;

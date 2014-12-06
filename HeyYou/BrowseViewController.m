@@ -37,7 +37,8 @@
   self.writeCommentTextField.layer.cornerRadius = 10;
   self.cancelButton.alpha = 0;
   self.submitButton.alpha = 0;
-  self.view.clipsToBounds = true;
+  self.borderView.clipsToBounds = true;
+  self.view.clipsToBounds = false;
   self.username.text = self.dot.username;
   self.titleLabel.text = self.dot.title;
   self.titleLabel.textColor = self.color;
@@ -60,12 +61,27 @@
   self.borderView.frame = self.view.frame;
   self.borderView.backgroundColor = [UIColor clearColor];
   
+  UIView *sideBar = [UIView new];
+  sideBar.backgroundColor = [UIColor whiteColor];
+  sideBar.frame = CGRectMake(self.view.frame.size.width, self.view.bounds.origin.y, 30, self.view.bounds.size.height);
+  [self.view addSubview:sideBar];
+  NSLog(@"X: %f",sideBar.frame.origin.x);
+  NSLog(@"Y: %f",sideBar.frame.origin.y);
+  NSLog(@"Height: %f",sideBar.frame.size.height);
+  
+  UIView *sideColorBar = [UIView new];
+  sideBar.backgroundColor = self.color;
+  sideBar.frame = CGRectMake(CGRectGetMaxX(self.view.bounds),self.colorBar.frame.origin.y, 30, self.colorBar.frame.size.height);
+  [self.view addSubview:sideColorBar];
+  NSLog(@"X: %f",sideBar.frame.origin.x);
+  NSLog(@"Y: %f",sideBar.frame.origin.y);
+  NSLog(@"Height: %f",sideBar.frame.size.height);
+  
 }
 
 #pragma mark <UITableViewDataSource>
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  //NSLog(@"%@",[self.dot.comments description]);
   return self.dot.comments.count;
 }
 

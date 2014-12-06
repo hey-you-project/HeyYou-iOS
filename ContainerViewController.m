@@ -184,15 +184,15 @@
   
   UITapGestureRecognizer *tap2 = [UITapGestureRecognizer new];
   [tap2 addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
-  [self.userDotsButton addGestureRecognizer:tap2];
+  [self.mapButton addGestureRecognizer:tap2];
   
   UITapGestureRecognizer *tap3 = [UITapGestureRecognizer new];
   [tap3 addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
-  [self.userDotsButton addGestureRecognizer:tap3];
+  [self.chatButton addGestureRecognizer:tap3];
   
   UITapGestureRecognizer *tap4 = [UITapGestureRecognizer new];
   [tap4 addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
-  [self.userDotsButton addGestureRecognizer:tap4];
+  [self.loginButton addGestureRecognizer:tap4];
 
 
 }
@@ -271,14 +271,15 @@
         initialSpringVelocity:0.4
                       options:UIViewAnimationOptionAllowUserInteraction
                    animations:^{
-                       self.userDotsButton.transform = CGAffineTransformMakeTranslation(12, -75);
-                       self.chatButton.transform = CGAffineTransformMakeTranslation(60, -40);
-                       self.loginButton.transform = CGAffineTransformMakeTranslation(63, 20);
-                       self.hamburgerLabel.transform = labelTransform;
-                       self.hamburgerLabel.text = @"\ue122";
-                       self.coverView.alpha = 0.5;
-                       [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
-                       self.hamburgerMenuExpanded = true;
+                     self.mapButton.transform = CGAffineTransformMakeTranslation(-30, -60);
+                     self.userDotsButton.transform = CGAffineTransformMakeTranslation(17, -62);
+                     self.chatButton.transform = CGAffineTransformMakeTranslation(50, -27);
+                     self.loginButton.transform = CGAffineTransformMakeTranslation(48, 22);
+                     self.hamburgerLabel.transform = labelTransform;
+                     self.hamburgerLabel.text = @"\ue122";
+                     self.coverView.alpha = 0.5;
+                     [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
+                     self.hamburgerMenuExpanded = true;
                    } completion:^(BOOL finished) {
                        self.chatLabel = [UILabel new];
                        self.dotsLabel = [UILabel new];
@@ -307,9 +308,9 @@
                        
                        [UIView animateWithDuration: 0.4
                                         animations:^{
-                                          self.chatLabel.alpha = 1;
-                                          self.loginLabel.alpha = 1;
-                                          self.dotsLabel.alpha = 1;
+//                                          self.chatLabel.alpha = 1;
+//                                          self.loginLabel.alpha = 1;
+//                                          self.dotsLabel.alpha = 1;
                                         }];
                    }];
 }
@@ -322,6 +323,7 @@
         initialSpringVelocity:0.4
                       options:UIViewAnimationOptionAllowUserInteraction
                    animations:^{
+                       self.mapButton.transform = CGAffineTransformIdentity;
                        self.loginButton.transform = CGAffineTransformIdentity;
                        self.chatButton.transform = CGAffineTransformIdentity;
                        self.userDotsButton.transform = CGAffineTransformIdentity;
@@ -415,9 +417,9 @@
 }
 
 - (void) switchToMapView {
-  NSLog(@"Switch to map view called!");
+
   if (![self.currentMainViewController isKindOfClass:[MapViewController class]]) {
-    NSLog(@"And activated");
+    [self.userDotsViewController removeDots];
     [UIView animateWithDuration:0.4
                      animations:^{
                        self.userDotsViewController.view.alpha = 0;
@@ -426,7 +428,7 @@
                        self.currentMainViewController = self.mapViewController;
                        [self.userDotsViewController.view removeFromSuperview];
                        [self.userDotsViewController removeFromParentViewController];
-                       [self toggleSideMenu];
+                       //[self toggleSideMenu];
                      }];
   }
 }
