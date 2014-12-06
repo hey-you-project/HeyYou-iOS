@@ -10,4 +10,12 @@
 
 @implementation Message
 
++ (NSArray *) parseJSONIntoMessages: (NSData *) data{
+  
+  
+  
+  return @[@"Hello"];
+  
+}
+
 @end

@@ -60,6 +60,7 @@
 		7EFD27F11A32A5D000990849 /* LeftSideChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD27EF1A32A5D000990849 /* LeftSideChatCell.m */; };
 		7EFD27F51A32A7E900990849 /* ChatListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD27F41A32A7E900990849 /* ChatListCell.m */; };
 		7EFD27F81A32ABCC00990849 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD27F71A32ABCC00990849 /* Message.m */; };
+		7EFD27FB1A32AD6E00990849 /* MessagesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD27FA1A32AD6E00990849 /* MessagesDataSource.m */; };
 		7EFE023C1A25486F0037C1F0 /* DotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE023B1A25486F0037C1F0 /* DotView.m */; };
 /* End PBXBuildFile section */
 
@@ -163,6 +164,8 @@
 		7EFD27F41A32A7E900990849 /* ChatListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatListCell.m; sourceTree = "<group>"; };
 		7EFD27F61A32ABCC00990849 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		7EFD27F71A32ABCC00990849 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		7EFD27F91A32AD6E00990849 /* MessagesDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesDataSource.h; sourceTree = "<group>"; };
+		7EFD27FA1A32AD6E00990849 /* MessagesDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesDataSource.m; sourceTree = "<group>"; };
 		7EFE023A1A25486F0037C1F0 /* DotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotView.h; sourceTree = "<group>"; };
 		7EFE023B1A25486F0037C1F0 /* DotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -271,6 +274,8 @@
 			children = (
 				7EFD27F61A32ABCC00990849 /* Message.h */,
 				7EFD27F71A32ABCC00990849 /* Message.m */,
+				7EFD27F91A32AD6E00990849 /* MessagesDataSource.h */,
+				7EFD27FA1A32AD6E00990849 /* MessagesDataSource.m */,
 				150C419D1A1A70CF0062DE29 /* Dot.h */,
 				150C419E1A1A70CF0062DE29 /* Dot.m */,
 				150C41A01A1A772E0062DE29 /* User.h */,
@@ -511,6 +516,7 @@
 				7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */,
 				7EFD27EC1A32A5B000990849 /* RightSideChatCell.m in Sources */,
 				7E1689231A1C44CA00BA4DE6 /* DotAnnotationView.m in Sources */,
+				7EFD27FB1A32AD6E00990849 /* MessagesDataSource.m in Sources */,
 				7E6E34E41A1A91ED00FF6776 /* PostViewController.m in Sources */,
 				7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */,
 				150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */,

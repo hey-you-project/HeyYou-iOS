@@ -12,12 +12,14 @@
 #import "UserDotsViewController.h"
 #import "Colors.h"
 #import "HamburgerWrapperView.h"
+#import "ChatListViewController.h"
 
 @interface ContainerViewController ()
 
 @property (nonatomic, strong) MapViewController *mapViewController;
 @property (nonatomic, strong) UserDotsViewController *userDotsViewController;
 @property (nonatomic, strong) SideMenuViewController * sideMenuViewController;
+@property (nonatomic, strong) UINavigationController * chatViewController;
 @property (nonatomic, strong) UILabel *hamburgerLabel;
 @property (nonatomic, strong) UIView *hamburgerWrapper;
 @property (nonatomic, strong) Colors *colors;
@@ -43,8 +45,7 @@
   self.colors = [Colors singleton];
   
   
-  [self setupSideMenuViewController];
-  [self setupUserDotsViewController];
+  //[self setupSideMenuViewController];
   [self setupMapViewController];
   [self setupButtons];
   [self addHamburgerMenuCircle];
@@ -83,12 +84,6 @@
   self.mapViewController.mapView.layer.shadowRadius = 3.0;
   self.mapViewController.mapView.layer.shadowOffset = CGSizeMake(-5, 0);
   self.currentMainViewController = self.mapViewController;
-}
-
-- (void) setupUserDotsViewController {
-  self.userDotsViewController = [UserDotsViewController new];
-  self.mapViewController.view.frame = self.view.frame;
-  
 }
 
 - (void)setupSideMenuViewController {
@@ -395,10 +390,26 @@
   
 }
 
+- (void) switchToMapView {
+  
+  if (![self.currentMainViewController isKindOfClass:[MapViewController class]]) {
+    [self.userDotsViewController removeDots];
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                       self.currentMainViewController.view.alpha = 0;
+                     } completion:^(BOOL finished) {
+                       [self.currentMainViewController.view removeFromSuperview];
+                       [self.currentMainViewController removeFromParentViewController];
+                       self.currentMainViewController = self.mapViewController;
+                     }];
+  }
+}
+
 - (void) switchToUserDotView {
   if (![self.currentMainViewController isKindOfClass:[UserDotsViewController class]]) {
+    self.userDotsViewController = [UserDotsViewController new];
     [self addChildViewController:self.userDotsViewController];
-    [self.view insertSubview:self.userDotsViewController.view aboveSubview:self.mapViewController.view];
+    [self.view insertSubview:self.userDotsViewController.view aboveSubview:self.currentMainViewController.view];
     [self.userDotsViewController didMoveToParentViewController:self];
     self.userDotsViewController.view.frame = self.currentMainViewController.view.frame;
     self.userDotsViewController.view.alpha = 0;
@@ -407,29 +418,39 @@
                      animations:^{
                        self.userDotsViewController.view.alpha = 1;
                        self.coverView.alpha = 0;
-                       
                   } completion:^(BOOL finished) {
+                    if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
+                      [self.currentMainViewController.view removeFromSuperview];
+                      [self.currentMainViewController removeFromParentViewController];
+                    }
                     self.currentMainViewController = self.userDotsViewController;
-                    //[self toggleSideMenu];
                   }];
     
   }
 }
 
-- (void) switchToMapView {
-
-  if (![self.currentMainViewController isKindOfClass:[MapViewController class]]) {
-    [self.userDotsViewController removeDots];
+- (void) switchToChatView {
+  if (![self.currentMainViewController isKindOfClass:[ChatListViewController class]]) {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    self.chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"CHAT"];
+    [self addChildViewController:self.chatViewController];
+    [self.view insertSubview:self.chatViewController.view aboveSubview:self.currentMainViewController.view];
+    [self.chatViewController didMoveToParentViewController:self];
+    self.chatViewController.view.frame = self.mapViewController.view.frame;
+    self.chatViewController.view.alpha = 0;
+    
     [UIView animateWithDuration:0.4
                      animations:^{
-                       self.userDotsViewController.view.alpha = 0;
-                       
+                       self.chatViewController.view.alpha = 1;
+                       self.coverView.alpha = 0;
                      } completion:^(BOOL finished) {
-                       self.currentMainViewController = self.mapViewController;
-                       [self.userDotsViewController.view removeFromSuperview];
-                       [self.userDotsViewController removeFromParentViewController];
-                       //[self toggleSideMenu];
+                       if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
+                         [self.currentMainViewController.view removeFromSuperview];
+                         [self.currentMainViewController removeFromParentViewController];
+                       }
+                       self.currentMainViewController = self.chatViewController;
                      }];
+    
   }
 }
 
@@ -440,6 +461,8 @@
       [self switchToMapView];
     } else if (sender.view == self.userDotsButton) {
       [self switchToUserDotView];
+    } else if (sender.view == self.chatButton) {
+      [self switchToChatView];
     }
     
     [self toggleRadialMenu];
