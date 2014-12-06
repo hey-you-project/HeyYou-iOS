@@ -41,6 +41,7 @@
 
 @property (weak, nonatomic) IBOutlet PopupView *borderView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *borderViewRightSideConstraint;
 #pragma mark Properties
 
 @property (nonatomic, strong) Dot *dot;
