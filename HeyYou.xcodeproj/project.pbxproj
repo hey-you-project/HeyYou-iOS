@@ -54,6 +54,8 @@
 		7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174321A24FBF500B5541D /* UserDotsViewController.m */; };
 		7EF174351A24FBF500B5541D /* UserDotsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EF174331A24FBF500B5541D /* UserDotsViewController.xib */; };
 		7EF1743A1A250B1800B5541D /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174391A250B1800B5541D /* Colors.m */; };
+		7EFD27E51A329EBF00990849 /* ChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD27E41A329EBF00990849 /* ChatListViewController.m */; };
+		7EFD27E81A32A4A400990849 /* SingleChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFD27E71A32A4A400990849 /* SingleChatViewController.m */; };
 		7EFE023C1A25486F0037C1F0 /* DotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EFE023B1A25486F0037C1F0 /* DotView.m */; };
 /* End PBXBuildFile section */
 
@@ -145,6 +147,10 @@
 		7EF174331A24FBF500B5541D /* UserDotsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserDotsViewController.xib; sourceTree = "<group>"; };
 		7EF174381A250B1800B5541D /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
 		7EF174391A250B1800B5541D /* Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colors.m; sourceTree = "<group>"; };
+		7EFD27E31A329EBF00990849 /* ChatListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatListViewController.h; sourceTree = "<group>"; };
+		7EFD27E41A329EBF00990849 /* ChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatListViewController.m; sourceTree = "<group>"; };
+		7EFD27E61A32A4A400990849 /* SingleChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleChatViewController.h; sourceTree = "<group>"; };
+		7EFD27E71A32A4A400990849 /* SingleChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleChatViewController.m; sourceTree = "<group>"; };
 		7EFE023A1A25486F0037C1F0 /* DotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotView.h; sourceTree = "<group>"; };
 		7EFE023B1A25486F0037C1F0 /* DotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -268,6 +274,10 @@
 				7EE1FC341A2670ED00AA6B5F /* ContainerViewController.h */,
 				7EE1FC351A2670ED00AA6B5F /* ContainerViewController.m */,
 				7EF174311A24FBF500B5541D /* UserDotsViewController.h */,
+				7EFD27E31A329EBF00990849 /* ChatListViewController.h */,
+				7EFD27E41A329EBF00990849 /* ChatListViewController.m */,
+				7EFD27E61A32A4A400990849 /* SingleChatViewController.h */,
+				7EFD27E71A32A4A400990849 /* SingleChatViewController.m */,
 				7EF174321A24FBF500B5541D /* UserDotsViewController.m */,
 				150C41AB1A1AAD6F0062DE29 /* NetworkController.h */,
 				150C41AC1A1AAD6F0062DE29 /* NetworkController.m */,
@@ -474,6 +484,7 @@
 				7EFE023C1A25486F0037C1F0 /* DotView.m in Sources */,
 				150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */,
 				1512640D1A1E7F5500D13419 /* NSString+Validate.m in Sources */,
+				7EFD27E81A32A4A400990849 /* SingleChatViewController.m in Sources */,
 				7EF1743A1A250B1800B5541D /* Colors.m in Sources */,
 				7E6E34E61A1A994A00FF6776 /* MapViewController.m in Sources */,
 				151264101A1EB96C00D13419 /* ErrorsHandler.m in Sources */,
@@ -489,6 +500,7 @@
 				150C41A21A1A772E0062DE29 /* User.m in Sources */,
 				7ECAB0971A23CC280047DA04 /* PopupView.m in Sources */,
 				150C419F1A1A70CF0062DE29 /* Dot.m in Sources */,
+				7EFD27E51A329EBF00990849 /* ChatListViewController.m in Sources */,
 				150C41761A1A6DF10062DE29 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
