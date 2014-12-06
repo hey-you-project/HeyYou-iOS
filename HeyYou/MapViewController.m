@@ -166,6 +166,7 @@
     dotVC.dot = annotation.dot;
     self.clickedDot = annotation.dot;
     
+    
     self.currentPopup = dotVC;
     CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
     dotVC.touchPoint = point;
@@ -283,6 +284,7 @@
   [viewController didMoveToParentViewController:self];
   
   viewController.borderView.touchPoint = [self.view convertPoint:point toView:viewController.view];
+  viewController.borderView.popFromSide = false;
   
   viewController.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
 

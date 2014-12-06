@@ -57,9 +57,9 @@
     DotView *circle = [DotView new];
     circle.dot = dot;
     circle.color = [self.colors getColorFromString:dot.color];
-    circle.frame = CGRectMake(25, 100 + offset, 25, 25);
+    circle.frame = CGRectMake(self.view.frame.size.width - 40, 100 + offset, 25, 25);
     circle.backgroundColor = [UIColor clearColor];
-    circle.transform = CGAffineTransformMakeTranslation(self.view.frame.size.width, 0);
+    circle.transform = CGAffineTransformMakeTranslation(-self.view.frame.size.width, 0);
 
     [self.scrollView addSubview:circle];
     
@@ -110,13 +110,14 @@
   dotVC.color = [self.colors getColorFromString:view.dot.color];
   dotVC.dot = view.dot;
   
-  CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, view.center.y - 500, self.view.frame.size.width - 40, 500);
+  CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 50, self.view.frame.size.width - 40, 500);
   dotVC.view.frame = popupFrame;
   
   [self addChildViewController:dotVC];
   [self.scrollView addSubview:dotVC.view];
   [dotVC didMoveToParentViewController:self];
   
+  dotVC.borderView.popFromSide = true;
   dotVC.borderView.touchPoint = [self.scrollView convertPoint:view.center toView:dotVC.view];
   
   dotVC.view.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];

@@ -12,5 +12,6 @@
 
 @property CGPoint touchPoint;
 @property (nonatomic, strong) UIColor* strokeColor;
+@property BOOL popFromSide;
 
 @end
