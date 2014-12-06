@@ -32,8 +32,20 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+  
   [super viewWillAppear:animated];
-  //self.view.backgroundColor = [UIColor blueColor];
+  [self retrieveDots];
+  
+}
+
+- (void)didReceiveMemoryWarning {
+  
+    [super didReceiveMemoryWarning];
+  
+}
+
+- (void) retrieveDots {
+  
   [self.networkController getAllMyDotsWithCompletionHandler:^(NSError *error, NSArray *dots) {
     if (error == nil) {
       self.myDots = dots;
@@ -42,16 +54,14 @@
       }];
     }
   }];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
   
 }
 
 - (void)addDots {
+  
    CGFloat offset = 0;
    CGFloat delay = 0.1;
+  
   for (Dot *dot in self.myDots) {
     NSLog(@"Adding dot!");
     DotView *circle = [DotView new];
@@ -110,7 +120,7 @@
   dotVC.color = [self.colors getColorFromString:view.dot.color];
   dotVC.dot = view.dot;
   
-  CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 50, self.view.frame.size.width - 40, 500);
+  CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 50, self.view.frame.size.width - 70, 500);
   dotVC.view.frame = popupFrame;
   
   [self addChildViewController:dotVC];

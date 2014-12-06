@@ -37,7 +37,7 @@
   self.writeCommentTextField.layer.cornerRadius = 10;
   self.cancelButton.alpha = 0;
   self.submitButton.alpha = 0;
-  
+  self.view.clipsToBounds = true;
   self.username.text = self.dot.username;
   self.titleLabel.text = self.dot.title;
   self.titleLabel.textColor = self.color;
