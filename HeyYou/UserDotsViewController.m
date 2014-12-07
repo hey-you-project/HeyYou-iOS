@@ -35,6 +35,8 @@
   
   [super viewWillAppear:animated];
   [self retrieveDots];
+  UIColor *newColor = [UIColor whiteColor];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"My Dots", @"color":newColor}];
   
 }
 

@@ -36,6 +36,9 @@
                                            selector:@selector(keyboardWillShow:)
                                                name:UIKeyboardWillShowNotification
                                              object:nil];
+  
+  UIColor *newColor = [UIColor whiteColor];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":self.otherUser, @"color":newColor}];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -116,6 +119,10 @@
   } completion:^(BOOL finished) {
     
   }];
+}
+- (IBAction)didPressBackButton:(id)sender {
+  
+  [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void)dealloc{

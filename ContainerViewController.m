@@ -33,6 +33,7 @@
 @property (nonatomic, strong) UILabel *chatLabel;
 @property (nonatomic, strong) UILabel *dotsLabel;
 @property (nonatomic, strong) UILabel *loginLabel;
+@property (nonatomic, strong) UILabel *headerLabel;
 
 @property BOOL hamburgerMenuExpanded;
 
@@ -44,7 +45,6 @@
   [super viewDidLoad];
   
   self.colors = [Colors singleton];
-  
   
   //[self setupSideMenuViewController];
   [self setupMapViewController];
@@ -63,10 +63,19 @@
   self.coverView.alpha = 0.0;
   self.hamburgerMenuExpanded = false;
   
-  UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
-  logo.frame = CGRectMake((self.view.frame.size.width / 2) - (176/2), 30, 176, 28);
-  [self.view addSubview:logo];
-                       
+  self.headerLabel = [UILabel new];
+  self.headerLabel.text = @"";
+  self.headerLabel.frame = CGRectMake(0, 30, self.view.frame.size.width, 32);
+  self.headerLabel.font = [UIFont fontWithName:@"AvenirNext-Bold" size:24];
+  self.headerLabel.textColor = [UIColor orangeColor];
+  self.headerLabel.textAlignment = NSTextAlignmentCenter;
+  self.headerLabel.shadowColor = [UIColor blackColor];
+  [self.view addSubview:self.headerLabel];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(changeHeaderLabel:)
+                                               name:@"ChangeHeaderLabel"
+                                             object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -395,6 +404,8 @@
   
   if (![self.currentMainViewController isKindOfClass:[MapViewController class]]) {
     [self.userDotsViewController removeDots];
+    UIColor *newColor = [UIColor whiteColor];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"", @"color":newColor}];
     [UIView animateWithDuration:0.4
                      animations:^{
                        self.currentMainViewController.view.alpha = 0;
@@ -403,6 +414,7 @@
                        [self.currentMainViewController.view removeFromSuperview];
                        [self.currentMainViewController removeFromParentViewController];
                        self.currentMainViewController = self.mapViewController;
+                       
                      }];
   }
 }
@@ -476,6 +488,25 @@
     [self toggleRadialMenu];
   }
   
+}
+
+- (void) changeHeaderLabel: (NSNotification *)notification {
+  
+  NSDictionary* userInfo = [notification userInfo];
+  NSString *newString = [userInfo objectForKey:@"text"];
+  UIColor *newColor = [userInfo objectForKey:@"color"];
+
+  [UIView transitionWithView:self.headerLabel
+                    duration:0.5
+                     options:UIViewAnimationOptionTransitionFlipFromBottom
+                  animations:^{
+                    self.headerLabel.textColor = newColor;
+                    self.headerLabel.text = newString;
+                  } completion:nil];
+}
+
+-(void)dealloc{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
