@@ -61,6 +61,7 @@
   self.coverView.frame = self.view.bounds;
   //self.coverView.backgroundColor = [UIColor blackColor];
   self.coverView.alpha = 0.0;
+  [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
   self.hamburgerMenuExpanded = false;
   
   self.headerLabel = [UILabel new];
@@ -290,7 +291,7 @@
                      self.hamburgerLabel.transform = labelTransform;
                      self.hamburgerLabel.text = @"\ue122";
                      self.coverView.alpha = 1;
-                     [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
+                     
                      self.hamburgerMenuExpanded = true;
                    } completion:^(BOOL finished) {
                        self.chatLabel = [UILabel new];

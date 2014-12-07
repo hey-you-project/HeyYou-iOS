@@ -11,6 +11,7 @@
 #import "RightSideChatCell.h"
 #import "LeftSideChatCell.h"
 #import "Colors.h"
+#import "NetworkController.h"
 
 @interface SingleChatViewController ()
 
@@ -18,6 +19,7 @@
 @property (nonatomic, strong) UIView *largeCircle;
 @property (nonatomic, strong) UILabel *plusLabel;
 @property (nonatomic, strong) Colors *colors;
+@property (nonatomic, strong) NetworkController *networkController;
 
 @end
 
@@ -29,7 +31,9 @@
   NSLog(@"%@", self.thisUser);
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
+  self.textField.delegate = self;
   self.colors = [Colors singleton];
+  self.networkController = [NetworkController sharedController];
   [self addCircleView];
   [self.navigationController setNavigationBarHidden:true];
   
@@ -106,8 +110,22 @@
 }
 
 - (IBAction)didPressSendButton:(id)sender {
-  
-  
+  [self postMessage];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+  [self postMessage];
+  return true;
+}
+
+- (void)postMessage {
+  [self.networkController postMessage:self.textField.text toUser:self.otherUser withCompletionHandler:^(NSError *error, bool success) {
+    if (success) {
+      [self.textField resignFirstResponder];
+      [self.messages addObject:[[Message alloc] initWithFrom:self.thisUser To:self.otherUser AndText:self.textField.text]];
+      [self.tableView reloadData];
+    }
+  }];
 }
 
 - (void)keyboardWillShow:(NSNotification *)n {
@@ -123,8 +141,8 @@
     
   }];
 }
+
 - (IBAction)didPressBackButton:(id)sender {
-  
   [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

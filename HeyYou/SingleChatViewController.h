@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SingleChatViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SingleChatViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
-@property (nonatomic, strong) NSArray *messages;
+@property (nonatomic, strong) NSMutableArray *messages;
 @property (nonatomic, strong) NSString *otherUser;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *textField;

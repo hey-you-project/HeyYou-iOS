@@ -16,5 +16,6 @@
 @property (nonatomic, strong) NSDate *timestamp;
 
 + (NSArray *) parseJSONIntoMessages: (NSData *) data;
+-(instancetype) initWithFrom:(NSString *)from To:(NSString *)to AndText:(NSString *)text;
 
 @end
