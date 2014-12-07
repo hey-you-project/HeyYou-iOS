@@ -136,7 +136,11 @@
 }
 
 - (IBAction)chatButtonPressed:(id)sender {
-  //NSLog(@"Chat Button Pressed with text %@",self.writeCommentTextField.text);
+  
+  NSLog(@"%@",self.dot.username);
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"SwitchToChatView" object:nil userInfo:@{@"user":self.dot.username}];
+  
+  
 }
 
 

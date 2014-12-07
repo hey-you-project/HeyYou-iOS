@@ -12,12 +12,14 @@
 #import "UserDotsViewController.h"
 #import "Colors.h"
 #import "HamburgerWrapperView.h"
+#import "ChatListViewController.h"
 
 @interface ContainerViewController ()
 
 @property (nonatomic, strong) MapViewController *mapViewController;
 @property (nonatomic, strong) UserDotsViewController *userDotsViewController;
 @property (nonatomic, strong) SideMenuViewController * sideMenuViewController;
+@property (nonatomic, strong) UINavigationController * chatViewController;
 @property (nonatomic, strong) UILabel *hamburgerLabel;
 @property (nonatomic, strong) UIView *hamburgerWrapper;
 @property (nonatomic, strong) Colors *colors;
@@ -27,9 +29,11 @@
 @property (nonatomic, strong) UIView *loginButton;
 @property (nonatomic, strong) UIView *mapButton;
 @property (nonatomic, strong) UIView *coverView;
+@property (nonatomic, strong) UIView *blurView;
 @property (nonatomic, strong) UILabel *chatLabel;
 @property (nonatomic, strong) UILabel *dotsLabel;
 @property (nonatomic, strong) UILabel *loginLabel;
+@property (nonatomic, strong) UILabel *headerLabel;
 
 @property BOOL hamburgerMenuExpanded;
 
@@ -42,29 +46,44 @@
   
   self.colors = [Colors singleton];
   
-  
-  [self setupSideMenuViewController];
-  [self setupUserDotsViewController];
+  //[self setupSideMenuViewController];
   [self setupMapViewController];
   [self setupButtons];
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
   
-//  UIVisualEffect *blurEffect;
-//  blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-//  
-//  self.coverView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-//
-  self.coverView = [UIView new];
+  UIVisualEffect *blurEffect;
+  blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+  
+  self.coverView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+
+  //self.coverView = [UIView new];
   self.coverView.frame = self.view.bounds;
-  self.coverView.backgroundColor = [UIColor blackColor];
+  //self.coverView.backgroundColor = [UIColor blackColor];
   self.coverView.alpha = 0.0;
+  [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
   self.hamburgerMenuExpanded = false;
   
-  UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
-  logo.frame = CGRectMake((self.view.frame.size.width / 2) - (176/2), 30, 176, 28);
-  [self.view addSubview:logo];
-                       
+  self.headerLabel = [UILabel new];
+  self.headerLabel.text = @"";
+  self.headerLabel.frame = CGRectMake(0, 30, self.view.frame.size.width, 32);
+  self.headerLabel.font = [UIFont fontWithName:@"AvenirNext-Bold" size:24];
+  self.headerLabel.textColor = [UIColor orangeColor];
+  self.headerLabel.textAlignment = NSTextAlignmentCenter;
+  self.headerLabel.shadowColor = [UIColor blackColor];
+  [self.view addSubview:self.headerLabel];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(changeHeaderLabel:)
+                                               name:@"ChangeHeaderLabel"
+                                             object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(chatWithUser:)
+                                               name:@"SwitchToChatView"
+                                             object:nil];
+  
+  
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,12 +102,6 @@
   self.mapViewController.mapView.layer.shadowRadius = 3.0;
   self.mapViewController.mapView.layer.shadowOffset = CGSizeMake(-5, 0);
   self.currentMainViewController = self.mapViewController;
-}
-
-- (void) setupUserDotsViewController {
-  self.userDotsViewController = [UserDotsViewController new];
-  self.mapViewController.view.frame = self.view.frame;
-  
 }
 
 - (void)setupSideMenuViewController {
@@ -213,7 +226,7 @@
 - (void) receivedTapGestureOnHamburgerButton:(UITapGestureRecognizer *)sender{
   
   if (sender.state == UIGestureRecognizerStateEnded) {
-    [self toggleRadialMenu];
+    [self toggleRadialMenuAndHideBlurView:([self.currentMainViewController isKindOfClass:[MapViewController class]])];
   }
   
 }
@@ -240,7 +253,7 @@
   
 }
 
-- (void) toggleRadialMenu {
+- (void) toggleRadialMenuAndHideBlurView:(BOOL)willHideBlurView {
   
 
   
@@ -251,7 +264,7 @@
                       options:UIViewAnimationOptionAllowUserInteraction
                    animations:^{
                      if (self.hamburgerMenuExpanded) {
-                       [self retractRadialView];
+                       [self retractRadialViewAndHideBlurView:willHideBlurView];
                      } else {
                        [self expandRadialView];
                      }} completion:^(BOOL finished) {
@@ -277,8 +290,8 @@
                      self.loginButton.transform = CGAffineTransformMakeTranslation(48, 22);
                      self.hamburgerLabel.transform = labelTransform;
                      self.hamburgerLabel.text = @"\ue122";
-                     self.coverView.alpha = 0.5;
-                     [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
+                     self.coverView.alpha = 1;
+                     
                      self.hamburgerMenuExpanded = true;
                    } completion:^(BOOL finished) {
                        self.chatLabel = [UILabel new];
@@ -315,7 +328,7 @@
                    }];
 }
 
-- (void)retractRadialView {
+- (void)retractRadialViewAndHideBlurView:(BOOL)willHideBlurView {
   
   [UIView animateWithDuration:0.4
                         delay:0.0
@@ -329,7 +342,9 @@
                        self.userDotsButton.transform = CGAffineTransformIdentity;
                        self.hamburgerLabel.text =  @"\ue116";
                        self.hamburgerLabel.transform = CGAffineTransformIdentity;
-                       self.coverView.alpha = 0.0;
+                       if (willHideBlurView){
+                          self.coverView.alpha = 0.0;
+                       }
                        self.hamburgerMenuExpanded = false;
                        self.chatLabel.alpha = 0;
                        self.loginLabel.alpha = 0;
@@ -395,10 +410,32 @@
   
 }
 
+- (void) switchToMapView {
+  
+  if (![self.currentMainViewController isKindOfClass:[MapViewController class]]) {
+    [self.userDotsViewController removeDots];
+    UIColor *newColor = [UIColor whiteColor];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"", @"color":newColor}];
+    
+    [UIView animateWithDuration:0.4
+                     animations:^{
+                       self.currentMainViewController.view.alpha = 0;
+                       self.coverView.alpha = 0;
+                     } completion:^(BOOL finished) {
+                       [self.currentMainViewController.view removeFromSuperview];
+                       [self.currentMainViewController removeFromParentViewController];
+                       self.currentMainViewController = self.mapViewController;
+                       
+                     }];
+  }
+  
+}
+
 - (void) switchToUserDotView {
   if (![self.currentMainViewController isKindOfClass:[UserDotsViewController class]]) {
+    self.userDotsViewController = [UserDotsViewController new];
     [self addChildViewController:self.userDotsViewController];
-    [self.view insertSubview:self.userDotsViewController.view aboveSubview:self.mapViewController.view];
+    [self.view insertSubview:self.userDotsViewController.view aboveSubview:self.coverView];
     [self.userDotsViewController didMoveToParentViewController:self];
     self.userDotsViewController.view.frame = self.currentMainViewController.view.frame;
     self.userDotsViewController.view.alpha = 0;
@@ -406,30 +443,41 @@
     [UIView animateWithDuration:0.4
                      animations:^{
                        self.userDotsViewController.view.alpha = 1;
-                       self.coverView.alpha = 0;
-                       
+                       //self.coverView.alpha = 0;
                   } completion:^(BOOL finished) {
+                    if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
+                      [self.currentMainViewController.view removeFromSuperview];
+                      [self.currentMainViewController removeFromParentViewController];
+                    }
                     self.currentMainViewController = self.userDotsViewController;
-                    //[self toggleSideMenu];
                   }];
     
   }
 }
 
-- (void) switchToMapView {
-
-  if (![self.currentMainViewController isKindOfClass:[MapViewController class]]) {
-    [self.userDotsViewController removeDots];
+- (void) switchToChatView {
+  if (![self.currentMainViewController isKindOfClass:[ChatListViewController class]]) {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    self.chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"CHAT"];
+    [self addChildViewController:self.chatViewController];
+    [self.mapViewController unpopCurrentComment];
+    [self.view insertSubview:self.chatViewController.view aboveSubview:self.coverView];
+    [self.chatViewController didMoveToParentViewController:self];
+    self.chatViewController.view.frame = self.mapViewController.view.frame;
+    self.chatViewController.view.alpha = 0;
+    
     [UIView animateWithDuration:0.4
                      animations:^{
-                       self.userDotsViewController.view.alpha = 0;
-                       
+                       self.chatViewController.view.alpha = 1;
+                       self.coverView.alpha = 1;
                      } completion:^(BOOL finished) {
-                       self.currentMainViewController = self.mapViewController;
-                       [self.userDotsViewController.view removeFromSuperview];
-                       [self.userDotsViewController removeFromParentViewController];
-                       //[self toggleSideMenu];
+                       if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
+                         [self.currentMainViewController.view removeFromSuperview];
+                         [self.currentMainViewController removeFromParentViewController];
+                       }
+                       self.currentMainViewController = self.chatViewController;
                      }];
+
   }
 }
 
@@ -438,20 +486,53 @@
   if (sender.state == UIGestureRecognizerStateEnded) {
     if (sender.view == self.mapButton) {
       [self switchToMapView];
+      [self toggleRadialMenuAndHideBlurView:true];
     } else if (sender.view == self.userDotsButton) {
       [self switchToUserDotView];
+      [self toggleRadialMenuAndHideBlurView:false];
+    } else if (sender.view == self.chatButton) {
+      [self switchToChatView];
+      [self toggleRadialMenuAndHideBlurView:false];
     }
     
-    [self toggleRadialMenu];
   }
 }
 
 - (void) receivedTapGestureOnCoverView:(UITapGestureRecognizer *)sender {
   NSLog(@"Received tap!");
   if (sender.state == UIGestureRecognizerStateEnded) {
-    [self toggleRadialMenu];
+    [self toggleRadialMenuAndHideBlurView:true];
   }
   
+}
+
+- (void) changeHeaderLabel: (NSNotification *)notification {
+  
+  NSDictionary* userInfo = [notification userInfo];
+  NSString *newString = [userInfo objectForKey:@"text"];
+  UIColor *newColor = [userInfo objectForKey:@"color"];
+
+  [UIView transitionWithView:self.headerLabel
+                    duration:0.5
+                     options:UIViewAnimationOptionTransitionFlipFromBottom
+                  animations:^{
+                    self.headerLabel.textColor = newColor;
+                    self.headerLabel.text = newString;
+                  } completion:nil];
+}
+
+- (void) chatWithUser: (NSNotification *)notification {
+  NSDictionary* userInfo = [notification userInfo];
+  NSString *otherUser = userInfo[@"user"];
+  
+  [self switchToChatView];
+  ChatListViewController *chatList = self.chatViewController.viewControllers[0];
+  [chatList beginNewChatWithUsername:otherUser];
+  
+}
+
+-(void)dealloc{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
