@@ -145,7 +145,7 @@
   dotVC.color = [self.colors getColorFromString:view.dot.color];
   dotVC.dot = view.dot;
   
-  CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 50, self.view.frame.size.width - 70, 500);
+  CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 60, self.view.frame.size.width - 70, 500);
   dotVC.view.frame = popupFrame;
   
   [self addChildViewController:dotVC];

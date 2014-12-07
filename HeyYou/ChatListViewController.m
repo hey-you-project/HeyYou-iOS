@@ -61,5 +61,19 @@
   [self.navigationController pushViewController:destinationVC animated:true];
 }
 
+-(void)beginNewChatWithUsername:(NSString *) username {
+  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+  SingleChatViewController *destinationVC = [storyboard instantiateViewControllerWithIdentifier:@"SINGLE"];
+  destinationVC.otherUser = username;
+  [self.navigationController pushViewController:destinationVC animated:false];
+  NSLog(@"BEGIN CHAT CALLED!");
+  for (NSDictionary * dict in self.messages) {
+    if([username isEqualToString:dict[@"username"]]){
+      destinationVC.messages = dict[@"items"];
+      break;
+    }
+  }
+}
+
 
 @end

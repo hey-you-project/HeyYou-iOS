@@ -10,6 +10,8 @@
 
 @interface ChatListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
+-(void)beginNewChatWithUsername:(NSString *) username;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *messages;
 

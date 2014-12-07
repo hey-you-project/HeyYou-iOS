@@ -31,6 +31,7 @@
   self.tableView.delegate = self;
   self.colors = [Colors singleton];
   [self addCircleView];
+  [self.navigationController setNavigationBarHidden:true];
   
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(keyboardWillShow:)
@@ -38,8 +39,9 @@
                                              object:nil];
   
   UIColor *newColor = [UIColor whiteColor];
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":self.otherUser, @"color":newColor}];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:self userInfo:@{@"text":self.otherUser, @"color":newColor}];
 }
+
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
@@ -99,6 +101,7 @@
 }
 
 - (void) receivedTapGestureOnPlusButton: (UITapGestureRecognizer *)sender {
+  NSLog(@"Received Tap!");
   [self.textField becomeFirstResponder];
 }
 

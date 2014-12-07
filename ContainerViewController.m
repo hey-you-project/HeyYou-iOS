@@ -76,6 +76,13 @@
                                            selector:@selector(changeHeaderLabel:)
                                                name:@"ChangeHeaderLabel"
                                              object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(chatWithUser:)
+                                               name:@"SwitchToChatView"
+                                             object:nil];
+  
+  
 }
 
 - (void)didReceiveMemoryWarning {
@@ -218,7 +225,7 @@
 - (void) receivedTapGestureOnHamburgerButton:(UITapGestureRecognizer *)sender{
   
   if (sender.state == UIGestureRecognizerStateEnded) {
-    [self toggleRadialMenu];
+    [self toggleRadialMenuAndHideBlurView:([self.currentMainViewController isKindOfClass:[MapViewController class]])];
   }
   
 }
@@ -245,7 +252,7 @@
   
 }
 
-- (void) toggleRadialMenu {
+- (void) toggleRadialMenuAndHideBlurView:(BOOL)willHideBlurView {
   
 
   
@@ -256,7 +263,7 @@
                       options:UIViewAnimationOptionAllowUserInteraction
                    animations:^{
                      if (self.hamburgerMenuExpanded) {
-                       [self retractRadialView];
+                       [self retractRadialViewAndHideBlurView:willHideBlurView];
                      } else {
                        [self expandRadialView];
                      }} completion:^(BOOL finished) {
@@ -320,7 +327,7 @@
                    }];
 }
 
-- (void)retractRadialView {
+- (void)retractRadialViewAndHideBlurView:(BOOL)willHideBlurView {
   
   [UIView animateWithDuration:0.4
                         delay:0.0
@@ -334,7 +341,9 @@
                        self.userDotsButton.transform = CGAffineTransformIdentity;
                        self.hamburgerLabel.text =  @"\ue116";
                        self.hamburgerLabel.transform = CGAffineTransformIdentity;
-                     //self.coverView.alpha = 0.0;
+                       if (willHideBlurView){
+                          self.coverView.alpha = 0.0;
+                       }
                        self.hamburgerMenuExpanded = false;
                        self.chatLabel.alpha = 0;
                        self.loginLabel.alpha = 0;
@@ -406,6 +415,7 @@
     [self.userDotsViewController removeDots];
     UIColor *newColor = [UIColor whiteColor];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"", @"color":newColor}];
+    
     [UIView animateWithDuration:0.4
                      animations:^{
                        self.currentMainViewController.view.alpha = 0;
@@ -417,6 +427,7 @@
                        
                      }];
   }
+  
 }
 
 - (void) switchToUserDotView {
@@ -448,6 +459,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     self.chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"CHAT"];
     [self addChildViewController:self.chatViewController];
+    [self.mapViewController unpopCurrentComment];
     [self.view insertSubview:self.chatViewController.view aboveSubview:self.coverView];
     [self.chatViewController didMoveToParentViewController:self];
     self.chatViewController.view.frame = self.mapViewController.view.frame;
@@ -456,7 +468,7 @@
     [UIView animateWithDuration:0.4
                      animations:^{
                        self.chatViewController.view.alpha = 1;
-                       //self.coverView.alpha = 0;
+                       self.coverView.alpha = 1;
                      } completion:^(BOOL finished) {
                        if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
                          [self.currentMainViewController.view removeFromSuperview];
@@ -464,7 +476,7 @@
                        }
                        self.currentMainViewController = self.chatViewController;
                      }];
-    
+
   }
 }
 
@@ -473,19 +485,22 @@
   if (sender.state == UIGestureRecognizerStateEnded) {
     if (sender.view == self.mapButton) {
       [self switchToMapView];
+      [self toggleRadialMenuAndHideBlurView:true];
     } else if (sender.view == self.userDotsButton) {
       [self switchToUserDotView];
+      [self toggleRadialMenuAndHideBlurView:false];
     } else if (sender.view == self.chatButton) {
       [self switchToChatView];
+      [self toggleRadialMenuAndHideBlurView:false];
     }
-    [self toggleRadialMenu];
+    
   }
 }
 
 - (void) receivedTapGestureOnCoverView:(UITapGestureRecognizer *)sender {
   NSLog(@"Received tap!");
   if (sender.state == UIGestureRecognizerStateEnded) {
-    [self toggleRadialMenu];
+    [self toggleRadialMenuAndHideBlurView:true];
   }
   
 }
@@ -503,6 +518,16 @@
                     self.headerLabel.textColor = newColor;
                     self.headerLabel.text = newString;
                   } completion:nil];
+}
+
+- (void) chatWithUser: (NSNotification *)notification {
+  NSDictionary* userInfo = [notification userInfo];
+  NSString *otherUser = userInfo[@"user"];
+  
+  [self switchToChatView];
+  ChatListViewController *chatList = self.chatViewController.viewControllers[0];
+  [chatList beginNewChatWithUsername:otherUser];
+  
 }
 
 -(void)dealloc{
