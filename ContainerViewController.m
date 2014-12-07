@@ -29,6 +29,7 @@
 @property (nonatomic, strong) UIView *loginButton;
 @property (nonatomic, strong) UIView *mapButton;
 @property (nonatomic, strong) UIView *coverView;
+@property (nonatomic, strong) UIView *blurView;
 @property (nonatomic, strong) UILabel *chatLabel;
 @property (nonatomic, strong) UILabel *dotsLabel;
 @property (nonatomic, strong) UILabel *loginLabel;
@@ -51,14 +52,14 @@
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
   
-//  UIVisualEffect *blurEffect;
-//  blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-//  
-//  self.coverView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-//
-  self.coverView = [UIView new];
+  UIVisualEffect *blurEffect;
+  blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+  
+  self.coverView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+
+  //self.coverView = [UIView new];
   self.coverView.frame = self.view.bounds;
-  self.coverView.backgroundColor = [UIColor blackColor];
+  //self.coverView.backgroundColor = [UIColor blackColor];
   self.coverView.alpha = 0.0;
   self.hamburgerMenuExpanded = false;
   
@@ -272,7 +273,7 @@
                      self.loginButton.transform = CGAffineTransformMakeTranslation(48, 22);
                      self.hamburgerLabel.transform = labelTransform;
                      self.hamburgerLabel.text = @"\ue122";
-                     self.coverView.alpha = 0.5;
+                     self.coverView.alpha = 1;
                      [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
                      self.hamburgerMenuExpanded = true;
                    } completion:^(BOOL finished) {
@@ -324,7 +325,7 @@
                        self.userDotsButton.transform = CGAffineTransformIdentity;
                        self.hamburgerLabel.text =  @"\ue116";
                        self.hamburgerLabel.transform = CGAffineTransformIdentity;
-                       self.coverView.alpha = 0.0;
+                     //self.coverView.alpha = 0.0;
                        self.hamburgerMenuExpanded = false;
                        self.chatLabel.alpha = 0;
                        self.loginLabel.alpha = 0;
@@ -397,6 +398,7 @@
     [UIView animateWithDuration:0.4
                      animations:^{
                        self.currentMainViewController.view.alpha = 0;
+                       self.coverView.alpha = 0;
                      } completion:^(BOOL finished) {
                        [self.currentMainViewController.view removeFromSuperview];
                        [self.currentMainViewController removeFromParentViewController];
@@ -409,7 +411,7 @@
   if (![self.currentMainViewController isKindOfClass:[UserDotsViewController class]]) {
     self.userDotsViewController = [UserDotsViewController new];
     [self addChildViewController:self.userDotsViewController];
-    [self.view insertSubview:self.userDotsViewController.view aboveSubview:self.currentMainViewController.view];
+    [self.view insertSubview:self.userDotsViewController.view aboveSubview:self.coverView];
     [self.userDotsViewController didMoveToParentViewController:self];
     self.userDotsViewController.view.frame = self.currentMainViewController.view.frame;
     self.userDotsViewController.view.alpha = 0;
@@ -417,7 +419,7 @@
     [UIView animateWithDuration:0.4
                      animations:^{
                        self.userDotsViewController.view.alpha = 1;
-                       self.coverView.alpha = 0;
+                       //self.coverView.alpha = 0;
                   } completion:^(BOOL finished) {
                     if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
                       [self.currentMainViewController.view removeFromSuperview];
@@ -434,7 +436,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     self.chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"CHAT"];
     [self addChildViewController:self.chatViewController];
-    [self.view insertSubview:self.chatViewController.view aboveSubview:self.currentMainViewController.view];
+    [self.view insertSubview:self.chatViewController.view aboveSubview:self.coverView];
     [self.chatViewController didMoveToParentViewController:self];
     self.chatViewController.view.frame = self.mapViewController.view.frame;
     self.chatViewController.view.alpha = 0;
@@ -442,7 +444,7 @@
     [UIView animateWithDuration:0.4
                      animations:^{
                        self.chatViewController.view.alpha = 1;
-                       self.coverView.alpha = 0;
+                       //self.coverView.alpha = 0;
                      } completion:^(BOOL finished) {
                        if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
                          [self.currentMainViewController.view removeFromSuperview];
@@ -464,7 +466,6 @@
     } else if (sender.view == self.chatButton) {
       [self switchToChatView];
     }
-    
     [self toggleRadialMenu];
   }
 }

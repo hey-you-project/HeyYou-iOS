@@ -10,7 +10,8 @@
 
 @interface Message : NSObject
 
-@property (nonatomic, strong) NSString *otherUser;
+@property (nonatomic, strong) NSString *toUser;
+@property (nonatomic, strong) NSString *fromUser;
 @property (nonatomic, strong) NSString *body;
 @property (nonatomic, strong) NSDate *timestamp;
 

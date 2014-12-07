@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SingleChatViewController : UIViewController
+@interface SingleChatViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) NSArray *messages;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet UIView *textBar;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textBarConstraint;
 
 @end

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ChatListViewController : UIViewController <UITableViewDataSource, UITableViewDataSource>
+@interface ChatListViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *messages;
 
 @end

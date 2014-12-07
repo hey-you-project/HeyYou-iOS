@@ -10,4 +10,7 @@
 
 @interface LeftSideChatCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *body;
+@property (weak, nonatomic) IBOutlet UIView *labelWrapper;
+
 @end

@@ -11,7 +11,13 @@
 @implementation ChatListCell
 
 - (void)awakeFromNib {
-    // Initialization code
+  
+  self.dot.backgroundColor = [UIColor redColor];
+  self.dot.layer.cornerRadius = self.dot.frame.size.height / 2;
+  self.dot.layer.borderColor = [[UIColor whiteColor] CGColor];
+  self.dot.layer.borderWidth = 2;
+  self.dot.clipsToBounds = true;
+  
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

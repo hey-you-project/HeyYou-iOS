@@ -7,16 +7,23 @@
 //
 
 #import "ChatListViewController.h"
+#import "ChatListCell.h"
+#import "Message.h"
+#import "SingleChatViewController.h"
 
 @interface ChatListViewController ()
+
 
 @end
 
 @implementation ChatListViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-
+  [super viewDidLoad];
+  self.tableView.dataSource = self;
+  self.tableView.delegate = self;
+  self.messages = [Message parseJSONIntoMessages:nil];
+  
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +31,27 @@
 
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return self.messages.count;
 }
-*/
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  ChatListCell *cell = (ChatListCell *)[tableView dequeueReusableCellWithIdentifier:@"CHAT_BUDDY_CELL" forIndexPath:indexPath];
+  NSDictionary *thisDictionary = self.messages[indexPath.row];
+  cell.username.text = thisDictionary[@"username"];
+  cell.selectionStyle = UITableViewCellSelectionStyleNone;
+  return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+  SingleChatViewController *destinationVC = [storyboard instantiateViewControllerWithIdentifier:@"SINGLE"];
+  
+  NSDictionary *thisDictionary = self.messages[indexPath.row];
+  destinationVC.messages = thisDictionary[@"items"];
+  
+  [self.navigationController pushViewController:destinationVC animated:true];
+}
+
 
 @end

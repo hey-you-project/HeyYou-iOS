@@ -11,7 +11,8 @@
 @implementation RightSideChatCell
 
 - (void)awakeFromNib {
-    // Initialization code
+  self.labelWrapper.layer.cornerRadius = 10;
+  self.labelWrapper.clipsToBounds = true;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

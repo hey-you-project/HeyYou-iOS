@@ -11,13 +11,12 @@
 @implementation LeftSideChatCell
 
 - (void)awakeFromNib {
-    // Initialization code
+  self.labelWrapper.layer.cornerRadius = 10;
+  self.labelWrapper.clipsToBounds = true;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

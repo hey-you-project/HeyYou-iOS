@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface RightSideChatCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *body;
+@property (weak, nonatomic) IBOutlet UIView *labelWrapper;
 
 @end
