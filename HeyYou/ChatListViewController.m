@@ -10,9 +10,12 @@
 #import "ChatListCell.h"
 #import "Message.h"
 #import "SingleChatViewController.h"
+#import "NetworkController.h"
 
 @interface ChatListViewController ()
 
+@property (nonatomic, strong) NetworkController *networkController;
+@property (nonatomic, strong) NSArray *partners;
 
 @end
 
@@ -20,11 +23,18 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.networkController = [NetworkController sharedController];
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
-  self.messages = [Message parseJSONIntoMessages:nil];
+  [self.networkController getAllChatPartnersWithCompletionHandler:^(NSError *error, NSArray *messages) {
+    NSLog(@"Chat list got messages: %@", messages.description);
+    self.partners = messages;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      [self.tableView reloadData];
+    }];
+    
+  }];
   [self.navigationController setNavigationBarHidden:true];
-  
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -39,13 +49,14 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return self.messages.count;
+  NSLog(@"%lu rows in section", (unsigned long)self.partners.count);
+  return self.partners.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  NSLog(@"Asking for cell");
   ChatListCell *cell = (ChatListCell *)[tableView dequeueReusableCellWithIdentifier:@"CHAT_BUDDY_CELL" forIndexPath:indexPath];
-  NSDictionary *thisDictionary = self.messages[indexPath.row];
-  cell.username.text = thisDictionary[@"username"];
+  cell.username.text = self.partners[indexPath.row];
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
   return cell;
 }
@@ -54,9 +65,14 @@
   UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
   SingleChatViewController *destinationVC = [storyboard instantiateViewControllerWithIdentifier:@"SINGLE"];
   
-  NSDictionary *thisDictionary = self.messages[indexPath.row];
-  destinationVC.otherUser = thisDictionary[@"username"];
-  destinationVC.messages = thisDictionary[@"items"];
+  destinationVC.otherUser = self.partners[indexPath.row];
+  [self.networkController getMessagesFromUser:self.partners[indexPath.row] withCompletionHandler:^(NSError *error, NSArray *messages) {
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      destinationVC.messages = [[NSMutableArray alloc] initWithArray:messages];
+      [destinationVC.tableView reloadData];
+    }];
+    
+  }];
   
   [self.navigationController pushViewController:destinationVC animated:true];
 }
@@ -69,7 +85,7 @@
   NSLog(@"BEGIN CHAT CALLED!");
   for (NSDictionary * dict in self.messages) {
     if([username isEqualToString:dict[@"username"]]){
-      destinationVC.messages = dict[@"items"];
+      destinationVC.messages = [[NSMutableArray alloc] initWithArray:dict[@"items"]];
       break;
     }
   }
