@@ -401,6 +401,45 @@
   [dataTask resume];
 }
 
+#pragma mark DELETE methods
+
+- (void)deleteCommentWithId: (NSString *)commentID withCompletionHandler: (void (^)(NSError *error, bool success))completionHandler {
+  NSLog(@"Delete Comment Called!");
+  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/comments/%@", self.url, commentID];
+  NSLog(@"%@", fullURLString);
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"DELETE";
+  NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+  [request setValue:token forHTTPHeaderField:@"jwt"];
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error != nil) {
+      NSLog(@"%@", error.localizedDescription);
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        completionHandler(error, NO);
+      }];
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          NSError *postError;
+          NSDictionary *successJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error: &postError];
+          NSLog(@"%@", successJSON.description);
+          completionHandler(nil, YES);
+        } else {
+          NSLog(@"%@", httpResponse.description);
+          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
+          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            completionHandler(responseError, NO);
+          }];
+        }
+      }
+    }
+  }];
+  [dataTask resume];
+}
+
 #pragma mark Helper methods
 
 - (NSDictionary*)getCoordRangeFromRegion: (MKCoordinateRegion) coordRegion {
