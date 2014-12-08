@@ -38,20 +38,16 @@
 #pragma mark GET methods
 
 - (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSError *error, NSArray *dots))completionHandler {
-  NSLog(@"Making dot request!");
-    NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
-    NSURL *fullURL = [NSURL URLWithString:fullURLString];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
-    request.HTTPMethod = @"GET";
-    NSDictionary *geoframeDictionary = [self getCoordRangeFromRegion:region];
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:geoframeDictionary options:0 error:&error];
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [request setValue:jsonString forHTTPHeaderField:@"Zone"];
-  // NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
-  //    NSLog(@"Token:%@", token);
-  //    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-  //    [request setValue:token forHTTPHeaderField:@"jwt"];
+  NSLog(@"Fetching dots with region!");
+  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"GET";
+  NSDictionary *geoframeDictionary = [self getCoordRangeFromRegion:region];
+  NSError *error;
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:geoframeDictionary options:0 error:&error];
+  NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  [request setValue:jsonString forHTTPHeaderField:@"Zone"];
   NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
     if (error != nil) {
       NSLog(@"%@", error.localizedDescription);
@@ -82,6 +78,10 @@
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/%@", self.url, dotID];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+  if (token != nil) {
+    [request setValue:token forHTTPHeaderField:@"jwt"];
+  }
   request.HTTPMethod = @"GET";
   NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
     if (error != nil) {
@@ -95,14 +95,11 @@
         NSInteger statusCode = httpResponse.statusCode;
         if (statusCode >= 200 && statusCode <= 299) {
           NSArray *array = [Dot parseJSONIntoDots:data];
-          //NSLog(@"getDotByID: received %@", [array description]);
           if (array.count > 0 && [array[0] isKindOfClass:[Dot class]]) {
             Dot *dot = array[0];
-            //NSLog(@"dot body = %@", dot.body);
             completionHandler(nil,dot);
           }
         } else {
-          //NSLog(@"%@", httpResponse.description);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(responseError, nil);
@@ -117,12 +114,10 @@
 - (void)getAllMyDotsWithCompletionHandler: (void (^)(NSError *error, NSArray * dots))completionHandler {
   NSLog(@"Get all dots called!");
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/mydots", self.url];
-  NSLog(@"%@", fullURLString);
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
   request.HTTPMethod = @"GET";
   NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
-  NSLog(@"%@", token);
   [request setValue:token forHTTPHeaderField:@"jwt"];
   NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
     if (error != nil) {
@@ -331,8 +326,6 @@
   NSDictionary *commentDictionary = @{@"text" : comment};
   NSError *error;
   NSData *JSONData = [NSJSONSerialization dataWithJSONObject:commentDictionary options:NSJSONWritingPrettyPrinted error:&error];
-  //NSUInteger length = JSONData.length;
-  //[request setValue:[NSString stringWithFormat:@"%li", (unsigned long)length] forHTTPHeaderField:@"Content-Length"];
   NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
   [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   [request setValue:token forHTTPHeaderField:@"jwt"];
@@ -351,10 +344,6 @@
           NSError *postError;
           NSDictionary *successJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error: &postError];
           NSLog(@"%@", successJSON.description);
-          //          NSString *returnString = [successJSON[@"time"] doubleValue] / 1000;
-          //          dot.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
-          //          dot.identifier = successJSON[@"dot_id"];
-          //          NSLog(@"Time: %@ Id: %@", dot.timestamp.description, dot.identifier);
           completionHandler(nil, YES);
         } else {
           NSLog(@"%@", httpResponse.description);
@@ -487,7 +476,6 @@
     }
   }];
   [dataTask resume];
-  
 }
 
 #pragma mark Helper methods

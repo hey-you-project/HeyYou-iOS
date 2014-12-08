@@ -38,9 +38,9 @@
     dot.identifier = dotDict[@"_id"];
     dot.color = dotDict[@"color"];
     dot.stars = [NSNumber numberWithInteger: [dotDict[@"stars"] integerValue]];
-    NSLog(@"stars are: %@", dot.stars);
-    NSString *hasStarred = dotDict[@"starred"];
-    if ([hasStarred  isEqual: @"1"]) {
+    NSInteger hasStarred = [dotDict[@"starred"] integerValue];
+    NSLog(@"%ld", (long)hasStarred);
+    if (hasStarred == 1) {
       dot.userHasStarred = YES;
     } else {
       dot.userHasStarred = NO;
@@ -75,7 +75,6 @@
     [dotJSON setObject:self.title forKey:@"title"];
     [dotJSON setObject:self.body forKey:@"post"];
     [dotJSON setObject:self.username forKey:@"username_id"];
-  //NSLog(@"%@", [dotJSON description]);
     NSError *error;
     NSData *dataToReturn = [NSJSONSerialization dataWithJSONObject:dotJSON options:0 error: &error];
     return dataToReturn;
