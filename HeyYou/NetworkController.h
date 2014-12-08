@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "Dot.h"
 #import "ErrorsHandler.h"
+#import "Message.h"
 
 @interface NetworkController : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
@@ -35,5 +36,9 @@
 - (void)getAllMyDotsWithCompletionHandler: (void (^)(NSError *error, NSArray * dots))completionHandler;
 
 - (void)postMessage: (NSString *)text toUser: (NSString *)username withCompletionHandler: (void (^)(NSError *error, bool success))completionHandler;
+
+- (void)getAllChatPartnersWithCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler;
+
+- (void)getMessagesFromUser:(NSString *)username withCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler;
 
 @end

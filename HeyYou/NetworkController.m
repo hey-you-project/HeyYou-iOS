@@ -152,6 +152,83 @@
   [dataTask resume];
 }
 
+- (void)getAllChatPartnersWithCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler {
+  NSLog(@"Get all messages called!");
+  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/messages/", self.url];
+  NSLog(@"%@", fullURLString);
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"GET";
+  NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+  NSLog(@"%@", token);
+  [request setValue:token forHTTPHeaderField:@"jwt"];
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error != nil) {
+      NSLog(@"%@", error.localizedDescription);
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        completionHandler(error, nil);
+      }];
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      NSLog(@"%@", httpResponse.description);
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          NSLog(@"%ld", (long)statusCode);
+          NSError *error;
+          NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+          NSLog(@"%@", [array description]);
+          completionHandler(nil,array);
+        } else {
+          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
+          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            completionHandler(responseError, nil);
+          }];
+        }
+      }
+    }
+  }];
+  [dataTask resume];
+}
+
+- (void)getMessagesFromUser:(NSString *)username withCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler {
+  NSLog(@"Get all messages called!");
+  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/messages/%@", self.url, username];
+  NSLog(@"%@", fullURLString);
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"GET";
+  NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
+  NSLog(@"%@", token);
+  [request setValue:token forHTTPHeaderField:@"jwt"];
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error != nil) {
+      NSLog(@"%@", error.localizedDescription);
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        completionHandler(error, nil);
+      }];
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      NSLog(@"%@", httpResponse.description);
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          NSLog(@"%ld", (long)statusCode);
+          NSArray *array = [Message parseJSONIntoMessages:data];
+          NSLog(@"%@", [array description]);
+          completionHandler(nil,array);
+        } else {
+          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
+          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            completionHandler(responseError, nil);
+          }];
+        }
+      }
+    }
+  }];
+  [dataTask resume];
+}
+
 - (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSError *error, bool success))completionHandler {
   NSString *fullURLString = [NSString stringWithFormat:@"%@api/users/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];

@@ -26,14 +26,22 @@
 
 + (NSArray *) parseJSONIntoMessages: (NSData *) data{
   
-  Message *one = [[Message alloc] initWithFrom:@"fart" To:@"foobar123" AndText:@"Hi!"];
-  Message *two = [[Message alloc] initWithFrom:@"fart" To:@"foobar123" AndText:@"How you doing?"];
-  Message *three = [[Message alloc] initWithFrom:@"foobar123" To:@"fart" AndText:@"Great!"];
-  
-  NSDictionary *dict = @{@"username": @"fart",@"items":@[one,two,three]};
-  
-  
-  return @[dict];
+  NSError *error;
+  NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+  NSLog(@"Attempting to parse: %@",array.description);
+  NSMutableArray *tempArray = [NSMutableArray new];
+  for (NSDictionary *messageDictionary in array) {
+    
+    Message *message = [Message new];
+    message.fromUser = messageDictionary[@"from_username"];
+    message.toUser = messageDictionary[@"to_username"];
+    message.body = messageDictionary[@"text"];
+    NSTimeInterval timestamp = [messageDictionary[@"timestamp"] doubleValue] / 1000;
+    message.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
+    [tempArray addObject:message];
+  }
+  return tempArray;
+
 }
 
 @end
