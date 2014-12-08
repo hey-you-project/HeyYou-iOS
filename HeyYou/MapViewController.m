@@ -191,7 +191,6 @@
     DotAnnotation *anno = annotation;
     anno.dot = [self.dots objectForKey:anno.title];
     view.color = [self.colors getColorFromString:anno.dot.color];
-    NSLog(@"%@", view.color);
     NSTimeInterval timeSincePost = [anno.dot.timestamp timeIntervalSinceNow];
     
     double ratio = -timeSincePost / (60.0f * 60.0f * 48.0f);

@@ -65,17 +65,11 @@
   sideBar.backgroundColor = [UIColor whiteColor];
   sideBar.frame = CGRectMake(self.view.frame.size.width, self.view.bounds.origin.y, 30, self.view.bounds.size.height);
   [self.view addSubview:sideBar];
-  NSLog(@"X: %f",sideBar.frame.origin.x);
-  NSLog(@"Y: %f",sideBar.frame.origin.y);
-  NSLog(@"Height: %f",sideBar.frame.size.height);
   
   UIView *sideColorBar = [UIView new];
   sideBar.backgroundColor = self.color;
   sideBar.frame = CGRectMake(CGRectGetMaxX(self.view.bounds),self.colorBar.frame.origin.y, 30, self.colorBar.frame.size.height);
   [self.view addSubview:sideColorBar];
-  NSLog(@"X: %f",sideBar.frame.origin.x);
-  NSLog(@"Y: %f",sideBar.frame.origin.y);
-  NSLog(@"Height: %f",sideBar.frame.size.height);
   
 }
 
@@ -267,6 +261,14 @@
         self.dot = dot;
         [self.tableView reloadData];
         self.numberOfStarsLabel.text = [self.dot.stars stringValue];
+        self.userDidStar = self.dot.userHasStarred;
+        if (self.userDidStar) {
+          NSLog(@"Changing to filled!");
+          self.star.text = @"\ue105";
+        } else {
+          NSLog(@"Changing to empty!");
+          self.star.text = @"\ue108";
+        }
       }];
     } else {
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
