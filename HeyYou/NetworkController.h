@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "Dot.h"
 #import "ErrorsHandler.h"
+#import "Message.h"
 
 @interface NetworkController : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
