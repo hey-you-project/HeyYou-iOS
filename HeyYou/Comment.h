@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString *body;
 @property (nonatomic, strong) User *user;
 @property (nonatomic, strong) NSDate *timestamp;
+@property (nonatomic, strong) NSString *identifier;
 
 @end

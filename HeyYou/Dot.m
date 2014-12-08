@@ -58,6 +58,7 @@
       comment.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
       comment.user = [[User alloc] initwithUsername:commentDict[@"username"]];
       comment.body = commentDict[@"text"];
+      comment.identifier = commentDict[@"_id"];
       [dot.comments addObject:comment];
     }
     dot.location = CLLocationCoordinate2DMake(latitude, longitude);
