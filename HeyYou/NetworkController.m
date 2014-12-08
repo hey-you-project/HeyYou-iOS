@@ -426,7 +426,9 @@
           NSError *postError;
           NSDictionary *successJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error: &postError];
           NSLog(@"%@", successJSON.description);
-          completionHandler(nil, YES);
+          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            completionHandler(nil, YES);
+          }];
         } else {
           NSLog(@"%@", httpResponse.description);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];

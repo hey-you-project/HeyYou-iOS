@@ -36,4 +36,6 @@
 
 - (void)postMessage: (NSString *)text toUser: (NSString *)username withCompletionHandler: (void (^)(NSError *error, bool success))completionHandler;
 
+- (void)deleteCommentWithId: (NSString *)commentID withCompletionHandler: (void (^)(NSError *error, bool success))completionHandler;
+
 @end

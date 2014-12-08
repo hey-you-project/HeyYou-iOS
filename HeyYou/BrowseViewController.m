@@ -102,6 +102,42 @@
   
 }
 
+#pragma mark <UITableViewDelegate>
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+  return YES;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    Comment *commentToDelete = self.dot.comments[indexPath.row];
+    [[NetworkController sharedController] deleteCommentWithId:commentToDelete.identifier withCompletionHandler:^(NSError *error, bool success) {
+      if (success) {
+        NSLog(@"Comment deleted!");
+        [self.dot.comments removeObject:commentToDelete];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        [tableView reloadData];
+      } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:[error localizedDescription]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        if (error == nil) {
+          alert.message = @"An error occurred. Please try again later.";
+        }
+        [alert show];
+      }
+
+    }];
+  }
+}
+
 #pragma mark IBActions
 
 - (IBAction)commentButtonPressed:(id)sender {
