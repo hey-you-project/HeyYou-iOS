@@ -39,4 +39,8 @@
 
 - (void)deleteCommentWithId: (NSString *)commentID withCompletionHandler: (void (^)(NSError *error, bool success))completionHandler;
 
+- (void)getAllChatPartnersWithCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler;
+
+- (void)getMessagesFromUser:(NSString *)username withCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler;
+
 @end
