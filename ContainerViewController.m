@@ -83,6 +83,7 @@
                                                name:@"SwitchToChatView"
                                              object:nil];
   
+  [self addLoginScreen];
   
 }
 
@@ -528,6 +529,15 @@
   [self switchToChatView];
   ChatListViewController *chatList = self.chatViewController.viewControllers[0];
   [chatList beginNewChatWithUsername:otherUser];
+  
+}
+
+-(void) addLoginScreen {
+  SideMenuViewController *loginVC = [SideMenuViewController new];
+  loginVC.view.frame = CGRectInset(self.view.frame, 30, 30);
+  [self addChildViewController:loginVC];
+  [self.view addSubview:loginVC.view];
+  //[loginVC.view sizeToFit];
   
 }
 

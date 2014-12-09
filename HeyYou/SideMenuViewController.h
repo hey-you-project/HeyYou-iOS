@@ -41,8 +41,7 @@
 @end
 
 typedef NS_ENUM(NSInteger, MenuState) {
-  MenuStateLoggedOut,
-  MenuStateLoggedIn,
-  MenuStateLoginScreen,
+  MenuStateLogIn,
+  MenuStateLogOut,
   MenuStateCreateAccountScreen
 };

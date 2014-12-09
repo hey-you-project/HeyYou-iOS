@@ -9,6 +9,7 @@
 #import "SideMenuViewController.h"
 #import "NSString+Validate.h"
 #import "ContainerViewController.h"
+#import "Colors.h"
 
 
 @interface SideMenuViewController ()
@@ -28,13 +29,15 @@
 
 @property (nonatomic, strong) NSCalendar *localCalendar;
 
+@property (nonatomic, strong) Colors *colors;
+
 @end
 
 @implementation SideMenuViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+  self.colors = [Colors singleton];
   self.usernameField.delegate = self;
   self.passwordField.delegate = self;
   self.createUsernameField.delegate = self;
@@ -42,6 +45,11 @@
   self.createEmailField.delegate = self;
   self.birthdayPicker.delegate = self;
   self.birthdayPicker.dataSource = self;
+  
+  self.loginView.layer.cornerRadius = 20;
+  self.loginView.layer.borderColor = [self.colors.flatBlue CGColor];
+  self.loginView.layer.borderWidth = 4;
+
   
   //Set up animation speed
   self.duration = 0.5;
@@ -54,24 +62,23 @@
   self.loginCreateOffstage = CGAffineTransformMakeTranslation(250, 0);
   
   if ([[NetworkController sharedController] token] != nil) {
-    self.state = MenuStateLoggedIn;
+    self.state = MenuStateLogOut;
     NSString *savedUsername = [[NetworkController sharedController] username];
     if (savedUsername != nil) {
       self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", savedUsername];
     }
   } else {
-    self.state = MenuStateLoggedOut;
+    self.state = MenuStateLogIn;
   }
 
   switch (self.state) {
-    case MenuStateLoggedOut:
-      //Set to logged out view
-      self.userPostsView.transform = self.userPostsOffstage;
-      self.bestofView.transform = self.bestofLoggedOut;
+    case MenuStateLogIn:
+      self.userPostsView.transform = CGAffineTransformIdentity;
+      self.bestofView.transform = CGAffineTransformIdentity;
       break;
-    case MenuStateLoggedIn:
-      self.loginButton.transform = self.loginCreateOffstage;
-      self.createAccountButton.transform = self.loginCreateOffstage;
+    case MenuStateLogOut:
+      self.loginButton.transform = CGAffineTransformIdentity;
+      self.createAccountButton.transform = CGAffineTransformIdentity;
       break;
     default:
       NSLog(@"Invalid menu state");
@@ -79,10 +86,10 @@
   }
   
   //Prepare default locations
-  self.createView.transform = self.loginCreateOffstage;
-  self.loginView.transform = self.loginCreateOffstage;
-  self.cancelButtonOne.transform = self.loginCreateOffstage;
-  self.cancelButtonTwo.transform = self.loginCreateOffstage;
+  self.createView.transform = CGAffineTransformIdentity;
+  self.loginView.transform = CGAffineTransformIdentity;
+  self.cancelButtonOne.transform = CGAffineTransformIdentity;
+  self.cancelButtonTwo.transform = CGAffineTransformIdentity;
   
   //Prepare date picker arrays
   self.monthArray = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
@@ -110,73 +117,53 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  self.usernameField.layer.cornerRadius = 10;
-  self.passwordField.layer.cornerRadius = 10;
-  self.createUsernameField.layer.cornerRadius =10;
-  self.createPasswordField.layer.cornerRadius = 10;
-  self.createEmailField.layer.cornerRadius = 10;
-
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-  
-  [super viewDidAppear:animated];
-  
-  [UIView animateWithDuration:60.0
-                        delay:0.0
-                      options:(UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut)
-                   animations:^{
-                     self.imageView.transform = CGAffineTransformMakeTranslation(-3000, 0);
-                 } completion:^(BOOL finished) {
-                              }];
-
 }
 
 #pragma mark Button Actions
 
-- (IBAction)pressedLogin:(id)sender {
-  switch (self.state) {
-    case MenuStateLoggedOut:
-    {
-      self.state = MenuStateLoginScreen;
-      [self addLoginAnimation];
-      break;
-    }
-    case MenuStateLoginScreen:
-    {
-      NSString *username = self.usernameField.text;
-      [self.activityIndicator startAnimating];
-      [[NetworkController sharedController] fetchTokenWithUsername:username password:self.passwordField.text completionHandler:^(NSError *error, bool success) {
-        if (success) {
-          [self.activityIndicator stopAnimating];
-          [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
-          [[NSUserDefaults standardUserDefaults] synchronize];
-          [self removeLoginAnimation:username];
-          self.state = MenuStateLoggedIn;
-          NSLog(@"You are logged in!!!");
-        } else {
-          [self.activityIndicator stopAnimating];
-          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                          message:[error localizedDescription]
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-          if (error == nil) {
-            alert.message = @"An error occurred. Please try again later.";
-          }
-          [alert show];
-        }
-      }];
-      break;
-    }
-    default:
-      break;
-  }
-}
+//- (IBAction)pressedLogin:(id)sender {
+//  switch (self.state) {
+//    case MenuStateLogIn:
+//    {
+//      self.state = MenuStateLoginScreen;
+//      [self addLoginAnimation];
+//      break;
+//    }
+//    case MenuStateLoginScreen:
+//    {
+//      NSString *username = self.usernameField.text;
+//      [self.activityIndicator startAnimating];
+//      [[NetworkController sharedController] fetchTokenWithUsername:username password:self.passwordField.text completionHandler:^(NSError *error, bool success) {
+//        if (success) {
+//          [self.activityIndicator stopAnimating];
+//          [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
+//          [[NSUserDefaults standardUserDefaults] synchronize];
+//          [self removeLoginAnimation:username];
+//          self.state = MenuStateLoggedIn;
+//          NSLog(@"You are logged in!!!");
+//        } else {
+//          [self.activityIndicator stopAnimating];
+//          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                                          message:[error localizedDescription]
+//                                                         delegate:nil
+//                                                cancelButtonTitle:@"OK"
+//                                                otherButtonTitles:nil];
+//          if (error == nil) {
+//            alert.message = @"An error occurred. Please try again later.";
+//          }
+//          [alert show];
+//        }
+//      }];
+//      break;
+//    }
+//    default:
+//      break;
+//  }
+//}
 
 - (IBAction)pressedCreate:(id)sender {
   switch (self.state) {
-    case MenuStateLoggedOut:
+    case MenuStateLogIn:
       self.state = MenuStateCreateAccountScreen;
       [self addCreateAnimation];
       break;
@@ -191,7 +178,7 @@
           [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
           [[NSUserDefaults standardUserDefaults] synchronize];
           [self.activityIndicator stopAnimating];
-          self.state = MenuStateLoggedIn;
+          self.state = MenuStateLogOut;
           [self removeCreateAnimation:username];
           NSLog(@"User created!");
         } else {
@@ -223,12 +210,12 @@
     
   }];
 }
-- (IBAction)pressedCancel:(id)sender {
-  if (self.state == MenuStateCreateAccountScreen || self.state == MenuStateLoginScreen) {
-    self.state = MenuStateLoggedOut;
-    [self layoutBackToNormal];
-  }
-}
+//- (IBAction)pressedCancel:(id)sender {
+//  if (self.state == MenuStateCreateAccountScreen || self.state == MenuStateLoginScreen) {
+//    self.state = MenuStateLoggedOut;
+//    [self layoutBackToNormal];
+//  }
+//}
 
 #pragma mark Animation methods
 
