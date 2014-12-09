@@ -23,14 +23,18 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.tableView.alpha = 0;
   self.networkController = [NetworkController sharedController];
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
   [self.networkController getAllChatPartnersWithCompletionHandler:^(NSError *error, NSArray *messages) {
-    NSLog(@"Chat list got messages: %@", messages.description);
+    NSLog(@"Chat list got partners: %@", messages.description);
     self.partners = messages;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
       [self.tableView reloadData];
+      [UIView animateWithDuration:0.4 animations:^{
+        self.tableView.alpha = 1;
+      }];
     }];
     
   }];
@@ -66,15 +70,21 @@
   SingleChatViewController *destinationVC = [storyboard instantiateViewControllerWithIdentifier:@"SINGLE"];
   
   destinationVC.otherUser = self.partners[indexPath.row];
+  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    destinationVC.tableView.alpha = 0;
+  }];
   [self.networkController getMessagesFromUser:self.partners[indexPath.row] withCompletionHandler:^(NSError *error, NSArray *messages) {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
       destinationVC.messages = [[NSMutableArray alloc] initWithArray:messages];
       [destinationVC.tableView reloadData];
+      [UIView animateWithDuration:0.4 animations:^{
+        destinationVC.tableView.alpha = 1;
+      }];
     }];
     
   }];
   
-  [self.navigationController pushViewController:destinationVC animated:true];
+  [self.navigationController pushViewController:destinationVC animated:false];
 }
 
 -(void)beginNewChatWithUsername:(NSString *) username {

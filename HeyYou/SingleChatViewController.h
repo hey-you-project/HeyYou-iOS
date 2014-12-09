@@ -17,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet UIView *textBar;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textBarConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
 
 @end

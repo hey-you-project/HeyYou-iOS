@@ -159,27 +159,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="19W-Yh-jbM">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="60" width="600" height="540"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="JKM-lL-ifL">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5rL-EI-0uD">
-                                            <rect key="frame" x="8" y="6" width="46" height="30"/>
-                                            <state key="normal" title="Back">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="didPressBackButton:" destination="fX5-6q-xhn" eventType="touchUpInside" id="bhi-Kg-DOv"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="centerY" secondItem="5rL-EI-0uD" secondAttribute="centerY" id="f7x-oW-kEO"/>
-                                        <constraint firstItem="5rL-EI-0uD" firstAttribute="leading" secondItem="JKM-lL-ifL" secondAttribute="leading" constant="8" id="r2h-4n-xOi"/>
-                                    </constraints>
                                 </view>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="RIGHT" selectionStyle="default" indentationWidth="10" reuseIdentifier="RIGHT" rowHeight="119" id="gEY-3G-73P" customClass="RightSideChatCell">
@@ -324,19 +309,32 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BS1-Z2-7h4">
+                                <rect key="frame" x="16" y="32" width="35" height="30"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPressBackButton:" destination="fX5-6q-xhn" eventType="touchUpInside" id="Fn3-iu-gfG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="O7n-OW-qIq" firstAttribute="top" secondItem="mdx-gU-Ixu" secondAttribute="bottom" constant="-47" id="0u0-oM-aob"/>
                             <constraint firstItem="19W-Yh-jbM" firstAttribute="leading" secondItem="tv0-yt-E6P" secondAttribute="leading" id="1jo-HJ-WL6"/>
-                            <constraint firstItem="19W-Yh-jbM" firstAttribute="top" secondItem="tv0-yt-E6P" secondAttribute="top" id="3zm-JW-CST"/>
+                            <constraint firstItem="19W-Yh-jbM" firstAttribute="top" secondItem="tv0-yt-E6P" secondAttribute="top" constant="60" id="3zm-JW-CST"/>
                             <constraint firstAttribute="trailing" secondItem="19W-Yh-jbM" secondAttribute="trailing" id="Owm-gZ-YoJ"/>
+                            <constraint firstItem="BS1-Z2-7h4" firstAttribute="top" secondItem="tv0-yt-E6P" secondAttribute="topMargin" constant="32" id="PC8-E6-ai7"/>
                             <constraint firstItem="O7n-OW-qIq" firstAttribute="top" secondItem="19W-Yh-jbM" secondAttribute="bottom" id="Vu3-9t-l2A"/>
                             <constraint firstItem="mdx-gU-Ixu" firstAttribute="leading" secondItem="tv0-yt-E6P" secondAttribute="leadingMargin" constant="-16" id="jR8-Gi-brk"/>
+                            <constraint firstItem="BS1-Z2-7h4" firstAttribute="leading" secondItem="tv0-yt-E6P" secondAttribute="leadingMargin" id="luT-Su-NTs"/>
                             <constraint firstAttribute="trailingMargin" secondItem="mdx-gU-Ixu" secondAttribute="trailing" constant="-16" id="nyG-zN-6rh"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="BS1-Z2-7h4" id="k6f-GM-bIz"/>
                         <outlet property="sendButton" destination="MmD-OQ-MaI" id="5Fw-my-L0c"/>
                         <outlet property="tableView" destination="19W-Yh-jbM" id="UuT-qt-1pT"/>
                         <outlet property="textBar" destination="mdx-gU-Ixu" id="diy-qT-fzG"/>

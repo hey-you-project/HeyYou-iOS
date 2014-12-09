@@ -28,7 +28,6 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.thisUser = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-  NSLog(@"%@", self.thisUser);
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
   self.textField.delegate = self;
@@ -60,7 +59,6 @@
   self.largeCircle.layer.shadowOpacity = 0.6;
   self.largeCircle.layer.shadowRadius = 3.0;
   self.largeCircle.layer.shadowOffset = CGSizeMake(0, 3);
-  [self.view addSubview:self.largeCircle];
   
   CGRect labelRect = CGRectMake(self.largeCircle.frame.origin.x + 19, self.largeCircle.frame.origin.y + 17.5, 25, 25);
   
@@ -74,11 +72,18 @@
   self.plusLabel.layer.shadowRadius = 1.0;
   self.plusLabel.layer.shadowOffset = CGSizeMake(0, 2);
   
-  [self.view addSubview:self.plusLabel];
-  
   UITapGestureRecognizer *tap = [UITapGestureRecognizer new];
   [tap addTarget:self action:@selector(receivedTapGestureOnPlusButton:)];
   [self.largeCircle addGestureRecognizer:tap];
+  
+  [self.view addSubview:self.largeCircle];
+  [self.view addSubview:self.plusLabel];
+  self.largeCircle.alpha = 0;
+  self.plusLabel.alpha = 0;
+  [UIView animateWithDuration:0.4 animations:^{
+    self.largeCircle.alpha = 1;
+    self.plusLabel.alpha = 1;
+  }];
   
 }
 
@@ -143,7 +148,7 @@
 }
 
 - (IBAction)didPressBackButton:(id)sender {
-  [self.navigationController popToRootViewControllerAnimated:YES];
+  [self.navigationController popToRootViewControllerAnimated:false];
 }
 
 -(void)dealloc{

@@ -461,8 +461,11 @@
     } else {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSLog(@"%@",httpResponse.description);
         NSInteger statusCode = httpResponse.statusCode;
         if (statusCode >= 200 && statusCode <= 299) {
+          NSError *myError;
+          NSLog(@"%@", [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&myError] description]);
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(nil, YES);
           }];

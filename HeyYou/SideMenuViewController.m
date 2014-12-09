@@ -48,7 +48,7 @@
   
   self.loginView.layer.cornerRadius = 20;
   self.loginView.layer.borderColor = [self.colors.flatBlue CGColor];
-  self.loginView.layer.borderWidth = 4;
+  self.loginView.layer.borderWidth = 3;
 
   
   //Set up animation speed
