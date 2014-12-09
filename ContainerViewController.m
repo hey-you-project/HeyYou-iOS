@@ -83,7 +83,7 @@
                                                name:@"SwitchToChatView"
                                              object:nil];
   
-  [self addLoginScreen];
+  //[self addLoginScreen];
   
 }
 
@@ -494,6 +494,9 @@
     } else if (sender.view == self.chatButton) {
       [self switchToChatView];
       [self toggleRadialMenuAndHideBlurView:false];
+    } else if (sender.view == self.loginButton) {
+      [self addLoginScreen];
+      [self toggleRadialMenuAndHideBlurView:false];
     }
     
   }
@@ -534,9 +537,9 @@
 
 -(void) addLoginScreen {
   SideMenuViewController *loginVC = [SideMenuViewController new];
-  loginVC.view.frame = CGRectInset(self.view.frame, 30, 30);
+  loginVC.view.frame = CGRectMake(30, 30, self.view.frame.size.width - 60, self.view.frame.size.height - 150);
   [self addChildViewController:loginVC];
-  [self.view addSubview:loginVC.view];
+  [self.view insertSubview:loginVC.view belowSubview:self.userDotsButton];
   //[loginVC.view sizeToFit];
   
 }

@@ -40,8 +40,8 @@
   self.colors = [Colors singleton];
   self.usernameField.delegate = self;
   self.passwordField.delegate = self;
-  self.createUsernameField.delegate = self;
-  self.createPasswordField.delegate = self;
+//  self.createUsernameField.delegate = self;
+//  self.createPasswordField.delegate = self;
   self.createEmailField.delegate = self;
   self.birthdayPicker.delegate = self;
   self.birthdayPicker.dataSource = self;
@@ -73,10 +73,19 @@
 
   switch (self.state) {
     case MenuStateLogIn:
+      self.logInConstraint.priority = 999;
+      self.logOutConstraint.priority = 900;
       self.userPostsView.transform = CGAffineTransformIdentity;
       self.bestofView.transform = CGAffineTransformIdentity;
+      self.logOutButton.alpha = 0;
+      self.usernameField.alpha = 1;
+      self.passwordField.alpha = 1;
+      self.usernameLabel.alpha = 1;
+      self.passwordLabel.alpha = 1;
       break;
     case MenuStateLogOut:
+      self.createAccountButton.alpha = 0;
+      self.loginButton.alpha = 0;
       self.loginButton.transform = CGAffineTransformIdentity;
       self.createAccountButton.transform = CGAffineTransformIdentity;
       break;
@@ -121,56 +130,43 @@
 
 #pragma mark Button Actions
 
-//- (IBAction)pressedLogin:(id)sender {
-//  switch (self.state) {
-//    case MenuStateLogIn:
-//    {
-//      self.state = MenuStateLoginScreen;
-//      [self addLoginAnimation];
-//      break;
-//    }
-//    case MenuStateLoginScreen:
-//    {
-//      NSString *username = self.usernameField.text;
-//      [self.activityIndicator startAnimating];
-//      [[NetworkController sharedController] fetchTokenWithUsername:username password:self.passwordField.text completionHandler:^(NSError *error, bool success) {
-//        if (success) {
-//          [self.activityIndicator stopAnimating];
-//          [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
-//          [[NSUserDefaults standardUserDefaults] synchronize];
-//          [self removeLoginAnimation:username];
-//          self.state = MenuStateLoggedIn;
-//          NSLog(@"You are logged in!!!");
-//        } else {
-//          [self.activityIndicator stopAnimating];
-//          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-//                                                          message:[error localizedDescription]
-//                                                         delegate:nil
-//                                                cancelButtonTitle:@"OK"
-//                                                otherButtonTitles:nil];
-//          if (error == nil) {
-//            alert.message = @"An error occurred. Please try again later.";
-//          }
-//          [alert show];
-//        }
-//      }];
-//      break;
-//    }
-//    default:
-//      break;
-//  }
-//}
+- (IBAction)pressedLogin:(id)sender {
+      NSString *username = self.usernameField.text;
+      [self.activityIndicator startAnimating];
+      [[NetworkController sharedController] fetchTokenWithUsername:username password:self.passwordField.text completionHandler:^(NSError *error, bool success) {
+        if (success) {
+          [self.activityIndicator stopAnimating];
+          [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
+          [[NSUserDefaults standardUserDefaults] synchronize];
+          [self switchToLogout:username];
+          self.state = MenuStateLogOut;
+          NSLog(@"You are logged in!!!");
+        } else {
+          [self.activityIndicator stopAnimating];
+          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                          message:[error localizedDescription]
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+          if (error == nil) {
+            alert.message = @"An error occurred. Please try again later.";
+          }
+          [alert show];
+        }
+      }];
+}
 
 - (IBAction)pressedCreate:(id)sender {
   switch (self.state) {
     case MenuStateLogIn:
+      NSLog(@"Add Login Called");
       self.state = MenuStateCreateAccountScreen;
-      [self addCreateAnimation];
+      [self switchToCreate];
       break;
     case MenuStateCreateAccountScreen: {
       [self.activityIndicator startAnimating];
-      NSString *username = self.createUsernameField.text;
-      NSString *password = self.createPasswordField.text;
+      NSString *username = self.usernameField.text;
+      NSString *password = self.passwordField.text;
       NSString *email = self.createEmailField.text;
       NSDate *birthday = [self dateFromBirthdayPicker:self.birthdayPicker];
       [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSError *error, bool success) {
@@ -179,7 +175,7 @@
           [[NSUserDefaults standardUserDefaults] synchronize];
           [self.activityIndicator stopAnimating];
           self.state = MenuStateLogOut;
-          [self removeCreateAnimation:username];
+          [self switchToLogout:username];
           NSLog(@"User created!");
         } else {
           [self.activityIndicator stopAnimating];
@@ -201,6 +197,15 @@
   }
 }
 
+- (IBAction)pressedLogOut:(id)sender {
+  
+  [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"username"];
+  [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"token"];
+  [self switchToLogin];
+  
+}
+
+
 - (IBAction)pressedBirthday:(id)sender {
   UIButton *birthdayButton = sender;
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -219,13 +224,29 @@
 
 #pragma mark Animation methods
 
-- (void)addLoginAnimation {
+- (void)switchToLogin {
+  self.logInConstraint.priority = 999;
+  self.logOutConstraint.priority = 900;
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [self.view layoutSubviews];
     self.heyYouTitle.transform = self.titleOffstage;
-    self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
-    self.createAccountButton.transform = self.createAccountOffstage;
-    self.loginView.transform = CGAffineTransformIdentity;
-    self.cancelButtonOne.transform = CGAffineTransformIdentity;
+//    self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
+//    self.createAccountButton.transform = self.createAccountOffstage;
+//    self.loginView.transform = CGAffineTransformIdentity;
+//    self.cancelButtonOne.transform = CGAffineTransformIdentity;
+    self.usernameField.alpha = 1;
+    self.passwordField.alpha = 1;
+    self.usernameLabel.alpha = 1;
+    self.passwordLabel.alpha = 1;
+    self.logOutButton.alpha = 0;
+    self.loginButton.alpha = 1;
+    self.repeatPassword.alpha = 0;
+    self.passwordFieldTwo.alpha = 0;
+    self.emailLabel.alpha = 0;
+    self.createEmailField.alpha = 0;
+    self.birthdayPicker.alpha = 0;
+    self.birthdayPickerView.alpha = 0;
+    self.createAccountButton.alpha = 0;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.heyYouTitle.text = @"Hey you, log in!";
@@ -235,15 +256,25 @@
   }];
 }
 
-- (void)removeLoginAnimation: (NSString*)username {
+- (void)switchToLogout: (NSString*)username {
+  self.logOutConstraint.priority = 999;
+  self.logInConstraint.priority = 900;
   self.bestofView.transform = CGAffineTransformMakeTranslation(-175, 0);
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-    self.heyYouTitle.transform = self.titleOffstage;
-    self.userPostsView.transform = CGAffineTransformIdentity;
-    self.bestofView.transform = CGAffineTransformIdentity;
-    self.loginButton.transform = self.createAccountOffstage;
-    self.loginView.transform = self.loginCreateOffstage;
-    self.cancelButtonOne.transform = self.loginCreateOffstage;
+    [self.view layoutSubviews];
+    self.repeatPassword.alpha = 0;
+    self.passwordFieldTwo.alpha = 0;
+    self.emailLabel.alpha = 0;
+    self.createEmailField.alpha = 0;
+    self.birthdayPicker.alpha = 0;
+    self.birthdayPickerView.alpha = 0;
+    self.usernameField.alpha = 0;
+    self.passwordField.alpha = 0;
+    self.usernameLabel.alpha = 0;
+    self.passwordLabel.alpha = 0;
+    self.logOutButton.alpha = 1;
+    self.loginButton.alpha = 0;
+    self.createAccountButton.alpha = 0;
   } completion:^(BOOL finished) {
     self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", username];
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -252,14 +283,23 @@
   }];
 }
 
-- (void)addCreateAnimation {
+- (void)switchToCreate {
+  self.logOutConstraint.priority = 900;
+  self.logInConstraint.priority = 900;
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [self.view layoutSubviews];
     self.heyYouTitle.transform = self.titleOffstage;
     self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
     self.loginButton.transform = self.createAccountOffstage;
     self.createView.transform = CGAffineTransformIdentity;
-    self.createAccountButton.transform = CGAffineTransformMakeTranslation(0, -80);
+    //self.createAccountButton.transform = CGAffineTransformMakeTranslation(0, -80);
     self.cancelButtonTwo.transform = CGAffineTransformMakeTranslation(0, -80);
+    self.repeatPassword.alpha = 1;
+    self.passwordFieldTwo.alpha = 1;
+    self.emailLabel.alpha = 1;
+    self.createEmailField.alpha = 1;
+    self.birthdayPicker.alpha = 1;
+    self.birthdayPickerView.alpha = 1;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.heyYouTitle.text = @"Hey, create an account!";
@@ -371,7 +411,7 @@
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
   switch (component) {
     case 0:
-      return 75;
+      return 90;
     case 1:
       return 25;
     case 2:
@@ -400,8 +440,8 @@
       NSLog(@"tried to get component %ld", (long)component);
   }
   
-  pickerViewLabel.font = [UIFont fontWithName: @"Heavyweight" size:16];
-  pickerViewLabel.textColor = [UIColor orangeColor];
+  pickerViewLabel.font = [UIFont fontWithName: @"Avenir" size:16];
+  pickerViewLabel.textColor = [UIColor blackColor];
   
   return pickerViewLabel;
   
@@ -429,7 +469,6 @@
   [messageVC setBody:@"Check out this great new app! http://itunes.com/app/HeyYou"];
   [self presentViewController:messageVC animated:true completion:nil];
   
-  
 }
 
 -(void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
@@ -442,7 +481,6 @@
     ContainerViewController *parent = (ContainerViewController *)[self parentViewController];
     [parent switchToUserDotView];
   }
-  
 }
 
 - (void) didPressMapLabel: (UITapGestureRecognizer *)sender {
@@ -451,7 +489,6 @@
     ContainerViewController *parent = (ContainerViewController *)[self parentViewController];
     [parent switchToMapView];
   }
-  
 }
 
 @end
