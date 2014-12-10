@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UILabel *plusLabel;
 @property (nonatomic, strong) Colors *colors;
 @property (nonatomic, strong) NetworkController *networkController;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @end
 
@@ -34,11 +35,26 @@
   self.colors = [Colors singleton];
   self.networkController = [NetworkController sharedController];
   [self addCircleView];
+  self.bottomPadView.frame = CGRectMake(self.bottomPadView.frame.origin.x, self.bottomPadView.frame.origin.y, self.bottomPadView.frame.size.width, 110);
   [self.navigationController setNavigationBarHidden:true];
+  
+  self.dateFormatter = [[NSDateFormatter alloc] init];
+  [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
+  [self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
   
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(keyboardWillShow:)
                                                name:UIKeyboardWillShowNotification
+                                             object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(keyboardWillHide:)
+                                               name:UIKeyboardWillHideNotification
+                                             object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(keyboardWillChange:)
+                                               name:UIKeyboardWillChangeFrameNotification
                                              object:nil];
   
   UIColor *newColor = [UIColor whiteColor];
@@ -93,24 +109,42 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   Message *message = self.messages[indexPath.row];
-  NSLog(@"Comparing %@ and %@",message.fromUser, self.thisUser);
   
   if ([message.fromUser isEqualToString:self.thisUser]) {
-    NSLog(@"Dequeueing right cell");
     RightSideChatCell *cell = (RightSideChatCell *)[tableView dequeueReusableCellWithIdentifier:@"RIGHT" forIndexPath:indexPath];
     cell.body.text = message.body;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    Message *previousMessage;
+    if (indexPath.row > 0){
+      previousMessage = self.messages[indexPath.row - 1];
+    }
+    
+    if (indexPath.row == 0 || [message.timestamp timeIntervalSinceDate:previousMessage.timestamp] > 60 * 60) {
+      cell.bodyViewConstraint.priority = 997;
+      cell.timeLabel.text = [self.dateFormatter stringFromDate:message.timestamp];
+    } else {
+      cell.timeLabel.text = @"";
+    }
     return cell;
   } else {
     LeftSideChatCell *cell = (LeftSideChatCell *)[tableView dequeueReusableCellWithIdentifier:@"LEFT" forIndexPath:indexPath];
     cell.body.text = message.body;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    Message *previousMessage;
+    if (indexPath.row > 0){
+      previousMessage = self.messages[indexPath.row - 1];
+    }
+    if (indexPath.row == 0 || [message.timestamp timeIntervalSinceDate:previousMessage.timestamp] > 60 * 60) {
+      cell.bodyViewConstraint.priority = 997;
+      cell.timeLabel.text = [self.dateFormatter stringFromDate:message.timestamp];
+    } else {
+      cell.timeLabel.text = @"";
+    }
     return cell;
   }
 }
 
 - (void) receivedTapGestureOnPlusButton: (UITapGestureRecognizer *)sender {
-  NSLog(@"Received Tap!");
   [self.textField becomeFirstResponder];
 }
 
@@ -138,9 +172,41 @@
   NSDictionary* userInfo = [n userInfo];
   CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
   [self.view layoutIfNeeded];
-  self.textBarConstraint.constant += 47.0 + keyboardSize.height;
+  self.textBarConstraint.constant = keyboardSize.height;
+  self.bottomPadView.frame = CGRectMake(self.bottomPadView.frame.origin.x, self.bottomPadView.frame.origin.y, self.bottomPadView.frame.size.width, 10);
+  
   
   [UIView animateWithDuration:0.2f animations:^{
+    [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:false];
+    [self.view layoutIfNeeded];
+  } completion:^(BOOL finished) {
+    
+  }];
+}
+
+-(void) keyboardWillHide:(NSNotification *)n {
+  
+  [self.view layoutIfNeeded];
+  self.textBarConstraint.constant = -47;
+
+  [UIView animateWithDuration:0.2f animations:^{
+    [self.view layoutIfNeeded];
+    
+  } completion:^(BOOL finished) {
+    
+  }];
+  
+}
+
+-(void) keyboardWillChange:(NSNotification *)n {
+  
+  NSDictionary* userInfo = [n userInfo];
+  CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+  [self.view layoutIfNeeded];
+  self.textBarConstraint.constant = keyboardSize.height;
+  
+  [UIView animateWithDuration:0.2f animations:^{
+    
     [self.view layoutIfNeeded];
   } completion:^(BOOL finished) {
     
