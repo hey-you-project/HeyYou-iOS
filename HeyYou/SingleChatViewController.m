@@ -12,6 +12,7 @@
 #import "LeftSideChatCell.h"
 #import "Colors.h"
 #import "NetworkController.h"
+#import "ChatCell.h"
 
 @interface SingleChatViewController ()
 
@@ -110,38 +111,31 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   Message *message = self.messages[indexPath.row];
   
+  UITableViewCell <ChatCell> *cell;
+  
   if ([message.fromUser isEqualToString:self.thisUser]) {
-    RightSideChatCell *cell = (RightSideChatCell *)[tableView dequeueReusableCellWithIdentifier:@"RIGHT" forIndexPath:indexPath];
-    cell.body.text = message.body;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    Message *previousMessage;
-    if (indexPath.row > 0){
-      previousMessage = self.messages[indexPath.row - 1];
-    }
-    
-    if (indexPath.row == 0 || [message.timestamp timeIntervalSinceDate:previousMessage.timestamp] > 60 * 60) {
-      cell.bodyViewConstraint.priority = 997;
-      cell.timeLabel.text = [self.dateFormatter stringFromDate:message.timestamp];
-    } else {
-      cell.timeLabel.text = @"";
-    }
-    return cell;
+    cell = (RightSideChatCell *)[tableView dequeueReusableCellWithIdentifier:@"RIGHT" forIndexPath:indexPath];
   } else {
-    LeftSideChatCell *cell = (LeftSideChatCell *)[tableView dequeueReusableCellWithIdentifier:@"LEFT" forIndexPath:indexPath];
-    cell.body.text = message.body;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    Message *previousMessage;
-    if (indexPath.row > 0){
-      previousMessage = self.messages[indexPath.row - 1];
-    }
-    if (indexPath.row == 0 || [message.timestamp timeIntervalSinceDate:previousMessage.timestamp] > 60 * 60) {
-      cell.bodyViewConstraint.priority = 997;
-      cell.timeLabel.text = [self.dateFormatter stringFromDate:message.timestamp];
-    } else {
-      cell.timeLabel.text = @"";
-    }
-    return cell;
+    cell = (LeftSideChatCell *)[tableView dequeueReusableCellWithIdentifier:@"LEFT" forIndexPath:indexPath];
   }
+  cell.body.text = message.body;
+  cell.selectionStyle = UITableViewCellSelectionStyleNone;
+  Message *previousMessage;
+  if (indexPath.row > 0){
+    previousMessage = self.messages[indexPath.row - 1];
+  }
+  if (indexPath.row == 0 || [message.timestamp timeIntervalSinceDate:previousMessage.timestamp] > 60 * 60) {
+    cell.bodyViewConstraint.priority = 997;
+    cell.timeLabel.text = [self.dateFormatter stringFromDate:message.timestamp];
+  } else {
+    cell.timeLabel.text = @"";
+  }
+  cell.labelWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
+  cell.labelWrapper.layer.shadowOpacity = 0.6;
+  cell.labelWrapper.layer.shadowRadius = 2.0;
+  cell.labelWrapper.layer.shadowOffset = CGSizeMake(0, 2);
+  cell.labelWrapper.clipsToBounds = false;
+  return cell;
 }
 
 - (void) receivedTapGestureOnPlusButton: (UITapGestureRecognizer *)sender {
@@ -188,12 +182,12 @@
   
   [self.view layoutIfNeeded];
   self.textBarConstraint.constant = -47;
+  self.bottomPadView.frame = CGRectMake(self.bottomPadView.frame.origin.x, self.bottomPadView.frame.origin.y, self.bottomPadView.frame.size.width, 110);
 
   [UIView animateWithDuration:0.2f animations:^{
     [self.view layoutIfNeeded];
-    
   } completion:^(BOOL finished) {
-    
+    [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:false];
   }];
   
 }

@@ -48,6 +48,7 @@
   
   //[self setupSideMenuViewController];
   [self setupMapViewController];
+  [self setupHeaderLabel];
   [self setupButtons];
   [self addHamburgerMenuCircle];
   [self setupGestureRecognizers];
@@ -64,14 +65,6 @@
   [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
   self.hamburgerMenuExpanded = false;
   
-  self.headerLabel = [UILabel new];
-  self.headerLabel.text = @"";
-  self.headerLabel.frame = CGRectMake(0, 30, self.view.frame.size.width, 32);
-  self.headerLabel.font = [UIFont fontWithName:@"AvenirNext-Bold" size:24];
-  self.headerLabel.textColor = [UIColor orangeColor];
-  self.headerLabel.textAlignment = NSTextAlignmentCenter;
-  self.headerLabel.shadowColor = [UIColor blackColor];
-  [self.view addSubview:self.headerLabel];
   
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(changeHeaderLabel:)
@@ -89,6 +82,20 @@
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
+  
+}
+
+-(void)setupHeaderLabel {
+  
+  self.headerLabel = [UILabel new];
+  self.headerLabel.text = @"";
+  self.headerLabel.frame = CGRectMake(0, 30, self.view.frame.size.width, 32);
+  self.headerLabel.font = [UIFont fontWithName:@"AvenirNext-Bold" size:24];
+  self.headerLabel.textColor = [UIColor orangeColor];
+  self.headerLabel.textAlignment = NSTextAlignmentCenter;
+  self.headerLabel.shadowColor = [UIColor blackColor];
+  [self.view addSubview:self.headerLabel];
+
   
 }
 
@@ -347,20 +354,32 @@
 - (void) switchToMapView {
   
   if (![self.currentMainViewController isKindOfClass:[MapViewController class]]) {
-    [self.userDotsViewController removeDots];
+
     UIColor *newColor = [UIColor whiteColor];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"", @"color":newColor}];
     
-    [UIView animateWithDuration:0.4
-                     animations:^{
-                       self.currentMainViewController.view.alpha = 0;
-                       self.coverView.alpha = 0;
-                     } completion:^(BOOL finished) {
-                       [self.currentMainViewController.view removeFromSuperview];
-                       [self.currentMainViewController removeFromParentViewController];
-                       self.currentMainViewController = self.mapViewController;
-                       
-                     }];
+//    UIView *maskView = [[UIView alloc] initWithFrame:self.currentMainViewController.view.frame];
+//    maskView.backgroundColor = [UIColor whiteColor];
+    
+    UIView *expandingView = [UIView new];
+    expandingView.frame = self.mapButton.frame;
+    expandingView.backgroundColor = [UIColor whiteColor];
+    expandingView.layer.cornerRadius = expandingView.frame.size.height/2;
+
+    [self.mapViewController.view removeFromSuperview];
+    [self.view insertSubview:self.mapViewController.view belowSubview:self.headerLabel];
+    [self.mapViewController.view addSubview:expandingView];
+    self.mapViewController.view.layer.mask = expandingView.layer;
+    
+    [UIView animateWithDuration:0.4 animations:^{
+      expandingView.transform = CGAffineTransformMakeScale(100, 100);
+    } completion:^(BOOL finished) {
+      [expandingView removeFromSuperview];
+      [self.currentMainViewController.view removeFromSuperview];
+      [self.currentMainViewController removeFromParentViewController];
+      self.currentMainViewController = self.mapViewController;
+    }];
+
   }
   
 }
@@ -368,8 +387,23 @@
 - (void) switchToUserDotView {
   if (![self.currentMainViewController isKindOfClass:[UserDotsViewController class]]) {
     self.userDotsViewController = [UserDotsViewController new];
+    
+    UIView *expandingView = [UIView new];
+    expandingView.frame = self.userDotsButton.frame;
+    expandingView.backgroundColor = self.userDotsButton.backgroundColor;
+    expandingView.layer.cornerRadius = expandingView.frame.size.height/2;
+    [self.view insertSubview:expandingView belowSubview:self.headerLabel];
+    
+    [UIView animateWithDuration:0.4 animations:^{
+      expandingView.transform = CGAffineTransformMakeScale(100, 100);
+    } completion:^(BOOL finished) {
+      self.userDotsViewController.view.backgroundColor = expandingView.backgroundColor;
+      [expandingView removeFromSuperview];
+    }];
+    
+    self.userDotsViewController = [UserDotsViewController new];
     [self addChildViewController:self.userDotsViewController];
-    [self.view insertSubview:self.userDotsViewController.view aboveSubview:self.coverView];
+    [self.view insertSubview:self.userDotsViewController.view belowSubview:self.headerLabel];
     [self.userDotsViewController didMoveToParentViewController:self];
     self.userDotsViewController.view.frame = self.currentMainViewController.view.frame;
     self.userDotsViewController.view.alpha = 0;
@@ -391,11 +425,25 @@
 
 - (void) switchToChatView {
   if (![self.currentMainViewController isKindOfClass:[ChatListViewController class]]) {
+    
+    UIView *expandingView = [UIView new];
+    expandingView.frame = self.chatButton.frame;
+    expandingView.backgroundColor = self.chatButton.backgroundColor;
+    expandingView.layer.cornerRadius = expandingView.frame.size.height/2;
+    [self.view insertSubview:expandingView belowSubview:self.headerLabel];
+    
+    [UIView animateWithDuration:0.4 animations:^{
+      expandingView.transform = CGAffineTransformMakeScale(100, 100);
+    } completion:^(BOOL finished) {
+      self.chatViewController.view.backgroundColor = expandingView.backgroundColor;
+      [expandingView removeFromSuperview];
+    }];
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     self.chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"CHAT"];
     [self addChildViewController:self.chatViewController];
     [self.mapViewController unpopCurrentComment];
-    [self.view insertSubview:self.chatViewController.view aboveSubview:self.coverView];
+    [self.view insertSubview:self.chatViewController.view belowSubview:self.headerLabel];
     [self.chatViewController didMoveToParentViewController:self];
     self.chatViewController.view.frame = self.mapViewController.view.frame;
     self.chatViewController.view.alpha = 0;

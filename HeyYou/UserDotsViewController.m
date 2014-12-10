@@ -40,6 +40,11 @@
   
 }
 
+-(void)viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  [self removeDots];
+}
+
 - (void)didReceiveMemoryWarning {
   
     [super didReceiveMemoryWarning];

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ChatCell.h"
 
-@interface LeftSideChatCell : UITableViewCell
+@interface LeftSideChatCell : UITableViewCell <ChatCell>
 
 @property (weak, nonatomic) IBOutlet UILabel *body;
 @property (weak, nonatomic) IBOutlet UIView *labelWrapper;
