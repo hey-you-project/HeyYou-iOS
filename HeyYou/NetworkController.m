@@ -386,6 +386,7 @@
               NSLog(@"Success! Created user!");
               [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
+                [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 completionHandler(nil, YES);
               }];
@@ -460,8 +461,11 @@
     } else {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSLog(@"%@",httpResponse.description);
         NSInteger statusCode = httpResponse.statusCode;
         if (statusCode >= 200 && statusCode <= 299) {
+          NSError *myError;
+          NSLog(@"%@", [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&myError] description]);
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(nil, YES);
           }];

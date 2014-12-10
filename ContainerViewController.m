@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) MapViewController *mapViewController;
 @property (nonatomic, strong) UserDotsViewController *userDotsViewController;
-@property (nonatomic, strong) SideMenuViewController * sideMenuViewController;
+@property (nonatomic, strong) SideMenuViewController * loginViewController;
 @property (nonatomic, strong) UINavigationController * chatViewController;
 @property (nonatomic, strong) UILabel *hamburgerLabel;
 @property (nonatomic, strong) UIView *hamburgerWrapper;
@@ -83,6 +83,7 @@
                                                name:@"SwitchToChatView"
                                              object:nil];
   
+  //[self addLoginScreen];
   
 }
 
@@ -97,19 +98,7 @@
   self.mapViewController.view.frame = self.view.frame;
   [self.view addSubview:self.mapViewController.view];
   [self.mapViewController didMoveToParentViewController:self];
-  self.mapViewController.mapView.layer.shadowColor = [[UIColor blackColor] CGColor];
-  self.mapViewController.mapView.layer.shadowOpacity = 0.6;
-  self.mapViewController.mapView.layer.shadowRadius = 3.0;
-  self.mapViewController.mapView.layer.shadowOffset = CGSizeMake(-5, 0);
   self.currentMainViewController = self.mapViewController;
-}
-
-- (void)setupSideMenuViewController {
-  self.sideMenuViewController = [SideMenuViewController new];
-  [self addChildViewController:self.sideMenuViewController];
-  self.sideMenuViewController.view.frame = CGRectMake(0, 0, 200, self.view.frame.size.height);
-  [self.view addSubview:self.sideMenuViewController.view];
-  [self.sideMenuViewController didMoveToParentViewController:self];
 }
 
 - (void) addHamburgerMenuCircle{
@@ -355,61 +344,6 @@
   
 }
 
-- (void)toggleSideMenu {
-  
-  CGRect newCurrentViewFrame = self.currentMainViewController.view.frame;
-
-  CGRect newHamburgerFrame = self.hamburgerWrapper.frame;
-  CGRect newHamLabelFrame = self.hamburgerLabel.frame;
-  NSString *newString;
-  CGAffineTransform transform;
-  
-  if (self.currentMainViewController.view.frame.origin.x == 0){
-    [self.mapViewController returnDragCircleToHomeBase];
-    self.sideMenuViewController.blueEffectView.hidden = NO;
-    newCurrentViewFrame.origin.x += 200;
-    newHamburgerFrame.origin.x += 30;
-    newHamLabelFrame.origin.x += 6;
-    newString = @"\ue122";
-    transform = CGAffineTransformMakeScale(1.4, 1.4);
-  } else {
-    newCurrentViewFrame.origin.x -= 200;
-    newHamburgerFrame.origin.x -= 30;
-    newHamLabelFrame.origin.x -= 6;
-    newString = @"\ue116";
-    transform = CGAffineTransformIdentity;
-  }
-  [self.mapViewController unpopCurrentComment];
-  
-  [UIView animateWithDuration:0.4
-                        delay:0.0
-       usingSpringWithDamping:0.7
-        initialSpringVelocity:0.4
-                      options:UIViewAnimationOptionAllowUserInteraction
-                   animations:^{
-                     self.currentMainViewController.view.frame = newCurrentViewFrame;
-                     self.hamburgerWrapper.frame = newHamburgerFrame;
-                     self.hamburgerLabel.frame = newHamLabelFrame;
-                     self.hamburgerLabel.text = newString;
-                     self.hamburgerLabel.transform = transform;
-                   } completion:^(BOOL finished) {
-                     if (self.mapViewController.view.frame.origin.x == 0){
-                       self.sideMenuViewController.blueEffectView.hidden = YES;
-                     }
-                   }];
-}
-
-
-- (void) receivedPanFromLeftEdge:(UIScreenEdgePanGestureRecognizer *)sender {
-  
-  //  if (sender.state == UIGestureRecognizerStateChanged) {
-  //    CGPoint offsetX = [sender locationInView:self.view];
-  //    self.mapView.frame.origin.x = offsetX.x;
-  //
-  //  }
-  
-}
-
 - (void) switchToMapView {
   
   if (![self.currentMainViewController isKindOfClass:[MapViewController class]]) {
@@ -486,12 +420,18 @@
   if (sender.state == UIGestureRecognizerStateEnded) {
     if (sender.view == self.mapButton) {
       [self switchToMapView];
+      [self removeLoginScreen];
       [self toggleRadialMenuAndHideBlurView:true];
     } else if (sender.view == self.userDotsButton) {
       [self switchToUserDotView];
+      [self removeLoginScreen];
       [self toggleRadialMenuAndHideBlurView:false];
     } else if (sender.view == self.chatButton) {
       [self switchToChatView];
+      [self removeLoginScreen];
+      [self toggleRadialMenuAndHideBlurView:false];
+    } else if (sender.view == self.loginButton) {
+      [self addLoginScreen];
       [self toggleRadialMenuAndHideBlurView:false];
     }
     
@@ -530,6 +470,50 @@
   [chatList beginNewChatWithUsername:otherUser];
   
 }
+
+-(void) addLoginScreen {
+  if (self.loginViewController == nil){
+    self.loginViewController = [SideMenuViewController new];
+  }
+  self.loginViewController.view.frame = CGRectMake(30, 30, self.view.frame.size.width - 60, self.view.frame.size.height - 150);
+  [self addChildViewController:self.loginViewController];
+  [self.view insertSubview:self.loginViewController.view belowSubview:self.userDotsButton];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@""}];
+  self.loginViewController.view.alpha = 0;
+  self.loginViewController.view.transform = CGAffineTransformMakeScale(0.1,0.1);
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+       usingSpringWithDamping:0.6
+        initialSpringVelocity:0.2
+                      options:UIViewAnimationOptionAllowUserInteraction
+                   animations:^{
+                     self.loginViewController.view.alpha = 1;
+                     self.loginViewController.view.transform = CGAffineTransformMakeScale(1, 1);
+                   } completion:^(BOOL finished) {
+                     
+                   }];
+
+}
+
+-(void) removeLoginScreen {
+  
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+       usingSpringWithDamping:0.6
+        initialSpringVelocity:0.2
+                      options:UIViewAnimationOptionAllowUserInteraction
+                   animations:^{
+                     self.loginViewController.view.alpha = 0;
+                     self.loginViewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                   } completion:^(BOOL finished) {
+                     
+                   }];
+
+  [self.loginViewController.view removeFromSuperview];
+  [self.loginViewController removeFromParentViewController];
+  
+}
+
 
 -(void)dealloc{
   [[NSNotificationCenter defaultCenter] removeObserver:self];

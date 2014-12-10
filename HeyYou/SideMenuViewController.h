@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIView *birthdayPickerView;
 
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UIButton *logOutButton;
 @property (weak, nonatomic) IBOutlet UIButton *createAccountButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButtonOne;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButtonTwo;
@@ -26,12 +27,20 @@
 @property (weak, nonatomic) IBOutlet UILabel *userDotsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *mapViewLabel;
 @property (weak, nonatomic) IBOutlet UILabel *heyYouTitle;
+@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *passwordLabel;
+@property (weak, nonatomic) IBOutlet UILabel *emailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *repeatPassword;
+
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
-@property (weak, nonatomic) IBOutlet UITextField *createUsernameField;
-@property (weak, nonatomic) IBOutlet UITextField *createPasswordField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordFieldTwo;
+
 @property (weak, nonatomic) IBOutlet UITextField *createEmailField;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *logInConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *logOutConstraint;
 
 @property (weak, nonatomic) IBOutlet UIPickerView *birthdayPicker;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -41,8 +50,7 @@
 @end
 
 typedef NS_ENUM(NSInteger, MenuState) {
-  MenuStateLoggedOut,
-  MenuStateLoggedIn,
-  MenuStateLoginScreen,
+  MenuStateLogIn,
+  MenuStateLogOut,
   MenuStateCreateAccountScreen
 };

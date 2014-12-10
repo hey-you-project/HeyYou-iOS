@@ -11,5 +11,7 @@
 @interface RightSideChatCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *body;
 @property (weak, nonatomic) IBOutlet UIView *labelWrapper;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bodyViewConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
 @end
