@@ -141,7 +141,7 @@
     postVC.delegate = self;
     postVC.colorUI = self.colors.flatPurple;
     self.currentPopup = postVC;
-    [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
+    [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight-40];
   }
   
 }

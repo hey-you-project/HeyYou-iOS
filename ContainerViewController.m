@@ -358,9 +358,6 @@
     UIColor *newColor = [UIColor whiteColor];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"", @"color":newColor}];
     
-//    UIView *maskView = [[UIView alloc] initWithFrame:self.currentMainViewController.view.frame];
-//    maskView.backgroundColor = [UIColor whiteColor];
-    
     UIView *expandingView = [UIView new];
     expandingView.frame = self.mapButton.frame;
     expandingView.backgroundColor = [UIColor whiteColor];
@@ -372,7 +369,7 @@
     self.mapViewController.view.layer.mask = expandingView.layer;
     
     [UIView animateWithDuration:0.4 animations:^{
-      expandingView.transform = CGAffineTransformMakeScale(100, 100);
+      expandingView.transform = CGAffineTransformMakeScale(30, 30);
     } completion:^(BOOL finished) {
       [expandingView removeFromSuperview];
       [self.currentMainViewController.view removeFromSuperview];
@@ -392,33 +389,26 @@
     expandingView.frame = self.userDotsButton.frame;
     expandingView.backgroundColor = self.userDotsButton.backgroundColor;
     expandingView.layer.cornerRadius = expandingView.frame.size.height/2;
-    [self.view insertSubview:expandingView belowSubview:self.headerLabel];
-    
-    [UIView animateWithDuration:0.4 animations:^{
-      expandingView.transform = CGAffineTransformMakeScale(100, 100);
-    } completion:^(BOOL finished) {
-      self.userDotsViewController.view.backgroundColor = expandingView.backgroundColor;
-      [expandingView removeFromSuperview];
-    }];
-    
+
     self.userDotsViewController = [UserDotsViewController new];
     [self addChildViewController:self.userDotsViewController];
     [self.view insertSubview:self.userDotsViewController.view belowSubview:self.headerLabel];
     [self.userDotsViewController didMoveToParentViewController:self];
     self.userDotsViewController.view.frame = self.currentMainViewController.view.frame;
-    self.userDotsViewController.view.alpha = 0;
+    self.userDotsViewController.view.backgroundColor = expandingView.backgroundColor;
+    self.userDotsViewController.view.layer.mask = expandingView.layer;
     
-    [UIView animateWithDuration:0.4
-                     animations:^{
-                       self.userDotsViewController.view.alpha = 1;
-                       //self.coverView.alpha = 0;
-                  } completion:^(BOOL finished) {
-                    if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
-                      [self.currentMainViewController.view removeFromSuperview];
-                      [self.currentMainViewController removeFromParentViewController];
-                    }
-                    self.currentMainViewController = self.userDotsViewController;
-                  }];
+    [UIView animateWithDuration:0.4 animations:^{
+      expandingView.transform = CGAffineTransformMakeScale(30, 30);
+    } completion:^(BOOL finished) {
+      
+      [expandingView removeFromSuperview];
+      if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
+        [self.currentMainViewController.view removeFromSuperview];
+        [self.currentMainViewController removeFromParentViewController];
+      }
+      self.currentMainViewController = self.userDotsViewController;
+    }];
     
   }
 }
@@ -430,14 +420,7 @@
     expandingView.frame = self.chatButton.frame;
     expandingView.backgroundColor = self.chatButton.backgroundColor;
     expandingView.layer.cornerRadius = expandingView.frame.size.height/2;
-    [self.view insertSubview:expandingView belowSubview:self.headerLabel];
-    
-    [UIView animateWithDuration:0.4 animations:^{
-      expandingView.transform = CGAffineTransformMakeScale(100, 100);
-    } completion:^(BOOL finished) {
-      self.chatViewController.view.backgroundColor = expandingView.backgroundColor;
-      [expandingView removeFromSuperview];
-    }];
+    //[self.view insertSubview:expandingView belowSubview:self.headerLabel];
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     self.chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"CHAT"];
@@ -446,40 +429,65 @@
     [self.view insertSubview:self.chatViewController.view belowSubview:self.headerLabel];
     [self.chatViewController didMoveToParentViewController:self];
     self.chatViewController.view.frame = self.mapViewController.view.frame;
-    self.chatViewController.view.alpha = 0;
+    self.chatViewController.view.backgroundColor = expandingView.backgroundColor;
+    self.chatViewController.view.layer.mask = expandingView.layer;
     
-    [UIView animateWithDuration:0.4
-                     animations:^{
-                       self.chatViewController.view.alpha = 1;
-                       self.coverView.alpha = 1;
-                     } completion:^(BOOL finished) {
-                       if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
-                         [self.currentMainViewController.view removeFromSuperview];
-                         [self.currentMainViewController removeFromParentViewController];
-                       }
-                       self.currentMainViewController = self.chatViewController;
-                     }];
+    [UIView animateWithDuration:0.4 animations:^{
+      expandingView.transform = CGAffineTransformMakeScale(30, 30);
+    } completion:^(BOOL finished) {
+      [expandingView removeFromSuperview];
+      if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
+        [self.currentMainViewController.view removeFromSuperview];
+        [self.currentMainViewController removeFromParentViewController];
+      }
+      self.currentMainViewController = self.chatViewController;
+    }];
+  }
+}
 
+- (void) switchToLoginView {
+  if (![self.currentMainViewController isKindOfClass:[SideMenuViewController class]]) {
+    
+    UIView *expandingView = [UIView new];
+    expandingView.frame = self.loginButton.frame;
+    expandingView.backgroundColor = self.loginButton.backgroundColor;
+    expandingView.layer.cornerRadius = expandingView.frame.size.height/2;
+    
+    self.loginViewController = [[SideMenuViewController alloc] initWithNibName:@"SideMenuViewController" bundle:[NSBundle mainBundle]];
+    [self addChildViewController:self.loginViewController];
+    [self.mapViewController unpopCurrentComment];
+    [self.view insertSubview:self.loginViewController.view belowSubview:self.headerLabel];
+    [self.loginViewController didMoveToParentViewController:self];
+    self.loginViewController.view.frame = self.mapViewController.view.frame;
+    self.loginViewController.view.layer.mask = expandingView.layer;
+    
+    [UIView animateWithDuration:0.4 animations:^{
+      expandingView.transform = CGAffineTransformMakeScale(30, 30);
+    } completion:^(BOOL finished) {
+      self.loginViewController.view.backgroundColor = expandingView.backgroundColor;
+      [expandingView removeFromSuperview];
+      if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
+        [self.currentMainViewController.view removeFromSuperview];
+        [self.currentMainViewController removeFromParentViewController];
+      }
+      self.currentMainViewController = self.loginViewController;
+    }];
   }
 }
 
 -(void) receivedTapGestureOnSmallButton:(UITapGestureRecognizer *)sender {
-  NSLog(@"Got small button tap!");
   if (sender.state == UIGestureRecognizerStateEnded) {
     if (sender.view == self.mapButton) {
       [self switchToMapView];
-      [self removeLoginScreen];
       [self toggleRadialMenuAndHideBlurView:true];
     } else if (sender.view == self.userDotsButton) {
       [self switchToUserDotView];
-      [self removeLoginScreen];
       [self toggleRadialMenuAndHideBlurView:false];
     } else if (sender.view == self.chatButton) {
       [self switchToChatView];
-      [self removeLoginScreen];
       [self toggleRadialMenuAndHideBlurView:false];
     } else if (sender.view == self.loginButton) {
-      [self addLoginScreen];
+      [self switchToLoginView];
       [self toggleRadialMenuAndHideBlurView:false];
     }
     
@@ -487,7 +495,6 @@
 }
 
 - (void) receivedTapGestureOnCoverView:(UITapGestureRecognizer *)sender {
-  NSLog(@"Received tap!");
   if (sender.state == UIGestureRecognizerStateEnded) {
     [self toggleRadialMenuAndHideBlurView:true];
   }
@@ -518,50 +525,6 @@
   [chatList beginNewChatWithUsername:otherUser];
   
 }
-
--(void) addLoginScreen {
-  if (self.loginViewController == nil){
-    self.loginViewController = [SideMenuViewController new];
-  }
-  self.loginViewController.view.frame = CGRectMake(30, 30, self.view.frame.size.width - 60, self.view.frame.size.height - 150);
-  [self addChildViewController:self.loginViewController];
-  [self.view insertSubview:self.loginViewController.view belowSubview:self.userDotsButton];
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@""}];
-  self.loginViewController.view.alpha = 0;
-  self.loginViewController.view.transform = CGAffineTransformMakeScale(0.1,0.1);
-  [UIView animateWithDuration:0.4
-                        delay:0.0
-       usingSpringWithDamping:0.6
-        initialSpringVelocity:0.2
-                      options:UIViewAnimationOptionAllowUserInteraction
-                   animations:^{
-                     self.loginViewController.view.alpha = 1;
-                     self.loginViewController.view.transform = CGAffineTransformMakeScale(1, 1);
-                   } completion:^(BOOL finished) {
-                     
-                   }];
-
-}
-
--(void) removeLoginScreen {
-  
-  [UIView animateWithDuration:0.4
-                        delay:0.0
-       usingSpringWithDamping:0.6
-        initialSpringVelocity:0.2
-                      options:UIViewAnimationOptionAllowUserInteraction
-                   animations:^{
-                     self.loginViewController.view.alpha = 0;
-                     self.loginViewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-                   } completion:^(BOOL finished) {
-                     
-                   }];
-
-  [self.loginViewController.view removeFromSuperview];
-  [self.loginViewController removeFromParentViewController];
-  
-}
-
 
 -(void)dealloc{
   [[NSNotificationCenter defaultCenter] removeObserver:self];

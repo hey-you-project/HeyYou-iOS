@@ -46,10 +46,16 @@
   self.birthdayPicker.delegate = self;
   self.birthdayPicker.dataSource = self;
   
-  self.loginView.layer.cornerRadius = 20;
-  self.loginView.layer.borderColor = [self.colors.flatBlue CGColor];
-  self.loginView.layer.borderWidth = 3;
-
+  self.loginView.backgroundColor = self.colors.flatYellow;
+  
+  NSArray *textFieldArray = @[self.usernameField, self.passwordField, self.createEmailField, self.passwordFieldTwo];
+  for (UITextField *textField in textFieldArray) {
+    textField.layer.shadowColor = [[UIColor blackColor] CGColor];
+    textField.layer.shadowOpacity = 0.6;
+    textField.layer.shadowRadius = 2.0;
+    textField.layer.shadowOffset = CGSizeMake(0, 2);
+    textField.clipsToBounds = false;
+  }
   
   //Set up animation speed
   self.duration = 0.5;
@@ -65,10 +71,13 @@
     self.state = MenuStateLogOut;
     NSString *savedUsername = [[NetworkController sharedController] username];
     if (savedUsername != nil) {
-      self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", savedUsername];
+      UIColor *newColor = [UIColor whiteColor];
+      NSString *newText = [NSString stringWithFormat:@"Hey %@!", savedUsername];
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":newText,@"color":newColor}];
     }
   } else {
     self.state = MenuStateLogIn;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":[UIColor whiteColor]}];
   }
 
   switch (self.state) {
@@ -82,6 +91,12 @@
       self.passwordField.alpha = 1;
       self.usernameLabel.alpha = 1;
       self.passwordLabel.alpha = 1;
+      self.repeatPassword.alpha = 0;
+      self.passwordFieldTwo.alpha = 0;
+      self.emailLabel.alpha = 0;
+      self.birthdayPicker.alpha = 0;
+      self.createEmailField.alpha = 0;
+      
       break;
     case MenuStateLogOut:
       self.createAccountButton.alpha = 0;
@@ -98,7 +113,7 @@
   self.createView.transform = CGAffineTransformIdentity;
   self.loginView.transform = CGAffineTransformIdentity;
   self.cancelButtonOne.transform = CGAffineTransformIdentity;
-  self.cancelButtonTwo.transform = CGAffineTransformIdentity;
+  self.cancelButtonOne.alpha = 0;
   
   //Prepare date picker arrays
   self.monthArray = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
@@ -215,20 +230,20 @@
     
   }];
 }
-//- (IBAction)pressedCancel:(id)sender {
-//  if (self.state == MenuStateCreateAccountScreen || self.state == MenuStateLoginScreen) {
-//    self.state = MenuStateLoggedOut;
-//    [self layoutBackToNormal];
-//  }
-//}
+- (IBAction)pressedCancel:(id)sender{
+  self.state = MenuStateLogIn;
+  [self switchToLogin];
+}
 
 #pragma mark Animation methods
 
 - (void)switchToLogin {
   self.logInConstraint.priority = 999;
   self.logOutConstraint.priority = 900;
+  self.topConstraint.constant = 125;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":[UIColor whiteColor]}];
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-    [self.view layoutSubviews];
+    [self.loginView layoutSubviews];
     self.heyYouTitle.transform = self.titleOffstage;
 //    self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
 //    self.createAccountButton.transform = self.createAccountOffstage;
@@ -246,7 +261,10 @@
     self.createEmailField.alpha = 0;
     self.birthdayPicker.alpha = 0;
     self.birthdayPickerView.alpha = 0;
-    self.createAccountButton.alpha = 0;
+    self.cancelButtonOne.alpha = 0;
+    self.loginButton.alpha = 1;
+    self.createAccountButton.alpha = 1;
+    self.createAccountButton.transform = CGAffineTransformIdentity;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.heyYouTitle.text = @"Hey you, log in!";
@@ -260,8 +278,9 @@
   self.logOutConstraint.priority = 999;
   self.logInConstraint.priority = 900;
   self.bestofView.transform = CGAffineTransformMakeTranslation(-175, 0);
-  [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-    [self.view layoutSubviews];
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":[NSString stringWithFormat:@"Hey %@!", username],@"color":[UIColor whiteColor]}];
+  [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:0 animations:^{
+    [self.loginView layoutSubviews];
     self.repeatPassword.alpha = 0;
     self.passwordFieldTwo.alpha = 0;
     self.emailLabel.alpha = 0;
@@ -286,20 +305,22 @@
 - (void)switchToCreate {
   self.logOutConstraint.priority = 900;
   self.logInConstraint.priority = 900;
+  self.topConstraint.constant = 75;
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Create Account",@"color":[UIColor whiteColor]}];
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-    [self.view layoutSubviews];
+    [self.loginView layoutSubviews];
     self.heyYouTitle.transform = self.titleOffstage;
     self.bestofView.transform = CGAffineTransformMakeTranslation(-175, -106);
-    self.loginButton.transform = self.createAccountOffstage;
+    self.loginButton.alpha = 0;
     self.createView.transform = CGAffineTransformIdentity;
-    //self.createAccountButton.transform = CGAffineTransformMakeTranslation(0, -80);
-    self.cancelButtonTwo.transform = CGAffineTransformMakeTranslation(0, -80);
+    self.createAccountButton.transform = CGAffineTransformMakeTranslation(0, -16);
     self.repeatPassword.alpha = 1;
     self.passwordFieldTwo.alpha = 1;
     self.emailLabel.alpha = 1;
     self.createEmailField.alpha = 1;
     self.birthdayPicker.alpha = 1;
     self.birthdayPickerView.alpha = 1;
+    self.cancelButtonOne.alpha = 1;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
       self.heyYouTitle.text = @"Hey, create an account!";
@@ -317,7 +338,6 @@
     self.bestofView.transform = CGAffineTransformIdentity;
     self.createAccountButton.transform = self.createAccountOffstage;
     self.createView.transform = self.loginCreateOffstage;
-    self.cancelButtonTwo.transform = self.loginCreateOffstage;
   } completion:^(BOOL finished) {
     self.heyYouTitle.text = [NSString stringWithFormat:@"Hey %@!", username];
     [UIView animateWithDuration:self.duration - 0.2 delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -334,7 +354,6 @@
     self.loginView.transform = self.loginCreateOffstage;
     self.createView.transform = self.loginCreateOffstage;
     self.cancelButtonOne.transform = self.loginCreateOffstage;
-    self.cancelButtonTwo.transform = self.loginCreateOffstage;
     self.loginButton.transform = CGAffineTransformIdentity;
     self.createAccountButton.transform = CGAffineTransformIdentity;
   } completion:^(BOOL finished) {
@@ -470,6 +489,8 @@
   [self presentViewController:messageVC animated:true completion:nil];
   
 }
+
+
 
 -(void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
   [self dismissViewControllerAnimated:true completion:nil];

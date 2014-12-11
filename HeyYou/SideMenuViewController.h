@@ -22,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *logOutButton;
 @property (weak, nonatomic) IBOutlet UIButton *createAccountButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButtonOne;
-@property (weak, nonatomic) IBOutlet UIButton *cancelButtonTwo;
 
 @property (weak, nonatomic) IBOutlet UILabel *userDotsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *mapViewLabel;
@@ -41,6 +40,7 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *logInConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *logOutConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint;
 
 @property (weak, nonatomic) IBOutlet UIPickerView *birthdayPicker;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;

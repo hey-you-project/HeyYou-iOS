@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6246"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Container View Controller-->
@@ -75,14 +76,14 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="I3R-6L-GJm" id="VVB-qh-lzq">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EPe-DK-bfn">
-                                                    <rect key="frame" x="39" y="12" width="80" height="24"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EPe-DK-bfn">
+                                                    <rect key="frame" x="39" y="6" width="94" height="28"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="759" translatesAutoresizingMaskIntoConstraints="NO" id="xSv-Zw-IJL" userLabel="Dot">
-                                                    <rect key="frame" x="16" y="16" width="15" height="15"/>
+                                                    <rect key="frame" x="16" y="12" width="15" height="15"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="1bb-Lk-Irh"/>
@@ -90,7 +91,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 new message" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFN-La-uMO" userLabel="message count">
-                                                    <rect key="frame" x="493" y="14" width="99" height="20"/>
+                                                    <rect key="frame" x="493" y="10" width="99" height="20"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -100,13 +101,13 @@
                                                 <constraint firstItem="EPe-DK-bfn" firstAttribute="leading" secondItem="VVB-qh-lzq" secondAttribute="leadingMargin" id="1fu-xz-FqG"/>
                                                 <constraint firstItem="cFN-La-uMO" firstAttribute="trailing" secondItem="VVB-qh-lzq" secondAttribute="trailingMargin" id="2mN-0N-FBQ"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="EPe-DK-bfn" secondAttribute="bottom" constant="8" id="AFK-pI-zt4"/>
-                                                <constraint firstItem="xSv-Zw-IJL" firstAttribute="top" secondItem="VVB-qh-lzq" secondAttribute="topMargin" constant="8" id="RzZ-HI-P7H"/>
+                                                <constraint firstItem="xSv-Zw-IJL" firstAttribute="top" secondItem="VVB-qh-lzq" secondAttribute="topMargin" constant="4" id="RzZ-HI-P7H"/>
                                                 <constraint firstItem="xSv-Zw-IJL" firstAttribute="leading" secondItem="VVB-qh-lzq" secondAttribute="leadingMargin" constant="8" id="U16-tg-vEb"/>
                                                 <constraint firstItem="EPe-DK-bfn" firstAttribute="top" secondItem="VVB-qh-lzq" secondAttribute="topMargin" constant="8" id="UxG-Wt-Tnx"/>
                                                 <constraint firstItem="EPe-DK-bfn" firstAttribute="centerY" secondItem="cFN-La-uMO" secondAttribute="centerY" id="Z6R-R4-iDA"/>
                                                 <constraint firstItem="EPe-DK-bfn" firstAttribute="centerY" secondItem="xSv-Zw-IJL" secondAttribute="centerY" id="gbI-Bx-AVe"/>
                                                 <constraint firstItem="EPe-DK-bfn" firstAttribute="leading" secondItem="xSv-Zw-IJL" secondAttribute="trailing" constant="8" id="nZf-KB-UdR"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="xSv-Zw-IJL" secondAttribute="bottom" priority="999" constant="8" id="oQj-N8-7GB"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="xSv-Zw-IJL" secondAttribute="bottom" priority="750" constant="4" id="oQj-N8-7GB"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -124,16 +125,46 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="And-Me-oKp">
+                                <rect key="frame" x="100" y="150" width="400" height="400"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No one to chat with..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkZ-BL-Chw">
+                                        <rect key="frame" x="8" y="8" width="384" height="33"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There's got to be a dot on the map that caught your eye. Why not chat with the person that posted it?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gP6-XT-grp">
+                                        <rect key="frame" x="8" y="49" width="384" height="44"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="nkZ-BL-Chw" firstAttribute="leading" secondItem="And-Me-oKp" secondAttribute="leading" constant="8" id="5kf-ir-owz"/>
+                                    <constraint firstAttribute="trailing" secondItem="gP6-XT-grp" secondAttribute="trailing" constant="8" id="8A0-yc-W35"/>
+                                    <constraint firstItem="nkZ-BL-Chw" firstAttribute="top" secondItem="And-Me-oKp" secondAttribute="top" constant="8" id="BzP-mU-KvC"/>
+                                    <constraint firstItem="gP6-XT-grp" firstAttribute="top" secondItem="nkZ-BL-Chw" secondAttribute="bottom" constant="8" id="Zim-4s-8Z3"/>
+                                    <constraint firstItem="gP6-XT-grp" firstAttribute="leading" secondItem="And-Me-oKp" secondAttribute="leading" constant="8" id="i0K-gJ-62j"/>
+                                    <constraint firstAttribute="trailing" secondItem="nkZ-BL-Chw" secondAttribute="trailing" constant="8" id="qwZ-xL-AVq"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="And-Me-oKp" secondAttribute="centerX" id="23Q-2p-Rlf"/>
                             <constraint firstAttribute="trailing" secondItem="xg3-Rw-DoZ" secondAttribute="trailing" id="2qO-fL-zKS"/>
+                            <constraint firstAttribute="width" secondItem="And-Me-oKp" secondAttribute="width" multiplier="1.5" id="4VB-bf-9lj"/>
                             <constraint firstAttribute="trailing" secondItem="NEc-B6-SYO" secondAttribute="trailing" id="CQ3-mx-eX9"/>
                             <constraint firstItem="xg3-Rw-DoZ" firstAttribute="leading" secondItem="QgQ-0V-up6" secondAttribute="leading" id="PVh-tM-Dis"/>
+                            <constraint firstAttribute="height" secondItem="And-Me-oKp" secondAttribute="height" multiplier="1.5" id="ZhC-oZ-GUW"/>
                             <constraint firstItem="xg3-Rw-DoZ" firstAttribute="top" secondItem="MiX-jo-EpQ" secondAttribute="bottom" id="dQn-AX-aE0"/>
                             <constraint firstItem="NEc-B6-SYO" firstAttribute="leading" secondItem="QgQ-0V-up6" secondAttribute="leading" id="g3l-jn-5jy"/>
                             <constraint firstItem="NEc-B6-SYO" firstAttribute="top" secondItem="MiX-jo-EpQ" secondAttribute="bottom" id="jXO-Bd-Rmg"/>
                             <constraint firstAttribute="bottom" secondItem="xg3-Rw-DoZ" secondAttribute="bottom" id="nID-cq-MBS"/>
+                            <constraint firstAttribute="centerY" secondItem="And-Me-oKp" secondAttribute="centerY" constant="-50" id="oCP-kM-iGy"/>
                             <constraint firstItem="4x9-Xy-gZg" firstAttribute="top" secondItem="NEc-B6-SYO" secondAttribute="bottom" id="x88-bO-TZY"/>
                         </constraints>
                     </view>

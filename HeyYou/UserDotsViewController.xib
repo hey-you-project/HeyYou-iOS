@@ -2,10 +2,12 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B23" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6246"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserDotsViewController">
             <connections>
+                <outlet property="emptyCaseView" destination="XxV-OL-Afv" id="ca2-G0-IY5"/>
                 <outlet property="scrollView" destination="Y9l-qk-KtT" id="bqn-mK-WGS"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -15,46 +17,46 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J6Y-tQ-aYq">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="NOC-cH-HCq">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K5A-TQ-LVi">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Qqx-DJ-mfK">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <vibrancyEffect>
-                                    <blurEffect style="light"/>
-                                </vibrancyEffect>
-                            </visualEffectView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="K5A-TQ-LVi" firstAttribute="top" secondItem="NOC-cH-HCq" secondAttribute="top" id="22z-fB-h0X"/>
-                            <constraint firstItem="K5A-TQ-LVi" firstAttribute="leading" secondItem="NOC-cH-HCq" secondAttribute="leading" id="FV2-85-UyP"/>
-                            <constraint firstAttribute="trailing" secondItem="K5A-TQ-LVi" secondAttribute="trailing" id="J67-cV-omJ"/>
-                            <constraint firstAttribute="bottom" secondItem="K5A-TQ-LVi" secondAttribute="bottom" id="nOw-bE-dKu"/>
-                        </constraints>
-                    </view>
-                    <blurEffect style="dark"/>
-                </visualEffectView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y9l-qk-KtT">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                 </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XxV-OL-Afv">
+                    <rect key="frame" x="100" y="150" width="400" height="300"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You haven't posted any dots!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EPs-j4-Q9x">
+                            <rect key="frame" x="8" y="8" width="384" height="33"/>
+                            <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Once you do, they'll appear here so you can see who responds... and chat with the one that catches you eye." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xov-ON-zbB">
+                            <rect key="frame" x="8" y="49" width="384" height="66"/>
+                            <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="EPs-j4-Q9x" firstAttribute="top" secondItem="XxV-OL-Afv" secondAttribute="top" constant="8" id="6Rj-W6-zZF"/>
+                        <constraint firstItem="EPs-j4-Q9x" firstAttribute="leading" secondItem="XxV-OL-Afv" secondAttribute="leading" constant="8" id="DpM-0U-DwD"/>
+                        <constraint firstAttribute="trailing" secondItem="Xov-ON-zbB" secondAttribute="trailing" constant="8" id="Fj0-Ya-gT6"/>
+                        <constraint firstAttribute="trailing" secondItem="EPs-j4-Q9x" secondAttribute="trailing" constant="8" id="Mn3-TZ-2c4"/>
+                        <constraint firstItem="Xov-ON-zbB" firstAttribute="leading" secondItem="XxV-OL-Afv" secondAttribute="leading" constant="8" id="R50-kQ-EKU"/>
+                        <constraint firstItem="Xov-ON-zbB" firstAttribute="top" secondItem="EPs-j4-Q9x" secondAttribute="bottom" constant="8" id="kNK-XQ-h9l"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Y9l-qk-KtT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3rd-SR-QzF"/>
+                <constraint firstItem="Y9l-qk-KtT" firstAttribute="width" secondItem="XxV-OL-Afv" secondAttribute="width" multiplier="1.5" id="BL2-0X-d1b"/>
                 <constraint firstItem="Y9l-qk-KtT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="LrJ-Fw-QHH"/>
-                <constraint firstAttribute="trailing" secondItem="J6Y-tQ-aYq" secondAttribute="trailing" id="NGs-72-JOB"/>
-                <constraint firstItem="J6Y-tQ-aYq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="SA7-Ws-hyh"/>
                 <constraint firstAttribute="bottom" secondItem="Y9l-qk-KtT" secondAttribute="bottom" id="TlM-Fz-ATt"/>
-                <constraint firstAttribute="bottom" secondItem="J6Y-tQ-aYq" secondAttribute="bottom" id="Vmp-ek-mcy"/>
+                <constraint firstAttribute="centerX" secondItem="XxV-OL-Afv" secondAttribute="centerX" id="XPJ-dL-tGr"/>
                 <constraint firstAttribute="trailing" secondItem="Y9l-qk-KtT" secondAttribute="trailing" id="biF-QU-9sz"/>
-                <constraint firstItem="J6Y-tQ-aYq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hhu-nd-jrT"/>
+                <constraint firstAttribute="centerY" secondItem="XxV-OL-Afv" secondAttribute="centerY" id="ut1-SH-8kT"/>
+                <constraint firstItem="Y9l-qk-KtT" firstAttribute="height" secondItem="XxV-OL-Afv" secondAttribute="height" multiplier="2" id="yK2-ag-ZmR"/>
             </constraints>
         </view>
     </objects>
