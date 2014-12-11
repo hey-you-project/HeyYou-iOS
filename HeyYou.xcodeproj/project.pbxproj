@@ -118,6 +118,7 @@
 		7E16891E1A1BF22E00BA4DE6 /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		7E1689211A1C44CA00BA4DE6 /* DotAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotAnnotationView.h; sourceTree = "<group>"; };
 		7E1689221A1C44CA00BA4DE6 /* DotAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotAnnotationView.m; sourceTree = "<group>"; };
+		7E4209081A39046B008BBF4F /* ChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
 		7E4B2AE11A1DB7CE00C931E2 /* SanFranciscoText-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Bold.otf"; sourceTree = "<group>"; };
 		7E4B2AE31A1DB7CE00C931E2 /* SanFranciscoText-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Heavy.otf"; sourceTree = "<group>"; };
 		7E4B2AE51A1DB7CE00C931E2 /* SanFranciscoText-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SanFranciscoText-Light.otf"; sourceTree = "<group>"; };
@@ -324,6 +325,7 @@
 		157853311A1D0F1C008CD931 /* View Layer */ = {
 			isa = PBXGroup;
 			children = (
+				7E4209081A39046B008BBF4F /* ChatCell.h */,
 				7EFD27E91A32A5B000990849 /* RightSideChatCell.h */,
 				7EFD27EA1A32A5B000990849 /* RightSideChatCell.m */,
 				7EFD27EE1A32A5D000990849 /* LeftSideChatCell.h */,

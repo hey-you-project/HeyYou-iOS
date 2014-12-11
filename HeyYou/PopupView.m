@@ -12,8 +12,6 @@
 
 -(void) drawRect:(CGRect)rect {
   
-  NSLog(@"Draw Rect Called: %f,%f", self.touchPoint.x, self.touchPoint.y);
-  
   UIBezierPath *path = [UIBezierPath bezierPath];
   CGFloat minX = rect.origin.x + 2;
   CGFloat maxX = rect.origin.x + rect.size.width - 2;

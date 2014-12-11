@@ -46,10 +46,8 @@
   self.numberOfStarsLabel.text = [self.dot.stars stringValue];
   self.userDidStar = self.dot.userHasStarred;
   if (self.userDidStar) {
-    NSLog(@"Changing to filled!");
     self.star.text = @"\ue105";
   } else {
-    NSLog(@"Changing to empty!");
     self.star.text = @"\ue108";
   }
   self.colorBar.backgroundColor = self.color;
@@ -130,11 +128,7 @@
 }
 
 - (IBAction)chatButtonPressed:(id)sender {
-  
-  NSLog(@"%@",self.dot.username);
   [[NSNotificationCenter defaultCenter] postNotificationName:@"SwitchToChatView" object:nil userInfo:@{@"user":self.dot.username}];
-  
-  
 }
 
 
@@ -168,11 +162,9 @@
       NSNumber *stars = [formatter numberFromString:self.numberOfStarsLabel.text];
       NSInteger starsIntValue = [stars integerValue];
       if (self.userDidStar) {
-        NSLog(@"Changing to filled!");
         self.star.text = @"\ue105";
         starsIntValue++;
       } else {
-        NSLog(@"Changing to empty!");
         self.star.text = @"\ue108";
         starsIntValue--;
       }
@@ -263,10 +255,8 @@
         self.numberOfStarsLabel.text = [self.dot.stars stringValue];
         self.userDidStar = self.dot.userHasStarred;
         if (self.userDidStar) {
-          NSLog(@"Changing to filled!");
           self.star.text = @"\ue105";
         } else {
-          NSLog(@"Changing to empty!");
           self.star.text = @"\ue108";
         }
       }];
