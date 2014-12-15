@@ -59,11 +59,6 @@
   self.borderView.frame = self.view.frame;
   self.borderView.backgroundColor = [UIColor clearColor];
   
-  UIView *sideBar = [UIView new];
-  sideBar.backgroundColor = [UIColor whiteColor];
-  sideBar.frame = CGRectMake(self.view.frame.size.width, self.view.bounds.origin.y, 30, self.view.bounds.size.height);
-  [self.view addSubview:sideBar];
-  
   UIView *sideColorBar = [UIView new];
   sideBar.backgroundColor = self.color;
   sideBar.frame = CGRectMake(CGRectGetMaxX(self.view.bounds),self.colorBar.frame.origin.y, 30, self.colorBar.frame.size.height);
