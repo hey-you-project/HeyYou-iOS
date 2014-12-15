@@ -29,6 +29,9 @@
   self.networkController = [NetworkController sharedController];
   self.colors = [Colors new];
 
+  UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
+  [tapper addTarget:self action:@selector(didTap:)];
+  [self.view addGestureRecognizer:tapper];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -105,7 +108,7 @@
    CGFloat offset = 0;
    CGFloat delay = 0.5;
   
-  for (int i = self.myDots.count - 1; i >= 0 ; i--) {
+  for (int i = (int)self.myDots.count - 1; i >= 0 ; i--) {
     Dot *dot = self.myDots[i];
     DotView *circle = [DotView new];
     circle.dot = dot;
@@ -206,6 +209,27 @@
                      
                    }];
   
+}
+
+-(void) unpopCurrentComment {
+  NSLog(@"Unpop Called!");
+  [UIView animateWithDuration:0.2
+                        delay:0.2
+       usingSpringWithDamping:0.0
+        initialSpringVelocity:0.0
+                      options:UIViewAnimationOptionAllowUserInteraction animations:^{
+                        self.currentVC.view.alpha = 0;
+                      } completion:^(BOOL finished) {
+                        if (finished) {
+                          [self.currentVC.view removeFromSuperview];
+                          [self.currentVC removeFromParentViewController];
+                        }
+                      }];
+}
+
+-(void)didTap:(UITapGestureRecognizer *) sender {
+  NSLog(@"Touches began!");
+  [self unpopCurrentComment];
 }
 
 - (NSString *) getFuzzyDate: (NSDate *)dotDate {
