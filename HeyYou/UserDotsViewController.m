@@ -214,7 +214,7 @@
 -(void) unpopCurrentComment {
   NSLog(@"Unpop Called!");
   [UIView animateWithDuration:0.2
-                        delay:0.2
+                        delay:0.0
        usingSpringWithDamping:0.0
         initialSpringVelocity:0.0
                       options:UIViewAnimationOptionAllowUserInteraction animations:^{

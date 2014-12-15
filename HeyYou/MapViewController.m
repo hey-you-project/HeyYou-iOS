@@ -226,7 +226,7 @@
 -(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
   if (!self.mapFullyLoaded) {
     [self requestDots];
-    self.mapFullyLoaded= true;
+    self.mapFullyLoaded = true;
   }
 }
 
@@ -241,7 +241,7 @@
 -(void) unpopCurrentComment {
   
   [UIView animateWithDuration:0.2
-                        delay:0.2
+                        delay:0.0
        usingSpringWithDamping:0.0
         initialSpringVelocity:0.0
                       options:UIViewAnimationOptionAllowUserInteraction animations:^{
