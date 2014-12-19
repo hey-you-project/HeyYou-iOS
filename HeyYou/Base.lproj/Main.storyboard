@@ -170,6 +170,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="1y3-WR-Qbu"/>
                     <connections>
+                        <outlet property="emptyCaseView" destination="And-Me-oKp" id="nkA-xL-I2d"/>
                         <outlet property="tableView" destination="xg3-Rw-DoZ" id="keV-M3-SgJ"/>
                     </connections>
                 </viewController>

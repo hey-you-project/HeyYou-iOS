@@ -31,6 +31,12 @@
     NSLog(@"Chat list got partners: %@", messages.description);
     self.partners = messages;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      if (self.partners.count > 0) {
+        [UIView animateWithDuration:0.4 animations:^{
+          self.emptyCaseView.alpha = 0;
+        } completion:^(BOOL finished) {
+        }];
+      }
       [self.tableView reloadData];
       [UIView animateWithDuration:0.4 animations:^{
         self.tableView.alpha = 1;
@@ -45,6 +51,12 @@
   [super viewWillAppear:animated];
   UIColor *newColor = [UIColor whiteColor];
   [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"My Chat Partners", @"color":newColor}];
+  if (self.partners.count > 0) {
+    [UIView animateWithDuration:0.4 animations:^{
+      self.emptyCaseView.alpha = 0;
+    } completion:^(BOOL finished) {
+    }];
+  }
 }
 
 - (void)didReceiveMemoryWarning {

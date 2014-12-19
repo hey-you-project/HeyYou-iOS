@@ -506,6 +506,7 @@
   NSNumber *formattedBirthday = [NSNumber numberWithDouble:[birthday timeIntervalSince1970] * 1000];
   [userDictionary setObject:formattedBirthday forKey:@"birthday"];
   [userDictionary setObject:email forKey:@"email"];
+  NSLog(@"%@",userDictionary.description);
   NSError *error;
   NSData *userJSONData = [NSJSONSerialization dataWithJSONObject:userDictionary options:0 error:&error];
   return userJSONData;
