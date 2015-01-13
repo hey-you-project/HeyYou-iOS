@@ -368,7 +368,10 @@
     [self.mapViewController.view addSubview:expandingView];
     self.mapViewController.view.layer.mask = expandingView.layer;
     
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
       expandingView.transform = CGAffineTransformMakeScale(30, 30);
     } completion:^(BOOL finished) {
       [expandingView removeFromSuperview];
@@ -398,7 +401,10 @@
     self.userDotsViewController.view.backgroundColor = expandingView.backgroundColor;
     self.userDotsViewController.view.layer.mask = expandingView.layer;
     
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
       expandingView.transform = CGAffineTransformMakeScale(30, 30);
     } completion:^(BOOL finished) {
       
@@ -432,7 +438,10 @@
     self.chatViewController.view.backgroundColor = expandingView.backgroundColor;
     self.chatViewController.view.layer.mask = expandingView.layer;
     
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
       expandingView.transform = CGAffineTransformMakeScale(30, 30);
     } completion:^(BOOL finished) {
       [expandingView removeFromSuperview];
@@ -461,7 +470,10 @@
     self.loginViewController.view.frame = self.mapViewController.view.frame;
     self.loginViewController.view.layer.mask = expandingView.layer;
     
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
       expandingView.transform = CGAffineTransformMakeScale(30, 30);
     } completion:^(BOOL finished) {
       self.loginViewController.view.backgroundColor = expandingView.backgroundColor;
