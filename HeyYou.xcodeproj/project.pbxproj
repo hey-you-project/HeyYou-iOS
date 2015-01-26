@@ -325,6 +325,7 @@
 		157853311A1D0F1C008CD931 /* View Layer */ = {
 			isa = PBXGroup;
 			children = (
+				7EF174371A25081100B5541D /* Nibs */,
 				7E4209081A39046B008BBF4F /* ChatCell.h */,
 				7EFD27E91A32A5B000990849 /* RightSideChatCell.h */,
 				7EFD27EA1A32A5B000990849 /* RightSideChatCell.m */,
@@ -336,7 +337,6 @@
 				7E90DAA11A2E2950007EE342 /* HamburgerWrapperView.m */,
 				7EF174381A250B1800B5541D /* Colors.h */,
 				7EF174391A250B1800B5541D /* Colors.m */,
-				7EF174371A25081100B5541D /* Nibs */,
 				7ECAB0981A23D2170047DA04 /* PopupView.h */,
 				7EFE023A1A25486F0037C1F0 /* DotView.h */,
 				7EFE023B1A25486F0037C1F0 /* DotView.m */,

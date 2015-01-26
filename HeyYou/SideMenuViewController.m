@@ -69,16 +69,7 @@
   if ([[NSUserDefaults standardUserDefaults] stringForKey:@"token"] != nil) {
     self.state = MenuStateLogOut;
     savedUsername = [[NetworkController sharedController] username];
-    if (savedUsername != nil) {
-      UIColor *newColor = [UIColor whiteColor];
-      NSString *newText = [NSString stringWithFormat:@"Hey %@!", savedUsername];
-      [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":newText,@"color":newColor}];
-    }
-  } else {
-    self.state = MenuStateLogIn;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":[UIColor whiteColor]}];
   }
-
   switch (self.state) {
     case MenuStateLogIn:
       [self switchToLogin:false];
@@ -113,6 +104,22 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  
+  NSString *savedUsername;
+  
+  if ([[NSUserDefaults standardUserDefaults] stringForKey:@"token"] != nil) {
+    self.state = MenuStateLogOut;
+    savedUsername = [[NetworkController sharedController] username];
+    if (savedUsername != nil) {
+      UIColor *newColor = [UIColor whiteColor];
+      NSString *newText = [NSString stringWithFormat:@"Hey %@!", savedUsername];
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":newText,@"color":newColor}];
+    }
+  } else {
+    self.state = MenuStateLogIn;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":[UIColor whiteColor]}];
+  }
+  
 }
 
 #pragma mark Button Actions
