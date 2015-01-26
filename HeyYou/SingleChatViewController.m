@@ -33,6 +33,7 @@
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
   self.textField.delegate = self;
+  self.messages = [[NSMutableArray alloc] init];
   self.colors = [Colors singleton];
   self.networkController = [NetworkController sharedController];
   [self addCircleView];
@@ -105,6 +106,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  NSLog(@"%lu number of rows!", (unsigned long)self.messages.count);
   return self.messages.count;
 }
 
@@ -154,10 +156,12 @@
 - (void)postMessage {
   [self.networkController postMessage:self.textField.text toUser:self.otherUser withCompletionHandler:^(NSError *error, bool success) {
     if (success) {
+      NSLog(@"Success!");
       [self.textField resignFirstResponder];
       [self.messages addObject:[[Message alloc] initWithFrom:self.thisUser To:self.otherUser AndText:self.textField.text]];
       [self.tableView reloadData];
     }
+    self.textField.text = @"";
   }];
 }
 
