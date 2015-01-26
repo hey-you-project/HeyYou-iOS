@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) CLLocationManager* locationManager;
 @property BOOL mapFullyLoaded;
+@property BOOL didGetLocation;
 
 #pragma mark Color Palette
 
@@ -42,12 +43,14 @@
   self.mapFullyLoaded = false;
   self.dots = [NSMutableDictionary new];
   self.poppedDots = [NSMutableArray new];
+  self.didGetLocation = false;
   
   self.colors = [Colors singleton];
   
   [self setupMapView];
   [self addCircleView];
   [self setupGestureRecognizers];
+  [self addLocationButton];
   
   self.locationManager = [[CLLocationManager alloc] init];
   self.locationManager.delegate = self;
@@ -67,8 +70,6 @@
 
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  self.mapView.showsUserLocation = true;
- 
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -118,6 +119,23 @@
   [dragger addTarget:self action:@selector(receivedDragGestureOnDragCircle:)];
   [self.draggableCircle addGestureRecognizer:dragger];
 
+}
+
+- (void) addLocationButton {
+  
+  CGFloat x = self.view.frame.size.width / 2 - 10;
+  CGFloat y = self.view.frame.size.height - 40;
+  CGFloat width = 20;
+  self.locationButton = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"locationButton"]];
+  self.locationButton.frame = CGRectMake(x, y, width, width);
+  self.locationButton.userInteractionEnabled = true;
+  
+  [self.view addSubview:self.locationButton];
+  
+  UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
+  [tapper addTarget:self action:@selector(didTapLocationButton:)];
+  [self.locationButton addGestureRecognizer:tapper];
+  
 }
 
 #pragma mark UI Gesture Recognizer Methods
@@ -439,6 +457,31 @@
   
   if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
     [self.locationManager startUpdatingLocation];
+  }
+  
+}
+
+-(void)didTapLocationButton:(UITapGestureRecognizer *)sender {
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    [self moveToCurrentLocationAnimated:true];
+  }
+  
+}
+
+-(void)moveToCurrentLocationAnimated: (BOOL)animated {
+  
+  double width = 1000000;
+  CLLocationCoordinate2D coordinates = self.locationManager.location.coordinate;
+  MKMapPoint point = MKMapPointForCoordinate(coordinates);
+  MKMapRect rect = MKMapRectMake(point.x - width / 2.7, point.y - width/2, width, width);
+  [self.mapView setVisibleMapRect:rect animated:animated];
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+  
+  if (!self.didGetLocation) {
+    [self moveToCurrentLocationAnimated:false];
+    self.didGetLocation = true;
   }
   
 }
