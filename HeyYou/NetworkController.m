@@ -498,18 +498,21 @@
 }
 
 - (NSData*)makeNewUserJSON: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email {
+  
   NSMutableDictionary *userDictionary = [[NSMutableDictionary alloc] init];
-  [userDictionary setObject:username forKey:@"username"];
-  NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
-  NSString *passwordBase64 = [passwordData base64EncodedStringWithOptions:0];
-  [userDictionary setObject:passwordBase64 forKey:@"password"];
   NSNumber *formattedBirthday = [NSNumber numberWithDouble:[birthday timeIntervalSince1970] * 1000];
+  
+  [userDictionary setObject:username forKey:@"username"];
+  [userDictionary setObject:password forKey:@"password"];
   [userDictionary setObject:formattedBirthday forKey:@"birthday"];
   [userDictionary setObject:email forKey:@"email"];
+  
   NSLog(@"%@",userDictionary.description);
   NSError *error;
   NSData *userJSONData = [NSJSONSerialization dataWithJSONObject:userDictionary options:0 error:&error];
+  
   return userJSONData;
 }
+
 
 @end
