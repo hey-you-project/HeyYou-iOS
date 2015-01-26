@@ -220,7 +220,13 @@
   self.logInConstraint.priority = 999;
   self.logOutConstraint.priority = 900;
   self.topConstraint.constant = 125;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":[UIColor whiteColor]}];
+  
+  self.usernameField.text = @"";
+  self.passwordField.text = @"";
+  self.passwordField.text = @"";
+  self.createEmailField.text = @"";
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":[UIColor whiteColor]}];
   [UIView animateWithDuration:animated ? self.duration : 0
                         delay:0.0
        usingSpringWithDamping:0.7
@@ -264,6 +270,7 @@
                      self.emailLabel.alpha = 0;
                      self.createEmailField.alpha = 0;
                      self.birthdayPicker.alpha = 0;
+                     self.cancelButtonOne.alpha = 0;
                      self.birthdayPickerView.alpha = 0;
                      self.usernameField.alpha = 0;
                      self.passwordField.alpha = 0;
@@ -272,7 +279,7 @@
                      self.logOutButton.alpha = 1;
                      self.loginButton.alpha = 0;
                      self.createAccountButton.alpha = 0;
-                     self.cancelButtonOne.alpha = 1;
+                     self.cancelButtonOne.alpha = 0;
                    } completion:^(BOOL finished) {
 
   }];
