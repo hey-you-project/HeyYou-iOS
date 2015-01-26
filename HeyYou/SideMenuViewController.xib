@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B23" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6724" systemVersion="14C94b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6246"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SideMenuViewController">
@@ -217,7 +217,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9e9-yX-24N" userLabel="Cancel">
-                            <rect key="frame" x="226" y="495" width="148" height="41"/>
+                            <rect key="frame" x="267" y="520" width="65" height="41"/>
                             <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="21"/>
                             <state key="normal" title="Cancel">
                                 <color key="titleColor" red="0.13725490200000001" green="0.43137254899999999" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -277,7 +277,7 @@
                         <constraint firstItem="wda-dq-kvr" firstAttribute="leading" secondItem="4mR-6e-ZJX" secondAttribute="trailing" constant="16" id="O7s-PT-qHd"/>
                         <constraint firstItem="VKd-nt-eVk" firstAttribute="top" secondItem="xir-Ay-5LL" secondAttribute="bottom" constant="-16" id="RV4-yz-hrr"/>
                         <constraint firstAttribute="centerX" secondItem="0xD-Zy-eCq" secondAttribute="centerX" id="UIh-G1-RXh"/>
-                        <constraint firstItem="9e9-yX-24N" firstAttribute="bottom" secondItem="0xD-Zy-eCq" secondAttribute="bottom" id="UVg-mO-CZH"/>
+                        <constraint firstItem="9e9-yX-24N" firstAttribute="top" secondItem="0xD-Zy-eCq" secondAttribute="bottom" constant="-24" id="UVg-mO-CZH"/>
                         <constraint firstAttribute="centerX" secondItem="faZ-HY-gJB" secondAttribute="centerX" id="Uep-Sh-Qda"/>
                         <constraint firstAttribute="centerX" secondItem="4mR-6e-ZJX" secondAttribute="centerX" id="UjQ-Cd-Jlc"/>
                         <constraint firstAttribute="centerX" secondItem="PAt-m4-RBY" secondAttribute="centerX" id="Vlp-ms-Cxg"/>

@@ -27,23 +27,8 @@
   self.networkController = [NetworkController sharedController];
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
-  [self.networkController getAllChatPartnersWithCompletionHandler:^(NSError *error, NSArray *messages) {
-    NSLog(@"Chat list got partners: %@", messages.description);
-    self.partners = messages;
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-      if (self.partners.count > 0) {
-        [UIView animateWithDuration:0.4 animations:^{
-          self.emptyCaseView.alpha = 0;
-        } completion:^(BOOL finished) {
-        }];
-      }
-      [self.tableView reloadData];
-      [UIView animateWithDuration:0.4 animations:^{
-        self.tableView.alpha = 1;
-      }];
-    }];
-    
-  }];
+  self.emptyCaseView.alpha = 0;
+  [self getChatPartners];
   [self.navigationController setNavigationBarHidden:true];
 }
 
@@ -51,12 +36,7 @@
   [super viewWillAppear:animated];
   UIColor *newColor = [UIColor whiteColor];
   [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"My Chat Partners", @"color":newColor}];
-  if (self.partners.count > 0) {
-    [UIView animateWithDuration:0.4 animations:^{
-      self.emptyCaseView.alpha = 0;
-    } completion:^(BOOL finished) {
-    }];
-  }
+  [self getChatPartners];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,6 +90,26 @@
       break;
     }
   }
+}
+
+-(void)getChatPartners {
+  
+  [self.networkController getAllChatPartnersWithCompletionHandler:^(NSError *error, NSArray *messages) {
+    self.partners = messages;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      if (self.partners.count == 0) {
+        [UIView animateWithDuration:0.4 animations:^{
+          self.emptyCaseView.alpha = 1;
+        } completion:^(BOOL finished) {
+        }];
+      }
+      [self.tableView reloadData];
+      [UIView animateWithDuration:0.4 animations:^{
+        self.tableView.alpha = 1;
+      }];
+    }];
+  }];
+  
 }
 
 

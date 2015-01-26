@@ -28,6 +28,7 @@
   [super viewDidLoad];
   self.networkController = [NetworkController sharedController];
   self.colors = [Colors new];
+  
 
   UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
   [tapper addTarget:self action:@selector(didTap:)];
@@ -44,6 +45,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
   [super viewDidAppear:animated];
+  self.emptyCaseView.alpha = 0;
   [self retrieveDots];
 }
 
@@ -62,6 +64,7 @@
   
   [self.networkController getAllMyDotsWithCompletionHandler:^(NSError *error, NSArray *dots) {
     if (error == nil) {
+
       self.myDots = dots;
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self addDots];
@@ -96,9 +99,9 @@
 
 - (void)addDots {
   
-  if(self.myDots.count > 0) {
+  if(self.myDots.count == 0) {
     [UIView animateWithDuration:0.4 animations:^{
-      self.emptyCaseView.alpha = 0;
+      self.emptyCaseView.alpha = 1;
     } completion:^(BOOL finished) {
       
     }];
