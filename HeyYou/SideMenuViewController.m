@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSCalendar *localCalendar;
 
 @property (nonatomic, strong) Colors *colors;
+@property (nonatomic, strong) UIColor *headerColor;
 
 @end
 
@@ -43,6 +44,7 @@
   self.createEmailField.delegate = self;
   self.birthdayPicker.delegate = self;
   self.birthdayPicker.dataSource = self;
+  self.headerColor = [UIColor blackColor];
   
   self.loginView.backgroundColor = self.colors.flatYellow;
   
@@ -111,13 +113,12 @@
     self.state = MenuStateLogOut;
     savedUsername = [[NetworkController sharedController] username];
     if (savedUsername != nil) {
-      UIColor *newColor = [UIColor whiteColor];
       NSString *newText = [NSString stringWithFormat:@"Hey %@!", savedUsername];
-      [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":newText,@"color":newColor}];
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":newText,@"color":self.headerColor}];
     }
   } else {
     self.state = MenuStateLogIn;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":[UIColor whiteColor]}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":self.headerColor}];
   }
   
 }
@@ -226,7 +227,7 @@
   self.passwordField.text = @"";
   self.createEmailField.text = @"";
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":[UIColor whiteColor]}];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":self.headerColor}];
   [UIView animateWithDuration:animated ? self.duration : 0
                         delay:0.0
        usingSpringWithDamping:0.7
@@ -257,7 +258,7 @@
 - (void)switchToLogoutWithUsername: (NSString*)username andAnimation:(BOOL)animated {
   self.logOutConstraint.priority = 999;
   self.logInConstraint.priority = 900;
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":[NSString stringWithFormat:@"Hey %@!", username],@"color":[UIColor whiteColor]}];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":[NSString stringWithFormat:@"Hey %@!", username],@"color":self.headerColor}];
   [UIView animateWithDuration:animated ? self.duration : 0
                         delay:0.0
        usingSpringWithDamping:0.7
@@ -289,7 +290,7 @@
   self.logOutConstraint.priority = 900;
   self.logInConstraint.priority = 900;
   self.topConstraint.constant = 75;
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Create Account",@"color":[UIColor whiteColor]}];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Create Account",@"color":self.headerColor}];
   [UIView animateWithDuration:animated ? self.duration : 0
                         delay:0.0
        usingSpringWithDamping:0.7
