@@ -222,7 +222,7 @@
     
     double ratio = -timeSincePost / (60.0f * 60.0f * 48.0f);
     CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
-    CGFloat width = 35.0f - (ratio * 25.0f);
+    CGFloat width = 35.0f - (ratio * 20.0f);
     view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
     view.backgroundColor = [UIColor clearColor];
     

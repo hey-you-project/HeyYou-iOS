@@ -28,6 +28,10 @@
   UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
   [tapper addTarget:self action:@selector(didTapStar:)];
   [self.star addGestureRecognizer:tapper];
+  
+  UITapGestureRecognizer *keyboardDismiss = [UITapGestureRecognizer new];
+  [keyboardDismiss addTarget:self action:@selector(didTapViewToDismiss:)];
+  [self.view addGestureRecognizer:keyboardDismiss];
  
 }
 
@@ -267,6 +271,14 @@
       [alert show];
     }
   }];
+  
+}
+
+- (void) didTapViewToDismiss:(UITapGestureRecognizer *) sender {
+  
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    [self.writeCommentTextField resignFirstResponder];
+  }
   
 }
   
