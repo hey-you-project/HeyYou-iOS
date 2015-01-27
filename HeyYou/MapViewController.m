@@ -122,13 +122,22 @@
 }
 
 - (void) addLocationButton {
+  CGFloat width = 40;
+  CGFloat x = self.view.frame.size.width / 2 - width/2;
+  CGFloat y = self.view.frame.size.height - width - 20;
   
-  CGFloat x = self.view.frame.size.width / 2 - 10;
-  CGFloat y = self.view.frame.size.height - 40;
-  CGFloat width = 20;
-  self.locationButton = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"locationButton"]];
-  self.locationButton.frame = CGRectMake(x, y, width, width);
-  self.locationButton.userInteractionEnabled = true;
+  
+  self.locationButton = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, width)];
+  self.locationButton.layer.cornerRadius = self.locationButton.frame.size.height / 2;
+  self.locationButton.layer.backgroundColor = [self.colors.flatGreen CGColor];
+  self.locationButton.layer.shadowColor = [[UIColor blackColor] CGColor];
+  self.locationButton.layer.shadowOpacity = 0.6;
+  self.locationButton.layer.shadowRadius = 3.0;
+  self.locationButton.layer.shadowOffset = CGSizeMake(0, 3);
+  
+  UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"locationButton"]];
+  [self.locationButton addSubview:image];
+  image.frame = CGRectMake(width / 4, width / 4, width / 2, width / 2);
   
   [self.view addSubview:self.locationButton];
   

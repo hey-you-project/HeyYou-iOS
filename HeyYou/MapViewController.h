@@ -30,7 +30,7 @@
 
 @property (nonatomic, strong) UIView *draggableCircle;
 @property (nonatomic, strong) UIView *dragCircleWrapper;
-@property (nonatomic, strong) UIImageView *locationButton;
+@property (nonatomic, strong) UIView *locationButton;
 @property CGPoint originalCircleCenter;
 
 @end
