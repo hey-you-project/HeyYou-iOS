@@ -61,6 +61,14 @@
   
   UIColor *newColor = [UIColor whiteColor];
   [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:self userInfo:@{@"text":self.otherUser, @"color":newColor}];
+  
+  UITapGestureRecognizer *myTapper = [UITapGestureRecognizer new];
+  [myTapper addTarget:self action:@selector(didTapTableView:)];
+  [self.tableView addGestureRecognizer:myTapper];
+  
+  [self.textField addTarget:self
+                action:@selector(textFieldDidChange)
+      forControlEvents:UIControlEventEditingChanged];
 }
 
 
@@ -141,6 +149,7 @@
 }
 
 - (void) receivedTapGestureOnPlusButton: (UITapGestureRecognizer *)sender {
+  NSLog(@"Did receive tap on plus button");
   [self.textField becomeFirstResponder];
 }
 
@@ -154,15 +163,17 @@
 }
 
 - (void)postMessage {
-  [self.networkController postMessage:self.textField.text toUser:self.otherUser withCompletionHandler:^(NSError *error, bool success) {
+  NSString *string = self.textField.text;
+  self.sendButton.enabled = false;
+  self.textField.text = @"";
+  [self.networkController postMessage:string toUser:self.otherUser withCompletionHandler:^(NSError *error, bool success) {
     if (success) {
       NSLog(@"Success!");
-      [self.textField resignFirstResponder];
-      [self.messages addObject:[[Message alloc] initWithFrom:self.thisUser To:self.otherUser AndText:self.textField.text]];
+      [self.messages addObject:[[Message alloc] initWithFrom:self.thisUser To:self.otherUser AndText:string]];
       [self.tableView reloadData];
     }
-    self.textField.text = @"";
   }];
+  //self.textField.text = @"";
 }
 
 - (void)keyboardWillShow:(NSNotification *)n {
@@ -213,6 +224,24 @@
 
 - (IBAction)didPressBackButton:(id)sender {
   [self.navigationController popToRootViewControllerAnimated:false];
+}
+
+- (void) didTapTableView: (UITapGestureRecognizer *) sender {
+  NSLog(@"Did tap table view");
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    [self.textField resignFirstResponder];
+  }
+  
+}
+
+- (void) textFieldDidChange {
+  
+  if (self.textField.text.length > 0) {
+    self.sendButton.enabled = true;
+  } else {
+    self.sendButton.enabled = false;
+  }
+  
 }
 
 -(void)dealloc{
