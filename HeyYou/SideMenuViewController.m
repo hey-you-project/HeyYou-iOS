@@ -261,6 +261,7 @@
                      self.loginButton.alpha = 1;
                      self.createAccountButton.alpha = 1;
                      self.createAccountButton.transform = CGAffineTransformIdentity;
+                     self.termsConfirmationLabel.alpha = 0;
                    } completion:^(BOOL finished) {
                    }];
 }
@@ -291,6 +292,7 @@
                      self.loginButton.alpha = 0;
                      self.createAccountButton.alpha = 0;
                      self.cancelButtonOne.alpha = 0;
+                     self.termsConfirmationLabel.alpha = 0;
                    } completion:^(BOOL finished) {
 
   }];
@@ -317,6 +319,7 @@
                      self.birthdayPicker.alpha = 1;
                      self.birthdayPickerView.alpha = 1;
                      self.cancelButtonOne.alpha = 1;
+                     self.termsConfirmationLabel.alpha = 1;
                    } completion:^(BOOL finished) {
     
   }];
