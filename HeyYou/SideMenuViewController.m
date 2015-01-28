@@ -10,6 +10,7 @@
 #import "NSString+Validate.h"
 #import "ContainerViewController.h"
 #import "Colors.h"
+#import "TermsOfUseViewController.h"
 
 
 @interface SideMenuViewController ()
@@ -22,6 +23,7 @@
 @property (nonatomic) CGAffineTransform titleOffstage;
 @property (nonatomic) CGAffineTransform loginCreateOffstage;
 @property (nonatomic) MenuState state;
+@property (nonatomic, strong) TermsOfUseViewController *termsVC;
 
 @property (nonatomic, strong) NSArray *monthArray;
 @property (nonatomic, strong) NSArray *dateArray;
@@ -31,6 +33,7 @@
 
 @property (nonatomic, strong) Colors *colors;
 @property (nonatomic, strong) UIColor *headerColor;
+@property  BOOL termsVCActive;
 
 @end
 
@@ -44,7 +47,8 @@
   self.createEmailField.delegate = self;
   self.birthdayPicker.delegate = self;
   self.birthdayPicker.dataSource = self;
-  self.headerColor = [UIColor blackColor];
+  self.headerColor = self.colors.flatBlue;
+  self.termsVCActive = false;
   
   self.loginView.backgroundColor = self.colors.flatYellow;
   
@@ -56,6 +60,8 @@
     textField.layer.shadowOffset = CGSizeMake(0, 2);
     textField.clipsToBounds = false;
   }
+  
+  
   
   //Set up animation speed
   self.duration = 0.5;
@@ -120,6 +126,10 @@
     self.state = MenuStateLogIn;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Login",@"color":self.headerColor}];
   }
+  
+  UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
+  [tapper addTarget:self action:@selector(didTapView:)];
+  [self.view addGestureRecognizer:tapper];
   
 }
 
@@ -436,8 +446,90 @@
   
 }
 
+- (IBAction)didPressTermsOfUse:(id)sender {
+  NSString *text = @"These are the terms!";
+  [self showTermsViewControllerWithTitle:@"Terms of Use" andText:text];
+}
+
+- (IBAction)didPressPrivacyPolicy:(id)sender {
+  NSString *text = @"This is our privacy policy!";
+  [self showTermsViewControllerWithTitle:@"Privacy Policy" andText:text];
+}
+
+- (void) showTermsViewControllerWithTitle:(NSString *) title andText: (NSString *) text {
+  
+  if (!self.termsVCActive){
+    
+    if (self.termsVC == nil) {
+      self.termsVC = [TermsOfUseViewController new];
+      self.termsVC.view.frame = CGRectInset(self.view.frame, 50, 100);
+    }
+    
+    self.termsVCActive = true;
+    
+    
+    self.termsVC.view.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
+    [self addChildViewController:self.termsVC];
+    [self.termsVC didMoveToParentViewController:self];
+    
+    self.termsVC.titleLabel.text = title;
+    self.termsVC.bodyLabel.text = text;
+    
+    self.termsVC.view.layer.cornerRadius = 20;
+    self.termsVC.view.layer.shadowColor = [[UIColor blackColor] CGColor];
+    self.termsVC.view.layer.shadowOpacity = 0.6;
+    self.termsVC.view.layer.shadowRadius = 3.0;
+    self.termsVC.view.layer.shadowOffset = CGSizeMake(0, 3);
+    self.termsVC.view.layer.borderWidth = 4;
+    self.termsVC.view.layer.borderColor = [self.colors.flatTurquoise CGColor];
+    
+    [self.view addSubview:self.termsVC.view];
+    
+    [UIView animateWithDuration:0.7
+                          delay:0.0
+         usingSpringWithDamping:0.7
+          initialSpringVelocity:0.4
+                        options:0
+                     animations:^{
+                       self.termsVC.view.transform = CGAffineTransformIdentity;
+                     }
+                     completion:^(BOOL finished) {
+                       
+                     }];
+  }
+ 
+}
+
+- (void) hideTermsViewController {
+  
+  self.termsVCActive = false;
+  
+  [UIView animateWithDuration:0.7
+                        delay:0.0
+       usingSpringWithDamping:0.7
+        initialSpringVelocity:0.4
+                      options:0
+                   animations:^{
+                     self.termsVC.view.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
+                   }
+                   completion:^(BOOL finished) {
+                     
+                   }];
+  
+  
+}
+
+
 -(void) messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
   [self dismissViewControllerAnimated:true completion:nil];
+}
+
+- (void) didTapView: (UITapGestureRecognizer *) sender {
+ 
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    [self hideTermsViewController];
+  }
+  
 }
 
 @end

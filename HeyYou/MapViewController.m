@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) CLLocationManager* locationManager;
+@property MKCoordinateRegion* lastRegion;
 @property BOOL mapFullyLoaded;
 @property BOOL didGetLocation;
 
@@ -408,7 +409,7 @@
 }
 
 -(void) requestDots {
-  
+
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
     if (dots != nil) {
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
