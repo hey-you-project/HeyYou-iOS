@@ -49,6 +49,8 @@
 		7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */; };
 		7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */; };
 		7E90DAA21A2E2950007EE342 /* HamburgerWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E90DAA11A2E2950007EE342 /* HamburgerWrapperView.m */; };
+		7E980D701A783AD300CEC469 /* TermsOfUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E980D6E1A783AD300CEC469 /* TermsOfUseViewController.m */; };
+		7E980D711A783AD300CEC469 /* TermsOfUseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E980D6F1A783AD300CEC469 /* TermsOfUseViewController.xib */; };
 		7ECAB0971A23CC280047DA04 /* PopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ECAB0961A23CC280047DA04 /* PopupView.m */; };
 		7EE1FC361A2670ED00AA6B5F /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EE1FC351A2670ED00AA6B5F /* ContainerViewController.m */; };
 		7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF174321A24FBF500B5541D /* UserDotsViewController.m */; };
@@ -142,6 +144,9 @@
 		7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseViewController.xib; sourceTree = "<group>"; };
 		7E90DAA01A2E2950007EE342 /* HamburgerWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HamburgerWrapperView.h; sourceTree = "<group>"; };
 		7E90DAA11A2E2950007EE342 /* HamburgerWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HamburgerWrapperView.m; sourceTree = "<group>"; };
+		7E980D6D1A783AD300CEC469 /* TermsOfUseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermsOfUseViewController.h; sourceTree = "<group>"; };
+		7E980D6E1A783AD300CEC469 /* TermsOfUseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsOfUseViewController.m; sourceTree = "<group>"; };
+		7E980D6F1A783AD300CEC469 /* TermsOfUseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TermsOfUseViewController.xib; sourceTree = "<group>"; };
 		7ECAB0961A23CC280047DA04 /* PopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupView.m; sourceTree = "<group>"; };
 		7ECAB0981A23D2170047DA04 /* PopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupView.h; sourceTree = "<group>"; };
 		7EE1FC341A2670ED00AA6B5F /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContainerViewController.h; path = ../ContainerViewController.h; sourceTree = "<group>"; };
@@ -305,6 +310,8 @@
 				7EF174301A23F5E900B5541D /* PopupViewController.h */,
 				7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */,
 				7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */,
+				7E980D6D1A783AD300CEC469 /* TermsOfUseViewController.h */,
+				7E980D6E1A783AD300CEC469 /* TermsOfUseViewController.m */,
 				1512640B1A1E7F5500D13419 /* NSString+Validate.h */,
 				1512640C1A1E7F5500D13419 /* NSString+Validate.m */,
 				151264131A1EDB2500D13419 /* Error Handling */,
@@ -363,6 +370,7 @@
 		7EF174371A25081100B5541D /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				7E980D6F1A783AD300CEC469 /* TermsOfUseViewController.xib */,
 				7EF174331A24FBF500B5541D /* UserDotsViewController.xib */,
 				7E6E34E31A1A91ED00FF6776 /* PostViewController.xib */,
 				7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */,
@@ -477,6 +485,7 @@
 				7E1689201A1BF22E00BA4DE6 /* CommentCell.xib in Resources */,
 				7E1689151A1BDE5D00BA4DE6 /* mediumbluecircle.png in Resources */,
 				7E4B2AF51A1DB7CE00C931E2 /* SanFranciscoText-Medium.otf in Resources */,
+				7E980D711A783AD300CEC469 /* TermsOfUseViewController.xib in Resources */,
 				7E6E34E51A1A91ED00FF6776 /* PostViewController.xib in Resources */,
 				7E089DE31A1F658100D78F38 /* generated (1).json in Resources */,
 				7E4B2AF91A1DB7CE00C931E2 /* SanFranciscoText-Semibold.otf in Resources */,
@@ -518,6 +527,7 @@
 				150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */,
 				7E90DAA21A2E2950007EE342 /* HamburgerWrapperView.m in Sources */,
 				7EFD27F81A32ABCC00990849 /* Message.m in Sources */,
+				7E980D701A783AD300CEC469 /* TermsOfUseViewController.m in Sources */,
 				150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */,
 				7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */,
 				7EFD27F11A32A5D000990849 /* LeftSideChatCell.m in Sources */,

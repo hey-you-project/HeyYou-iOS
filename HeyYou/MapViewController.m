@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) CLLocationManager* locationManager;
+@property MKCoordinateRegion* lastRegion;
 @property BOOL mapFullyLoaded;
 @property BOOL didGetLocation;
 
@@ -122,13 +123,22 @@
 }
 
 - (void) addLocationButton {
+  CGFloat width = 40;
+  CGFloat x = self.view.frame.size.width / 2 - width/2;
+  CGFloat y = self.view.frame.size.height - width - 20;
   
-  CGFloat x = self.view.frame.size.width / 2 - 10;
-  CGFloat y = self.view.frame.size.height - 40;
-  CGFloat width = 20;
-  self.locationButton = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"locationButton"]];
-  self.locationButton.frame = CGRectMake(x, y, width, width);
-  self.locationButton.userInteractionEnabled = true;
+  
+  self.locationButton = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, width)];
+  self.locationButton.layer.cornerRadius = self.locationButton.frame.size.height / 2;
+  self.locationButton.layer.backgroundColor = [self.colors.flatGreen CGColor];
+  self.locationButton.layer.shadowColor = [[UIColor blackColor] CGColor];
+  self.locationButton.layer.shadowOpacity = 0.6;
+  self.locationButton.layer.shadowRadius = 3.0;
+  self.locationButton.layer.shadowOffset = CGSizeMake(0, 3);
+  
+  UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"locationButton"]];
+  [self.locationButton addSubview:image];
+  image.frame = CGRectMake(width / 4, width / 4, width / 2, width / 2);
   
   [self.view addSubview:self.locationButton];
   
@@ -213,7 +223,7 @@
     
     double ratio = -timeSincePost / (60.0f * 60.0f * 48.0f);
     CGPoint center = [mapView convertCoordinate:anno.coordinate toPointToView:self.view];
-    CGFloat width = 35.0f - (ratio * 25.0f);
+    CGFloat width = 35.0f - (ratio * 20.0f);
     view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
     view.backgroundColor = [UIColor clearColor];
     
@@ -399,7 +409,7 @@
 }
 
 -(void) requestDots {
-  
+
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
     if (dots != nil) {
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{

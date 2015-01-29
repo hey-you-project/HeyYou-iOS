@@ -28,6 +28,10 @@
   UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
   [tapper addTarget:self action:@selector(didTapStar:)];
   [self.star addGestureRecognizer:tapper];
+  
+  UITapGestureRecognizer *keyboardDismiss = [UITapGestureRecognizer new];
+  [keyboardDismiss addTarget:self action:@selector(didTapViewToDismiss:)];
+  [self.view addGestureRecognizer:keyboardDismiss];
  
 }
 
@@ -224,7 +228,7 @@
 -(NSString *) getFuzzyDateFromDate: (NSDate *) date{
   
   NSTimeInterval secondsSinceNow = [date timeIntervalSinceNow] * -1;
-  
+  NSLog(@"%f seconds ago", secondsSinceNow);
   if (secondsSinceNow < 10) {
     return @"Just now";
   }
@@ -234,7 +238,7 @@
   if (secondsSinceNow < (60 * 60)) {
     return [NSString stringWithFormat:@"%d minutes ago", (int)(secondsSinceNow / 60)];
   }
-  if (secondsSinceNow < (60 * 60 * 24)) {
+  if (secondsSinceNow < (60 * 60 * 48)) {
     return [NSString stringWithFormat:@"%d hours ago", (int)(secondsSinceNow / 60 / 60)];
   }
   return @"Unknown!";
@@ -267,6 +271,14 @@
       [alert show];
     }
   }];
+  
+}
+
+- (void) didTapViewToDismiss:(UITapGestureRecognizer *) sender {
+  
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    [self.writeCommentTextField resignFirstResponder];
+  }
   
 }
   

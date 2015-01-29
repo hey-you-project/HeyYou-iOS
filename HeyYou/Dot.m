@@ -54,7 +54,7 @@
     dot.comments = [NSMutableArray new];
     for (NSDictionary *commentDict in commentArray) {
       Comment *comment = [Comment new];
-      NSTimeInterval timestamp = [commentDict[@"time"] doubleValue] / 1000;
+      NSTimeInterval timestamp = [commentDict[@"timestamp"] doubleValue] / 1000;
       comment.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
       comment.user = [[User alloc] initwithUsername:commentDict[@"username"]];
       comment.body = commentDict[@"text"];
