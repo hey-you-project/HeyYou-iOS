@@ -412,9 +412,7 @@
 
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
     if (dots != nil) {
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self addDotsToDictionaryFromArray:dots];
-      }];
+      [self addDotsToDictionaryFromArray:dots];
       
     } else {
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
