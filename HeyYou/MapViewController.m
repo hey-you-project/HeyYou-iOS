@@ -227,10 +227,10 @@
     view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
     view.backgroundColor = [UIColor clearColor];
     
-    //  view.layer.shadowColor = [[UIColor blackColor] CGColor];
-    //  view.layer.shadowOpacity = 0.6;
-    //  view.layer.shadowRadius = 3.0;
-    //  view.layer.shadowOffset = CGSizeMake(0, 2);
+      view.layer.shadowColor = [[UIColor blackColor] CGColor];
+      view.layer.shadowOpacity = 0.6;
+      view.layer.shadowRadius = 3.0;
+      view.layer.shadowOffset = CGSizeMake(0, 2);
     
     view.transform = CGAffineTransformMakeScale(0.1, 0.1);
     int random = arc4random_uniform(400);
@@ -239,13 +239,20 @@
     NSTimeInterval delay = (NSTimeInterval)random2;
     view.alpha = 0;
     
-    [UIView animateWithDuration:0.5 delay:delay usingSpringWithDamping:0.3 initialSpringVelocity:0.9 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-      view.transform = CGAffineTransformIdentity;
-      view.alpha = 1;
-    } completion:^(BOOL finished) {
+    [UIView animateWithDuration:0.5
+                          delay:delay
+         usingSpringWithDamping:0.3
+          initialSpringVelocity:0.9
+                        options:UIViewAnimationOptionAllowUserInteraction animations:^{
+                          view.transform = CGAffineTransformIdentity;
+                          view.alpha = 1;
+                        }
+                     completion:^(BOOL finished) {
       
     }];
+    
     [view setNeedsDisplay];
+    
     return view;
   }
   
@@ -394,7 +401,6 @@
 }
 
 -(void)addNewAnnotationForDot:(Dot*) dot {
-  NSLog(@"Adding new annotation!");
   DotAnnotation *anno = [DotAnnotation new];
   anno.coordinate = dot.location;
   anno.title = dot.identifier;
@@ -413,7 +419,6 @@
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
     if (dots != nil) {
       [self addDotsToDictionaryFromArray:dots];
-      
     } else {
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
                                                       message:[error localizedDescription]
@@ -432,17 +437,13 @@
 -(void) addDotsToDictionaryFromArray:(NSArray*) dotsArray {
   for (Dot *dot in dotsArray) {
     if (![self.dots objectForKey:dot.identifier]) {
-      NSLog(@"Found new dot!");
       [self.dots setObject:dot forKey:dot.identifier];
-    } else {
-      NSLog(@"Found old dot!");
     }
   }
   [self populateDotsOnMap];
 }
 
 -(void) checkLocationAuthorizationStatus {
-  NSLog(@"Check called.");
   
   switch ([CLLocationManager authorizationStatus]) {
     case kCLAuthorizationStatusAuthorizedAlways:
@@ -452,8 +453,7 @@
       [self.locationManager startUpdatingLocation];
       break;
     case kCLAuthorizationStatusNotDetermined:
-      NSLog(@"Found not determined");
-      [self.locationManager requestAlwaysAuthorization];
+      [self.locationManager requestWhenInUseAuthorization];
       break;
     default:
       break;

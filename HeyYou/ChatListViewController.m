@@ -67,7 +67,6 @@
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
       destinationVC.messages = [[NSMutableArray alloc] initWithArray:messages];
       [destinationVC.tableView reloadData];
-
       [destinationVC.tableView scrollRectToVisible:destinationVC.bottomPadView.frame animated:false];
       [UIView animateWithDuration:0.4 animations:^{
         destinationVC.tableView.alpha = 1;
@@ -98,15 +97,18 @@
     self.partners = messages;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
       if (self.partners.count == 0) {
-        [UIView animateWithDuration:0.4 animations:^{
-          self.emptyCaseView.alpha = 1;
-        } completion:^(BOOL finished) {
-        }];
+        [UIView animateWithDuration:0.4
+                         animations:^{
+                           self.emptyCaseView.alpha = 1;
+                         }
+                         completion:^(BOOL finished) {
+                         }];
       }
       [self.tableView reloadData];
-      [UIView animateWithDuration:0.4 animations:^{
-        self.tableView.alpha = 1;
-      }];
+      [UIView animateWithDuration:0.4
+                       animations:^{
+                         self.tableView.alpha = 1;
+                       }];
     }];
   }];
   

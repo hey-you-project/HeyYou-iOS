@@ -23,10 +23,8 @@
   
   NSError *error;
   NSArray * dotsArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-  //NSLog(@"DotsArray: %@", dotsArray.description);
   NSMutableArray *tempArray = [NSMutableArray new];
   if ([dotsArray isKindOfClass:[NSDictionary class]]) {
-    //NSLog(@"Found Dict!");
     dotsArray = @[dotsArray];
   }
   
@@ -39,7 +37,6 @@
     dot.color = dotDict[@"color"];
     dot.stars = [NSNumber numberWithInteger: [dotDict[@"stars"] integerValue]];
     NSInteger hasStarred = [dotDict[@"starred"] integerValue];
-    NSLog(@"%ld", (long)hasStarred);
     if (hasStarred == 1) {
       dot.userHasStarred = YES;
     } else {

@@ -38,7 +38,6 @@
 #pragma mark GET methods
 
 - (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSError *error, NSArray *dots))completionHandler {
-  NSLog(@"Fetching dots with region!");
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -62,7 +61,6 @@
           NSArray *array = [Dot parseJSONIntoDots:data];
           completionHandler(nil,array);
         } else {
-          NSLog(@"%@", httpResponse.description);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(responseError, nil);
@@ -112,7 +110,6 @@
 }
 
 - (void)getAllMyDotsWithCompletionHandler: (void (^)(NSError *error, NSArray * dots))completionHandler {
-  NSLog(@"Get all dots called!");
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/mydots", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -127,13 +124,10 @@
       }];
     } else {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      NSLog(@"%@", httpResponse.description);
       if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
         NSInteger statusCode = httpResponse.statusCode;
         if (statusCode >= 200 && statusCode <= 299) {
-          NSLog(@"%ld", (long)statusCode);
           NSArray *array = [Dot parseJSONIntoDots:data];
-          NSLog(@"%@", [array description]);
           completionHandler(nil,array);
         } else {
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
@@ -148,14 +142,11 @@
 }
 
 - (void)getAllChatPartnersWithCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler {
-  NSLog(@"Get all messages called!");
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/messages/", self.url];
-  NSLog(@"%@", fullURLString);
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
   request.HTTPMethod = @"GET";
   NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
-  NSLog(@"%@", token);
   [request setValue:token forHTTPHeaderField:@"jwt"];
   NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
     if (error != nil) {
@@ -165,14 +156,11 @@
       }];
     } else {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      NSLog(@"%@", httpResponse.description);
       if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
         NSInteger statusCode = httpResponse.statusCode;
         if (statusCode >= 200 && statusCode <= 299) {
-          NSLog(@"%ld", (long)statusCode);
           NSError *error;
           NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-          NSLog(@"%@", [array description]);
           completionHandler(nil,array);
         } else {
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
@@ -187,14 +175,11 @@
 }
 
 - (void)getMessagesFromUser:(NSString *)username withCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler {
-  NSLog(@"Get all messages called!");
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/messages/%@", self.url, username];
-  NSLog(@"%@", fullURLString);
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
   request.HTTPMethod = @"GET";
   NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
-  NSLog(@"%@", token);
   [request setValue:token forHTTPHeaderField:@"jwt"];
   NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
     if (error != nil) {
@@ -204,13 +189,10 @@
       }];
     } else {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      NSLog(@"%@", httpResponse.description);
       if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
         NSInteger statusCode = httpResponse.statusCode;
         if (statusCode >= 200 && statusCode <= 299) {
-          NSLog(@"%ld", (long)statusCode);
           NSArray *array = [Message parseJSONIntoMessages:data];
-          NSLog(@"%@", [array description]);
           completionHandler(nil,array);
         } else {
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
@@ -250,7 +232,6 @@
           NSDictionary *tokenJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&authError];
           if ((self.token = tokenJSON[@"jwt"])) {
             if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
-              NSLog(@"Success! Got token!");
               [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -259,7 +240,6 @@
             }
           }
         } else {
-          NSLog(@"%@", httpResponse);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(responseError, NO);
@@ -301,10 +281,8 @@
           NSTimeInterval timestamp = [successJSON[@"time"] doubleValue] / 1000;
           dot.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
           dot.identifier = successJSON[@"dot_id"];
-          NSLog(@"Time: %@ Id: %@", dot.timestamp.description, dot.identifier);
           completionHandler(nil, YES);
         } else {
-          NSLog(@"%@", httpResponse.description);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(responseError, NO);
@@ -317,9 +295,7 @@
 }
 
 - (void)postComment: (NSString *) comment forDot:(Dot*)dot completionHandler: (void (^)(NSError *error, bool success))completionHandler {
-  NSLog(@"Post Comment Called!");
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/comments/%@", self.url, dot.identifier];
-  NSLog(@"%@", fullURLString);
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
   request.HTTPMethod = @"POST";
@@ -343,10 +319,8 @@
         if (statusCode >= 200 && statusCode <= 299) {
           NSError *postError;
           NSDictionary *successJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error: &postError];
-          NSLog(@"%@", successJSON.description);
           completionHandler(nil, YES);
         } else {
-          NSLog(@"%@", httpResponse.description);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(responseError, NO);
@@ -383,7 +357,6 @@
           NSDictionary *tokenJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&authError];
           if ((self.token = tokenJSON[@"jwt"])) {
             if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
-              NSLog(@"Success! Created user!");
               [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
                 [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
@@ -393,7 +366,6 @@
             }
           }
         } else {
-          NSLog(@"%@", httpResponse.description);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(responseError, NO);
@@ -407,7 +379,6 @@
 
 - (void)postToggleStarOnDot: (Dot*)dot completionHandler:(void (^)(NSError *error, bool success))completionHandler {
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/stars/%@", self.url, dot.identifier];
-  NSLog(@"%@", fullURLString);
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
   request.HTTPMethod = @"POST";
@@ -429,7 +400,6 @@
             completionHandler(nil, YES);
           }];
         } else {
-          NSLog(@"%@", httpResponse.description);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(responseError, NO);
@@ -443,7 +413,6 @@
 
 -(void)postMessage: (NSString *)text toUser: (NSString *)username withCompletionHandler: (void (^)(NSError *error, bool success))completionHandler {
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/messages/%@", self.url, username];
-  NSLog(@"%@", fullURLString);
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
   request.HTTPMethod = @"POST";
@@ -461,16 +430,12 @@
     } else {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSLog(@"%@",httpResponse.description);
         NSInteger statusCode = httpResponse.statusCode;
         if (statusCode >= 200 && statusCode <= 299) {
-          NSError *myError;
-          NSLog(@"%@", [[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&myError] description]);
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(nil, YES);
           }];
         } else {
-          NSLog(@"%@", httpResponse.description);
           NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             completionHandler(responseError, NO);
@@ -507,7 +472,6 @@
   [userDictionary setObject:formattedBirthday forKey:@"birthday"];
   [userDictionary setObject:email forKey:@"email"];
   
-  NSLog(@"%@",userDictionary.description);
   NSError *error;
   NSData *userJSONData = [NSJSONSerialization dataWithJSONObject:userDictionary options:0 error:&error];
   

@@ -145,7 +145,6 @@
           [[NSUserDefaults standardUserDefaults] synchronize];
           [self switchToLogoutWithUsername:username andAnimation:true];
           self.state = MenuStateLogOut;
-          NSLog(@"You are logged in!!!");
         } else {
           [self.activityIndicator stopAnimating];
           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -164,7 +163,6 @@
 - (IBAction)pressedCreate:(id)sender {
   switch (self.state) {
     case MenuStateLogIn:
-      NSLog(@"Add Login Called");
       self.state = MenuStateCreateAccountScreen;
       [self switchToCreate:true];
       break;
@@ -181,7 +179,6 @@
           [self.activityIndicator stopAnimating];
           self.state = MenuStateLogOut;
           [self switchToLogoutWithUsername:username andAnimation:true];
-          NSLog(@"User created!");
         } else {
           [self.activityIndicator stopAnimating];
           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -414,9 +411,6 @@
   } else if (component == 2) {
       pickerViewLabel.text = [NSString stringWithFormat:@"%@", self.yearArray[row]];
     pickerViewLabel.textAlignment = NSTextAlignmentRight;
-  } else {
-      NSLog(@"Bad component for view");
-      NSLog(@"tried to get component %ld", (long)component);
   }
   
   pickerViewLabel.font = [UIFont fontWithName: @"Avenir" size:16];

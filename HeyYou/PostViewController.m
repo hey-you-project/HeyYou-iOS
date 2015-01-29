@@ -59,7 +59,6 @@
 - (IBAction)didPressPostButton:(id)sender {
   NSString *title = self.titleTextField.text;
   NSString *body = self.bodyTextField.text;
-  NSLog(@"Post button pressed!");
   Dot *dot = [[Dot alloc] initWithLocation:self.location color:self.color title:title body:body];
   dot.username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
   

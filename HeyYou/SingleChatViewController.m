@@ -114,7 +114,6 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  NSLog(@"%lu number of rows!", (unsigned long)self.messages.count);
   return self.messages.count;
 }
 
@@ -149,7 +148,6 @@
 }
 
 - (void) receivedTapGestureOnPlusButton: (UITapGestureRecognizer *)sender {
-  NSLog(@"Did receive tap on plus button");
   [self.textField becomeFirstResponder];
 }
 
@@ -168,7 +166,6 @@
   self.textField.text = @"";
   [self.networkController postMessage:string toUser:self.otherUser withCompletionHandler:^(NSError *error, bool success) {
     if (success) {
-      NSLog(@"Success!");
       [self.messages addObject:[[Message alloc] initWithFrom:self.thisUser To:self.otherUser AndText:string]];
       [self.tableView reloadData];
     }
@@ -227,7 +224,6 @@
 }
 
 - (void) didTapTableView: (UITapGestureRecognizer *) sender {
-  NSLog(@"Did tap table view");
   if (sender.state == UIGestureRecognizerStateEnded) {
     [self.textField resignFirstResponder];
   }

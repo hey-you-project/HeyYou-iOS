@@ -228,7 +228,6 @@
 -(NSString *) getFuzzyDateFromDate: (NSDate *) date{
   
   NSTimeInterval secondsSinceNow = [date timeIntervalSinceNow] * -1;
-  NSLog(@"%f seconds ago", secondsSinceNow);
   if (secondsSinceNow < 10) {
     return @"Just now";
   }

@@ -324,7 +324,7 @@
                    }];
 }
 
-- (void)retractRadialViewAndHideBlurView:(BOOL)willHideBlurView {
+- (void) retractRadialViewAndHideBlurView:(BOOL) willHideBlurView {
   
   [UIView animateWithDuration:0.4
                         delay:0.0
