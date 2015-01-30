@@ -215,7 +215,6 @@
 }
 
 -(void) unpopCurrentComment {
-  NSLog(@"Unpop Called!");
   [UIView animateWithDuration:0.2
                         delay:0.0
        usingSpringWithDamping:0.0
@@ -231,7 +230,6 @@
 }
 
 -(void)didTap:(UITapGestureRecognizer *) sender {
-  NSLog(@"Touches began!");
   [self unpopCurrentComment];
 }
 

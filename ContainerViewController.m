@@ -45,8 +45,7 @@
   [super viewDidLoad];
   
   self.colors = [Colors singleton];
-  
-  //[self setupSideMenuViewController];
+
   [self setupMapViewController];
   [self setupHeaderLabel];
   [self setupButtons];
@@ -58,9 +57,8 @@
   
   self.coverView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
 
-  //self.coverView = [UIView new];
   self.coverView.frame = self.view.bounds;
-  //self.coverView.backgroundColor = [UIColor blackColor];
+
   self.coverView.alpha = 0.0;
   [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
   self.hamburgerMenuExpanded = false;
@@ -96,7 +94,6 @@
   self.headerLabel.shadowColor = [UIColor blackColor];
   [self.view addSubview:self.headerLabel];
 
-  
 }
 
 - (void)setupMapViewController {
@@ -207,11 +204,6 @@
 }
 
 - (void) setupGestureRecognizers {
-  
-//  UIScreenEdgePanGestureRecognizer *edgePanRecognizer = [UIScreenEdgePanGestureRecognizer new];
-//  [edgePanRecognizer addTarget:self action:@selector(receivedPanFromLeftEdge:)];
-//  edgePanRecognizer.edges = UIRectEdgeLeft;
-//  [self.view addGestureRecognizer:edgePanRecognizer];
   
   UITapGestureRecognizer *tap = [UITapGestureRecognizer new];
   [tap addTarget:self action:@selector(receivedTapGestureOnCoverView:)];
@@ -324,7 +316,7 @@
                    }];
 }
 
-- (void)retractRadialViewAndHideBlurView:(BOOL)willHideBlurView {
+- (void) retractRadialViewAndHideBlurView:(BOOL) willHideBlurView {
   
   [UIView animateWithDuration:0.4
                         delay:0.0
@@ -372,13 +364,14 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-      expandingView.transform = CGAffineTransformMakeScale(30, 30);
-    } completion:^(BOOL finished) {
-      [expandingView removeFromSuperview];
-      [self.currentMainViewController.view removeFromSuperview];
-      [self.currentMainViewController removeFromParentViewController];
-      self.currentMainViewController = self.mapViewController;
-    }];
+                       expandingView.transform = CGAffineTransformMakeScale(30, 30);
+                     }
+                     completion:^(BOOL finished) {
+                       [expandingView removeFromSuperview];
+                       [self.currentMainViewController.view removeFromSuperview];
+                       [self.currentMainViewController removeFromParentViewController];
+                       self.currentMainViewController = self.mapViewController;
+                     }];
 
   }
   
@@ -405,17 +398,16 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-      expandingView.transform = CGAffineTransformMakeScale(30, 30);
-    } completion:^(BOOL finished) {
-      
-      [expandingView removeFromSuperview];
-      if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
-        [self.currentMainViewController.view removeFromSuperview];
-        [self.currentMainViewController removeFromParentViewController];
-      }
-      self.currentMainViewController = self.userDotsViewController;
-    }];
-    
+                       expandingView.transform = CGAffineTransformMakeScale(30, 30);
+                     }
+                     completion:^(BOOL finished) {
+                       [expandingView removeFromSuperview];
+                       if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
+                         [self.currentMainViewController.view removeFromSuperview];
+                         [self.currentMainViewController removeFromParentViewController];
+                       }
+                       self.currentMainViewController = self.userDotsViewController;
+                     }];
   }
 }
 
@@ -442,15 +434,16 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-      expandingView.transform = CGAffineTransformMakeScale(30, 30);
-    } completion:^(BOOL finished) {
-      [expandingView removeFromSuperview];
-      if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
-        [self.currentMainViewController.view removeFromSuperview];
-        [self.currentMainViewController removeFromParentViewController];
-      }
-      self.currentMainViewController = self.chatViewController;
-    }];
+                       expandingView.transform = CGAffineTransformMakeScale(30, 30);
+                     }
+                     completion:^(BOOL finished) {
+                       [expandingView removeFromSuperview];
+                       if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
+                         [self.currentMainViewController.view removeFromSuperview];
+                         [self.currentMainViewController removeFromParentViewController];
+                       }
+                       self.currentMainViewController = self.chatViewController;
+                     }];
   }
 }
 
@@ -474,16 +467,16 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-      expandingView.transform = CGAffineTransformMakeScale(30, 30);
-    } completion:^(BOOL finished) {
-      self.loginViewController.view.backgroundColor = expandingView.backgroundColor;
-      [expandingView removeFromSuperview];
-      if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
-        [self.currentMainViewController.view removeFromSuperview];
-        [self.currentMainViewController removeFromParentViewController];
-      }
-      self.currentMainViewController = self.loginViewController;
-    }];
+                       expandingView.transform = CGAffineTransformMakeScale(30, 30);
+                     } completion:^(BOOL finished) {
+                       self.loginViewController.view.backgroundColor = expandingView.backgroundColor;
+                       [expandingView removeFromSuperview];
+                       if (![self.currentMainViewController isKindOfClass:[MapViewController class]]){
+                         [self.currentMainViewController.view removeFromSuperview];
+                         [self.currentMainViewController removeFromParentViewController];
+                       }
+                       self.currentMainViewController = self.loginViewController;
+                     }];
   }
 }
 
@@ -525,7 +518,8 @@
                   animations:^{
                     self.headerLabel.textColor = newColor;
                     self.headerLabel.text = newString;
-                  } completion:nil];
+                  }
+                  completion:nil];
 }
 
 - (void) chatWithUser: (NSNotification *)notification {

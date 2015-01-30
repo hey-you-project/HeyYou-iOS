@@ -33,6 +33,9 @@
 
 @property (nonatomic, strong) Colors *colors;
 @property (nonatomic, strong) UIColor *headerColor;
+@property (nonatomic, strong) NSString *termsOfUse;
+@property (nonatomic, strong) NSString *privacyPolicy;
+
 @property  BOOL termsVCActive;
 
 @end
@@ -60,8 +63,6 @@
     textField.layer.shadowOffset = CGSizeMake(0, 2);
     textField.clipsToBounds = false;
   }
-  
-  
   
   //Set up animation speed
   self.duration = 0.5;
@@ -145,7 +146,6 @@
           [[NSUserDefaults standardUserDefaults] synchronize];
           [self switchToLogoutWithUsername:username andAnimation:true];
           self.state = MenuStateLogOut;
-          NSLog(@"You are logged in!!!");
         } else {
           [self.activityIndicator stopAnimating];
           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -164,7 +164,6 @@
 - (IBAction)pressedCreate:(id)sender {
   switch (self.state) {
     case MenuStateLogIn:
-      NSLog(@"Add Login Called");
       self.state = MenuStateCreateAccountScreen;
       [self switchToCreate:true];
       break;
@@ -181,7 +180,6 @@
           [self.activityIndicator stopAnimating];
           self.state = MenuStateLogOut;
           [self switchToLogoutWithUsername:username andAnimation:true];
-          NSLog(@"User created!");
         } else {
           [self.activityIndicator stopAnimating];
           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -414,9 +412,6 @@
   } else if (component == 2) {
       pickerViewLabel.text = [NSString stringWithFormat:@"%@", self.yearArray[row]];
     pickerViewLabel.textAlignment = NSTextAlignmentRight;
-  } else {
-      NSLog(@"Bad component for view");
-      NSLog(@"tried to get component %ld", (long)component);
   }
   
   pickerViewLabel.font = [UIFont fontWithName: @"Avenir" size:16];
@@ -450,13 +445,11 @@
 }
 
 - (IBAction)didPressTermsOfUse:(id)sender {
-  NSString *text = @"These are the terms!";
-  [self showTermsViewControllerWithTitle:@"Terms of Use" andText:text];
+  [self showTermsViewControllerWithTitle:@"Terms of Use" andText:self.termsOfUse];
 }
 
 - (IBAction)didPressPrivacyPolicy:(id)sender {
-  NSString *text = @"This is our privacy policy!";
-  [self showTermsViewControllerWithTitle:@"Privacy Policy" andText:text];
+  [self showTermsViewControllerWithTitle:@"Privacy Policy" andText:self.privacyPolicy];
 }
 
 - (void) showTermsViewControllerWithTitle:(NSString *) title andText: (NSString *) text {
@@ -470,6 +463,8 @@
     
     self.termsVCActive = true;
     
+    self.termsVC.scrollView.contentOffset = CGPointZero;
+    self.termsVC.scrollView.showsVerticalScrollIndicator = false;
     
     self.termsVC.view.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
     [self addChildViewController:self.termsVC];
@@ -532,6 +527,33 @@
   if (sender.state == UIGestureRecognizerStateEnded) {
     [self hideTermsViewController];
   }
+  
+}
+
+-(NSString *)termsOfUse {
+  
+  NSString *returnString = @"";
+  returnString = [returnString stringByAppendingString:@"By accessing this app, you are agreeing to be bound by these terms and conditions of use, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this app. The materials contained in this app are protected by applicable copyright and trade mark law."];
+  returnString = [returnString stringByAppendingString:@"\n\nThe materials in this app are provided \"as is\". We makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights. Further, we do not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its app or otherwise relating to such materials or on any sites linked to this app."];
+  returnString = [returnString stringByAppendingString:@"\n\nIn no event shall Hey You or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption,) arising out of the use or inability to use the materials on Hey You's app, even if Hey You or a Hey You authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you."];
+  returnString = [returnString stringByAppendingString:@"\n\nHey You has not reviewed all content linked to its app and is not responsible for user generated content. The inclusion of content does not imply endorsement by Hey You of the content. Viewing of any such content is at the user's own risk."];
+
+  return returnString;
+  
+}
+
+- privacyPolicy {
+  
+  NSString *returnString = @"";
+  returnString = [returnString stringByAppendingString:@"Your privacy is very important to us. Accordingly, we have developed this Policy in order for you to understand how we collect, use, communicate and disclose and make use of personal information. The following outlines our privacy policy."];
+  returnString = [returnString stringByAppendingString:@"\n\nWe require users to login in order to prevent abuse. The purpose of collecting email addresses is for abuse prevention. Birthdays are collected to ensure that users are 18 years of age or over."];
+  returnString = [returnString stringByAppendingString:@"\n\nWe will collect and use of personal information solely with the objective of fulfilling those purposes specified by us and for other compatible purposes, unless we obtain the consent of the individual concerned or as required by law."];
+  returnString = [returnString stringByAppendingString:@"\n\nWe will collect personal information by lawful and fair means and, where appropriate, with the knowledge or consent of the individual concerned."];
+  returnString = [returnString stringByAppendingString:@"\n\nPersonal data should be relevant to the purposes for which it is to be used, and, to the extent necessary for those purposes, should be accurate, complete, and up-to-date."];
+  returnString = [returnString stringByAppendingString:@"\n\nWe will protect personal information by reasonable security safeguards against loss or theft, as well as unauthorized access, disclosure, copying, use or modification."];
+  returnString = [returnString stringByAppendingString:@"\n\nWe will make readily available to customers information about our policies and practices relating to the management of personal information."];
+  
+  return returnString;
   
 }
 

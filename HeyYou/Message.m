@@ -28,7 +28,6 @@
   
   NSError *error;
   NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-  NSLog(@"Attempting to parse: %@",array.description);
   NSMutableArray *tempArray = [NSMutableArray new];
   for (NSDictionary *messageDictionary in array) {
     
