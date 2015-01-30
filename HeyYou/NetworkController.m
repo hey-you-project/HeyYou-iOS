@@ -50,9 +50,7 @@
   NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
     if (error != nil) {
       NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, nil);
-      }];
+      completionHandler(error, nil);
     } else {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {

@@ -269,6 +269,17 @@
   if (self.mapFullyLoaded) {
     [self requestDots];
   }
+//  for (DotAnnotation *annotation in mapView.annotations) {
+//    
+//    BrowseViewController * popup = [BrowseViewController new];
+//    popup.dot = annotation.dot;
+//    CGPoint point = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.view];
+//    
+//    if (![self.popups valueForKey:annotation.title]){
+//      [self spawnPopup:popup atPoint:point withHeight:100];
+//      [self.popups setObject:popup forKey:annotation.title];
+//    }
+//  }
 }
 
 #pragma mark Helper Methods
@@ -364,21 +375,6 @@
   
 }
 
-//-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-//  
-//  for (DotAnnotation *annotation in mapView.annotations) {
-//    
-//    BrowseViewController * popup = [BrowseViewController new];
-//    popup.dot = annotation.dot;
-//    CGPoint point = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.view];
-//    
-//    if (![self.popups valueForKey:annotation.title]){
-//      [self spawnPopup:popup atPoint:point withHeight:100];
-//      [self.popups setObject:popup forKey:annotation.title];
-//    }
-//  }
-//  
-//}
 //
 //-(void) hideAllMiniPopups {
 //  
@@ -471,6 +467,7 @@
 
 -(void)didTapLocationButton:(UITapGestureRecognizer *)sender {
   if (sender.state == UIGestureRecognizerStateEnded) {
+    [self unpopCurrentComment];
     [self moveToCurrentLocationAnimated:true];
   }
   
