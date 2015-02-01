@@ -21,7 +21,7 @@
 
 @implementation ChatListViewController
 
-- (void)viewDidLoad {
+- (void) viewDidLoad {
   [super viewDidLoad];
   self.tableView.alpha = 0;
   self.networkController = [NetworkController sharedController];
@@ -32,84 +32,75 @@
   [self.navigationController setNavigationBarHidden:true];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
+  
   [super viewWillAppear:animated];
-  UIColor *newColor = [UIColor whiteColor];
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"My Chat Partners", @"color":newColor}];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel"
+                                                      object:nil
+                                                    userInfo:@{@"text" : @"My Chat Partners",
+                                                               @"color" : [UIColor whiteColor]}];
   [self getChatPartners];
+  
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return self.partners.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   ChatListCell *cell = (ChatListCell *)[tableView dequeueReusableCellWithIdentifier:@"CHAT_BUDDY_CELL" forIndexPath:indexPath];
   cell.username.text = self.partners[indexPath.row];
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
   return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  [self showSingleChatControllerForUser:self.partners[indexPath.row]];
+
+}
+
+- (void) beginNewChatWithUsername: (NSString *) username {
+  
+  [self showSingleChatControllerForUser:username];
+
+}
+
+- (void) showSingleChatControllerForUser: (NSString *) user {
+  
   UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
   SingleChatViewController *destinationVC = [storyboard instantiateViewControllerWithIdentifier:@"SINGLE"];
+  destinationVC.otherUser = user;
+  [self.navigationController pushViewController:destinationVC animated:false];
   
-  destinationVC.otherUser = self.partners[indexPath.row];
-  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-    destinationVC.tableView.alpha = 0;
-  }];
-  [self.networkController getMessagesFromUser:self.partners[indexPath.row] withCompletionHandler:^(NSError *error, NSArray *messages) {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-      destinationVC.messages = [[NSMutableArray alloc] initWithArray:messages];
-      [destinationVC.tableView reloadData];
-      [destinationVC.tableView scrollRectToVisible:destinationVC.bottomPadView.frame animated:false];
-      [UIView animateWithDuration:0.4 animations:^{
-        destinationVC.tableView.alpha = 1;
-      }];
-    }];
+}
+
+- (void) getChatPartners {
+  
+  [self.networkController getAllChatPartnersWithCompletionHandler:^(NSError *error, NSArray *partners) {
+    self.partners = partners;
     
-  }];
-  
-  [self.navigationController pushViewController:destinationVC animated:false];
-}
-
--(void)beginNewChatWithUsername:(NSString *) username {
-  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-  SingleChatViewController *destinationVC = [storyboard instantiateViewControllerWithIdentifier:@"SINGLE"];
-  destinationVC.otherUser = username;
-  [self.navigationController pushViewController:destinationVC animated:false];
-  for (NSDictionary * dict in self.messages) {
-    if([username isEqualToString:dict[@"username"]]){
-      destinationVC.messages = [[NSMutableArray alloc] initWithArray:dict[@"items"]];
-      break;
-    }
-  }
-}
-
--(void)getChatPartners {
-  
-  [self.networkController getAllChatPartnersWithCompletionHandler:^(NSError *error, NSArray *messages) {
-    self.partners = messages;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      
       if (self.partners.count == 0) {
-        [UIView animateWithDuration:0.4
-                         animations:^{
-                           self.emptyCaseView.alpha = 1;
-                         }
-                         completion:^(BOOL finished) {
-                         }];
+        
+        [UIView animateWithDuration:0.4 animations:^{
+          self.emptyCaseView.alpha = 1;
+        }];
+        
+      } else {
+        
+        [self.tableView reloadData];
+        [UIView animateWithDuration:0.4 animations:^{
+          self.tableView.alpha = 1;
+        }];
+        
       }
-      [self.tableView reloadData];
-      [UIView animateWithDuration:0.4
-                       animations:^{
-                         self.tableView.alpha = 1;
-                       }];
+      
     }];
+
+
+ 
   }];
   
 }
