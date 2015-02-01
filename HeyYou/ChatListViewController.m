@@ -21,7 +21,7 @@
 
 @implementation ChatListViewController
 
-- (void)viewDidLoad {
+- (void) viewDidLoad {
   [super viewDidLoad];
   self.tableView.alpha = 0;
   self.networkController = [NetworkController sharedController];
@@ -32,70 +32,75 @@
   [self.navigationController setNavigationBarHidden:true];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
+  
   [super viewWillAppear:animated];
-  UIColor *newColor = [UIColor whiteColor];
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"My Chat Partners", @"color":newColor}];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel"
+                                                      object:nil
+                                                    userInfo:@{@"text" : @"My Chat Partners",
+                                                               @"color" : [UIColor whiteColor]}];
   [self getChatPartners];
+  
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return self.partners.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   ChatListCell *cell = (ChatListCell *)[tableView dequeueReusableCellWithIdentifier:@"CHAT_BUDDY_CELL" forIndexPath:indexPath];
   cell.username.text = self.partners[indexPath.row];
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
   return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-  SingleChatViewController *destinationVC = [storyboard instantiateViewControllerWithIdentifier:@"SINGLE"];
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   
-  destinationVC.otherUser = self.partners[indexPath.row];
+  [self showSingleChatControllerForUser:self.partners[indexPath.row]];
 
-  [self.navigationController pushViewController:destinationVC animated:false];
 }
 
--(void)beginNewChatWithUsername:(NSString *) username {
-  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-  SingleChatViewController *destinationVC = [storyboard instantiateViewControllerWithIdentifier:@"SINGLE"];
-  destinationVC.otherUser = username;
-  [self.navigationController pushViewController:destinationVC animated:false];
-  for (NSDictionary * dict in self.messages) {
-    if([username isEqualToString:dict[@"username"]]){
-      destinationVC.messages = [[NSMutableArray alloc] initWithArray:dict[@"items"]];
-      break;
-    }
-  }
+- (void) beginNewChatWithUsername: (NSString *) username {
+  
+  [self showSingleChatControllerForUser:username];
+
 }
 
--(void)getChatPartners {
+- (void) showSingleChatControllerForUser: (NSString *) user {
   
-  [self.networkController getAllChatPartnersWithCompletionHandler:^(NSError *error, NSArray *messages) {
-    self.partners = messages;
+  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+  SingleChatViewController *destinationVC = [storyboard instantiateViewControllerWithIdentifier:@"SINGLE"];
+  destinationVC.otherUser = user;
+  [self.navigationController pushViewController:destinationVC animated:false];
+  
+}
+
+- (void) getChatPartners {
+  
+  [self.networkController getAllChatPartnersWithCompletionHandler:^(NSError *error, NSArray *partners) {
+    self.partners = partners;
+    
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      
       if (self.partners.count == 0) {
-        [UIView animateWithDuration:0.4
-                         animations:^{
-                           self.emptyCaseView.alpha = 1;
-                         }
-                         completion:^(BOOL finished) {
-                         }];
+        
+        [UIView animateWithDuration:0.4 animations:^{
+          self.emptyCaseView.alpha = 1;
+        }];
+        
+      } else {
+        
+        [self.tableView reloadData];
+        [UIView animateWithDuration:0.4 animations:^{
+          self.tableView.alpha = 1;
+        }];
+        
       }
-      [self.tableView reloadData];
-      [UIView animateWithDuration:0.4
-                       animations:^{
-                         self.tableView.alpha = 1;
-                       }];
+      
     }];
+
+
+ 
   }];
   
 }

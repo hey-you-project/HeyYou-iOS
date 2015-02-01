@@ -146,16 +146,22 @@
 }
 
 - (void) receivedTapGestureOnPlusButton: (UITapGestureRecognizer *)sender {
+  
   [self.textField becomeFirstResponder];
+  
 }
 
-- (IBAction)didPressSendButton:(id)sender {
+- (IBAction) didPressSendButton:(id)sender {
+  
   [self postMessage];
+  
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+  
   [self postMessage];
   return true;
+  
 }
 
 - (void)postMessage {
@@ -193,8 +199,8 @@
 
   [UIView animateWithDuration:0.2f animations:^{
     [self.view layoutIfNeeded];
+    [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:true];
   } completion:^(BOOL finished) {
-    [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:false];
   }];
   
 }
@@ -216,7 +222,9 @@
 }
 
 - (IBAction)didPressBackButton:(id)sender {
+  
   [self.navigationController popToRootViewControllerAnimated:false];
+  
 }
 
 - (void) didTapTableView: (UITapGestureRecognizer *) sender {
@@ -305,7 +313,10 @@
   
   [self.messages addObject:[[Message alloc] initWithFrom:self.thisUser To:self.otherUser AndText:string]];
   [self.tableView reloadData];
-  [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:true];
+  
+  CGRect frame = self.bottomPadView.frame;
+  CGRect scrollTo = CGRectMake(frame.origin.x, frame.origin.y - 150, frame.size.width, frame.size.height);
+  [self.tableView scrollRectToVisible:scrollTo animated:true];
   
 }
 

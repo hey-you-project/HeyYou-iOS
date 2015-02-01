@@ -148,6 +148,7 @@
                        }
                        
                      }];
+    
     previousDate = dotDate;
     UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
     [tapper addTarget:self action:@selector(didTapView:)];
@@ -215,6 +216,7 @@
 }
 
 -(void) unpopCurrentComment {
+  
   [UIView animateWithDuration:0.2
                         delay:0.0
        usingSpringWithDamping:0.0
@@ -227,6 +229,7 @@
                           [self.currentVC removeFromParentViewController];
                         }
                       }];
+  
 }
 
 -(void)didTap:(UITapGestureRecognizer *) sender {
