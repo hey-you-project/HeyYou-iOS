@@ -31,74 +31,44 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.thisUser = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+  self.colors = [Colors singleton];
+  [self registerForNotifications];
+  [self setupDateFormatters];
+  [self addCircleView];
+  
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
   self.textField.delegate = self;
-  self.messages = [[NSMutableArray alloc] init];
-  self.colors = [Colors singleton];
+  self.messages = [NSMutableArray new];
+  
   self.networkController = [NetworkController sharedController];
-  [self addCircleView];
-  self.bottomPadView.frame = CGRectMake(self.bottomPadView.frame.origin.x, self.bottomPadView.frame.origin.y, self.bottomPadView.frame.size.width, 110);
+  
+  self.bottomPadView.frame = CGRectMake(self.bottomPadView.frame.origin.x,
+                                        self.bottomPadView.frame.origin.y,
+                                        self.bottomPadView.frame.size.width,
+                                        110);
+  
   [self.navigationController setNavigationBarHidden:true];
-  
-  self.dateFormatter = [[NSDateFormatter alloc] init];
-  [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
-  [self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-  
-  self.timeFormatter = [[NSDateFormatter alloc] init];
-  [self.timeFormatter setDateStyle:NSDateFormatterNoStyle];
-  [self.timeFormatter setTimeStyle:NSDateFormatterShortStyle];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(keyboardWillShow:)
-                                               name:UIKeyboardWillShowNotification
-                                             object:nil];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(keyboardWillHide:)
-                                               name:UIKeyboardWillHideNotification
-                                             object:nil];
-  
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(keyboardWillChange:)
-                                               name:UIKeyboardWillChangeFrameNotification
-                                             object:nil];
-  
-  UIColor *newColor = [UIColor whiteColor];
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:self userInfo:@{@"text":self.otherUser, @"color":newColor}];
-  
+
+
   UITapGestureRecognizer *myTapper = [UITapGestureRecognizer new];
   [myTapper addTarget:self action:@selector(didTapTableView:)];
   [self.tableView addGestureRecognizer:myTapper];
   
   [self.textField addTarget:self
-                action:@selector(textFieldDidChange)
-      forControlEvents:UIControlEventEditingChanged];
+                     action:@selector(textFieldDidChange)
+           forControlEvents:UIControlEventEditingChanged];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-    self.tableView.alpha = 0;
-  }];
-  [self.networkController getMessagesFromUser:self.otherUser withCompletionHandler:^(NSError *error, NSArray *messages) {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-      self.messages = [[NSMutableArray alloc] initWithArray:messages];
-      [self.tableView reloadData];
-      [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:false];
-      [UIView animateWithDuration:0.4 animations:^{
-        self.tableView.alpha = 1;
-      }];
-    }];
-    
-  }];
+  UIColor *newColor = [UIColor whiteColor];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:self userInfo:@{@"text":self.otherUser, @"color":newColor}];
   
-}
-
-
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
+  self.tableView.alpha = 0;
+  [self fetchMessages];
+  
 }
 
 - (void) addCircleView {
@@ -131,7 +101,8 @@
   [self.view addSubview:self.plusLabel];
   self.largeCircle.alpha = 0;
   self.plusLabel.alpha = 0;
-  [UIView animateWithDuration:0.4 animations:^{
+  [UIView animateWithDuration:0.4
+                   animations:^{
     self.largeCircle.alpha = 1;
     self.plusLabel.alpha = 1;
   }];
@@ -163,6 +134,7 @@
     cell.bodyViewConstraint.priority = 997;
     cell.timeLabel.text = [self getFuzzyDate:message.timestamp];
   } else {
+    cell.bodyViewConstraint.priority = 999;
     cell.timeLabel.text = @"";
   }
   cell.labelWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -192,11 +164,9 @@
   self.textField.text = @"";
   [self.networkController postMessage:string toUser:self.otherUser withCompletionHandler:^(NSError *error, bool success) {
     if (success) {
-      [self.messages addObject:[[Message alloc] initWithFrom:self.thisUser To:self.otherUser AndText:string]];
-      [self.tableView reloadData];
+      [self addNewMessageWithString:string];
     }
   }];
-  //self.textField.text = @"";
 }
 
 - (void)keyboardWillShow:(NSNotification *)n {
@@ -206,7 +176,6 @@
   [self.view layoutIfNeeded];
   self.textBarConstraint.constant = keyboardSize.height;
   self.bottomPadView.frame = CGRectMake(self.bottomPadView.frame.origin.x, self.bottomPadView.frame.origin.y, self.bottomPadView.frame.size.width, 10);
-  
   
   [UIView animateWithDuration:0.2f animations:^{
     [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:false];
@@ -240,6 +209,7 @@
   [UIView animateWithDuration:0.2f animations:^{
     
     [self.view layoutIfNeeded];
+    
   } completion:^(BOOL finished) {
     
   }];
@@ -266,10 +236,6 @@
   
 }
 
--(void)dealloc{
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (NSString *) getFuzzyDate: (NSDate *)date {
   
   NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -285,6 +251,66 @@
   }
   return @"Oops.";
   
+}
+
+- (void) registerForNotifications {
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(keyboardWillShow:)
+                                               name:UIKeyboardWillShowNotification
+                                             object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(keyboardWillHide:)
+                                               name:UIKeyboardWillHideNotification
+                                             object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(keyboardWillChange:)
+                                               name:UIKeyboardWillChangeFrameNotification
+                                             object:nil];
+  
+}
+
+- (void) setupDateFormatters {
+  
+  self.dateFormatter = [[NSDateFormatter alloc] init];
+  [self.dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+  [self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+  
+  self.timeFormatter = [[NSDateFormatter alloc] init];
+  [self.timeFormatter setDateStyle:NSDateFormatterNoStyle];
+  [self.timeFormatter setTimeStyle:NSDateFormatterShortStyle];
+  
+}
+
+- (void) fetchMessages {
+  
+  [self.networkController getMessagesFromUser:self.otherUser withCompletionHandler:^(NSError *error, NSArray *messages) {
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      self.messages = [[NSMutableArray alloc] initWithArray:messages];
+      [self.tableView reloadData];
+      [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:false];
+      [UIView animateWithDuration:0.4 animations:^{
+        self.tableView.alpha = 1;
+      }];
+    }];
+    
+  }];
+  
+  
+}
+
+- (void) addNewMessageWithString:(NSString *) string {
+  
+  [self.messages addObject:[[Message alloc] initWithFrom:self.thisUser To:self.otherUser AndText:string]];
+  [self.tableView reloadData];
+  [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:true];
+  
+}
+
+-(void)dealloc{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
