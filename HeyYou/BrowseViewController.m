@@ -12,6 +12,7 @@
 @interface BrowseViewController ()
 
 @property (nonatomic, strong) NetworkController *networkController;
+@property (nonatomic, strong) NSString *currentUser;
 
 @end
 
@@ -24,6 +25,8 @@
   [self.tableView registerNib:[UINib nibWithNibName:@"CommentCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"COMMENT_CELL"];
  
   self.networkController = [NetworkController sharedController];
+  
+  self.currentUser = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
   
   UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
   [tapper addTarget:self action:@selector(didTapStar:)];
@@ -103,31 +106,38 @@
 
 - (IBAction)commentButtonPressed:(id)sender {
   
-    self.commentConstraint.constant += 140;
-    self.chatConstraint.constant += 140;
-    self.writeCommentTextField.hidden = false;
-    self.writeCommentTextField.alpha = 0;
+  if (self.currentUser) {
+    [self addCommentBox];
+  } else {
     
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-         usingSpringWithDamping:0.7
-          initialSpringVelocity:0.4
-                        options:UIViewAnimationOptionAllowUserInteraction animations:^{
-                          [self.view layoutSubviews];
-                          self.writeCommentTextField.alpha = 1;
-                          self.commentButton.alpha = 0;
-                          self.chatButton.alpha = 0;
-                          self.cancelButton.alpha = 1;
-                          self.submitButton.alpha = 1;
-                          
-                        } completion:^(BOOL finished) {
-                          self.commentButton.enabled = false;
-                          self.chatButton.enabled = false;
-                        }];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not Logged In"
+                                                    message:@"You must log in to comment."
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+
+    [alert show];
+    
+  }
+
 }
 
 - (IBAction)chatButtonPressed:(id)sender {
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"SwitchToChatView" object:nil userInfo:@{@"user":self.dot.username}];
+  
+  if (self.currentUser) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SwitchToChatView" object:nil userInfo:@{@"user":self.dot.username}];
+  } else {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not Logged In"
+                                                    message:@"You must log in to chat."
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    
+    [alert show];
+    
+  }
+
 }
 
 
@@ -185,6 +195,32 @@
 }
 
 #pragma mark Helper Methods
+
+- (void) addCommentBox {
+  
+  self.commentConstraint.constant += 140;
+  self.chatConstraint.constant += 140;
+  self.writeCommentTextField.hidden = false;
+  self.writeCommentTextField.alpha = 0;
+  
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+       usingSpringWithDamping:0.7
+        initialSpringVelocity:0.4
+                      options:UIViewAnimationOptionAllowUserInteraction animations:^{
+                        [self.view layoutSubviews];
+                        self.writeCommentTextField.alpha = 1;
+                        self.commentButton.alpha = 0;
+                        self.chatButton.alpha = 0;
+                        self.cancelButton.alpha = 1;
+                        self.submitButton.alpha = 1;
+                        
+                      } completion:^(BOOL finished) {
+                        self.commentButton.enabled = false;
+                        self.chatButton.enabled = false;
+                      }];
+  
+}
 
 -(void) removeCommentBox {
   [self.writeCommentTextField resignFirstResponder];
@@ -280,6 +316,8 @@
   }
   
 }
+
+
   
 
 

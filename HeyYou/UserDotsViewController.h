@@ -11,6 +11,8 @@
 @interface UserDotsViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *emptyCaseView;
+@property (weak, nonatomic) IBOutlet UILabel *emptyCaseTop;
+@property (weak, nonatomic) IBOutlet UILabel *emptyCaseBottom;
 
 - (void) removeDots;
 
