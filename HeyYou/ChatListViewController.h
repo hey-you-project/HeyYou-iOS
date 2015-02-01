@@ -15,5 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *messages;
 @property (weak, nonatomic) IBOutlet UIView *emptyCaseView;
+@property (weak, nonatomic) IBOutlet UILabel *emptyCaseTop;
+@property (weak, nonatomic) IBOutlet UILabel *emptyCaseBottom;
 
 @end

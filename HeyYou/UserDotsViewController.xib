@@ -7,6 +7,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserDotsViewController">
             <connections>
+                <outlet property="emptyCaseBottom" destination="Xov-ON-zbB" id="FyN-bf-Ous"/>
+                <outlet property="emptyCaseTop" destination="EPs-j4-Q9x" id="qEZ-uf-4wj"/>
                 <outlet property="emptyCaseView" destination="XxV-OL-Afv" id="ca2-G0-IY5"/>
                 <outlet property="scrollView" destination="Y9l-qk-KtT" id="bqn-mK-WGS"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

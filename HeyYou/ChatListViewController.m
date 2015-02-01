@@ -28,7 +28,6 @@
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
   self.emptyCaseView.alpha = 0;
-  [self getChatPartners];
   [self.navigationController setNavigationBarHidden:true];
 }
 
@@ -39,7 +38,18 @@
                                                       object:nil
                                                     userInfo:@{@"text" : @"My Chat Partners",
                                                                @"color" : [UIColor whiteColor]}];
-  [self getChatPartners];
+  NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+  
+  if (username) {
+    NSLog(@"Got username");
+    [self getChatPartners];
+  } else {
+    NSLog(@"Did not get username");
+    self.emptyCaseTop.text = @"Not Logged In";
+    self.emptyCaseBottom.text = @"Your chat partners will appear here once you login!";
+    [self showEmptyCaseView];
+  }
+  
   
 }
 
@@ -84,9 +94,7 @@
       
       if (self.partners.count == 0) {
         
-        [UIView animateWithDuration:0.4 animations:^{
-          self.emptyCaseView.alpha = 1;
-        }];
+        [self showEmptyCaseView];
         
       } else {
         
@@ -94,13 +102,18 @@
         [UIView animateWithDuration:0.4 animations:^{
           self.tableView.alpha = 1;
         }];
-        
+  
       }
       
     }];
+  }];
+  
+}
 
-
- 
+- (void) showEmptyCaseView {
+  
+  [UIView animateWithDuration:0.4 animations:^{
+    self.emptyCaseView.alpha = 1;
   }];
   
 }

@@ -35,9 +35,36 @@
   return controller;
 }
 
+#pragma mark Data Task Sending
+
+- (void) sendRequest: (NSURLRequest *) request withCompletionHandler: (void (^)(NSError *error, NSData *data)) completionHandler {
+  
+  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    if (error) {
+      NSLog(@"%@", error.localizedDescription);
+      completionHandler(error, nil);
+    } else {
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSInteger statusCode = httpResponse.statusCode;
+        if (statusCode >= 200 && statusCode <= 299) {
+          completionHandler(nil, data);
+        } else {
+          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
+            completionHandler(responseError, nil);
+        }
+      }
+    }
+  }];
+  
+  [dataTask resume];
+
+}
+
 #pragma mark GET methods
 
 - (void)fetchDotsWithRegion: (MKCoordinateRegion) region completionHandler: (void (^)(NSError *error, NSArray *dots))completionHandler {
+  
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -47,30 +74,22 @@
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:geoframeDictionary options:0 error:&error];
   NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
   [request setValue:jsonString forHTTPHeaderField:@"Zone"];
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    if (error) {
       completionHandler(error, nil);
     } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          NSArray *array = [Dot parseJSONIntoDots:data];
-          completionHandler(nil,array);
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, nil);
-          }];
-        }
-      }
+      NSArray *array = [Dot parseJSONIntoDots:data];
+      completionHandler(nil,array);
     }
+    
   }];
-  [dataTask resume];
+  
 }
 
 - (void)getDotByID: (NSString *)dotID completionHandler: (void (^)(NSError *error, Dot * dot))completionHandler {
+  
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/%@", self.url, dotID];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -79,132 +98,94 @@
     [request setValue:token forHTTPHeaderField:@"jwt"];
   }
   request.HTTPMethod = @"GET";
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, nil);
-      }];
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    if (error) {
+      completionHandler(error, nil);
     } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          NSArray *array = [Dot parseJSONIntoDots:data];
-          if (array.count > 0 && [array[0] isKindOfClass:[Dot class]]) {
-            Dot *dot = array[0];
-            completionHandler(nil,dot);
-          }
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, nil);
-          }];
-        }
+      NSArray *array = [Dot parseJSONIntoDots:data];
+      if (array.count > 0 && [array[0] isKindOfClass:[Dot class]]) {
+        Dot *dot = array[0];
+        completionHandler(nil,dot);
       }
     }
+    
   }];
-  [dataTask resume];
+  
 }
 
+
 - (void)getAllMyDotsWithCompletionHandler: (void (^)(NSError *error, NSArray * dots))completionHandler {
+  
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/mydots", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
   request.HTTPMethod = @"GET";
   NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
   [request setValue:token forHTTPHeaderField:@"jwt"];
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, nil);
-      }];
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    if (error) {
+      completionHandler(error, nil);
     } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          NSArray *array = [Dot parseJSONIntoDots:data];
-          completionHandler(nil,array);
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, nil);
-          }];
-        }
-      }
+      NSArray *array = [Dot parseJSONIntoDots:data];
+      completionHandler(nil,array);
+      
     }
+    
   }];
-  [dataTask resume];
+
 }
 
 - (void)getAllChatPartnersWithCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler {
+  
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/messages/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
   request.HTTPMethod = @"GET";
   NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
   [request setValue:token forHTTPHeaderField:@"jwt"];
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, nil);
-      }];
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    if (error) {
+      completionHandler(error, nil);
     } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          NSError *error;
-          NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-          completionHandler(nil,array);
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, nil);
-          }];
-        }
-      }
+      NSError *error;
+      NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+      completionHandler(nil,array);
     }
+    
   }];
-  [dataTask resume];
+  
 }
 
 - (void)getMessagesFromUser:(NSString *)username withCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler {
+  
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/messages/%@", self.url, username];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
   request.HTTPMethod = @"GET";
   NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
   [request setValue:token forHTTPHeaderField:@"jwt"];
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, nil);
-      }];
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    if (error) {
+      completionHandler(error, nil);
     } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          NSArray *array = [Message parseJSONIntoMessages:data];
-          completionHandler(nil,array);
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, nil);
-          }];
-        }
-      }
+      NSArray *array = [Message parseJSONIntoMessages:data];
+      completionHandler(nil,array);
     }
+    
   }];
-  [dataTask resume];
+
 }
 
 - (void)fetchTokenWithUsername: (NSString *)username password:(NSString*)password completionHandler: (void (^)(NSError *error, bool success))completionHandler {
+  
   NSString *fullURLString = [NSString stringWithFormat:@"%@api/users/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -214,44 +195,33 @@
   NSString *authStringBase64 = [authStringData base64EncodedStringWithOptions:0];
   NSString *authStringFull = [NSString stringWithFormat:@"Basic %@", authStringBase64];
   [request setValue:authStringFull forHTTPHeaderField:@"Authorization"];
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, NO);
-      }];
-      
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    if (error) {
+      completionHandler(error, NO);
     } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          NSError *authError;
-          NSDictionary *tokenJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&authError];
-          if ((self.token = tokenJSON[@"jwt"])) {
-            if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
-              [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                completionHandler(nil, YES);
-              }];
-            }
-          }
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
+      NSError *authError;
+      NSDictionary *tokenJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&authError];
+      if ((self.token = tokenJSON[@"jwt"])) {
+        if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, NO);
+            [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
+            [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            completionHandler(nil, YES);
           }];
         }
       }
     }
   }];
-  [dataTask resume];
+  
 }
 
 #pragma mark POST methods
 
 - (void)postDot: (Dot*)dot completionHandler: (void (^)(NSError *error, bool success))completionHandler {
+  
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/dots/", self.url];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -263,36 +233,26 @@
   NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:@"token"];
   [request setValue:token forHTTPHeaderField:@"jwt"];
   request.HTTPBody = dotJSONData;
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, NO);
-      }];
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    if (error) {
+      completionHandler(error, NO);
     } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          NSError *postError;
-          NSDictionary *successJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error: &postError];
-          NSTimeInterval timestamp = [successJSON[@"time"] doubleValue] / 1000;
-          dot.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
-          dot.identifier = successJSON[@"dot_id"];
-          completionHandler(nil, YES);
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, NO);
-          }];
-        }
-      }
+      NSError *postError;
+      NSDictionary *successJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error: &postError];
+      NSTimeInterval timestamp = [successJSON[@"time"] doubleValue] / 1000;
+      dot.timestamp = [NSDate dateWithTimeIntervalSince1970:timestamp];
+      dot.identifier = successJSON[@"dot_id"];
+      completionHandler(nil, YES);
     }
+    
   }];
-  [dataTask resume];
+
 }
 
 - (void)postComment: (NSString *) comment forDot:(Dot*)dot completionHandler: (void (^)(NSError *error, bool success))completionHandler {
+  
   NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/comments/%@", self.url, dot.identifier];
   NSURL *fullURL = [NSURL URLWithString:fullURLString];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
@@ -304,30 +264,15 @@
   [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   [request setValue:token forHTTPHeaderField:@"jwt"];
   request.HTTPBody = JSONData;
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, NO);
-      }];
-    } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          NSError *postError;
-          NSDictionary *successJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error: &postError];
-          completionHandler(nil, YES);
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, NO);
-          }];
-        }
-      }
-    }
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      completionHandler(error, (error == nil));
+    }];
+    
   }];
-  [dataTask resume];
+  
 }
 
 - (void)createUserWithUsername: (NSString*)username password:(NSString*)password birthday:(NSDate*)birthday email:(NSString*)email completionHandler:(void (^)(NSError *error, bool success))completionHandler {
@@ -340,39 +285,28 @@
   [request setValue:[NSString stringWithFormat:@"%li", (unsigned long)length] forHTTPHeaderField:@"Content-Length"];
   [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   request.HTTPBody = jsonData;
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, NO);
-      }];
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    if (error) {
+      completionHandler(error, NO);
     } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          NSError *authError;
-          NSDictionary *tokenJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&authError];
-          if ((self.token = tokenJSON[@"jwt"])) {
-            if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
-              [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
-                [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                completionHandler(nil, YES);
-              }];
-            }
-          }
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
+      NSError *authError;
+      NSDictionary *tokenJSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&authError];
+      if ((self.token = tokenJSON[@"jwt"])) {
+        if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, NO);
+            [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
+            [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            completionHandler(nil, YES);
           }];
         }
       }
     }
+    
   }];
-  [dataTask resume];
+
 }
 
 - (void)postToggleStarOnDot: (Dot*)dot completionHandler:(void (^)(NSError *error, bool success))completionHandler {
@@ -383,30 +317,15 @@
   NSString *token = [[NetworkController sharedController] token];
   [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   [request setValue:token forHTTPHeaderField:@"jwt"];
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, NO);
-      }];
-    } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(nil, YES);
-          }];
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, NO);
-          }];
-        }
-      }
-    }
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      completionHandler(error, (error == nil));
+    }];
+    
   }];
-  [dataTask resume];
+
 }
 
 -(void)postMessage: (NSString *)text toUser: (NSString *)username withCompletionHandler: (void (^)(NSError *error, bool success))completionHandler {
@@ -419,30 +338,15 @@
   [request setValue:token forHTTPHeaderField:@"jwt"];
   NSError *error;
   request.HTTPBody = [NSJSONSerialization dataWithJSONObject:@{@"text":text} options:0 error:&error];
-  NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    if (error != nil) {
-      NSLog(@"%@", error.localizedDescription);
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(error, NO);
-      }];
-    } else {
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      if ([httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSInteger statusCode = httpResponse.statusCode;
-        if (statusCode >= 200 && statusCode <= 299) {
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(nil, YES);
-          }];
-        } else {
-          NSError *responseError = [ErrorHandler errorFromHTTPResponse:httpResponse data:data];
-          [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            completionHandler(responseError, NO);
-          }];
-        }
-      }
-    }
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      completionHandler(error, (error == nil));
+    }];
+    
   }];
-  [dataTask resume];
+  
 }
 
 #pragma mark Helper methods
