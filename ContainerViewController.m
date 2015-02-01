@@ -117,7 +117,6 @@
   self.hamburgerWrapper.layer.shadowRadius = 3.0;
   self.hamburgerWrapper.layer.shadowOffset = CGSizeMake(0, 3);
   self.hamburgerWrapper.layer.masksToBounds = false;
-  //self.hamburgerWrapper.layer.anchorPoint = CGPointMake(self.hamburgerWrapper.bounds.origin.x, self.hamburgerWrapper.bounds.origin.y);
   [self.view addSubview:self.hamburgerWrapper];
   
   CGRect labelRect = CGRectMake(self.hamburgerWrapper.frame.origin.x + 19, self.hamburgerWrapper.frame.origin.y + 17.5, 25, 25);
@@ -242,8 +241,6 @@
 }
 
 - (void) toggleRadialMenuAndHideBlurView:(BOOL)willHideBlurView {
-  
-
   
   [UIView animateWithDuration:0.4
                         delay:0.0
