@@ -60,21 +60,7 @@
   SingleChatViewController *destinationVC = [storyboard instantiateViewControllerWithIdentifier:@"SINGLE"];
   
   destinationVC.otherUser = self.partners[indexPath.row];
-  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-    destinationVC.tableView.alpha = 0;
-  }];
-  [self.networkController getMessagesFromUser:self.partners[indexPath.row] withCompletionHandler:^(NSError *error, NSArray *messages) {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-      destinationVC.messages = [[NSMutableArray alloc] initWithArray:messages];
-      [destinationVC.tableView reloadData];
-      [destinationVC.tableView scrollRectToVisible:destinationVC.bottomPadView.frame animated:false];
-      [UIView animateWithDuration:0.4 animations:^{
-        destinationVC.tableView.alpha = 1;
-      }];
-    }];
-    
-  }];
-  
+
   [self.navigationController pushViewController:destinationVC animated:false];
 }
 

@@ -71,6 +71,26 @@
       forControlEvents:UIControlEventEditingChanged];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    self.tableView.alpha = 0;
+  }];
+  [self.networkController getMessagesFromUser:self.otherUser withCompletionHandler:^(NSError *error, NSArray *messages) {
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      self.messages = [[NSMutableArray alloc] initWithArray:messages];
+      [self.tableView reloadData];
+      [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:false];
+      [UIView animateWithDuration:0.4 animations:^{
+        self.tableView.alpha = 1;
+      }];
+    }];
+    
+  }];
+  
+}
+
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
