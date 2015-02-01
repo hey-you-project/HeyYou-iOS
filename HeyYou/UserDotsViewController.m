@@ -136,7 +136,8 @@
                          UILabel *label = [[UILabel alloc] init];
                          label.text = date;
                          label.font = [UIFont fontWithName:@"Avenir-Roman" size:14];
-                         label.frame = CGRectMake(self.view.frame.size.width - 50, 80 + offset, 50, 14);
+                         label.frame = CGRectMake(self.view.frame.size.width - 120, 80 + offset, 100, 14);
+                         label.textAlignment = NSTextAlignmentRight;
                          
                          label.textColor = [UIColor whiteColor];
                          [self.view addSubview:label];
