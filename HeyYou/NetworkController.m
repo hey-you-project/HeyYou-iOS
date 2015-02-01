@@ -232,6 +232,7 @@
             if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
               [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
+                [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 completionHandler(nil, YES);
               }];

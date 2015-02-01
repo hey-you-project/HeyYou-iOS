@@ -170,6 +170,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="1y3-WR-Qbu"/>
                     <connections>
+                        <outlet property="emptyCaseBottom" destination="gP6-XT-grp" id="fZZ-Rs-6cW"/>
+                        <outlet property="emptyCaseTop" destination="nkZ-BL-Chw" id="Az6-nR-B6X"/>
                         <outlet property="emptyCaseView" destination="And-Me-oKp" id="nkA-xL-I2d"/>
                         <outlet property="tableView" destination="xg3-Rw-DoZ" id="keV-M3-SgJ"/>
                     </connections>

@@ -27,9 +27,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.networkController = [NetworkController sharedController];
-  self.colors = [Colors new];
+  self.colors = [Colors singleton];
   
-
   UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
   [tapper addTarget:self action:@selector(didTap:)];
   [self.view addGestureRecognizer:tapper];
@@ -46,18 +45,22 @@
 -(void)viewDidAppear:(BOOL)animated{
   [super viewDidAppear:animated];
   self.emptyCaseView.alpha = 0;
-  [self retrieveDots];
+  
+  NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
+  
+  if (username) {
+    [self retrieveDots];
+  } else {
+    self.emptyCaseTop.text = @"Not Logged In";
+    self.emptyCaseBottom.text = @"You'll be able to view all your dots here once you log in.";
+    [self showEmptyCaseView];
+  }
+  
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   [self removeDots];
-}
-
-- (void)didReceiveMemoryWarning {
-  
-    [super didReceiveMemoryWarning];
-  
 }
 
 - (void) retrieveDots {
@@ -100,11 +103,7 @@
 - (void)addDots {
   
   if(self.myDots.count == 0) {
-    [UIView animateWithDuration:0.4 animations:^{
-      self.emptyCaseView.alpha = 1;
-    } completion:^(BOOL finished) {
-      
-    }];
+    [self showEmptyCaseView];
   }
 
   NSDateComponents *previousDate;
@@ -250,6 +249,14 @@
     return @"Two Days Ago";
   }
   return @"Oops.";
+  
+}
+
+- (void) showEmptyCaseView {
+  
+  [UIView animateWithDuration:0.4 animations:^{
+    self.emptyCaseView.alpha = 1;
+  }];
   
 }
 
