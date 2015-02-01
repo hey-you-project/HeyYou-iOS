@@ -22,6 +22,7 @@
 @property (nonatomic, strong) Colors *colors;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) NSDateFormatter *timeFormatter;
 
 @end
 
@@ -42,7 +43,11 @@
   
   self.dateFormatter = [[NSDateFormatter alloc] init];
   [self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
-  [self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+  [self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+  
+  self.timeFormatter = [[NSDateFormatter alloc] init];
+  [self.timeFormatter setDateStyle:NSDateFormatterNoStyle];
+  [self.timeFormatter setTimeStyle:NSDateFormatterShortStyle];
   
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(keyboardWillShow:)
@@ -147,6 +152,7 @@
   } else {
     cell = (LeftSideChatCell *)[tableView dequeueReusableCellWithIdentifier:@"LEFT" forIndexPath:indexPath];
   }
+  
   cell.body.text = message.body;
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
   Message *previousMessage;
@@ -155,7 +161,7 @@
   }
   if (indexPath.row == 0 || [message.timestamp timeIntervalSinceDate:previousMessage.timestamp] > 60 * 60) {
     cell.bodyViewConstraint.priority = 997;
-    cell.timeLabel.text = [self.dateFormatter stringFromDate:message.timestamp];
+    cell.timeLabel.text = [self getFuzzyDate:message.timestamp];
   } else {
     cell.timeLabel.text = @"";
   }
@@ -262,6 +268,23 @@
 
 -(void)dealloc{
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (NSString *) getFuzzyDate: (NSDate *)date {
+  
+  NSCalendar *calendar = [NSCalendar currentCalendar];
+  NSUInteger dayForDot = [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:date];
+  NSUInteger dayForNow = [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:[NSDate date]];
+  
+  if (dayForDot == dayForNow) {
+    return [self.timeFormatter stringFromDate:date];
+  } else if (dayForDot == dayForNow - 1) {
+    return @"Yesterday";
+  } else if (dayForDot < dayForNow - 1){
+    return [self.dateFormatter stringFromDate:date];
+  }
+  return @"Oops.";
+  
 }
 
 
