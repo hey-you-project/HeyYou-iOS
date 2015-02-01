@@ -267,11 +267,9 @@
   
   [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
     
-    if (error) {
-      completionHandler(error, NO);
-    } else {
-      completionHandler(nil, YES);
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      completionHandler(error, (error == nil));
+    }];
     
   }];
   
@@ -322,13 +320,9 @@
   
   [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
     
-    if (error) {
-      completionHandler(error, NO);
-    } else {
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        completionHandler(nil, YES);
-      }];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      completionHandler(error, (error == nil));
+    }];
     
   }];
 
@@ -347,8 +341,10 @@
   
   [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
     
-    completionHandler(error, (error == nil));
-
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      completionHandler(error, (error == nil));
+    }];
+    
   }];
   
 }

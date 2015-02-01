@@ -204,6 +204,7 @@
   
   [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"username"];
   [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"token"];
+  [[NSUserDefaults standardUserDefaults] synchronize];
   [self switchToLogin:true];
   
 }
@@ -226,6 +227,8 @@
 #pragma mark Animation methods
 
 - (void)switchToLogin:(BOOL)animated {
+  
+  self.state = MenuStateLogIn;
   self.logInConstraint.priority = 999;
   self.logOutConstraint.priority = 900;
   self.topConstraint.constant = 125;
