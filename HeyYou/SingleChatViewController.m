@@ -170,7 +170,9 @@
   self.textField.text = @"";
   [self.networkController postMessage:string toUser:self.otherUser withCompletionHandler:^(NSError *error, bool success) {
     if (success) {
-      [self addNewMessageWithString:string];
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self addNewMessageWithString:string];
+      }];
     }
   }];
 }
