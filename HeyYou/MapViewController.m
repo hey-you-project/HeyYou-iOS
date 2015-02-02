@@ -20,9 +20,10 @@
 @property (nonatomic, strong) NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) CLLocationManager* locationManager;
-@property MKCoordinateRegion* lastRegion;
+@property MKCoordinateRegion lastRegion;
 @property BOOL mapFullyLoaded;
 @property BOOL didGetLocation;
+@property BOOL fingerIsMoving;
 
 #pragma mark Color Palette
 
@@ -69,19 +70,6 @@
   
 }
 
--(void) viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-}
-
--(void)viewDidAppear:(BOOL)animated{
-  [super viewDidAppear:animated];
-}
-
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  NSLog(@"Got memory warning!");
-}
-
 #pragma mark Setup Subview Methods
 
 - (void)setupMapView {
@@ -122,6 +110,10 @@
   UIPanGestureRecognizer *dragger = [UIPanGestureRecognizer new];
   [dragger addTarget:self action:@selector(receivedDragGestureOnDragCircle:)];
   [self.dragCircleWrapper addGestureRecognizer:dragger];
+  
+  UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
+  [tapper addTarget:self action:@selector(didTapOnDragCircle:)];
+  [self.dragCircleWrapper addGestureRecognizer:tapper];
 
 }
 
@@ -240,6 +232,7 @@
     double random2 = random / 1000.0f;
     
     NSTimeInterval delay = (NSTimeInterval)random2;
+
     view.alpha = 0;
     
     [UIView animateWithDuration:0.5
@@ -271,8 +264,11 @@
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-  if (self.mapFullyLoaded) {
-    [self requestDots];
+  if (mapView.region.span.latitudeDelta < 5) {
+    NSLog(@"Less than 3");
+    if (self.mapFullyLoaded) {
+      [self requestDots];
+    }
   }
 }
 
@@ -484,7 +480,7 @@
 
 -(void)moveToCurrentLocationAnimated: (BOOL)animated {
   
-  double width = 1000000;
+  double width = 1500000;
   CLLocationCoordinate2D coordinates = self.locationManager.location.coordinate;
   MKMapPoint point = MKMapPointForCoordinate(coordinates);
   MKMapRect rect = MKMapRectMake(point.x - width / 2.7, point.y - width/2, width, width);
@@ -514,7 +510,43 @@
   
 }
 
-
-
-
+- (void) didTapOnDragCircle: (UITapGestureRecognizer *) sender {
+  
+  if (!self.fingerIsMoving) {
+    self.fingerIsMoving = true;
+    UIImageView *finger = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"finger"]];
+    finger.frame = CGRectMake(self.draggableCircle.center.x - 50, self.draggableCircle.center.y - 10, 52, 68);
+    CGAffineTransform rotation = CGAffineTransformMakeRotation(1);
+    finger.transform = rotation;
+    finger.alpha = 0;
+    
+    [self.view addSubview:finger];
+    
+    [UIView animateKeyframesWithDuration:1.2 delay:0.0 options:0 animations:^{
+      [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.1 animations:^{
+        finger.alpha = 1;
+      }];
+      [UIView addKeyframeWithRelativeStartTime:0.1 relativeDuration:0.6 animations:^{
+        finger.transform = CGAffineTransformMakeTranslation(-52, -142);
+        finger.transform = CGAffineTransformRotate(finger.transform, .3);
+        self.draggableCircle.transform = CGAffineTransformMakeTranslation(-75, -150);
+      }];
+      [UIView addKeyframeWithRelativeStartTime:0.8 relativeDuration:0.2 animations:^{
+        finger.alpha = 0;
+        self.draggableCircle.alpha = 0;
+      }];
+      
+    } completion:^(BOOL finished) {
+      self.draggableCircle.transform = CGAffineTransformIdentity;
+      [UIView animateWithDuration:0.3 animations:^{
+        self.draggableCircle.alpha = 1;
+      } completion:^(BOOL finished) {
+        self.fingerIsMoving = false;
+      }];
+      
+    }];
+    
+  }
+  
+}
 @end
