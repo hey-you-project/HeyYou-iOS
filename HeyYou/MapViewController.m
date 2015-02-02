@@ -15,14 +15,15 @@
 @interface MapViewController ()
 
 @property (nonatomic, strong) NSMutableDictionary *dots;
-@property (nonatomic, strong) NSMutableArray *poppedDots;
+@property (nonatomic, strong) NSMutableDictionary *poppedDots;
 @property (nonatomic, strong) Dot *clickedDot;
 @property (nonatomic, strong) NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) CLLocationManager* locationManager;
-@property MKCoordinateRegion* lastRegion;
+@property MKCoordinateRegion lastRegion;
 @property BOOL mapFullyLoaded;
 @property BOOL didGetLocation;
+@property BOOL fingerIsMoving;
 
 #pragma mark Color Palette
 
@@ -43,7 +44,7 @@
   self.popups = [NSMutableDictionary new];
   self.mapFullyLoaded = false;
   self.dots = [NSMutableDictionary new];
-  self.poppedDots = [NSMutableArray new];
+  self.poppedDots = [NSMutableDictionary new];
   self.didGetLocation = false;
   
   self.colors = [Colors singleton];
@@ -69,19 +70,6 @@
   
 }
 
--(void) viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-}
-
--(void)viewDidAppear:(BOOL)animated{
-  [super viewDidAppear:animated];
-
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 #pragma mark Setup Subview Methods
 
 - (void)setupMapView {
@@ -96,6 +84,7 @@
   self.dragCircleWrapper = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 100, self.view.frame.size.height - 100, 60, 60)];
   self.dragCircleWrapper.layer.cornerRadius = self.dragCircleWrapper.frame.size.height / 2;
   self.dragCircleWrapper.layer.backgroundColor = [self.colors.flatGreen CGColor];
+  
   self.dragCircleWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.dragCircleWrapper.layer.shadowOpacity = 0.6;
   self.dragCircleWrapper.layer.shadowRadius = 3.0;
@@ -113,24 +102,31 @@
   self.draggableCircle.layer.shadowRadius = 1.0;
   self.draggableCircle.layer.shadowOffset = CGSizeMake(0, 2);
   
+  self.draggableCircle.userInteractionEnabled = false;
+  
   [self.view addSubview:self.dragCircleWrapper];
   [self.view addSubview:self.draggableCircle];
 
   UIPanGestureRecognizer *dragger = [UIPanGestureRecognizer new];
   [dragger addTarget:self action:@selector(receivedDragGestureOnDragCircle:)];
-  [self.draggableCircle addGestureRecognizer:dragger];
+  [self.dragCircleWrapper addGestureRecognizer:dragger];
+  
+  UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
+  [tapper addTarget:self action:@selector(didTapOnDragCircle:)];
+  [self.dragCircleWrapper addGestureRecognizer:tapper];
 
 }
 
 - (void) addLocationButton {
+  
   CGFloat width = 40;
   CGFloat x = self.view.frame.size.width / 2 - width/2;
   CGFloat y = self.view.frame.size.height - width - 20;
   
-  
   self.locationButton = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, width)];
   self.locationButton.layer.cornerRadius = self.locationButton.frame.size.height / 2;
   self.locationButton.layer.backgroundColor = [self.colors.flatGreen CGColor];
+  
   self.locationButton.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.locationButton.layer.shadowOpacity = 0.6;
   self.locationButton.layer.shadowRadius = 3.0;
@@ -194,7 +190,6 @@
     dotVC.dot = annotation.dot;
     self.clickedDot = annotation.dot;
     
-    
     self.currentPopup = dotVC;
     CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
     dotVC.touchPoint = point;
@@ -227,16 +222,17 @@
     view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
     view.backgroundColor = [UIColor clearColor];
     
-      view.layer.shadowColor = [[UIColor blackColor] CGColor];
-      view.layer.shadowOpacity = 0.6;
-      view.layer.shadowRadius = 3.0;
-      view.layer.shadowOffset = CGSizeMake(0, 2);
+    view.layer.shadowColor = [[UIColor blackColor] CGColor];
+    view.layer.shadowOpacity = 0.6;
+    view.layer.shadowRadius = 3.0;
+    view.layer.shadowOffset = CGSizeMake(0, 2);
     
     view.transform = CGAffineTransformMakeScale(0.1, 0.1);
     int random = arc4random_uniform(400);
     double random2 = random / 1000.0f;
     
     NSTimeInterval delay = (NSTimeInterval)random2;
+
     view.alpha = 0;
     
     [UIView animateWithDuration:0.5
@@ -259,27 +255,37 @@
 }
 
 -(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
+  
   if (!self.mapFullyLoaded) {
     [self requestDots];
     self.mapFullyLoaded = true;
   }
+  
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-  if (self.mapFullyLoaded) {
-    [self requestDots];
+  if (mapView.region.span.latitudeDelta < 5) {
+    NSLog(@"Less than 3");
+    if (self.mapFullyLoaded) {
+      [self requestDots];
+    }
   }
-//  for (DotAnnotation *annotation in mapView.annotations) {
-//    
-//    BrowseViewController * popup = [BrowseViewController new];
-//    popup.dot = annotation.dot;
-//    CGPoint point = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.view];
-//    
-//    if (![self.popups valueForKey:annotation.title]){
-//      [self spawnPopup:popup atPoint:point withHeight:100];
-//      [self.popups setObject:popup forKey:annotation.title];
-//    }
-//  }
+}
+
+- (void) spawnMiniPopups {
+  
+  //  for (DotAnnotation *annotation in mapView.annotations) {
+  //
+  //    BrowseViewController * popup = [BrowseViewController new];
+  //    popup.dot = annotation.dot;
+  //    CGPoint point = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.view];
+  //
+  //    if (![self.popups valueForKey:annotation.title]){
+  //      [self spawnPopup:popup atPoint:point withHeight:100];
+  //      [self.popups setObject:popup forKey:annotation.title];
+  //    }
+  //  }
+  
 }
 
 #pragma mark Helper Methods
@@ -387,8 +393,8 @@
   
     for (NSString* dotID in self.dots) {
       Dot *dot = [self.dots objectForKey:dotID];
-      if (![self.poppedDots containsObject:dot]) {
-        [self.poppedDots addObject:dot];
+      if (![self.poppedDots objectForKey:dot.identifier]) {
+        [self.poppedDots setObject:dot forKey:dot.identifier];
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
           [self addNewAnnotationForDot:dot];
         }];
@@ -396,50 +402,48 @@
     }
 }
 
--(void)addNewAnnotationForDot:(Dot*) dot {
+- (void) addNewAnnotationForDot:(Dot*) dot {
+  
   DotAnnotation *anno = [DotAnnotation new];
   anno.coordinate = dot.location;
   anno.title = dot.identifier;
   anno.dot = dot;
   [self.mapView addAnnotation:anno];
+  
 }
 
--(void) changeDotColor:(UIColor *)color {
+- (void) changeDotColor:(UIColor *)color {
   
   self.draggableCircle.backgroundColor = color;
   
 }
 
--(void) requestDots {
+- (void) requestDots {
 
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
+    
     if (dots != nil) {
       [self addDotsToDictionaryFromArray:dots];
     } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [alert show];
+      [self showAlertWithError:error];
     }
+    
   }];
   
 }
 
--(void) addDotsToDictionaryFromArray:(NSArray*) dotsArray {
+- (void) addDotsToDictionaryFromArray:(NSArray*) dotsArray {
+  
   for (Dot *dot in dotsArray) {
     if (![self.dots objectForKey:dot.identifier]) {
       [self.dots setObject:dot forKey:dot.identifier];
     }
   }
   [self populateDotsOnMap];
+  
 }
 
--(void) checkLocationAuthorizationStatus {
+- (void) checkLocationAuthorizationStatus {
   
   switch ([CLLocationManager authorizationStatus]) {
     case kCLAuthorizationStatusAuthorizedAlways:
@@ -466,6 +470,7 @@
 }
 
 -(void)didTapLocationButton:(UITapGestureRecognizer *)sender {
+  
   if (sender.state == UIGestureRecognizerStateEnded) {
     [self unpopCurrentComment];
     [self moveToCurrentLocationAnimated:true];
@@ -475,7 +480,7 @@
 
 -(void)moveToCurrentLocationAnimated: (BOOL)animated {
   
-  double width = 1000000;
+  double width = 1500000;
   CLLocationCoordinate2D coordinates = self.locationManager.location.coordinate;
   MKMapPoint point = MKMapPointForCoordinate(coordinates);
   MKMapRect rect = MKMapRectMake(point.x - width / 2.7, point.y - width/2, width, width);
@@ -491,7 +496,57 @@
   
 }
 
+- (void) showAlertWithError: (NSError *) error {
+  
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                  message:[error localizedDescription]
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  if (error == nil) {
+    alert.message = @"An error occurred. Please try again later.";
+  }
+  [alert show];
+  
+}
 
-
-
+- (void) didTapOnDragCircle: (UITapGestureRecognizer *) sender {
+  
+  if (!self.fingerIsMoving) {
+    self.fingerIsMoving = true;
+    UIImageView *finger = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"finger"]];
+    finger.frame = CGRectMake(self.draggableCircle.center.x - 50, self.draggableCircle.center.y - 10, 52, 68);
+    CGAffineTransform rotation = CGAffineTransformMakeRotation(1);
+    finger.transform = rotation;
+    finger.alpha = 0;
+    
+    [self.view addSubview:finger];
+    
+    [UIView animateKeyframesWithDuration:1.2 delay:0.0 options:0 animations:^{
+      [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.1 animations:^{
+        finger.alpha = 1;
+      }];
+      [UIView addKeyframeWithRelativeStartTime:0.1 relativeDuration:0.6 animations:^{
+        finger.transform = CGAffineTransformMakeTranslation(-52, -142);
+        finger.transform = CGAffineTransformRotate(finger.transform, .3);
+        self.draggableCircle.transform = CGAffineTransformMakeTranslation(-75, -150);
+      }];
+      [UIView addKeyframeWithRelativeStartTime:0.8 relativeDuration:0.2 animations:^{
+        finger.alpha = 0;
+        self.draggableCircle.alpha = 0;
+      }];
+      
+    } completion:^(BOOL finished) {
+      self.draggableCircle.transform = CGAffineTransformIdentity;
+      [UIView animateWithDuration:0.3 animations:^{
+        self.draggableCircle.alpha = 1;
+      } completion:^(BOOL finished) {
+        self.fingerIsMoving = false;
+      }];
+      
+    }];
+    
+  }
+  
+}
 @end
