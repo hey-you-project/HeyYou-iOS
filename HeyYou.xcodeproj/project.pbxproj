@@ -48,6 +48,11 @@
 		7E713DE11A1AA0AD00B6C9D3 /* HEAVYWEI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE01A1AA0AD00B6C9D3 /* HEAVYWEI.TTF */; };
 		7E713DE71A1AC73600B6C9D3 /* BrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */; };
 		7E713DE81A1AC73600B6C9D3 /* BrowseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */; };
+		7E7341C81A811F9000D90ACE /* FBAnnotationCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7341BF1A811F9000D90ACE /* FBAnnotationCluster.m */; };
+		7E7341C91A811F9000D90ACE /* FBClusteringManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7341C21A811F9000D90ACE /* FBClusteringManager.m */; };
+		7E7341CA1A811F9000D90ACE /* FBQuadTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7341C41A811F9000D90ACE /* FBQuadTree.m */; };
+		7E7341CB1A811F9000D90ACE /* FBQuadTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7341C61A811F9000D90ACE /* FBQuadTreeNode.m */; };
+		7E7341CE1A81258500D90ACE /* ClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7341CD1A81258500D90ACE /* ClusterAnnotationView.m */; };
 		7E90DAA21A2E2950007EE342 /* HamburgerWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E90DAA11A2E2950007EE342 /* HamburgerWrapperView.m */; };
 		7E980D701A783AD300CEC469 /* TermsOfUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E980D6E1A783AD300CEC469 /* TermsOfUseViewController.m */; };
 		7E980D711A783AD300CEC469 /* TermsOfUseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E980D6F1A783AD300CEC469 /* TermsOfUseViewController.xib */; };
@@ -142,6 +147,17 @@
 		7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseViewController.h; sourceTree = "<group>"; };
 		7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseViewController.m; sourceTree = "<group>"; };
 		7E713DE61A1AC73600B6C9D3 /* BrowseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseViewController.xib; sourceTree = "<group>"; };
+		7E7341BE1A811F9000D90ACE /* FBAnnotationCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBAnnotationCluster.h; sourceTree = "<group>"; };
+		7E7341BF1A811F9000D90ACE /* FBAnnotationCluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBAnnotationCluster.m; sourceTree = "<group>"; };
+		7E7341C01A811F9000D90ACE /* FBAnnotationClustering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBAnnotationClustering.h; sourceTree = "<group>"; };
+		7E7341C11A811F9000D90ACE /* FBClusteringManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBClusteringManager.h; sourceTree = "<group>"; };
+		7E7341C21A811F9000D90ACE /* FBClusteringManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBClusteringManager.m; sourceTree = "<group>"; };
+		7E7341C31A811F9000D90ACE /* FBQuadTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBQuadTree.h; sourceTree = "<group>"; };
+		7E7341C41A811F9000D90ACE /* FBQuadTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBQuadTree.m; sourceTree = "<group>"; };
+		7E7341C51A811F9000D90ACE /* FBQuadTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBQuadTreeNode.h; sourceTree = "<group>"; };
+		7E7341C61A811F9000D90ACE /* FBQuadTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBQuadTreeNode.m; sourceTree = "<group>"; };
+		7E7341CC1A81258500D90ACE /* ClusterAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusterAnnotationView.h; sourceTree = "<group>"; };
+		7E7341CD1A81258500D90ACE /* ClusterAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClusterAnnotationView.m; sourceTree = "<group>"; };
 		7E90DAA01A2E2950007EE342 /* HamburgerWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HamburgerWrapperView.h; sourceTree = "<group>"; };
 		7E90DAA11A2E2950007EE342 /* HamburgerWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HamburgerWrapperView.m; sourceTree = "<group>"; };
 		7E980D6D1A783AD300CEC469 /* TermsOfUseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermsOfUseViewController.h; sourceTree = "<group>"; };
@@ -214,6 +230,7 @@
 		150C41721A1A6DF10062DE29 /* HeyYou */ = {
 			isa = PBXGroup;
 			children = (
+				7E7341BC1A811F9000D90ACE /* FBAnnotationClustering */,
 				150C41AA1A1AAD3F0062DE29 /* Controller Layer */,
 				157853311A1D0F1C008CD931 /* View Layer */,
 				150C419C1A1A70BD0062DE29 /* Model Layer */,
@@ -352,10 +369,28 @@
 				7E16891D1A1BF22E00BA4DE6 /* CommentCell.m */,
 				7E1689211A1C44CA00BA4DE6 /* DotAnnotationView.h */,
 				7E1689221A1C44CA00BA4DE6 /* DotAnnotationView.m */,
+				7E7341CC1A81258500D90ACE /* ClusterAnnotationView.h */,
+				7E7341CD1A81258500D90ACE /* ClusterAnnotationView.m */,
 				7E0790321A1BCC3C00858BD7 /* DotAnnotation.h */,
 				7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */,
 			);
 			name = "View Layer";
+			sourceTree = "<group>";
+		};
+		7E7341BC1A811F9000D90ACE /* FBAnnotationClustering */ = {
+			isa = PBXGroup;
+			children = (
+				7E7341C01A811F9000D90ACE /* FBAnnotationClustering.h */,
+				7E7341BE1A811F9000D90ACE /* FBAnnotationCluster.h */,
+				7E7341BF1A811F9000D90ACE /* FBAnnotationCluster.m */,
+				7E7341C11A811F9000D90ACE /* FBClusteringManager.h */,
+				7E7341C21A811F9000D90ACE /* FBClusteringManager.m */,
+				7E7341C31A811F9000D90ACE /* FBQuadTree.h */,
+				7E7341C41A811F9000D90ACE /* FBQuadTree.m */,
+				7E7341C51A811F9000D90ACE /* FBQuadTreeNode.h */,
+				7E7341C61A811F9000D90ACE /* FBQuadTreeNode.m */,
+			);
+			path = FBAnnotationClustering;
 			sourceTree = "<group>";
 		};
 		7EF174361A2507A000B5541D /* App Delegate */ = {
@@ -516,8 +551,10 @@
 				150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */,
 				1512640D1A1E7F5500D13419 /* NSString+Validate.m in Sources */,
 				7EFD27E81A32A4A400990849 /* SingleChatViewController.m in Sources */,
+				7E7341C81A811F9000D90ACE /* FBAnnotationCluster.m in Sources */,
 				7EF1743A1A250B1800B5541D /* Colors.m in Sources */,
 				7E6E34E61A1A994A00FF6776 /* MapViewController.m in Sources */,
+				7E7341CA1A811F9000D90ACE /* FBQuadTree.m in Sources */,
 				151264101A1EB96C00D13419 /* ErrorsHandler.m in Sources */,
 				7E6E34DB1A1A75A100FF6776 /* SideMenuViewController.m in Sources */,
 				7EFD27EC1A32A5B000990849 /* RightSideChatCell.m in Sources */,
@@ -526,6 +563,8 @@
 				7EF174341A24FBF500B5541D /* UserDotsViewController.m in Sources */,
 				150C41AD1A1AAD6F0062DE29 /* NetworkController.m in Sources */,
 				7E90DAA21A2E2950007EE342 /* HamburgerWrapperView.m in Sources */,
+				7E7341C91A811F9000D90ACE /* FBClusteringManager.m in Sources */,
+				7E7341CE1A81258500D90ACE /* ClusterAnnotationView.m in Sources */,
 				7EFD27F81A32ABCC00990849 /* Message.m in Sources */,
 				7E980D701A783AD300CEC469 /* TermsOfUseViewController.m in Sources */,
 				150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */,
@@ -534,6 +573,7 @@
 				150C41A51A1A77C20062DE29 /* Comment.m in Sources */,
 				7EFD27F51A32A7E900990849 /* ChatListCell.m in Sources */,
 				150C41A21A1A772E0062DE29 /* User.m in Sources */,
+				7E7341CB1A811F9000D90ACE /* FBQuadTreeNode.m in Sources */,
 				7ECAB0971A23CC280047DA04 /* PopupView.m in Sources */,
 				150C419F1A1A70CF0062DE29 /* Dot.m in Sources */,
 				7EFD27E51A329EBF00990849 /* ChatListViewController.m in Sources */,

@@ -7,19 +7,22 @@
 //
 
 #import "MapViewController.h"
-#import "DotAnnotationView.h"
+//#import "DotAnnotationView.h"
+#import "ClusterAnnotationView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PopupView.h"
 #import "Colors.h"
+#import "FBClusteringManager.h"
 
 @interface MapViewController ()
 
 @property (nonatomic, strong) NSMutableDictionary *dots;
-@property (nonatomic, strong) NSMutableDictionary *poppedDots;
 @property (nonatomic, strong) Dot *clickedDot;
 @property (nonatomic, strong) NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) CLLocationManager* locationManager;
+@property (nonatomic, strong) FBClusteringManager *clusteringManager;
+
 @property MKCoordinateRegion lastRegion;
 @property BOOL mapFullyLoaded;
 @property BOOL didGetLocation;
@@ -41,11 +44,12 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
   self.popups = [NSMutableDictionary new];
   self.mapFullyLoaded = false;
   self.dots = [NSMutableDictionary new];
-  self.poppedDots = [NSMutableDictionary new];
   self.didGetLocation = false;
+  self.clusteringManager = [[FBClusteringManager alloc] init];
   
   self.colors = [Colors singleton];
   
@@ -67,6 +71,8 @@
   UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
   statusBar.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
   [self.mapView addSubview:statusBar];
+  
+  [self requestDots];
   
 }
 
@@ -181,7 +187,14 @@
 #pragma mark <MKMapViewDelegate>
 
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-  if ([view isKindOfClass:[DotAnnotationView class]]){
+  
+  if ([view isKindOfClass:[ClusterAnnotationView class]]){
+    
+    
+    
+    
+    
+  } else if ([view isKindOfClass:[DotAnnotationView class]]){
     [mapView deselectAnnotation:view.annotation animated:false];
     BrowseViewController *dotVC = [BrowseViewController new];
     
@@ -201,10 +214,52 @@
   
 }
 
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-  
   if ([annotation isKindOfClass:[MKUserLocation class]]) {
     return nil;
+  } else if ([annotation isKindOfClass:[FBAnnotationCluster class]]) {
+    
+    ClusterAnnotationView *view = (ClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Cluster"];
+    
+    if (view == nil) {
+      view = [[ClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Cluster"];
+    }
+    
+    CGPoint center = [mapView convertCoordinate:annotation.coordinate toPointToView:self.view];
+    CGFloat width = 35.0f;
+    view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
+    view.backgroundColor = [UIColor clearColor];
+    
+    view.layer.shadowColor = [[UIColor blackColor] CGColor];
+    view.layer.shadowOpacity = 0.6;
+    view.layer.shadowRadius = 3.0;
+    view.layer.shadowOffset = CGSizeMake(0, 2);
+    
+    view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+    int random = arc4random_uniform(400);
+    double random2 = random / 1000.0f;
+    
+    NSTimeInterval delay = (NSTimeInterval)random2;
+    
+    view.alpha = 0;
+    
+    [UIView animateWithDuration:0.5
+                          delay:delay
+         usingSpringWithDamping:0.3
+          initialSpringVelocity:0.9
+                        options:UIViewAnimationOptionAllowUserInteraction animations:^{
+                          view.transform = CGAffineTransformIdentity;
+                          view.alpha = 1;
+                        }
+                     completion:^(BOOL finished) {
+                       
+                     }];
+    
+    [view setNeedsDisplay];
+    
+    return view;
+
   } else {
     
     DotAnnotationView *view = (DotAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
@@ -251,25 +306,40 @@
     
     return view;
   }
-  
+ 
 }
+  
 
 -(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
   
   if (!self.mapFullyLoaded) {
-    [self requestDots];
+    
+    [[NSOperationQueue new] addOperationWithBlock:^{
+      double scale = self.mapView.bounds.size.width / self.mapView.visibleMapRect.size.width;
+      NSArray *annotations = [self.clusteringManager clusteredAnnotationsWithinMapRect:mapView.visibleMapRect withZoomScale:scale];
+      
+      [self.clusteringManager displayAnnotations:annotations onMapView:mapView];
+    }];
+
     self.mapFullyLoaded = true;
   }
   
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-  if (mapView.region.span.latitudeDelta < 5) {
-    NSLog(@"Less than 3");
-    if (self.mapFullyLoaded) {
-      [self requestDots];
-    }
+
+  if (self.mapFullyLoaded) {
+    [[NSOperationQueue new] addOperationWithBlock:^{
+      double scale = self.mapView.bounds.size.width / self.mapView.visibleMapRect.size.width;
+      NSArray *annotations = [self.clusteringManager clusteredAnnotationsWithinMapRect:mapView.visibleMapRect withZoomScale:scale];
+      
+      [self.clusteringManager displayAnnotations:annotations onMapView:mapView];
+    }];
+    
+    [self requestDots];
+    
   }
+  
 }
 
 - (void) spawnMiniPopups {
@@ -393,23 +463,8 @@
   
     for (NSString* dotID in self.dots) {
       Dot *dot = [self.dots objectForKey:dotID];
-      if (![self.poppedDots objectForKey:dot.identifier]) {
-        [self.poppedDots setObject:dot forKey:dot.identifier];
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          [self addNewAnnotationForDot:dot];
-        }];
-      }
+      //[self addNewAnnotationForDot:dot];
     }
-}
-
-- (void) addNewAnnotationForDot:(Dot*) dot {
-  
-  DotAnnotation *anno = [DotAnnotation new];
-  anno.coordinate = dot.location;
-  anno.title = dot.identifier;
-  anno.dot = dot;
-  [self.mapView addAnnotation:anno];
-  
 }
 
 - (void) changeDotColor:(UIColor *)color {
@@ -422,7 +477,7 @@
 
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
     
-    if (dots != nil) {
+    if (dots) {
       [self addDotsToDictionaryFromArray:dots];
     } else {
       [self showAlertWithError:error];
@@ -432,14 +487,26 @@
   
 }
 
-- (void) addDotsToDictionaryFromArray:(NSArray*) dotsArray {
+- (void) addDotsToDictionaryFromArray:(NSArray*) dots {
   
-  for (Dot *dot in dotsArray) {
+  for (Dot *dot in dots) {
     if (![self.dots objectForKey:dot.identifier]) {
       [self.dots setObject:dot forKey:dot.identifier];
+      [self addNewAnnotationForDot:dot];
     }
   }
-  [self populateDotsOnMap];
+  //[self populateDotsOnMap];
+  
+}
+
+- (void) addNewAnnotationForDot:(Dot*) dot {
+  
+  DotAnnotation *anno = [DotAnnotation new];
+  anno.coordinate = dot.location;
+  anno.title = dot.identifier;
+  anno.dot = dot;
+  [self.clusteringManager addAnnotations:@[anno]];
+  //[self.mapView addAnnotation:anno];
   
 }
 
