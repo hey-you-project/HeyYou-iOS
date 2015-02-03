@@ -22,7 +22,6 @@
 @property (nonatomic, strong) UINavigationController * chatViewController;
 @property (nonatomic, strong) UILabel *hamburgerLabel;
 @property (nonatomic, strong) UIView *hamburgerWrapper;
-@property (nonatomic, strong) Colors *colors;
 @property (nonatomic, strong) UIViewController *currentMainViewController;
 @property (nonatomic, strong) UIView *userDotsButton;
 @property (nonatomic, strong) UIView *chatButton;
@@ -43,8 +42,6 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
-  self.colors = [Colors singleton];
 
   [self setupMapViewController];
   [self setupHeaderLabel];
@@ -111,7 +108,7 @@
   
   self.hamburgerWrapper = [[UIView alloc] initWithFrame:hamburgerRect];
   self.hamburgerWrapper.layer.cornerRadius = self.hamburgerWrapper.frame.size.height / 2;
-  self.hamburgerWrapper.backgroundColor = self.colors.flatGreen;
+  self.hamburgerWrapper.backgroundColor = [Colors flatGreen];
   self.hamburgerWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.hamburgerWrapper.layer.shadowOpacity = 0.6;
   self.hamburgerWrapper.layer.shadowRadius = 3.0;
@@ -144,10 +141,10 @@
   self.chatButton = [UIView new];
   self.loginButton = [UIView new];
   
-  self.userDotsButton.backgroundColor = self.colors.flatRed;
-  self.mapButton.backgroundColor = self.colors.flatBlue;
-  self.chatButton.backgroundColor = self.colors.flatOrange;
-  self.loginButton.backgroundColor = self.colors.flatYellow;
+  self.userDotsButton.backgroundColor = [Colors flatRed];
+  self.mapButton.backgroundColor = [Colors flatBlue];
+  self.chatButton.backgroundColor = [Colors flatOrange];
+  self.loginButton.backgroundColor = [Colors flatYellow];
 
   NSArray *buttonArray = @[self.userDotsButton, self.mapButton, self.chatButton, self.loginButton];
   for (UIView *button in buttonArray) {

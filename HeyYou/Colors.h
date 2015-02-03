@@ -10,16 +10,16 @@
 
 @interface Colors : NSObject
 
-+ (id)singleton;
-- (UIColor *) getColorFromString: (NSString *) colorName;
++ (UIColor *) flatTurquoise;
++ (UIColor *) flatBlue;
++ (UIColor *) flatYellow;
++ (UIColor *) flatOrange;
++ (UIColor *) flatRed;
++ (UIColor *) flatGray;
++ (UIColor *) flatGreen;
++ (UIColor *) flatPurple;
 
-@property (nonatomic, strong) UIColor *flatTurquoise;
-@property (nonatomic, strong) UIColor *flatGreen;
-@property (nonatomic, strong) UIColor *flatBlue;
-@property (nonatomic, strong) UIColor *flatPurple;
-@property (nonatomic, strong) UIColor *flatYellow;
-@property (nonatomic, strong) UIColor *flatOrange;
-@property (nonatomic, strong) UIColor *flatRed;
-@property (nonatomic, strong) UIColor *flatGray;
++ (UIColor *) getColorFromString: (NSString *) colorName;
++ (UIColor *) randomColor;
 
 @end

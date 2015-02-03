@@ -15,7 +15,6 @@
 
 @property (nonatomic, strong) NSArray *colorConstraints;
 @property (nonatomic, strong) NetworkController* networkController;
-@property (nonatomic, strong) Colors *colors;
 @end
 
 @implementation PostViewController
@@ -25,7 +24,6 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self setupGestureRecognizers];
-  self.colors = [Colors singleton];
   
   self.color = @"purple";
   self.colorConstraints = @[self.orangeConstraint, self.blueConstraint, self.greenConstraint, self.yellowConstraint, self.tealConstraint, self.pinkConstraint, self.purpleConstraint];
@@ -37,7 +35,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  self.borderView.strokeColor = [self.colors getColorFromString:@"purple"];
+  self.borderView.strokeColor = [Colors flatPurple];
   self.bodyTextField.layer.cornerRadius = 10;
   self.titleTextField.layer.cornerRadius = 10;
 }
@@ -151,7 +149,7 @@
 
 -(void) changeAllTheThingsToColor: (NSString *)color {
   self.color = color;
-  UIColor *colorUI = [self.colors getColorFromString:color];
+  UIColor *colorUI = [Colors getColorFromString:color];
   self.borderView.strokeColor = colorUI;
   //self.titleLabel.textColor = colorUI;
   [self.borderView setNeedsDisplay];

@@ -28,10 +28,6 @@
 @property BOOL didGetLocation;
 @property BOOL fingerIsMoving;
 
-#pragma mark Color Palette
-
-@property (nonatomic, strong) Colors *colors;
-
 #pragma mark Constants
 
 @property CGFloat kLargePopupHeight;
@@ -51,7 +47,6 @@
   self.didGetLocation = false;
   self.clusteringManager = [[FBClusteringManager alloc] init];
   
-  self.colors = [Colors singleton];
   
   [self setupMapView];
   [self addCircleView];
@@ -89,7 +84,7 @@
   
   self.dragCircleWrapper = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 100, self.view.frame.size.height - 100, 60, 60)];
   self.dragCircleWrapper.layer.cornerRadius = self.dragCircleWrapper.frame.size.height / 2;
-  self.dragCircleWrapper.layer.backgroundColor = [self.colors.flatGreen CGColor];
+  self.dragCircleWrapper.layer.backgroundColor = [[Colors flatGreen] CGColor];
   
   self.dragCircleWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.dragCircleWrapper.layer.shadowOpacity = 0.6;
@@ -131,7 +126,7 @@
   
   self.locationButton = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, width)];
   self.locationButton.layer.cornerRadius = self.locationButton.frame.size.height / 2;
-  self.locationButton.layer.backgroundColor = [self.colors.flatGreen CGColor];
+  self.locationButton.layer.backgroundColor = [[Colors flatGreen] CGColor];
   
   self.locationButton.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.locationButton.layer.shadowOpacity = 0.6;
@@ -169,7 +164,7 @@
     PostViewController *postVC = [PostViewController new];
     postVC.location = [self.mapView convertPoint:point toCoordinateFromView:self.view];
     postVC.delegate = self;
-    postVC.colorUI = self.colors.flatPurple;
+    postVC.colorUI = [Colors flatPurple];
     self.currentPopup = postVC;
     [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight-40];
   }
@@ -199,7 +194,7 @@
     BrowseViewController *dotVC = [BrowseViewController new];
     
     DotAnnotation *annotation = view.annotation;
-    dotVC.color = [self.colors getColorFromString:annotation.dot.color];
+    dotVC.color = [Colors getColorFromString:annotation.dot.color];
     dotVC.dot = annotation.dot;
     self.clickedDot = annotation.dot;
     
@@ -268,7 +263,7 @@
     }
     DotAnnotation *anno = annotation;
     anno.dot = [self.dots objectForKey:anno.title];
-    view.color = [self.colors getColorFromString:anno.dot.color];
+    view.color = [Colors getColorFromString:anno.dot.color];
     NSTimeInterval timeSincePost = [anno.dot.timestamp timeIntervalSinceNow];
     
     double ratio = -timeSincePost / (60.0f * 60.0f * 48.0f);

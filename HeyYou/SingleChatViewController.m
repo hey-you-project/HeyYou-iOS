@@ -19,7 +19,6 @@
 @property (nonatomic, strong) NSString *thisUser;
 @property (nonatomic, strong) UIView *largeCircle;
 @property (nonatomic, strong) UILabel *plusLabel;
-@property (nonatomic, strong) Colors *colors;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSDateFormatter *timeFormatter;
@@ -31,7 +30,6 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.thisUser = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
-  self.colors = [Colors singleton];
   [self registerForNotifications];
   [self setupDateFormatters];
   [self addCircleView];
@@ -75,7 +73,7 @@
   
   self.largeCircle = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 100, self.view.frame.size.height - 100, 60, 60)];
   self.largeCircle.layer.cornerRadius = self.largeCircle.frame.size.height / 2;
-  self.largeCircle.layer.backgroundColor = [self.colors.flatGreen CGColor];
+  self.largeCircle.layer.backgroundColor = [[Colors flatGreen] CGColor];
   self.largeCircle.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.largeCircle.layer.shadowOpacity = 0.6;
   self.largeCircle.layer.shadowRadius = 3.0;

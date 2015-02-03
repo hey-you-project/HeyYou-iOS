@@ -31,7 +31,6 @@
 
 @property (nonatomic, strong) NSCalendar *localCalendar;
 
-@property (nonatomic, strong) Colors *colors;
 @property (nonatomic, strong) UIColor *headerColor;
 @property (nonatomic, strong) NSString *termsOfUse;
 @property (nonatomic, strong) NSString *privacyPolicy;
@@ -44,16 +43,15 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.colors = [Colors singleton];
   self.usernameField.delegate = self;
   self.passwordField.delegate = self;
   self.createEmailField.delegate = self;
   self.birthdayPicker.delegate = self;
   self.birthdayPicker.dataSource = self;
-  self.headerColor = self.colors.flatBlue;
+  self.headerColor = [Colors flatBlue];
   self.termsVCActive = false;
   
-  self.loginView.backgroundColor = self.colors.flatYellow;
+  self.loginView.backgroundColor = [Colors flatYellow];
   
   NSArray *textFieldArray = @[self.usernameField, self.passwordField, self.createEmailField, self.passwordFieldTwo];
   for (UITextField *textField in textFieldArray) {
@@ -482,7 +480,7 @@
     self.termsVC.view.layer.shadowRadius = 3.0;
     self.termsVC.view.layer.shadowOffset = CGSizeMake(0, 3);
     self.termsVC.view.layer.borderWidth = 4;
-    self.termsVC.view.layer.borderColor = [self.colors.flatTurquoise CGColor];
+    self.termsVC.view.layer.borderColor = [[Colors flatTurquoise] CGColor];
     
     [self.view addSubview:self.termsVC.view];
     
