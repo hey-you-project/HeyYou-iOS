@@ -29,6 +29,9 @@
   self.tableView.delegate = self;
   self.emptyCaseView.alpha = 0;
   [self.navigationController setNavigationBarHidden:true];
+  
+  self.tableView.rowHeight = UITableViewAutomaticDimension;
+  self.tableView.estimatedRowHeight = 40;
 }
 
 - (void) viewWillAppear:(BOOL)animated {

@@ -29,7 +29,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordFieldTwo;
-
 @property (weak, nonatomic) IBOutlet UITextField *createEmailField;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *logInConstraint;

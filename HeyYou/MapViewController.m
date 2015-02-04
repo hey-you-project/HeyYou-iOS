@@ -183,7 +183,7 @@
   
   if ([view isKindOfClass:[ClusterAnnotationView class]]){
     
-    CLLocationCoordinate2D coordinates = [mapView convertPoint:view.center toCoordinateFromView:self.view];
+    CLLocationCoordinate2D coordinates = [mapView convertPoint:view.center toCoordinateFromView:self.mapView];
     MKCoordinateSpan span = mapView.region.span;
     span.latitudeDelta *= 0.5;
     span.longitudeDelta *= 0.5;
@@ -400,9 +400,8 @@
                    animations:^{
                      viewController.view.alpha = 1;
                      viewController.view.transform = CGAffineTransformMakeScale(1, 1);
-                     [self scrollToClearCurrentPopup];
                    } completion:^(BOOL finished) {
-                     
+                     [self scrollToClearCurrentPopup];
                    }];
   
 }
@@ -539,16 +538,18 @@
 
 - (void) showAlertWithError: (NSError *) error {
   
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                  message:[error localizedDescription]
-                                                 delegate:nil
-                                        cancelButtonTitle:@"OK"
-                                        otherButtonTitles:nil];
-  if (error == nil) {
-    alert.message = @"An error occurred. Please try again later.";
-  }
-  [alert show];
-  
+  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                    message:[error localizedDescription]
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    if (error == nil) {
+      alert.message = @"An error occurred. Please try again later.";
+    }
+    [alert show];
+  }];
+
 }
 
 - (void) didTapOnDragCircle: (UITapGestureRecognizer *) sender {

@@ -303,7 +303,9 @@
       if (error == nil) {
         alert.message = @"An error occurred. Please try again later.";
       }
-      [alert show];
+      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [alert show];
+      }];
     }
   }];
   
