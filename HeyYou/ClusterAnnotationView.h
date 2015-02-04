@@ -10,4 +10,6 @@
 
 @interface ClusterAnnotationView : DotAnnotationView
 
+@property int annotations;
+
 @end

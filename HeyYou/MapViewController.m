@@ -7,12 +7,10 @@
 //
 
 #import "MapViewController.h"
-//#import "DotAnnotationView.h"
 #import "ClusterAnnotationView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PopupView.h"
 #import "Colors.h"
-#import "FBClusteringManager.h"
 
 @interface MapViewController ()
 
@@ -46,7 +44,7 @@
   self.dots = [NSMutableDictionary new];
   self.didGetLocation = false;
   self.clusteringManager = [[FBClusteringManager alloc] init];
-  
+  self.clusteringManager.delegate = self;
   
   [self setupMapView];
   [self addCircleView];
@@ -185,11 +183,18 @@
   
   if ([view isKindOfClass:[ClusterAnnotationView class]]){
     
+    CLLocationCoordinate2D coordinates = [mapView convertPoint:view.center toCoordinateFromView:self.view];
+    MKCoordinateSpan span = mapView.region.span;
+    span.latitudeDelta *= 0.5;
+    span.longitudeDelta *= 0.5;
+    MKCoordinateRegion region = MKCoordinateRegionMake(coordinates, span);
     
-    
-    
+    [UIView animateWithDuration:0.2 animations:^{
+      [mapView setRegion:region animated:YES];
+    }];
     
   } else if ([view isKindOfClass:[DotAnnotationView class]]){
+    
     [mapView deselectAnnotation:view.annotation animated:false];
     BrowseViewController *dotVC = [BrowseViewController new];
     
@@ -202,6 +207,7 @@
     CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
     dotVC.touchPoint = point;
     [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
+    
   } else {
     
     [self.mapView setRegion:MKCoordinateRegionMake(self.locationManager.location.coordinate, MKCoordinateSpanMake(2.0, 3.0)) animated:true];
@@ -209,8 +215,8 @@
   
 }
 
-
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+  
   if ([annotation isKindOfClass:[MKUserLocation class]]) {
     return nil;
   } else if ([annotation isKindOfClass:[FBAnnotationCluster class]]) {
@@ -220,38 +226,35 @@
     if (view == nil) {
       view = [[ClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Cluster"];
     }
+    UILabel *label;
+    
+    if (view.subviews.count > 0){
+      label = view.subviews[0];
+    }
+    
+    FBAnnotationCluster * anno = annotation;
     
     CGPoint center = [mapView convertCoordinate:annotation.coordinate toPointToView:self.view];
     CGFloat width = 35.0f;
     view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
     view.backgroundColor = [UIColor clearColor];
+    if (label == nil) {
+      label = [[UILabel alloc] initWithFrame:view.bounds];
+    }
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = [NSString stringWithFormat:@"%lu", (unsigned long)anno.annotations.count];
+    label.textColor = [UIColor whiteColor];
+    label.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14];
+    [view addSubview:label];
     
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
     view.layer.shadowOpacity = 0.6;
     view.layer.shadowRadius = 3.0;
     view.layer.shadowOffset = CGSizeMake(0, 2);
     
-    view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-    int random = arc4random_uniform(400);
-    double random2 = random / 1000.0f;
+    [self addPoppingAnimationToAnnotationView:view];
     
-    NSTimeInterval delay = (NSTimeInterval)random2;
-    
-    view.alpha = 0;
-    
-    [UIView animateWithDuration:0.5
-                          delay:delay
-         usingSpringWithDamping:0.3
-          initialSpringVelocity:0.9
-                        options:UIViewAnimationOptionAllowUserInteraction animations:^{
-                          view.transform = CGAffineTransformIdentity;
-                          view.alpha = 1;
-                        }
-                     completion:^(BOOL finished) {
-                       
-                     }];
-    
-    [view setNeedsDisplay];
+    //[view setNeedsDisplay];
     
     return view;
 
@@ -277,25 +280,7 @@
     view.layer.shadowRadius = 3.0;
     view.layer.shadowOffset = CGSizeMake(0, 2);
     
-    view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-    int random = arc4random_uniform(400);
-    double random2 = random / 1000.0f;
-    
-    NSTimeInterval delay = (NSTimeInterval)random2;
-
-    view.alpha = 0;
-    
-    [UIView animateWithDuration:0.5
-                          delay:delay
-         usingSpringWithDamping:0.3
-          initialSpringVelocity:0.9
-                        options:UIViewAnimationOptionAllowUserInteraction animations:^{
-                          view.transform = CGAffineTransformIdentity;
-                          view.alpha = 1;
-                        }
-                     completion:^(BOOL finished) {
-      
-    }];
+    [self addPoppingAnimationToAnnotationView:view];
     
     [view setNeedsDisplay];
     
@@ -406,6 +391,7 @@
 
   viewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
   viewController.view.alpha = 0;
+  
   [UIView animateWithDuration:0.4
                         delay:0.0
        usingSpringWithDamping:0.6
@@ -414,8 +400,9 @@
                    animations:^{
                      viewController.view.alpha = 1;
                      viewController.view.transform = CGAffineTransformMakeScale(1, 1);
-                   } completion:^(BOOL finished) {
                      [self scrollToClearCurrentPopup];
+                   } completion:^(BOOL finished) {
+                     
                    }];
   
 }
@@ -453,14 +440,6 @@
 //    popup.view.hidden = true;
 //  }
 //}
-
--(void)populateDotsOnMap {
-  
-    for (NSString* dotID in self.dots) {
-      Dot *dot = [self.dots objectForKey:dotID];
-      //[self addNewAnnotationForDot:dot];
-    }
-}
 
 - (void) changeDotColor:(UIColor *)color {
   
@@ -611,4 +590,47 @@
   }
   
 }
+
+- (void) addPoppingAnimationToAnnotationView: (UIView *) view {
+  
+  view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+  int random = arc4random_uniform(400);
+  double random2 = random / 1000.0f;
+  
+  NSTimeInterval delay = (NSTimeInterval)random2;
+  
+  view.alpha = 0;
+  
+  [UIView animateWithDuration:0.5
+                        delay:delay
+       usingSpringWithDamping:0.3
+        initialSpringVelocity:0.9
+                      options:UIViewAnimationOptionAllowUserInteraction animations:^{
+                        view.transform = CGAffineTransformIdentity;
+                        view.alpha = 1;
+                      }
+                   completion:^(BOOL finished) {
+                     
+                   }];
+  
+}
+
+- (CGFloat)cellSizeFactorForCoordinator:(FBClusteringManager *)coordinator {
+  
+  CLLocationDegrees delta = self.mapView.region.span.longitudeDelta;
+  
+  if (delta > 3) {
+    NSLog(@"Greater than 3");
+    return 3.0;
+  } else if (delta > 1) {
+    NSLog(@"Greater than 1");
+    return 0.5;
+  } else {
+    NSLog(@"Less than 1");
+    return 0.1;
+  }
+  
+  
+}
+
 @end
