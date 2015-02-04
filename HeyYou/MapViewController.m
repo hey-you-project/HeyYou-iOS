@@ -183,7 +183,7 @@
   
   if ([view isKindOfClass:[ClusterAnnotationView class]]){
     
-    CLLocationCoordinate2D coordinates = [mapView convertPoint:view.center toCoordinateFromView:self.view];
+    CLLocationCoordinate2D coordinates = [mapView convertPoint:view.center toCoordinateFromView:self.mapView];
     MKCoordinateSpan span = mapView.region.span;
     span.latitudeDelta *= 0.5;
     span.longitudeDelta *= 0.5;

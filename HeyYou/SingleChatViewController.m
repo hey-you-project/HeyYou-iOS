@@ -139,25 +139,11 @@
     cell.bodyViewConstraint.priority = 999;
     cell.timeLabel.text = @"";
   }
-  
-//  cell.labelWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
-//  cell.labelWrapper.layer.shadowOpacity = 0.6;
-//  cell.labelWrapper.layer.shadowRadius = 2.0;
-//  cell.labelWrapper.layer.shadowOffset = CGSizeMake(0, 2);
-//  cell.labelWrapper.clipsToBounds = false;
+
   [cell.labelWrapper setNeedsDisplay];
 
   return cell;
 }
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  UITableViewCell <ChatCell> *thisCell = cell;
-  
-  //thisCell.body.text = @"";
-  
-}
-
 
 - (void) receivedTapGestureOnPlusButton: (UITapGestureRecognizer *)sender {
   
