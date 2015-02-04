@@ -15,8 +15,9 @@
 #import "BrowseViewController.h"
 #import "DotAnnotation.h"
 #import "PopupViewController.h"
+#import "FBAnnotationClustering.h"
 
-@interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate>
+@interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate, FBClusteringManagerDelegate>
 
 -(void) changeDotColor:(UIColor *)color;
 -(void) addNewAnnotationForDot:(Dot*) dot;

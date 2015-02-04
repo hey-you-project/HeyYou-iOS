@@ -7,7 +7,7 @@
 //
 
 #import "MapViewController.h"
-#import "DotAnnotationView.h"
+#import "ClusterAnnotationView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PopupView.h"
 #import "Colors.h"
@@ -15,19 +15,16 @@
 @interface MapViewController ()
 
 @property (nonatomic, strong) NSMutableDictionary *dots;
-@property (nonatomic, strong) NSMutableDictionary *poppedDots;
 @property (nonatomic, strong) Dot *clickedDot;
 @property (nonatomic, strong) NSMutableDictionary *popups;
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) CLLocationManager* locationManager;
+@property (nonatomic, strong) FBClusteringManager *clusteringManager;
+
 @property MKCoordinateRegion lastRegion;
 @property BOOL mapFullyLoaded;
 @property BOOL didGetLocation;
 @property BOOL fingerIsMoving;
-
-#pragma mark Color Palette
-
-@property (nonatomic, strong) Colors *colors;
 
 #pragma mark Constants
 
@@ -41,13 +38,13 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
   self.popups = [NSMutableDictionary new];
   self.mapFullyLoaded = false;
   self.dots = [NSMutableDictionary new];
-  self.poppedDots = [NSMutableDictionary new];
   self.didGetLocation = false;
-  
-  self.colors = [Colors singleton];
+  self.clusteringManager = [[FBClusteringManager alloc] init];
+  self.clusteringManager.delegate = self;
   
   [self setupMapView];
   [self addCircleView];
@@ -68,6 +65,8 @@
   statusBar.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
   [self.mapView addSubview:statusBar];
   
+  [self requestDots];
+  
 }
 
 #pragma mark Setup Subview Methods
@@ -83,7 +82,7 @@
   
   self.dragCircleWrapper = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 100, self.view.frame.size.height - 100, 60, 60)];
   self.dragCircleWrapper.layer.cornerRadius = self.dragCircleWrapper.frame.size.height / 2;
-  self.dragCircleWrapper.layer.backgroundColor = [self.colors.flatGreen CGColor];
+  self.dragCircleWrapper.layer.backgroundColor = [[Colors flatGreen] CGColor];
   
   self.dragCircleWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.dragCircleWrapper.layer.shadowOpacity = 0.6;
@@ -125,7 +124,7 @@
   
   self.locationButton = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, width)];
   self.locationButton.layer.cornerRadius = self.locationButton.frame.size.height / 2;
-  self.locationButton.layer.backgroundColor = [self.colors.flatGreen CGColor];
+  self.locationButton.layer.backgroundColor = [[Colors flatGreen] CGColor];
   
   self.locationButton.layer.shadowColor = [[UIColor blackColor] CGColor];
   self.locationButton.layer.shadowOpacity = 0.6;
@@ -163,7 +162,7 @@
     PostViewController *postVC = [PostViewController new];
     postVC.location = [self.mapView convertPoint:point toCoordinateFromView:self.view];
     postVC.delegate = self;
-    postVC.colorUI = self.colors.flatPurple;
+    postVC.colorUI = [Colors flatPurple];
     self.currentPopup = postVC;
     [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight-40];
   }
@@ -181,12 +180,26 @@
 #pragma mark <MKMapViewDelegate>
 
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-  if ([view isKindOfClass:[DotAnnotationView class]]){
+  
+  if ([view isKindOfClass:[ClusterAnnotationView class]]){
+    
+    CLLocationCoordinate2D coordinates = [mapView convertPoint:view.center toCoordinateFromView:self.view];
+    MKCoordinateSpan span = mapView.region.span;
+    span.latitudeDelta *= 0.5;
+    span.longitudeDelta *= 0.5;
+    MKCoordinateRegion region = MKCoordinateRegionMake(coordinates, span);
+    
+    [UIView animateWithDuration:0.2 animations:^{
+      [mapView setRegion:region animated:YES];
+    }];
+    
+  } else if ([view isKindOfClass:[DotAnnotationView class]]){
+    
     [mapView deselectAnnotation:view.annotation animated:false];
     BrowseViewController *dotVC = [BrowseViewController new];
     
     DotAnnotation *annotation = view.annotation;
-    dotVC.color = [self.colors getColorFromString:annotation.dot.color];
+    dotVC.color = [Colors getColorFromString:annotation.dot.color];
     dotVC.dot = annotation.dot;
     self.clickedDot = annotation.dot;
     
@@ -194,6 +207,7 @@
     CGPoint point = [mapView convertCoordinate:view.annotation.coordinate toPointToView:self.view];
     dotVC.touchPoint = point;
     [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
+    
   } else {
     
     [self.mapView setRegion:MKCoordinateRegionMake(self.locationManager.location.coordinate, MKCoordinateSpanMake(2.0, 3.0)) animated:true];
@@ -205,6 +219,45 @@
   
   if ([annotation isKindOfClass:[MKUserLocation class]]) {
     return nil;
+  } else if ([annotation isKindOfClass:[FBAnnotationCluster class]]) {
+    
+    ClusterAnnotationView *view = (ClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Cluster"];
+    
+    if (view == nil) {
+      view = [[ClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Cluster"];
+    }
+    UILabel *label;
+    
+    if (view.subviews.count > 0){
+      label = view.subviews[0];
+    }
+    
+    FBAnnotationCluster * anno = annotation;
+    
+    CGPoint center = [mapView convertCoordinate:annotation.coordinate toPointToView:self.view];
+    CGFloat width = 35.0f;
+    view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
+    view.backgroundColor = [UIColor clearColor];
+    if (label == nil) {
+      label = [[UILabel alloc] initWithFrame:view.bounds];
+    }
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = [NSString stringWithFormat:@"%lu", (unsigned long)anno.annotations.count];
+    label.textColor = [UIColor whiteColor];
+    label.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14];
+    [view addSubview:label];
+    
+    view.layer.shadowColor = [[UIColor blackColor] CGColor];
+    view.layer.shadowOpacity = 0.6;
+    view.layer.shadowRadius = 3.0;
+    view.layer.shadowOffset = CGSizeMake(0, 2);
+    
+    [self addPoppingAnimationToAnnotationView:view];
+    
+    //[view setNeedsDisplay];
+    
+    return view;
+
   } else {
     
     DotAnnotationView *view = (DotAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Dot"];
@@ -213,7 +266,7 @@
     }
     DotAnnotation *anno = annotation;
     anno.dot = [self.dots objectForKey:anno.title];
-    view.color = [self.colors getColorFromString:anno.dot.color];
+    view.color = [Colors getColorFromString:anno.dot.color];
     NSTimeInterval timeSincePost = [anno.dot.timestamp timeIntervalSinceNow];
     
     double ratio = -timeSincePost / (60.0f * 60.0f * 48.0f);
@@ -227,49 +280,46 @@
     view.layer.shadowRadius = 3.0;
     view.layer.shadowOffset = CGSizeMake(0, 2);
     
-    view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-    int random = arc4random_uniform(400);
-    double random2 = random / 1000.0f;
-    
-    NSTimeInterval delay = (NSTimeInterval)random2;
-
-    view.alpha = 0;
-    
-    [UIView animateWithDuration:0.5
-                          delay:delay
-         usingSpringWithDamping:0.3
-          initialSpringVelocity:0.9
-                        options:UIViewAnimationOptionAllowUserInteraction animations:^{
-                          view.transform = CGAffineTransformIdentity;
-                          view.alpha = 1;
-                        }
-                     completion:^(BOOL finished) {
-      
-    }];
+    [self addPoppingAnimationToAnnotationView:view];
     
     [view setNeedsDisplay];
     
     return view;
   }
-  
+ 
 }
+  
 
 -(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
   
   if (!self.mapFullyLoaded) {
-    [self requestDots];
+    
+    [[NSOperationQueue new] addOperationWithBlock:^{
+      double scale = self.mapView.bounds.size.width / self.mapView.visibleMapRect.size.width;
+      NSArray *annotations = [self.clusteringManager clusteredAnnotationsWithinMapRect:mapView.visibleMapRect withZoomScale:scale];
+      
+      [self.clusteringManager displayAnnotations:annotations onMapView:mapView];
+    }];
+
     self.mapFullyLoaded = true;
   }
   
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-  if (mapView.region.span.latitudeDelta < 5) {
-    NSLog(@"Less than 3");
-    if (self.mapFullyLoaded) {
-      [self requestDots];
-    }
+
+  if (self.mapFullyLoaded) {
+    [[NSOperationQueue new] addOperationWithBlock:^{
+      double scale = self.mapView.bounds.size.width / self.mapView.visibleMapRect.size.width;
+      NSArray *annotations = [self.clusteringManager clusteredAnnotationsWithinMapRect:mapView.visibleMapRect withZoomScale:scale];
+      
+      [self.clusteringManager displayAnnotations:annotations onMapView:mapView];
+    }];
+    
+    [self requestDots];
+    
   }
+  
 }
 
 - (void) spawnMiniPopups {
@@ -341,6 +391,7 @@
 
   viewController.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
   viewController.view.alpha = 0;
+  
   [UIView animateWithDuration:0.4
                         delay:0.0
        usingSpringWithDamping:0.6
@@ -349,8 +400,9 @@
                    animations:^{
                      viewController.view.alpha = 1;
                      viewController.view.transform = CGAffineTransformMakeScale(1, 1);
-                   } completion:^(BOOL finished) {
                      [self scrollToClearCurrentPopup];
+                   } completion:^(BOOL finished) {
+                     
                    }];
   
 }
@@ -389,29 +441,6 @@
 //  }
 //}
 
--(void)populateDotsOnMap {
-  
-    for (NSString* dotID in self.dots) {
-      Dot *dot = [self.dots objectForKey:dotID];
-      if (![self.poppedDots objectForKey:dot.identifier]) {
-        [self.poppedDots setObject:dot forKey:dot.identifier];
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          [self addNewAnnotationForDot:dot];
-        }];
-      }
-    }
-}
-
-- (void) addNewAnnotationForDot:(Dot*) dot {
-  
-  DotAnnotation *anno = [DotAnnotation new];
-  anno.coordinate = dot.location;
-  anno.title = dot.identifier;
-  anno.dot = dot;
-  [self.mapView addAnnotation:anno];
-  
-}
-
 - (void) changeDotColor:(UIColor *)color {
   
   self.draggableCircle.backgroundColor = color;
@@ -422,7 +451,7 @@
 
   [self.networkController fetchDotsWithRegion:self.mapView.region completionHandler:^(NSError *error, NSArray *dots) {
     
-    if (dots != nil) {
+    if (dots) {
       [self addDotsToDictionaryFromArray:dots];
     } else {
       [self showAlertWithError:error];
@@ -432,14 +461,26 @@
   
 }
 
-- (void) addDotsToDictionaryFromArray:(NSArray*) dotsArray {
+- (void) addDotsToDictionaryFromArray:(NSArray*) dots {
   
-  for (Dot *dot in dotsArray) {
+  for (Dot *dot in dots) {
     if (![self.dots objectForKey:dot.identifier]) {
       [self.dots setObject:dot forKey:dot.identifier];
+      [self addNewAnnotationForDot:dot];
     }
   }
-  [self populateDotsOnMap];
+  //[self populateDotsOnMap];
+  
+}
+
+- (void) addNewAnnotationForDot:(Dot*) dot {
+  
+  DotAnnotation *anno = [DotAnnotation new];
+  anno.coordinate = dot.location;
+  anno.title = dot.identifier;
+  anno.dot = dot;
+  [self.clusteringManager addAnnotations:@[anno]];
+  //[self.mapView addAnnotation:anno];
   
 }
 
@@ -549,4 +590,47 @@
   }
   
 }
+
+- (void) addPoppingAnimationToAnnotationView: (UIView *) view {
+  
+  view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+  int random = arc4random_uniform(400);
+  double random2 = random / 1000.0f;
+  
+  NSTimeInterval delay = (NSTimeInterval)random2;
+  
+  view.alpha = 0;
+  
+  [UIView animateWithDuration:0.5
+                        delay:delay
+       usingSpringWithDamping:0.3
+        initialSpringVelocity:0.9
+                      options:UIViewAnimationOptionAllowUserInteraction animations:^{
+                        view.transform = CGAffineTransformIdentity;
+                        view.alpha = 1;
+                      }
+                   completion:^(BOOL finished) {
+                     
+                   }];
+  
+}
+
+- (CGFloat)cellSizeFactorForCoordinator:(FBClusteringManager *)coordinator {
+  
+  CLLocationDegrees delta = self.mapView.region.span.longitudeDelta;
+  
+  if (delta > 3) {
+    NSLog(@"Greater than 3");
+    return 3.0;
+  } else if (delta > 1) {
+    NSLog(@"Greater than 1");
+    return 0.5;
+  } else {
+    NSLog(@"Less than 1");
+    return 0.1;
+  }
+  
+  
+}
+
 @end

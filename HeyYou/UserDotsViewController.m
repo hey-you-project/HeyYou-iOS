@@ -17,7 +17,6 @@
 
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) NSArray *myDots;
-@property (nonatomic, strong) Colors *colors;
 @property (nonatomic, strong) BrowseViewController *currentVC;
 
 @end
@@ -27,7 +26,6 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.networkController = [NetworkController sharedController];
-  self.colors = [Colors singleton];
   
   UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
   [tapper addTarget:self action:@selector(didTap:)];
@@ -114,7 +112,7 @@
     Dot *dot = self.myDots[i];
     DotView *circle = [DotView new];
     circle.dot = dot;
-    circle.color = [self.colors getColorFromString:dot.color];
+    circle.color = [Colors getColorFromString:dot.color];
     circle.frame = CGRectMake(self.view.frame.size.width - 40, 100 + offset, 25, 25);
     circle.backgroundColor = [UIColor clearColor];
     circle.transform = CGAffineTransformMakeTranslation(-self.view.frame.size.width, 0);
@@ -183,7 +181,7 @@
   
   BrowseViewController *dotVC = [BrowseViewController new];
   self.currentVC = dotVC;
-  dotVC.color = [self.colors getColorFromString:view.dot.color];
+  dotVC.color = [Colors getColorFromString:view.dot.color];
   dotVC.dot = view.dot;
   
   CGRect popupFrame = CGRectMake(self.view.frame.origin.x + 20, self.view.frame.origin.y + 60, self.view.frame.size.width - 70, 500);
