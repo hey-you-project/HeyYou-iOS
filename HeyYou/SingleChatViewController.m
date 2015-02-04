@@ -51,7 +51,6 @@
   
   [self.navigationController setNavigationBarHidden:true];
 
-
   UITapGestureRecognizer *myTapper = [UITapGestureRecognizer new];
   [myTapper addTarget:self action:@selector(didTapTableView:)];
   [self.tableView addGestureRecognizer:myTapper];
@@ -124,10 +123,12 @@
   } else {
     cell = (LeftSideChatCell *)[tableView dequeueReusableCellWithIdentifier:@"LEFT" forIndexPath:indexPath];
   }
-  
+
   cell.body.text = message.body;
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
+  
   Message *previousMessage;
+  
   if (indexPath.row > 0){
     previousMessage = self.messages[indexPath.row - 1];
   }
@@ -138,13 +139,25 @@
     cell.bodyViewConstraint.priority = 999;
     cell.timeLabel.text = @"";
   }
+  
 //  cell.labelWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
 //  cell.labelWrapper.layer.shadowOpacity = 0.6;
 //  cell.labelWrapper.layer.shadowRadius = 2.0;
 //  cell.labelWrapper.layer.shadowOffset = CGSizeMake(0, 2);
 //  cell.labelWrapper.clipsToBounds = false;
+  [cell.labelWrapper setNeedsDisplay];
+
   return cell;
 }
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  UITableViewCell <ChatCell> *thisCell = cell;
+  
+  //thisCell.body.text = @"";
+  
+}
+
 
 - (void) receivedTapGestureOnPlusButton: (UITapGestureRecognizer *)sender {
   
@@ -250,10 +263,12 @@
   NSCalendar *calendar = [NSCalendar currentCalendar];
   NSUInteger dayForDot = [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:date];
   NSUInteger dayForNow = [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:[NSDate date]];
+  //NSLog(@"%lu vs. %lu", (unsigned long)dayForDot, (unsigned long)dayForNow);
   
   if (dayForDot == dayForNow) {
     return [self.timeFormatter stringFromDate:date];
   } else if (dayForDot == dayForNow - 1) {
+    NSLog(@"Got yesterday");
     return @"Yesterday";
   } else if (dayForDot < dayForNow - 1){
     return [self.dateFormatter stringFromDate:date];

@@ -16,6 +16,7 @@
     self.fromUser = from;
     self.toUser = to;
     self.body = text;
+    self.timestamp = [[NSDate alloc] init];
   }
   return self;
 }
