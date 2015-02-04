@@ -400,9 +400,8 @@
                    animations:^{
                      viewController.view.alpha = 1;
                      viewController.view.transform = CGAffineTransformMakeScale(1, 1);
-                     [self scrollToClearCurrentPopup];
                    } completion:^(BOOL finished) {
-                     
+                     [self scrollToClearCurrentPopup];
                    }];
   
 }

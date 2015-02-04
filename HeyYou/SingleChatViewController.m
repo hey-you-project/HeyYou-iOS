@@ -46,6 +46,9 @@
                                         self.bottomPadView.frame.size.width,
                                         110);
   
+  self.tableView.rowHeight = UITableViewAutomaticDimension;
+  self.tableView.estimatedRowHeight = 40;
+  
   [self.navigationController setNavigationBarHidden:true];
 
 
@@ -135,11 +138,11 @@
     cell.bodyViewConstraint.priority = 999;
     cell.timeLabel.text = @"";
   }
-  cell.labelWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
-  cell.labelWrapper.layer.shadowOpacity = 0.6;
-  cell.labelWrapper.layer.shadowRadius = 2.0;
-  cell.labelWrapper.layer.shadowOffset = CGSizeMake(0, 2);
-  cell.labelWrapper.clipsToBounds = false;
+//  cell.labelWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
+//  cell.labelWrapper.layer.shadowOpacity = 0.6;
+//  cell.labelWrapper.layer.shadowRadius = 2.0;
+//  cell.labelWrapper.layer.shadowOffset = CGSizeMake(0, 2);
+//  cell.labelWrapper.clipsToBounds = false;
   return cell;
 }
 
