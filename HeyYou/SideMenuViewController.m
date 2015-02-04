@@ -333,30 +333,20 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 
-  if (![string validate]) {
-    CGSize warningSize = CGSizeMake(textField.frame.size.width, 40);
-    CGRect warningRect = CGRectMake(100 - warningSize.width / 2, textField.center.y + textField.bounds.size.height + 8, textField.frame.size.width, 40);
-    UILabel *warningLabel = [[UILabel alloc] init];
-    warningLabel.frame = warningRect;
-    warningLabel.backgroundColor = [UIColor redColor];
-    warningLabel.textColor = [UIColor whiteColor];
-    warningLabel.minimumScaleFactor = 0.8;
-    warningLabel.font = [UIFont fontWithName: @"Heavyweight" size:12];
-    warningLabel.textAlignment = NSTextAlignmentCenter;
-    warningLabel.layer.cornerRadius = 8;
-    warningLabel.clipsToBounds = YES;
-    warningLabel.alpha = 0;
-    warningLabel.text = [NSString stringWithFormat: @"%@ does not support spaces", textField.placeholder];
-    [self.view addSubview:warningLabel];
-    [UIView animateWithDuration:0.8 delay:0.0 options:0 animations:^{
-      warningLabel.alpha = 1.0;
-    } completion:^(BOOL finished) {
-      [UIView animateWithDuration:0.8 delay:2.0 options:0 animations:^{
-        warningLabel.alpha = 0.0;
-      } completion: nil];
-    }];
+  BOOL validated = [string validate];
+  if (!validated) {
+    
+    textField.layer.borderColor = [UIColor clearColor].CGColor;
+    textField.layer.borderWidth = 2;
+    
+    CABasicAnimation *animation = [[CABasicAnimation alloc] init];
+    animation.keyPath = @"borderColor";
+    animation.fromValue = (__bridge id)([[UIColor clearColor] CGColor]);
+    animation.toValue = (__bridge id)([[UIColor redColor] CGColor]);
+    [textField.layer addAnimation:animation forKey:@"borderColor"];
+    
   }
-  return [string validate];
+  return validated;
 }
 
 #pragma mark UIPickerViewDatasource methods
@@ -402,7 +392,6 @@
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
   UILabel *pickerViewLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, [pickerView rowSizeForComponent:component].width, [pickerView rowSizeForComponent:component].height)];
-
   
   if (component == 0) {
       pickerViewLabel.text = [NSString stringWithFormat:@"%@", self.monthArray[row]];
@@ -474,14 +463,6 @@
     self.termsVC.titleLabel.text = title;
     self.termsVC.bodyLabel.text = text;
     
-    self.termsVC.view.layer.cornerRadius = 20;
-    self.termsVC.view.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.termsVC.view.layer.shadowOpacity = 0.6;
-    self.termsVC.view.layer.shadowRadius = 3.0;
-    self.termsVC.view.layer.shadowOffset = CGSizeMake(0, 3);
-    self.termsVC.view.layer.borderWidth = 4;
-    self.termsVC.view.layer.borderColor = [[Colors flatTurquoise] CGColor];
-    
     [self.view addSubview:self.termsVC.view];
     
     [UIView animateWithDuration:0.7
@@ -527,6 +508,10 @@
  
   if (sender.state == UIGestureRecognizerStateEnded) {
     [self hideTermsViewController];
+    [self.usernameField resignFirstResponder];
+    [self.passwordField resignFirstResponder];
+    [self.passwordFieldTwo resignFirstResponder];
+    [self.createEmailField resignFirstResponder];
   }
   
 }

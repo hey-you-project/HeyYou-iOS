@@ -539,16 +539,18 @@
 
 - (void) showAlertWithError: (NSError *) error {
   
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                  message:[error localizedDescription]
-                                                 delegate:nil
-                                        cancelButtonTitle:@"OK"
-                                        otherButtonTitles:nil];
-  if (error == nil) {
-    alert.message = @"An error occurred. Please try again later.";
-  }
-  [alert show];
-  
+  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                    message:[error localizedDescription]
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    if (error == nil) {
+      alert.message = @"An error occurred. Please try again later.";
+    }
+    [alert show];
+  }];
+
 }
 
 - (void) didTapOnDragCircle: (UITapGestureRecognizer *) sender {

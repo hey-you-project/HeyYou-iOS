@@ -7,6 +7,7 @@
 //
 
 #import "TermsOfUseViewController.h"
+#import "Colors.h"
 
 @interface TermsOfUseViewController ()
 
@@ -15,12 +16,25 @@
 @implementation TermsOfUseViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
+  
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  self.view.layer.cornerRadius = 20;
+  self.view.layer.shadowColor = [[UIColor blackColor] CGColor];
+  self.view.layer.shadowOpacity = 0.6;
+  self.view.layer.shadowRadius = 3.0;
+  self.view.layer.shadowOffset = CGSizeMake(0, 3);
+  self.view.layer.borderWidth = 4;
+  self.view.layer.borderColor = [[Colors flatTurquoise] CGColor];
   
 }
 
 - (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+  [super didReceiveMemoryWarning];
   
 }
 
