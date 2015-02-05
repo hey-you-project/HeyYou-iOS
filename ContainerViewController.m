@@ -56,7 +56,7 @@
 
   self.coverView.frame = self.view.bounds;
 
-  self.coverView.alpha = 0.0;
+  self.coverView.hidden = true;
   [self.view insertSubview:self.coverView aboveSubview:self.mapViewController.view];
   self.hamburgerMenuExpanded = false;
   
@@ -272,7 +272,7 @@
                      self.loginButton.transform = CGAffineTransformMakeTranslation(48, 22);
                      self.hamburgerLabel.transform = labelTransform;
                      self.hamburgerLabel.text = @"\ue122";
-                     self.coverView.alpha = 1;
+                     self.coverView.hidden = false;
                      
                      self.hamburgerMenuExpanded = true;
                    } completion:^(BOOL finished) {
@@ -325,7 +325,7 @@
                        self.hamburgerLabel.text =  @"\ue116";
                        self.hamburgerLabel.transform = CGAffineTransformIdentity;
                        if (willHideBlurView){
-                          self.coverView.alpha = 0.0;
+                          self.coverView.hidden = true;
                        }
                        self.hamburgerMenuExpanded = false;
                        self.chatLabel.alpha = 0;
