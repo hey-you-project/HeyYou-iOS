@@ -10,4 +10,7 @@
 
 @interface CellContentView : UIView
 
+@property BOOL isTop;
+@property BOOL isBottom;
+
 @end

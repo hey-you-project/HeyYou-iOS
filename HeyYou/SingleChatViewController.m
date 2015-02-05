@@ -129,7 +129,7 @@
   
   Message *previousMessage;
   
-  if (indexPath.row > 0){
+  if (indexPath.row > 0) {
     previousMessage = self.messages[indexPath.row - 1];
   }
   if (indexPath.row == 0 || [message.timestamp timeIntervalSinceDate:previousMessage.timestamp] > 60 * 60) {
@@ -181,7 +181,11 @@
   CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
   [self.view layoutIfNeeded];
   self.textBarConstraint.constant = keyboardSize.height;
-  self.bottomPadView.frame = CGRectMake(self.bottomPadView.frame.origin.x, self.bottomPadView.frame.origin.y, self.bottomPadView.frame.size.width, 10);
+  
+  self.bottomPadView.frame = CGRectMake(self.bottomPadView.frame.origin.x,
+                                        self.bottomPadView.frame.origin.y,
+                                        self.bottomPadView.frame.size.width,
+                                        1);
   
   [UIView animateWithDuration:0.2f animations:^{
     [self.tableView scrollRectToVisible:self.bottomPadView.frame animated:false];
@@ -195,7 +199,10 @@
   
   [self.view layoutIfNeeded];
   self.textBarConstraint.constant = -47;
-  self.bottomPadView.frame = CGRectMake(self.bottomPadView.frame.origin.x, self.bottomPadView.frame.origin.y, self.bottomPadView.frame.size.width, 110);
+  self.bottomPadView.frame = CGRectMake(self.bottomPadView.frame.origin.x,
+                                        self.bottomPadView.frame.origin.y,
+                                        self.bottomPadView.frame.size.width,
+                                        110);
 
   [UIView animateWithDuration:0.2f animations:^{
     [self.view layoutIfNeeded];
@@ -254,8 +261,7 @@
   if (dayForDot == dayForNow) {
     return [self.timeFormatter stringFromDate:date];
   } else if (dayForDot == dayForNow - 1) {
-    NSLog(@"Got yesterday");
-    return @"Yesterday";
+    return [NSString stringWithFormat:@"Yesterday @ %@", [self.timeFormatter stringFromDate:date]];
   } else if (dayForDot < dayForNow - 1){
     return [self.dateFormatter stringFromDate:date];
   }
@@ -307,18 +313,14 @@
     }];
     
   }];
-  
-  
 }
 
 - (void) addNewMessageWithString:(NSString *) string {
   
   [self.messages addObject:[[Message alloc] initWithFrom:self.thisUser To:self.otherUser AndText:string]];
-  [self.tableView reloadData];
-  
-  CGRect frame = self.bottomPadView.frame;
-  CGRect scrollTo = CGRectMake(frame.origin.x, frame.origin.y - 150, frame.size.width, frame.size.height);
-  [self.tableView scrollRectToVisible:scrollTo animated:true];
+  NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.messages.count - 1 inSection:0];
+  [self.tableView insertRowsAtIndexPaths: @[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+  [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:true];
   
 }
 
