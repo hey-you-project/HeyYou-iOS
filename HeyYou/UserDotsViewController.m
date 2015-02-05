@@ -65,8 +65,10 @@
   
   [self.networkController getAllMyDotsWithCompletionHandler:^(NSError *error, NSArray *dots) {
     if (error == nil) {
+      NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:true];
 
-      self.myDots = dots;
+      self.myDots = [dots sortedArrayUsingDescriptors:@[desc]];
+  
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self addDots];
       }];
@@ -113,11 +115,18 @@
     DotView *circle = [DotView new];
     circle.dot = dot;
     circle.color = [Colors getColorFromString:dot.color];
+    
+    NSDateComponents *dotDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:dot.timestamp];
+    BOOL needsDate = false;
+    if (previousDate == nil || !([dotDate day] == [previousDate day] && [dotDate month] == [previousDate month] && [dotDate year] == [previousDate year])) {
+      needsDate = true;
+      offset += 20;
+    }
+    
     circle.frame = CGRectMake(self.view.frame.size.width - 40, 100 + offset, 25, 25);
     circle.backgroundColor = [UIColor clearColor];
     circle.transform = CGAffineTransformMakeTranslation(-self.view.frame.size.width, 0);
-    
-    NSDateComponents *dotDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:dot.timestamp];
+
 
     [self.scrollView addSubview:circle];
     
@@ -129,7 +138,7 @@
                      animations:^{
                        circle.transform = CGAffineTransformIdentity;
                      } completion:^(BOOL finished) {
-                       if (previousDate == nil || !([dotDate day] == [previousDate day] && [dotDate month] == [previousDate month] && [dotDate year] == [previousDate year])) {
+                       if (needsDate) {
                          NSString *date = [self getFuzzyDate:dot.timestamp];
                          UILabel *label = [[UILabel alloc] init];
                          label.text = date;
@@ -138,7 +147,7 @@
                          label.textAlignment = NSTextAlignmentRight;
                          
                          label.textColor = [UIColor whiteColor];
-                         [self.view addSubview:label];
+                         [self.view insertSubview:label atIndex:0];
                          label.alpha = 0;
                          [UIView animateWithDuration:0.4 animations:^{
                            label.alpha = 1;
@@ -152,7 +161,7 @@
     [tapper addTarget:self action:@selector(didTapView:)];
     [circle addGestureRecognizer:tapper];
     
-    offset += 50;
+    offset += 30;
     delay += 0.1;
   }
 }

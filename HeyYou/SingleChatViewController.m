@@ -64,7 +64,9 @@
   [super viewWillAppear:animated];
   
   UIColor *newColor = [UIColor whiteColor];
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:self userInfo:@{@"text":self.otherUser, @"color":newColor}];
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel"
+                                                      object:self
+                                                    userInfo:@{@"text":self.otherUser, @"color":newColor}];
   
   self.tableView.alpha = 0;
   [self fetchMessages];
