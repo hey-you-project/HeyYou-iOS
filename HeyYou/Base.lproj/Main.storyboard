@@ -336,6 +336,7 @@
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MmD-OQ-MaI">
                                         <rect key="frame" x="546" y="8" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="15"/>
                                         <state key="normal" title="Send">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -380,9 +381,9 @@
                             <constraint firstAttribute="trailing" secondItem="19W-Yh-jbM" secondAttribute="trailing" id="Owm-gZ-YoJ"/>
                             <constraint firstItem="BS1-Z2-7h4" firstAttribute="top" secondItem="tv0-yt-E6P" secondAttribute="topMargin" constant="32" id="PC8-E6-ai7"/>
                             <constraint firstItem="O7n-OW-qIq" firstAttribute="top" secondItem="19W-Yh-jbM" secondAttribute="bottom" id="Vu3-9t-l2A"/>
-                            <constraint firstItem="mdx-gU-Ixu" firstAttribute="leading" secondItem="tv0-yt-E6P" secondAttribute="leadingMargin" constant="-16" id="jR8-Gi-brk"/>
+                            <constraint firstItem="mdx-gU-Ixu" firstAttribute="leading" secondItem="tv0-yt-E6P" secondAttribute="leading" id="jR8-Gi-brk"/>
                             <constraint firstItem="BS1-Z2-7h4" firstAttribute="leading" secondItem="tv0-yt-E6P" secondAttribute="leadingMargin" id="luT-Su-NTs"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="mdx-gU-Ixu" secondAttribute="trailing" constant="-16" id="nyG-zN-6rh"/>
+                            <constraint firstAttribute="trailing" secondItem="mdx-gU-Ixu" secondAttribute="trailing" id="nyG-zN-6rh"/>
                             <constraint firstItem="mdx-gU-Ixu" firstAttribute="top" secondItem="19W-Yh-jbM" secondAttribute="bottom" id="oFs-Gf-RZ8"/>
                         </constraints>
                         <variation key="default">

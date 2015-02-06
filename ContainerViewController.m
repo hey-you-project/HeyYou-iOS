@@ -412,7 +412,6 @@
     expandingView.frame = self.chatButton.frame;
     expandingView.backgroundColor = self.chatButton.backgroundColor;
     expandingView.layer.cornerRadius = expandingView.frame.size.height/2;
-    //[self.view insertSubview:expandingView belowSubview:self.headerLabel];
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     self.chatViewController = [storyboard instantiateViewControllerWithIdentifier:@"CHAT"];

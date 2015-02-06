@@ -95,7 +95,19 @@
   self.cancelButtonOne.alpha = 0;
   
   //Prepare date picker arrays
-  self.monthArray = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
+  self.monthArray = @[@"January",
+                      @"February",
+                      @"March",
+                      @"April",
+                      @"May",
+                      @"June",
+                      @"July",
+                      @"August",
+                      @"September",
+                      @"October",
+                      @"November",
+                      @"December"];
+  
   self.dateArray = @[@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12,@13,@14,@15,@16,@17,@18,@19,@20,@21,@22,@23,@24,@25,@26,@27,@28,@29,@30,@31];
   NSLocale *currentLocale = [NSLocale currentLocale];
   self.localCalendar = [currentLocale objectForKey:NSLocaleCalendar];
@@ -140,8 +152,6 @@
       [[NetworkController sharedController] fetchTokenWithUsername:username password:self.passwordField.text completionHandler:^(NSError *error, bool success) {
         if (success) {
           [self.activityIndicator stopAnimating];
-          [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
-          [[NSUserDefaults standardUserDefaults] synchronize];
           [self switchToLogoutWithUsername:username andAnimation:true];
           self.state = MenuStateLogOut;
         } else {
