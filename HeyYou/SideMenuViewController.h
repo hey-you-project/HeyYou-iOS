@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordFieldTwo;
 @property (weak, nonatomic) IBOutlet UITextField *createEmailField;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *emailLabelVerticalConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *logInConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *logOutConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraint;

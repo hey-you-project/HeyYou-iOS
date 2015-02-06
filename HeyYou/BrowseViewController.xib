@@ -21,6 +21,7 @@
                 <outlet property="colorBar" destination="tJ5-r4-DvF" id="FOP-EF-lfN"/>
                 <outlet property="commentButton" destination="Wgp-03-e41" id="dTb-CP-lDY"/>
                 <outlet property="commentConstraint" destination="eB2-jq-dnF" id="SkP-yR-4vt"/>
+                <outlet property="commentFieldHeightConstraint" destination="K7H-Uk-cND" id="uJz-dP-LIs"/>
                 <outlet property="numberOfStarsLabel" destination="UbH-QT-P5f" id="2zT-Nf-nPG"/>
                 <outlet property="star" destination="YL1-Zf-YA6" id="nrW-bt-Qp1"/>
                 <outlet property="submitButton" destination="PdL-ug-2Dx" id="mgF-Cy-ktl"/>
