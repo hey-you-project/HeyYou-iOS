@@ -164,7 +164,11 @@
     postVC.delegate = self;
     postVC.colorUI = [Colors flatPurple];
     self.currentPopup = postVC;
-    [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight];
+    CGFloat height = 430;
+    if (self.kLargePopupHeight < height) {
+      height = self.kLargePopupHeight;
+    }
+    [self spawnLargePopupAtPoint:point withHeight:height];
   }
   
 }
@@ -618,13 +622,10 @@
   CLLocationDegrees delta = self.mapView.region.span.longitudeDelta;
   
   if (delta > 3) {
-    NSLog(@"Greater than 3");
-    return 3.0;
+    return 2.5;
   } else if (delta > 1) {
-    NSLog(@"Greater than 1");
     return 0.5;
   } else {
-    NSLog(@"Less than 1");
     return 0.1;
   }
   
