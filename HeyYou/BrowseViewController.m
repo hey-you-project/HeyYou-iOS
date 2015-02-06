@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NetworkController *networkController;
 @property (nonatomic, strong) NSString *currentUser;
 
+@property BOOL deviceHasShortScreen;
+
 @end
 
 @implementation BrowseViewController
@@ -70,6 +72,10 @@
   sideColorBar.backgroundColor = self.color;
   sideColorBar.frame = CGRectMake(CGRectGetMaxX(self.view.bounds),self.colorBar.frame.origin.y, 30, self.colorBar.frame.size.height);
   [self.view addSubview:sideColorBar];
+  
+  if (self.view.superview.frame.size.height < 500) {
+    self.deviceHasShortScreen = true;
+  }
   
 }
 
@@ -198,8 +204,9 @@
 
 - (void) addCommentBox {
   
-  self.commentConstraint.constant += 140;
-  self.chatConstraint.constant += 140;
+  self.commentConstraint.constant += self.deviceHasShortScreen ? 80 : 140;
+  self.chatConstraint.constant += self.deviceHasShortScreen ? 80 : 140;
+  self.commentFieldHeightConstraint.constant = self.deviceHasShortScreen ? 64 : 128;
   self.writeCommentTextField.hidden = false;
   self.writeCommentTextField.alpha = 0;
   
@@ -224,8 +231,8 @@
 
 -(void) removeCommentBox {
   [self.writeCommentTextField resignFirstResponder];
-  self.commentConstraint.constant -= 140;
-  self.chatConstraint.constant -= 140;
+  self.commentConstraint.constant -= self.deviceHasShortScreen ? 80 : 140;;
+  self.chatConstraint.constant -= self.deviceHasShortScreen ? 80 : 140;;
   
   [UIView animateWithDuration:0.4
                         delay:0.0

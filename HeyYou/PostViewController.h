@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *yellowLabel;
 @property (weak, nonatomic) IBOutlet UILabel *greenLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bodyFieldHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *purpleConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tealConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *yellowConstraint;

@@ -35,7 +35,8 @@
 @property (nonatomic, strong) NSString *termsOfUse;
 @property (nonatomic, strong) NSString *privacyPolicy;
 
-@property  BOOL termsVCActive;
+@property BOOL termsVCActive;
+@property BOOL deviceHasShortScreen;
 
 @end
 
@@ -95,7 +96,19 @@
   self.cancelButtonOne.alpha = 0;
   
   //Prepare date picker arrays
-  self.monthArray = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
+  self.monthArray = @[@"January",
+                      @"February",
+                      @"March",
+                      @"April",
+                      @"May",
+                      @"June",
+                      @"July",
+                      @"August",
+                      @"September",
+                      @"October",
+                      @"November",
+                      @"December"];
+  
   self.dateArray = @[@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12,@13,@14,@15,@16,@17,@18,@19,@20,@21,@22,@23,@24,@25,@26,@27,@28,@29,@30,@31];
   NSLocale *currentLocale = [NSLocale currentLocale];
   self.localCalendar = [currentLocale objectForKey:NSLocaleCalendar];
@@ -111,6 +124,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+
+  if (self.parentViewController.view.frame.size.height < 500) {
+    self.deviceHasShortScreen = true;
+  }
   
   NSString *savedUsername;
   
@@ -140,8 +157,6 @@
       [[NetworkController sharedController] fetchTokenWithUsername:username password:self.passwordField.text completionHandler:^(NSError *error, bool success) {
         if (success) {
           [self.activityIndicator stopAnimating];
-          [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
-          [[NSUserDefaults standardUserDefaults] synchronize];
           [self switchToLogoutWithUsername:username andAnimation:true];
           self.state = MenuStateLogOut;
         } else {
@@ -166,36 +181,58 @@
       [self switchToCreate:true];
       break;
     case MenuStateCreateAccountScreen: {
-      [self.activityIndicator startAnimating];
-      NSString *username = self.usernameField.text;
-      NSString *password = self.passwordField.text;
-      NSString *email = self.createEmailField.text;
-      NSDate *birthday = [self dateFromBirthdayPicker:self.birthdayPicker];
-      [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSError *error, bool success) {
-        if (success) {
-          [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
-          [[NSUserDefaults standardUserDefaults] synchronize];
-          [self.activityIndicator stopAnimating];
-          self.state = MenuStateLogOut;
-          [self switchToLogoutWithUsername:username andAnimation:true];
-        } else {
-          [self.activityIndicator stopAnimating];
-          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                          message:[error localizedDescription]
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-          if (error == nil) {
-            alert.message = @"An error occurred. Please try again later.";
-          }
-          [alert show];
-        }
-      }];
+      if (self.deviceHasShortScreen) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"I agree to the Terms of Use and Privacy Policy." preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+          [alert dismissViewControllerAnimated:true completion:nil];
+        }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+          [alert dismissViewControllerAnimated:true completion:nil];
+          [self createAccount];
+        }]];
+        
+        [self presentViewController:alert animated:true completion:nil];
+        
+      } else {
+        [self createAccount];
+      }
       
     }
     default:
       break;
   }
+
+}
+
+- (void) createAccount {
+  
+  [self.activityIndicator startAnimating];
+  NSString *username = self.usernameField.text;
+  NSString *password = self.passwordField.text;
+  NSString *email = self.createEmailField.text;
+  NSDate *birthday = [self dateFromBirthdayPicker:self.birthdayPicker];
+  [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSError *error, bool success) {
+    if (success) {
+      [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
+      [[NSUserDefaults standardUserDefaults] synchronize];
+      [self.activityIndicator stopAnimating];
+      self.state = MenuStateLogOut;
+      [self switchToLogoutWithUsername:username andAnimation:true];
+    } else {
+      [self.activityIndicator stopAnimating];
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      if (error == nil) {
+        alert.message = @"An error occurred. Please try again later.";
+      }
+      [alert show];
+    }
+  }];
+  
+  
 }
 
 - (IBAction)pressedLogOut:(id)sender {
@@ -300,8 +337,14 @@
 - (void)switchToCreate:(BOOL)animated {
   self.logOutConstraint.priority = 900;
   self.logInConstraint.priority = 900;
-  self.topConstraint.constant = 75;
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":@"Create Account",@"color":self.headerColor}];
+  self.topConstraint.constant = self.deviceHasShortScreen ? 24 : 75;
+  NSString *header = self.deviceHasShortScreen ? @"" : @"Create Account";
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":header,@"color":self.headerColor}];
+  
+  if (self.deviceHasShortScreen) {
+    self.emailLabelVerticalConstraint.constant = -48;
+  }
+
   [UIView animateWithDuration:animated ? self.duration : 0
                         delay:0.0
        usingSpringWithDamping:0.7
@@ -311,14 +354,14 @@
                      [self.loginView layoutSubviews];
                      self.loginButton.alpha = 0;
                      self.createAccountButton.transform = CGAffineTransformMakeTranslation(0, -16);
-                     self.repeatPassword.alpha = 1;
-                     self.passwordFieldTwo.alpha = 1;
+                     self.repeatPassword.alpha = self.deviceHasShortScreen ? 0 : 1;
+                     self.passwordFieldTwo.alpha = self.deviceHasShortScreen ? 0 : 1;
                      self.emailLabel.alpha = 1;
                      self.createEmailField.alpha = 1;
                      self.birthdayPicker.alpha = 1;
                      self.birthdayPickerView.alpha = 1;
                      self.cancelButtonOne.alpha = 1;
-                     self.termsConfirmationLabel.alpha = 1;
+                     self.termsConfirmationLabel.alpha = self.deviceHasShortScreen ? 0 : 1;
                    } completion:^(BOOL finished) {
     
   }];
@@ -516,6 +559,8 @@
   
 }
 
+
+
 -(NSString *)termsOfUse {
   
   NSString *returnString = @"";
@@ -528,7 +573,7 @@
   
 }
 
-- privacyPolicy {
+- (NSString *)privacyPolicy {
   
   NSString *returnString = @"";
   returnString = [returnString stringByAppendingString:@"Your privacy is very important to us. Accordingly, we have developed this Policy in order for you to understand how we collect, use, communicate and disclose and make use of personal information. The following outlines our privacy policy."];
@@ -542,5 +587,7 @@
   return returnString;
   
 }
+
+
 
 @end

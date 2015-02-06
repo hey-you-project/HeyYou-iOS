@@ -38,6 +38,10 @@
   self.borderView.strokeColor = [Colors flatPurple];
   self.bodyTextField.layer.cornerRadius = 10;
   self.titleTextField.layer.cornerRadius = 10;
+  
+  if (self.view.superview.frame.size.height < 500) {
+    self.bodyFieldHeight.constant = 60;
+  }
 }
 
 #pragma mark Helper Methods

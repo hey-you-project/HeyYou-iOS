@@ -59,7 +59,7 @@
   
   self.mapView.delegate = self;
 
-  self.kLargePopupHeight = 480;
+  self.kLargePopupHeight = self.view.frame.size.height - 130;
   
   UIView *statusBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
   statusBar.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
@@ -164,7 +164,11 @@
     postVC.delegate = self;
     postVC.colorUI = [Colors flatPurple];
     self.currentPopup = postVC;
-    [self spawnLargePopupAtPoint:point withHeight:self.kLargePopupHeight-40];
+    CGFloat height = 430;
+    if (self.kLargePopupHeight < height) {
+      height = self.kLargePopupHeight;
+    }
+    [self spawnLargePopupAtPoint:point withHeight:height];
   }
   
 }
@@ -294,27 +298,21 @@
   
   if (!self.mapFullyLoaded) {
     
-    [[NSOperationQueue new] addOperationWithBlock:^{
-      double scale = self.mapView.bounds.size.width / self.mapView.visibleMapRect.size.width;
-      NSArray *annotations = [self.clusteringManager clusteredAnnotationsWithinMapRect:mapView.visibleMapRect withZoomScale:scale];
-      
-      [self.clusteringManager displayAnnotations:annotations onMapView:mapView];
-    }];
-
-    self.mapFullyLoaded = true;
+    [self requestDots];
   }
-  
+
+  self.mapFullyLoaded = true;
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
 
   if (self.mapFullyLoaded) {
-    [[NSOperationQueue new] addOperationWithBlock:^{
-      double scale = self.mapView.bounds.size.width / self.mapView.visibleMapRect.size.width;
-      NSArray *annotations = [self.clusteringManager clusteredAnnotationsWithinMapRect:mapView.visibleMapRect withZoomScale:scale];
-      
-      [self.clusteringManager displayAnnotations:annotations onMapView:mapView];
-    }];
+//    [[NSOperationQueue new] addOperationWithBlock:^{
+//      double scale = self.mapView.bounds.size.width / self.mapView.visibleMapRect.size.width;
+//      NSArray *annotations = [self.clusteringManager clusteredAnnotationsWithinMapRect:mapView.visibleMapRect withZoomScale:scale];
+//      
+//      [self.clusteringManager displayAnnotations:annotations onMapView:mapView];
+//    }];
     
     [self requestDots];
     
@@ -468,7 +466,11 @@
       [self addNewAnnotationForDot:dot];
     }
   }
-  //[self populateDotsOnMap];
+  
+  double scale = self.mapView.bounds.size.width / self.mapView.visibleMapRect.size.width;
+  NSArray *annotations = [self.clusteringManager clusteredAnnotationsWithinMapRect:self.mapView.visibleMapRect withZoomScale:scale];
+  
+  [self.clusteringManager displayAnnotations:annotations onMapView:self.mapView];
   
 }
 
@@ -479,7 +481,6 @@
   anno.title = dot.identifier;
   anno.dot = dot;
   [self.clusteringManager addAnnotations:@[anno]];
-  //[self.mapView addAnnotation:anno];
   
 }
 
@@ -621,13 +622,10 @@
   CLLocationDegrees delta = self.mapView.region.span.longitudeDelta;
   
   if (delta > 3) {
-    NSLog(@"Greater than 3");
-    return 3.0;
+    return 2.5;
   } else if (delta > 1) {
-    NSLog(@"Greater than 1");
     return 0.5;
   } else {
-    NSLog(@"Less than 1");
     return 0.1;
   }
   

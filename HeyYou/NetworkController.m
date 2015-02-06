@@ -206,6 +206,7 @@
       if ((self.token = tokenJSON[@"jwt"])) {
         if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.username = username;
             [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
             [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -296,6 +297,7 @@
       if ((self.token = tokenJSON[@"jwt"])) {
         if ([self.token isKindOfClass:[NSString class]] && self.token != nil) {
           [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.username = username;
             [[NSUserDefaults standardUserDefaults] setValue:self.token forKey:@"token"];
             [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
             [[NSUserDefaults standardUserDefaults] synchronize];

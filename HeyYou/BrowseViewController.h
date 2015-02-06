@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentFieldHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *chatConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bodyTopConstraint;
