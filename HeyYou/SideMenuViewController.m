@@ -37,6 +37,7 @@
 
 @property BOOL termsVCActive;
 @property BOOL deviceHasShortScreen;
+@property BOOL deviceHasKindaShortScreen;
 
 @end
 
@@ -86,7 +87,6 @@
       [self switchToLogoutWithUsername: savedUsername andAnimation:false];
       break;
     default:
-      NSLog(@"Invalid menu state");
       break;
   }
   
@@ -127,6 +127,8 @@
 
   if (self.parentViewController.view.frame.size.height < 500) {
     self.deviceHasShortScreen = true;
+  } else if (self.parentViewController.view.frame.size.height < 600) {
+    self.deviceHasKindaShortScreen = true;
   }
   
   NSString *savedUsername;
@@ -181,15 +183,23 @@
       [self switchToCreate:true];
       break;
     case MenuStateCreateAccountScreen: {
-      if (self.deviceHasShortScreen) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"I agree to the Terms of Use and Privacy Policy." preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-          [alert dismissViewControllerAnimated:true completion:nil];
-        }]];
-        [alert addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-          [alert dismissViewControllerAnimated:true completion:nil];
-          [self createAccount];
-        }]];
+      if (self.deviceHasKindaShortScreen || self.deviceHasShortScreen) {
+        UIAlertController *alert = [UIAlertController
+                                    alertControllerWithTitle:@""
+                                    message:@"I agree to the Terms of Use and Privacy Policy."
+                                    preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alert addAction: [UIAlertAction actionWithTitle:@"No"
+                                                   style: UIAlertActionStyleCancel
+                                                 handler:^(UIAlertAction *action) {
+                                                   [alert dismissViewControllerAnimated:true completion:nil];
+                                                 }]];
+        
+        [alert addAction: [UIAlertAction actionWithTitle:@"Yes"
+                                                   style: UIAlertActionStyleDefault
+                                                 handler:^(UIAlertAction *action) {
+                                                   [alert dismissViewControllerAnimated:true completion:nil];
+                                                 }]];
         
         [self presentViewController:alert animated:true completion:nil];
         
@@ -211,7 +221,11 @@
   NSString *password = self.passwordField.text;
   NSString *email = self.createEmailField.text;
   NSDate *birthday = [self dateFromBirthdayPicker:self.birthdayPicker];
-  [[NetworkController sharedController] createUserWithUsername:username password:password birthday:birthday email:email completionHandler:^(NSError *error, bool success) {
+  [[NetworkController sharedController] createUserWithUsername:username
+                                                      password:password
+                                                      birthday:birthday
+                                                         email:email
+                                             completionHandler:^(NSError *error, bool success) {
     if (success) {
       [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
       [[NSUserDefaults standardUserDefaults] synchronize];
@@ -240,12 +254,14 @@
   [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"username"];
   [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"token"];
   [[NSUserDefaults standardUserDefaults] synchronize];
+  
   [self switchToLogin:true];
   
 }
 
 
 - (IBAction)pressedBirthday:(id)sender {
+  
   UIButton *birthdayButton = sender;
   [UIView animateWithDuration:self.duration delay:0.0 usingSpringWithDamping:0.7 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
     birthdayButton.transform = CGAffineTransformMakeTranslation(200, 0);
@@ -303,6 +319,7 @@
 }
 
 - (void)switchToLogoutWithUsername: (NSString*)username andAnimation:(BOOL)animated {
+  
   self.logOutConstraint.priority = 999;
   self.logInConstraint.priority = 900;
   [[NSNotificationCenter defaultCenter] postNotificationName:@"ChangeHeaderLabel" object:nil userInfo:@{@"text":[NSString stringWithFormat:@"Hey %@!", username],@"color":self.headerColor}];
@@ -361,7 +378,7 @@
                      self.birthdayPicker.alpha = 1;
                      self.birthdayPickerView.alpha = 1;
                      self.cancelButtonOne.alpha = 1;
-                     self.termsConfirmationLabel.alpha = self.deviceHasShortScreen ? 0 : 1;
+                     self.termsConfirmationLabel.alpha = self.deviceHasKindaShortScreen || self.deviceHasShortScreen ? 0 : 1;
                    } completion:^(BOOL finished) {
     
   }];

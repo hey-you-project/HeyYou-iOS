@@ -41,7 +41,6 @@
   
   NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
     if (error) {
-      NSLog(@"%@", error.localizedDescription);
       completionHandler(error, nil);
     } else {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;

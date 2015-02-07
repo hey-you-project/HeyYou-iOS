@@ -44,10 +44,8 @@
   NSString *username = [[NSUserDefaults standardUserDefaults] stringForKey:@"username"];
   
   if (username) {
-    NSLog(@"Got username");
     [self getChatPartners];
   } else {
-    NSLog(@"Did not get username");
     self.emptyCaseTop.text = @"Not Logged In";
     self.emptyCaseBottom.text = @"Your chat partners will appear here once you login!";
     [self showEmptyCaseView];
