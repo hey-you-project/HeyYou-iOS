@@ -258,7 +258,6 @@
   NSCalendar *calendar = [NSCalendar currentCalendar];
   NSUInteger dayForDot = [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:date];
   NSUInteger dayForNow = [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:[NSDate date]];
-  //NSLog(@"%lu vs. %lu", (unsigned long)dayForDot, (unsigned long)dayForNow);
   
   if (dayForDot == dayForNow) {
     return [self.timeFormatter stringFromDate:date];

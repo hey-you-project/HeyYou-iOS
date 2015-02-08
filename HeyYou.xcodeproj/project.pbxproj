@@ -82,7 +82,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		150C41701A1A6DF10062DE29 /* HeyYou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeyYou.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		150C41701A1A6DF10062DE29 /* heyyou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = heyyou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		150C41741A1A6DF10062DE29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		150C41751A1A6DF10062DE29 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		150C41771A1A6DF10062DE29 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 		150C41811A1A6DF10062DE29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		150C41831A1A6DF10062DE29 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		150C41861A1A6DF10062DE29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		150C418C1A1A6DF10062DE29 /* HeyYouTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeyYouTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		150C418C1A1A6DF10062DE29 /* heyyou.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = heyyou.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		150C41911A1A6DF10062DE29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		150C41921A1A6DF10062DE29 /* HeyYouTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeyYouTests.m; sourceTree = "<group>"; };
 		150C419D1A1A70CF0062DE29 /* Dot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dot.h; sourceTree = "<group>"; };
@@ -224,8 +224,8 @@
 		150C41711A1A6DF10062DE29 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				150C41701A1A6DF10062DE29 /* HeyYou.app */,
-				150C418C1A1A6DF10062DE29 /* HeyYouTests.xctest */,
+				150C41701A1A6DF10062DE29 /* heyyou.app */,
+				150C418C1A1A6DF10062DE29 /* heyyou.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -424,9 +424,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		150C416F1A1A6DF10062DE29 /* HeyYou */ = {
+		150C416F1A1A6DF10062DE29 /* heyyou */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 150C41961A1A6DF10062DE29 /* Build configuration list for PBXNativeTarget "HeyYou" */;
+			buildConfigurationList = 150C41961A1A6DF10062DE29 /* Build configuration list for PBXNativeTarget "heyyou" */;
 			buildPhases = (
 				150C416C1A1A6DF10062DE29 /* Sources */,
 				150C416D1A1A6DF10062DE29 /* Frameworks */,
@@ -436,14 +436,14 @@
 			);
 			dependencies = (
 			);
-			name = HeyYou;
+			name = heyyou;
 			productName = HeyYou;
-			productReference = 150C41701A1A6DF10062DE29 /* HeyYou.app */;
+			productReference = 150C41701A1A6DF10062DE29 /* heyyou.app */;
 			productType = "com.apple.product-type.application";
 		};
-		150C418B1A1A6DF10062DE29 /* HeyYouTests */ = {
+		150C418B1A1A6DF10062DE29 /* heyyouTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 150C41991A1A6DF10062DE29 /* Build configuration list for PBXNativeTarget "HeyYouTests" */;
+			buildConfigurationList = 150C41991A1A6DF10062DE29 /* Build configuration list for PBXNativeTarget "heyyouTests" */;
 			buildPhases = (
 				150C41881A1A6DF10062DE29 /* Sources */,
 				150C41891A1A6DF10062DE29 /* Frameworks */,
@@ -454,9 +454,9 @@
 			dependencies = (
 				150C418E1A1A6DF10062DE29 /* PBXTargetDependency */,
 			);
-			name = HeyYouTests;
+			name = heyyouTests;
 			productName = HeyYouTests;
-			productReference = 150C418C1A1A6DF10062DE29 /* HeyYouTests.xctest */;
+			productReference = 150C418C1A1A6DF10062DE29 /* heyyou.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -483,7 +483,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 150C416B1A1A6DF10062DE29 /* Build configuration list for PBXProject "HeyYou" */;
+			buildConfigurationList = 150C416B1A1A6DF10062DE29 /* Build configuration list for PBXProject "heyyou" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -496,8 +496,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				150C416F1A1A6DF10062DE29 /* HeyYou */,
-				150C418B1A1A6DF10062DE29 /* HeyYouTests */,
+				150C416F1A1A6DF10062DE29 /* heyyou */,
+				150C418B1A1A6DF10062DE29 /* heyyouTests */,
 			);
 		};
 /* End PBXProject section */
@@ -600,7 +600,7 @@
 /* Begin PBXTargetDependency section */
 		150C418E1A1A6DF10062DE29 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 150C416F1A1A6DF10062DE29 /* HeyYou */;
+			target = 150C416F1A1A6DF10062DE29 /* heyyou */;
 			targetProxy = 150C418D1A1A6DF10062DE29 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -659,7 +659,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -686,6 +686,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				"COPY_PHASE_STRIP[sdk=*]" = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -695,7 +696,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -712,7 +713,7 @@
 				INFOPLIST_FILE = HeyYou/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = heyyou;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -727,7 +728,7 @@
 				INFOPLIST_FILE = HeyYou/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = heyyou;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -747,7 +748,7 @@
 				);
 				INFOPLIST_FILE = HeyYouTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = heyyou;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HeyYou.app/HeyYou";
 			};
 			name = Debug;
@@ -762,7 +763,7 @@
 				);
 				INFOPLIST_FILE = HeyYouTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = heyyou;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HeyYou.app/HeyYou";
 			};
 			name = Release;
@@ -770,7 +771,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		150C416B1A1A6DF10062DE29 /* Build configuration list for PBXProject "HeyYou" */ = {
+		150C416B1A1A6DF10062DE29 /* Build configuration list for PBXProject "heyyou" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				150C41941A1A6DF10062DE29 /* Debug */,
@@ -779,7 +780,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		150C41961A1A6DF10062DE29 /* Build configuration list for PBXNativeTarget "HeyYou" */ = {
+		150C41961A1A6DF10062DE29 /* Build configuration list for PBXNativeTarget "heyyou" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				150C41971A1A6DF10062DE29 /* Debug */,
@@ -788,7 +789,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		150C41991A1A6DF10062DE29 /* Build configuration list for PBXNativeTarget "HeyYouTests" */ = {
+		150C41991A1A6DF10062DE29 /* Build configuration list for PBXNativeTarget "heyyouTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				150C419A1A1A6DF10062DE29 /* Debug */,
