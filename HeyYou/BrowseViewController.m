@@ -73,7 +73,7 @@
   sideColorBar.frame = CGRectMake(CGRectGetMaxX(self.view.bounds),self.colorBar.frame.origin.y, 30, self.colorBar.frame.size.height);
   [self.view addSubview:sideColorBar];
   
-  if (self.view.superview.frame.size.height < 500) {
+  if ([[UIScreen mainScreen] bounds].size.height < 500) {
     self.deviceHasShortScreen = true;
   }
   

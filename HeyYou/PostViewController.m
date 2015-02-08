@@ -39,7 +39,8 @@
   self.bodyTextField.layer.cornerRadius = 10;
   self.titleTextField.layer.cornerRadius = 10;
   
-  if (self.view.superview.frame.size.height < 500) {
+  if ([[UIScreen mainScreen] bounds].size.height < 500) {
+    NSLog(@"Body field small!");
     self.bodyFieldHeight.constant = 60;
   }
 }

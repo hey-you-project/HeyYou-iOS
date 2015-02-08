@@ -125,9 +125,9 @@
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
 
-  if (self.parentViewController.view.frame.size.height < 500) {
+  if ([[UIScreen mainScreen] bounds].size.height < 500) {
     self.deviceHasShortScreen = true;
-  } else if (self.parentViewController.view.frame.size.height < 600) {
+  } else if ([[UIScreen mainScreen] bounds].size.height < 600) {
     self.deviceHasKindaShortScreen = true;
   }
   
