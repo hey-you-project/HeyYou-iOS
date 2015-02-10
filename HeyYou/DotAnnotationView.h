@@ -13,4 +13,7 @@
 @property (nonatomic, strong) UIColor *color;
 @property NSInteger type;
 
+- (void) addPoppingAnimation;
+- (void) addLabelWithNumber:(NSUInteger)number;
+
 @end
