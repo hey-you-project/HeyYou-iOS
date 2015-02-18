@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIView *bottomLine;
+@property (weak, nonatomic) IBOutlet UILabel *flag;
 
 @end

@@ -34,6 +34,10 @@
   [tapper addTarget:self action:@selector(didTapStar:)];
   [self.star addGestureRecognizer:tapper];
   
+  UITapGestureRecognizer *flagger = [UITapGestureRecognizer new];
+  [flagger addTarget:self action:@selector(didTapFlag:)];
+  [self.star addGestureRecognizer:flagger];
+  
   UITapGestureRecognizer *keyboardDismiss = [UITapGestureRecognizer new];
   [keyboardDismiss addTarget:self action:@selector(didTapViewToDismiss:)];
   [self.view addGestureRecognizer:keyboardDismiss];
@@ -240,6 +244,7 @@
                       } completion:^(BOOL finished) {
                         self.commentButton.enabled = true;
                         self.chatButton.enabled = true;
+                        self.writeCommentTextField.text = @"";
                         self.writeCommentTextField.hidden = true;
                         self.writeCommentTextField.alpha = 0;
                       }];
@@ -257,10 +262,20 @@
     return [NSString stringWithFormat:@"%d seconds ago", (int)(secondsSinceNow / 1)];
   }
   if (secondsSinceNow < (60 * 60)) {
-    return [NSString stringWithFormat:@"%d minutes ago", (int)(secondsSinceNow / 60)];
+    int minutes = secondsSinceNow / 60;
+    if (minutes < 2) {
+      return @"1 minute ago";
+    } else {
+    return [NSString stringWithFormat:@"%d minutes ago", minutes];
+    }
   }
   if (secondsSinceNow < (60 * 60 * 48)) {
-    return [NSString stringWithFormat:@"%d hours ago", (int)(secondsSinceNow / 60 / 60)];
+    int hours = secondsSinceNow / 60 / 60;
+    if (hours < 2) {
+      return @"1 hour ago";
+    } else {
+      return [NSString stringWithFormat:@"%d hours ago", hours];
+    }
   }
   return @"Unknown!";
 }
@@ -306,6 +321,14 @@
     alert.message = @"An error occurred. Please try again later.";
   }
   [alert show];
+}
+
+- (void) didTapFlag:(UITapGestureRecognizer *) sender {
+  
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    //[self.networkController ];
+  }
+  
 }
   
 
