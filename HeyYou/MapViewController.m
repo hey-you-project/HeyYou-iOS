@@ -551,12 +551,6 @@
   
 }
 
-- (void) addPoppingAnimationToAnnotationView: (UIView *) view {
-  
-
-  
-}
-
 - (CGFloat)cellSizeFactorForCoordinator:(FBClusteringManager *)coordinator {
   
   CLLocationDegrees delta = self.mapView.region.span.longitudeDelta;

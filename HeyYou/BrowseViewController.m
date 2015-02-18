@@ -151,8 +151,8 @@
   
   [self removeCommentBox];
   
-  
 }
+
 - (IBAction)submitPressed:(id)sender {
   
     [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
@@ -186,15 +186,7 @@
       stars = [NSNumber numberWithInteger:starsIntValue];
       self.numberOfStarsLabel.text = [stars stringValue];
     } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [alert show];
+      [self showAlertViewWithError:error];
     }
   }];
 
@@ -255,19 +247,6 @@
   
 }
 
--(void) showAlertViewWithError:(NSError *) error {
-  
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                  message:[error localizedDescription]
-                                                 delegate:nil
-                                        cancelButtonTitle:@"OK"
-                                        otherButtonTitles:nil];
-  if (error == nil) {
-    alert.message = @"An error occurred. Please try again later.";
-  }
-  [alert show];
-}
-
 -(NSString *) getFuzzyDateFromDate: (NSDate *) date{
   
   NSTimeInterval secondsSinceNow = [date timeIntervalSinceNow] * -1;
@@ -302,17 +281,7 @@
         }
       }];
     } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [alert show];
-      }];
+      [self showAlertViewWithError:error];
     }
   }];
   
@@ -326,7 +295,18 @@
   
 }
 
-
+-(void) showAlertViewWithError:(NSError *) error {
+  
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                  message:[error localizedDescription]
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  if (error == nil) {
+    alert.message = @"An error occurred. Please try again later.";
+  }
+  [alert show];
+}
   
 
 

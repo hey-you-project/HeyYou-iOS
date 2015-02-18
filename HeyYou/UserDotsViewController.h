@@ -14,6 +14,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *emptyCaseTop;
 @property (weak, nonatomic) IBOutlet UILabel *emptyCaseBottom;
 
-- (void) removeDots;
-
 @end

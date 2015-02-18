@@ -26,7 +26,13 @@
   [self setupGestureRecognizers];
   
   self.color = @"purple";
-  self.colorConstraints = @[self.orangeConstraint, self.blueConstraint, self.greenConstraint, self.yellowConstraint, self.tealConstraint, self.pinkConstraint, self.purpleConstraint];
+  self.colorConstraints = @[self.orangeConstraint,
+                            self.blueConstraint,
+                            self.greenConstraint,
+                            self.yellowConstraint,
+                            self.tealConstraint,
+                            self.pinkConstraint,
+                            self.purpleConstraint];
   self.networkController = [NetworkController sharedController];
   
   self.bodyTextField.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.3];
@@ -74,15 +80,7 @@
       }];
       
     } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [alert show];
+      [self showAlertViewWithError:error];
     }
   }];
   
@@ -160,6 +158,19 @@
   [self.borderView setNeedsDisplay];
   [self.delegate changeDotColor:colorUI];
   
+}
+
+-(void) showAlertViewWithError:(NSError *) error {
+  
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                  message:[error localizedDescription]
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  if (error == nil) {
+    alert.message = @"An error occurred. Please try again later.";
+  }
+  [alert show];
 }
 
 @end

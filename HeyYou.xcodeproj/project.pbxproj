@@ -390,12 +390,12 @@
 		7E88C51E1A8ACB37002FBEE8 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				150C417D1A1A6DF10062DE29 /* MapViewController.h */,
+				150C417E1A1A6DF10062DE29 /* MapViewController.m */,
 				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
 				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
 				7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */,
 				7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */,
-				150C417D1A1A6DF10062DE29 /* MapViewController.h */,
-				150C417E1A1A6DF10062DE29 /* MapViewController.m */,
 				7EF174301A23F5E900B5541D /* PopupViewController.h */,
 			);
 			name = Map;
