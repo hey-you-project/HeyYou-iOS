@@ -23,6 +23,7 @@
 #pragma mark Lifecycle Methods
 
 - (void)viewDidLoad {
+  
   [super viewDidLoad];
   [self.tableView registerNib:[UINib nibWithNibName:@"CommentCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"COMMENT_CELL"];
  
@@ -230,6 +231,7 @@
 }
 
 -(void) removeCommentBox {
+  
   [self.writeCommentTextField resignFirstResponder];
   self.commentConstraint.constant -= self.deviceHasShortScreen ? 80 : 140;;
   self.chatConstraint.constant -= self.deviceHasShortScreen ? 80 : 140;;
@@ -253,7 +255,6 @@
                         self.writeCommentTextField.alpha = 0;
                       }];
 
-  
 }
 
 -(NSString *) getFuzzyDateFromDate: (NSDate *) date{
@@ -325,6 +326,7 @@
     alert.message = @"An error occurred. Please try again later.";
   }
   [alert show];
+  
 }
 
 - (void) didTapFlagForComment:(UITapGestureRecognizer *) sender {
