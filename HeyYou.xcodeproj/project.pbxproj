@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		150C41761A1A6DF10062DE29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41751A1A6DF10062DE29 /* main.m */; };
 		150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41781A1A6DF10062DE29 /* AppDelegate.m */; };
 		150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 150C417A1A1A6DF10062DE29 /* HeyYou.xcdatamodeld */; };
 		150C41821A1A6DF10062DE29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150C41801A1A6DF10062DE29 /* Main.storyboard */; };
@@ -21,6 +20,7 @@
 		1512640D1A1E7F5500D13419 /* NSString+Validate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1512640C1A1E7F5500D13419 /* NSString+Validate.m */; };
 		151264101A1EB96C00D13419 /* ErrorsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1512640F1A1EB96C00D13419 /* ErrorsHandler.m */; };
 		151264121A1EC10800D13419 /* ErrorsHandler.strings in Resources */ = {isa = PBXBuildFile; fileRef = 151264111A1EC10800D13419 /* ErrorsHandler.strings */; };
+		7E04FEF21A95924D00148089 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41751A1A6DF10062DE29 /* main.m */; };
 		7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */; };
 		7E089DE31A1F658100D78F38 /* generated (1).json in Resources */ = {isa = PBXBuildFile; fileRef = 7E089DE21A1F658100D78F38 /* generated (1).json */; };
 		7E089DE51A1F710A00D78F38 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E089DE41A1F710A00D78F38 /* MapKit.framework */; };
@@ -594,6 +594,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E04FEF21A95924D00148089 /* main.m in Sources */,
 				7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */,
 				7E7341D11A81E8B000D90ACE /* CellContentView.m in Sources */,
 				7E16891F1A1BF22E00BA4DE6 /* CommentCell.m in Sources */,
@@ -629,7 +630,6 @@
 				7E88C51D1A8AC6B9002FBEE8 /* UIView+Shadow.m in Sources */,
 				150C419F1A1A70CF0062DE29 /* Dot.m in Sources */,
 				7EFD27E51A329EBF00990849 /* ChatListViewController.m in Sources */,
-				150C41761A1A6DF10062DE29 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -707,7 +707,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -744,6 +744,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

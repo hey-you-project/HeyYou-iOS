@@ -41,4 +41,8 @@
 
 - (void)getMessagesFromUser:(NSString *)username withCompletionHandler: (void (^)(NSError *error, NSArray * messages))completionHandler;
 
+- (void)flagDot: (Dot*)dot completionHandler:(void (^)(NSError *error, bool success))completionHandler;
+
+- (void)flagComment: (Comment*)comment completionHandler:(void (^)(NSError *error, bool success))completionHandler;
+
 @end

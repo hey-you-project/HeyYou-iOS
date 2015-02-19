@@ -35,8 +35,8 @@
   [self.star addGestureRecognizer:tapper];
   
   UITapGestureRecognizer *flagger = [UITapGestureRecognizer new];
-  [flagger addTarget:self action:@selector(didTapFlag:)];
-  [self.star addGestureRecognizer:flagger];
+  [flagger addTarget:self action:@selector(didTapFlagForDot:)];
+  [self.flag addGestureRecognizer:flagger];
   
   UITapGestureRecognizer *keyboardDismiss = [UITapGestureRecognizer new];
   [keyboardDismiss addTarget:self action:@selector(didTapViewToDismiss:)];
@@ -90,6 +90,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  
   CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"COMMENT_CELL" forIndexPath:indexPath];
   Comment *comment = self.dot.comments[indexPath.row];
   cell.bodyLabel.text = comment.body;
@@ -98,6 +99,9 @@
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
   cell.bottomLine.backgroundColor = self.color;
   
+  UITapGestureRecognizer *flagger = [UITapGestureRecognizer new];
+  [flagger addTarget:self action:@selector(didTapFlagForComment:)];
+  [cell.flag addGestureRecognizer:flagger];
   
   return cell;
 }
@@ -323,10 +327,49 @@
   [alert show];
 }
 
-- (void) didTapFlag:(UITapGestureRecognizer *) sender {
+- (void) didTapFlagForComment:(UITapGestureRecognizer *) sender {
   
   if (sender.state == UIGestureRecognizerStateEnded) {
-    //[self.networkController ];
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Flag comment?" message:@"Do you want to flag this comment as inappropriate?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+      //[self.networkController flagDot:self.dot completionHandler:^(NSError *error, bool success) {
+      //}];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+      [alert dismissViewControllerAnimated:true completion:nil];
+    }];
+    
+    [alert addAction:ok];
+    [alert addAction:cancel];
+    
+    [self presentViewController:alert animated:true completion:nil];
+  }
+
+  
+  
+}
+
+- (void) didTapFlagForDot:(UITapGestureRecognizer *) sender {
+  
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Flag post?" message:@"Do you want to flag this post as inappropriate?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+      [self.networkController flagDot:self.dot completionHandler:^(NSError *error, bool success) {
+
+      }];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+      [alert dismissViewControllerAnimated:true completion:nil];
+    }];
+    
+    [alert addAction:ok];
+    [alert addAction:cancel];
+    
+    [self presentViewController:alert animated:true completion:nil];
   }
   
 }
