@@ -7,6 +7,7 @@
         <mutableArray key="typicons.ttf">
             <string>typicons</string>
             <string>typicons</string>
+            <string>typicons</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -22,6 +23,7 @@
                 <outlet property="commentButton" destination="Wgp-03-e41" id="dTb-CP-lDY"/>
                 <outlet property="commentConstraint" destination="eB2-jq-dnF" id="SkP-yR-4vt"/>
                 <outlet property="commentFieldHeightConstraint" destination="K7H-Uk-cND" id="uJz-dP-LIs"/>
+                <outlet property="flag" destination="1iZ-kX-O5D" id="CKg-sv-Tdn"/>
                 <outlet property="numberOfStarsLabel" destination="UbH-QT-P5f" id="2zT-Nf-nPG"/>
                 <outlet property="star" destination="YL1-Zf-YA6" id="nrW-bt-Qp1"/>
                 <outlet property="submitButton" destination="PdL-ug-2Dx" id="mgF-Cy-ktl"/>
@@ -67,7 +69,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" text="Hey Lady!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="QZi-Pi-R6U" userLabel="Title">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="251" text="Hey Lady!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QZi-Pi-R6U" userLabel="Title">
                     <rect key="frame" x="12" y="8" width="107" height="33"/>
                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
                     <color key="textColor" red="0.83137254900000002" green="0.1450980392" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
@@ -169,6 +171,12 @@
                         <outlet property="delegate" destination="-1" id="UUq-eu-s7U"/>
                     </connections>
                 </tableView>
+                <label opaque="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1iZ-kX-O5D" userLabel="Flag">
+                    <rect key="frame" x="574" y="14" width="14" height="26"/>
+                    <fontDescription key="fontDescription" name="typicons" family="Typicons" pointSize="17"/>
+                    <color key="textColor" red="0.83137254900000002" green="0.1450980392" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pvd-om-1VJ">
                     <rect key="frame" x="12" y="142" width="18" height="28"/>
                     <fontDescription key="fontDescription" name="typicons" family="Typicons" pointSize="24"/>
@@ -185,16 +193,16 @@
                     <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="-2"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="14" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UbH-QT-P5f">
-                    <rect key="frame" x="127" y="8" width="443" height="35"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" misplaced="YES" text="14" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UbH-QT-P5f">
+                    <rect key="frame" x="106" y="8" width="443" height="35"/>
                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
                     <color key="textColor" red="0.90196078430000004" green="0.68235294120000001" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="-2"/>
                 </label>
-                <label opaque="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="L" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YL1-Zf-YA6">
-                    <rect key="frame" x="574" y="12" width="14" height="26"/>
+                <label opaque="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" misplaced="YES" text="L" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YL1-Zf-YA6">
+                    <rect key="frame" x="552" y="12" width="14" height="26"/>
                     <fontDescription key="fontDescription" name="typicons" family="Typicons" pointSize="24"/>
                     <color key="textColor" red="0.90196078430000004" green="0.68235294120000001" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -259,6 +267,7 @@
                 <constraint firstItem="QA6-s8-cHm" firstAttribute="top" secondItem="QZi-Pi-R6U" secondAttribute="bottom" constant="8" id="GBS-YK-DGh"/>
                 <constraint firstItem="ulC-Lt-754" firstAttribute="leading" secondItem="Wgp-03-e41" secondAttribute="trailing" constant="32" id="GOQ-64-cBa"/>
                 <constraint firstItem="DCh-Ob-ikk" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="GTW-zH-I3j"/>
+                <constraint firstItem="DCh-Ob-ikk" firstAttribute="leading" secondItem="YL1-Zf-YA6" secondAttribute="trailing" constant="8" id="GUb-NZ-LkQ"/>
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="centerY" secondItem="Pvd-om-1VJ" secondAttribute="centerY" id="IE7-Oz-utg"/>
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="Iv7-W2-d57"/>
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="top" secondItem="QZi-Pi-R6U" secondAttribute="bottom" constant="8" id="KQf-ZW-bLQ"/>
@@ -271,6 +280,7 @@
                 <constraint firstItem="yq3-eV-dB1" firstAttribute="centerX" secondItem="Wgp-03-e41" secondAttribute="centerX" id="TEe-jk-MhK"/>
                 <constraint firstItem="uPe-Wt-TzI" firstAttribute="top" secondItem="WPI-aV-Wa3" secondAttribute="bottom" constant="16" id="VsQ-aw-hY8"/>
                 <constraint firstItem="Pvd-om-1VJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="Xl5-Fy-SCN"/>
+                <constraint firstItem="1iZ-kX-O5D" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="Xv6-tD-E7q"/>
                 <constraint firstItem="MRg-Is-Hgy" firstAttribute="top" secondItem="tJ5-r4-DvF" secondAttribute="bottom" id="YLD-qh-2jS"/>
                 <constraint firstItem="tJ5-r4-DvF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="YTm-NX-Kf4"/>
                 <constraint firstItem="DCh-Ob-ikk" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="ZX8-kV-kXU"/>
@@ -295,12 +305,14 @@
                 <constraint firstItem="tJ5-r4-DvF" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" id="nGE-pe-9wc"/>
                 <constraint firstAttribute="trailing" secondItem="WPI-aV-Wa3" secondAttribute="trailing" id="qFe-rI-HgB"/>
                 <constraint firstItem="GPB-wW-99O" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="qHy-Qz-UqQ"/>
+                <constraint firstAttribute="trailing" secondItem="1iZ-kX-O5D" secondAttribute="trailing" constant="8" id="rkT-J4-Lpj"/>
                 <constraint firstItem="QA6-s8-cHm" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="tDP-wJ-tHF"/>
                 <constraint firstItem="MRg-Is-Hgy" firstAttribute="top" secondItem="Wgp-03-e41" secondAttribute="bottom" constant="4" id="tbt-GS-wAn"/>
                 <constraint firstItem="iPu-Gr-buz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="tqa-n8-xhx"/>
-                <constraint firstItem="FGj-g5-42J" firstAttribute="leading" secondItem="Pvd-om-1VJ" secondAttribute="trailing" constant="8" id="uJf-ay-BtZ"/>
+                <constraint firstItem="FGj-g5-42J" firstAttribute="leading" secondItem="Pvd-om-1VJ" secondAttribute="trailing" constant="6" id="uJf-ay-BtZ"/>
                 <constraint firstAttribute="trailing" secondItem="MRg-Is-Hgy" secondAttribute="trailing" id="vAk-y0-shY"/>
-                <constraint firstItem="FGj-g5-42J" firstAttribute="centerY" secondItem="Pvd-om-1VJ" secondAttribute="centerY" id="yOo-2X-nM5"/>
+                <constraint firstItem="FGj-g5-42J" firstAttribute="centerY" secondItem="Pvd-om-1VJ" secondAttribute="centerY" constant="1" id="yOo-2X-nM5"/>
+                <constraint firstItem="1iZ-kX-O5D" firstAttribute="leading" secondItem="YL1-Zf-YA6" secondAttribute="trailing" constant="8" id="zGX-Es-FbJ"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">
@@ -313,6 +325,8 @@
                     <exclude reference="Iv7-W2-d57"/>
                     <exclude reference="KQf-ZW-bLQ"/>
                     <exclude reference="a6A-hC-VWO"/>
+                    <exclude reference="lcj-7x-1ya"/>
+                    <exclude reference="GUb-NZ-LkQ"/>
                     <exclude reference="mGX-5e-Mgi"/>
                 </mask>
             </variation>

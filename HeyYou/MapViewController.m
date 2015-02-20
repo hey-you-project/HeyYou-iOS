@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PopupView.h"
 #import "Colors.h"
+#import "UIView+Shadow.h"
 
 @interface MapViewController ()
 
@@ -40,9 +41,11 @@
   [super viewDidLoad];
   
   self.popups = [NSMutableDictionary new];
-  self.mapFullyLoaded = false;
   self.dots = [NSMutableDictionary new];
+  
+  self.mapFullyLoaded = false;
   self.didGetLocation = false;
+  
   self.clusteringManager = [[FBClusteringManager alloc] init];
   self.clusteringManager.delegate = self;
   
@@ -65,8 +68,6 @@
   statusBar.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
   [self.mapView addSubview:statusBar];
   
-  [self requestDots];
-  
 }
 
 #pragma mark Setup Subview Methods
@@ -83,26 +84,18 @@
   self.dragCircleWrapper = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 100, self.view.frame.size.height - 100, 60, 60)];
   self.dragCircleWrapper.layer.cornerRadius = self.dragCircleWrapper.frame.size.height / 2;
   self.dragCircleWrapper.layer.backgroundColor = [[Colors flatGreen] CGColor];
-  
-  self.dragCircleWrapper.layer.shadowColor = [[UIColor blackColor] CGColor];
-  self.dragCircleWrapper.layer.shadowOpacity = 0.6;
-  self.dragCircleWrapper.layer.shadowRadius = 3.0;
-  self.dragCircleWrapper.layer.shadowOffset = CGSizeMake(0, 3);
-  
+
   CGRect miniCircleRect = CGRectMake(self.dragCircleWrapper.frame.origin.x + 17.5, self.dragCircleWrapper.frame.origin.y + 17.5, 25, 25);
 
   self.draggableCircle = [[UIView alloc] initWithFrame:miniCircleRect];
   self.draggableCircle.layer.cornerRadius = self.draggableCircle.frame.size.height / 2;
   self.draggableCircle.backgroundColor = [UIColor whiteColor];
   self.originalCircleCenter = self.draggableCircle.center;
-  
-  self.draggableCircle.layer.shadowColor = [[UIColor blackColor] CGColor];
-  self.draggableCircle.layer.shadowOpacity = 0.8;
-  self.draggableCircle.layer.shadowRadius = 1.0;
-  self.draggableCircle.layer.shadowOffset = CGSizeMake(0, 2);
-  
+
   self.draggableCircle.userInteractionEnabled = false;
   
+  [self.dragCircleWrapper addShadowWithOpacity:0.6 radius:3 offsetX:0 offsetY:3];
+  [self.draggableCircle addShadowWithOpacity:0.8 radius:1 offsetX:0 offsetY:2];
   [self.view addSubview:self.dragCircleWrapper];
   [self.view addSubview:self.draggableCircle];
 
@@ -126,10 +119,7 @@
   self.locationButton.layer.cornerRadius = self.locationButton.frame.size.height / 2;
   self.locationButton.layer.backgroundColor = [[Colors flatGreen] CGColor];
   
-  self.locationButton.layer.shadowColor = [[UIColor blackColor] CGColor];
-  self.locationButton.layer.shadowOpacity = 0.6;
-  self.locationButton.layer.shadowRadius = 3.0;
-  self.locationButton.layer.shadowOffset = CGSizeMake(0, 3);
+  [self.locationButton addShadowWithOpacity:0.6 radius:3 offsetX:0 offsetY:3];
   
   UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"locationButton"]];
   [self.locationButton addSubview:image];
@@ -230,11 +220,6 @@
     if (view == nil) {
       view = [[ClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Cluster"];
     }
-    UILabel *label;
-    
-    if (view.subviews.count > 0){
-      label = view.subviews[0];
-    }
     
     FBAnnotationCluster * anno = annotation;
     
@@ -242,23 +227,10 @@
     CGFloat width = 35.0f;
     view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
     view.backgroundColor = [UIColor clearColor];
-    if (label == nil) {
-      label = [[UILabel alloc] initWithFrame:view.bounds];
-    }
-    label.textAlignment = NSTextAlignmentCenter;
-    label.text = [NSString stringWithFormat:@"%lu", (unsigned long)anno.annotations.count];
-    label.textColor = [UIColor whiteColor];
-    label.font = [UIFont fontWithName:@"AvenirNext-Regular" size:14];
-    [view addSubview:label];
     
-    view.layer.shadowColor = [[UIColor blackColor] CGColor];
-    view.layer.shadowOpacity = 0.6;
-    view.layer.shadowRadius = 3.0;
-    view.layer.shadowOffset = CGSizeMake(0, 2);
-    
-    [self addPoppingAnimationToAnnotationView:view];
-    
-    //[view setNeedsDisplay];
+    [view addShadowWithOpacity:0.6 radius:3 offsetX:0 offsetY:2];
+    [view addLabelWithNumber:anno.annotations.count];
+    [view addPoppingAnimation];
     
     return view;
 
@@ -268,6 +240,7 @@
     if (view == nil) {
       view = [[DotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Dot"];
     }
+    
     DotAnnotation *anno = annotation;
     anno.dot = [self.dots objectForKey:anno.title];
     view.color = [Colors getColorFromString:anno.dot.color];
@@ -279,14 +252,8 @@
     view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
     view.backgroundColor = [UIColor clearColor];
     
-    view.layer.shadowColor = [[UIColor blackColor] CGColor];
-    view.layer.shadowOpacity = 0.6;
-    view.layer.shadowRadius = 3.0;
-    view.layer.shadowOffset = CGSizeMake(0, 2);
-    
-    [self addPoppingAnimationToAnnotationView:view];
-    
-    [view setNeedsDisplay];
+    [view addShadowWithOpacity:0.6 radius:3 offsetX:0 offsetY:2];
+    [view addPoppingAnimation];
     
     return view;
   }
@@ -297,28 +264,21 @@
 -(void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered {
   
   if (!self.mapFullyLoaded) {
-    
     [self requestDots];
   }
-
   self.mapFullyLoaded = true;
+  
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
 
   if (self.mapFullyLoaded) {
-//    [[NSOperationQueue new] addOperationWithBlock:^{
-//      double scale = self.mapView.bounds.size.width / self.mapView.visibleMapRect.size.width;
-//      NSArray *annotations = [self.clusteringManager clusteredAnnotationsWithinMapRect:mapView.visibleMapRect withZoomScale:scale];
-//      
-//      [self.clusteringManager displayAnnotations:annotations onMapView:mapView];
-//    }];
-    
     [self requestDots];
-    
   }
   
 }
+
+#pragma mark Helper Methods
 
 - (void) spawnMiniPopups {
   
@@ -335,8 +295,6 @@
   //  }
   
 }
-
-#pragma mark Helper Methods
 
 -(void) unpopCurrentComment {
   
@@ -590,30 +548,6 @@
     }];
     
   }
-  
-}
-
-- (void) addPoppingAnimationToAnnotationView: (UIView *) view {
-  
-  view.transform = CGAffineTransformMakeScale(0.1, 0.1);
-  int random = arc4random_uniform(400);
-  double random2 = random / 1000.0f;
-  
-  NSTimeInterval delay = (NSTimeInterval)random2;
-  
-  view.alpha = 0;
-  
-  [UIView animateWithDuration:0.5
-                        delay:delay
-       usingSpringWithDamping:0.3
-        initialSpringVelocity:0.9
-                      options:UIViewAnimationOptionAllowUserInteraction animations:^{
-                        view.transform = CGAffineTransformIdentity;
-                        view.alpha = 1;
-                      }
-                   completion:^(BOOL finished) {
-                     
-                   }];
   
 }
 

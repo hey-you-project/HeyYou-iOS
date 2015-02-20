@@ -40,6 +40,8 @@
 
 @implementation ContainerViewController
 
+#pragma mark Lifecycle
+
 - (void)viewDidLoad {
   [super viewDidLoad];
 
@@ -71,14 +73,18 @@
                                                name:@"SwitchToChatView"
                                              object:nil];
   
-  //[self addLoginScreen];
-  
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   
 }
+
+-(void)dealloc{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark Setup
 
 -(void)setupHeaderLabel {
   
@@ -155,6 +161,11 @@
     button.layer.shadowRadius = 3.0;
     button.layer.shadowOffset = CGSizeMake(0, 3);
     [self.view addSubview:button];
+    
+    UITapGestureRecognizer *tap = [UITapGestureRecognizer new];
+    [tap addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
+    [button addGestureRecognizer:tap];
+    
   }
   
   UILabel *userDotsLabel = [UILabel new];
@@ -179,23 +190,6 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.frame = label.superview.bounds;
   }
-  
-  UITapGestureRecognizer *tap = [UITapGestureRecognizer new];
-  [tap addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
-  [self.userDotsButton addGestureRecognizer:tap];
-  
-  UITapGestureRecognizer *tap2 = [UITapGestureRecognizer new];
-  [tap2 addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
-  [self.mapButton addGestureRecognizer:tap2];
-  
-  UITapGestureRecognizer *tap3 = [UITapGestureRecognizer new];
-  [tap3 addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
-  [self.chatButton addGestureRecognizer:tap3];
-  
-  UITapGestureRecognizer *tap4 = [UITapGestureRecognizer new];
-  [tap4 addTarget:self action:@selector(receivedTapGestureOnSmallButton:)];
-  [self.loginButton addGestureRecognizer:tap4];
-
 
 }
 
@@ -523,10 +517,6 @@
   ChatListViewController *chatList = self.chatViewController.viewControllers[0];
   [chatList beginNewChatWithUsername:otherUser];
   
-}
-
--(void)dealloc{
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

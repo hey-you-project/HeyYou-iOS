@@ -28,7 +28,7 @@
   self.networkController = [NetworkController sharedController];
   
   UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
-  [tapper addTarget:self action:@selector(didTap:)];
+  [tapper addTarget:self action:@selector(didTapBackground:)];
   [self.view addGestureRecognizer:tapper];
 }
 
@@ -56,18 +56,13 @@
   
 }
 
--(void)viewWillDisappear:(BOOL)animated {
-  [super viewWillDisappear:animated];
-  [self removeDots];
-}
-
 - (void) retrieveDots {
   
   [self.networkController getAllMyDotsWithCompletionHandler:^(NSError *error, NSArray *dots) {
     if (error == nil) {
-      NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:true];
+      NSSortDescriptor *timeSorter = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:true];
 
-      self.myDots = [dots sortedArrayUsingDescriptors:@[desc]];
+      self.myDots = [dots sortedArrayUsingDescriptors:@[timeSorter]];
   
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self addDots];
@@ -77,30 +72,7 @@
   
 }
 
-- (void) removeDots {
-  
-  CGFloat delay = 0.1;
-  
-  for (UIView *view in self.scrollView.subviews) {
-    if ([view isKindOfClass:[DotView class]]){
-    [UIView animateWithDuration:0.7
-                          delay:delay
-         usingSpringWithDamping:0.7
-          initialSpringVelocity:0.2
-                        options:UIViewAnimationOptionAllowUserInteraction
-                     animations:^{
-                       view.transform = CGAffineTransformMakeTranslation(-self.view.frame.size.width, 0);
-                     } completion:^(BOOL finished) {
-                       
-                     }];
-    delay += 0.2;
-    [view removeFromSuperview];
-    }
-  }
-  
-}
-
-- (void)addDots {
+- (void) addDots {
   
   if(self.myDots.count == 0) {
     [self showEmptyCaseView];
@@ -126,8 +98,7 @@
     circle.frame = CGRectMake(self.view.frame.size.width - 40, 100 + offset, 25, 25);
     circle.backgroundColor = [UIColor clearColor];
     circle.transform = CGAffineTransformMakeTranslation(-self.view.frame.size.width, 0);
-
-
+    
     [self.scrollView addSubview:circle];
     
     [UIView animateWithDuration:0.7
@@ -239,11 +210,11 @@
   
 }
 
--(void)didTap:(UITapGestureRecognizer *) sender {
+-(void) didTapBackground:(UITapGestureRecognizer *) sender {
   [self unpopCurrentComment];
 }
 
-- (NSString *) getFuzzyDate: (NSDate *)dotDate {
+-(NSString *) getFuzzyDate: (NSDate *)dotDate {
   
   NSCalendar *calendar = [NSCalendar currentCalendar];
   NSUInteger dayForDot = [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:dotDate];

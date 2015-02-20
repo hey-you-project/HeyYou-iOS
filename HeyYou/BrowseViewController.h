@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberOfStarsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *star;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *flag;
 
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *chatButton;

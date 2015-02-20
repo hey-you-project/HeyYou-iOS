@@ -350,6 +350,44 @@
   
 }
 
+- (void)flagDot: (Dot*)dot completionHandler:(void (^)(NSError *error, bool success))completionHandler {
+  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/flag/%@", self.url, dot.identifier];
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"POST";
+  NSString *token = [[NetworkController sharedController] token];
+  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  [request setValue:token forHTTPHeaderField:@"jwt"];
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      completionHandler(error, (error == nil));
+    }];
+    
+  }];
+  
+}
+
+- (void)flagComment: (Comment*)comment completionHandler:(void (^)(NSError *error, bool success))completionHandler {
+  NSString *fullURLString = [NSString stringWithFormat: @"%@v1/api/flag/%@", self.url, comment.body];
+  NSURL *fullURL = [NSURL URLWithString:fullURLString];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:fullURL];
+  request.HTTPMethod = @"POST";
+  NSString *token = [[NetworkController sharedController] token];
+  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  [request setValue:token forHTTPHeaderField:@"jwt"];
+  
+  [self sendRequest:request withCompletionHandler:^(NSError *error, NSData *data) {
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+      completionHandler(error, (error == nil));
+    }];
+    
+  }];
+  
+}
+
 #pragma mark Helper methods
 
 - (NSDictionary*)getCoordRangeFromRegion: (MKCoordinateRegion) coordRegion {

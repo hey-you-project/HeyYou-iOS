@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		150C41761A1A6DF10062DE29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41751A1A6DF10062DE29 /* main.m */; };
 		150C41791A1A6DF10062DE29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41781A1A6DF10062DE29 /* AppDelegate.m */; };
 		150C417C1A1A6DF10062DE29 /* HeyYou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 150C417A1A1A6DF10062DE29 /* HeyYou.xcdatamodeld */; };
 		150C41821A1A6DF10062DE29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150C41801A1A6DF10062DE29 /* Main.storyboard */; };
@@ -21,6 +20,7 @@
 		1512640D1A1E7F5500D13419 /* NSString+Validate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1512640C1A1E7F5500D13419 /* NSString+Validate.m */; };
 		151264101A1EB96C00D13419 /* ErrorsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1512640F1A1EB96C00D13419 /* ErrorsHandler.m */; };
 		151264121A1EC10800D13419 /* ErrorsHandler.strings in Resources */ = {isa = PBXBuildFile; fileRef = 151264111A1EC10800D13419 /* ErrorsHandler.strings */; };
+		7E04FEF21A95924D00148089 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 150C41751A1A6DF10062DE29 /* main.m */; };
 		7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E0790331A1BCC3C00858BD7 /* DotAnnotation.m */; };
 		7E089DE31A1F658100D78F38 /* generated (1).json in Resources */ = {isa = PBXBuildFile; fileRef = 7E089DE21A1F658100D78F38 /* generated (1).json */; };
 		7E089DE51A1F710A00D78F38 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E089DE41A1F710A00D78F38 /* MapKit.framework */; };
@@ -54,6 +54,7 @@
 		7E7341CB1A811F9000D90ACE /* FBQuadTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7341C61A811F9000D90ACE /* FBQuadTreeNode.m */; };
 		7E7341CE1A81258500D90ACE /* ClusterAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7341CD1A81258500D90ACE /* ClusterAnnotationView.m */; };
 		7E7341D11A81E8B000D90ACE /* CellContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7341D01A81E8B000D90ACE /* CellContentView.m */; };
+		7E88C51D1A8AC6B9002FBEE8 /* UIView+Shadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E88C51C1A8AC6B9002FBEE8 /* UIView+Shadow.m */; };
 		7E90DAA21A2E2950007EE342 /* HamburgerWrapperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E90DAA11A2E2950007EE342 /* HamburgerWrapperView.m */; };
 		7E980D701A783AD300CEC469 /* TermsOfUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E980D6E1A783AD300CEC469 /* TermsOfUseViewController.m */; };
 		7E980D711A783AD300CEC469 /* TermsOfUseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E980D6F1A783AD300CEC469 /* TermsOfUseViewController.xib */; };
@@ -161,6 +162,8 @@
 		7E7341CD1A81258500D90ACE /* ClusterAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClusterAnnotationView.m; sourceTree = "<group>"; };
 		7E7341CF1A81E8B000D90ACE /* CellContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellContentView.h; sourceTree = "<group>"; };
 		7E7341D01A81E8B000D90ACE /* CellContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellContentView.m; sourceTree = "<group>"; };
+		7E88C51B1A8AC678002FBEE8 /* UIView+Shadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Shadow.h"; sourceTree = "<group>"; };
+		7E88C51C1A8AC6B9002FBEE8 /* UIView+Shadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Shadow.m"; sourceTree = "<group>"; };
 		7E90DAA01A2E2950007EE342 /* HamburgerWrapperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HamburgerWrapperView.h; sourceTree = "<group>"; };
 		7E90DAA11A2E2950007EE342 /* HamburgerWrapperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HamburgerWrapperView.m; sourceTree = "<group>"; };
 		7E980D6D1A783AD300CEC469 /* TermsOfUseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermsOfUseViewController.h; sourceTree = "<group>"; };
@@ -233,10 +236,11 @@
 		150C41721A1A6DF10062DE29 /* HeyYou */ = {
 			isa = PBXGroup;
 			children = (
-				7E7341BC1A811F9000D90ACE /* FBAnnotationClustering */,
 				150C41AA1A1AAD3F0062DE29 /* Controller Layer */,
 				157853311A1D0F1C008CD931 /* View Layer */,
 				150C419C1A1A70BD0062DE29 /* Model Layer */,
+				7E7341BC1A811F9000D90ACE /* FBAnnotationClustering */,
+				7E88C5221A8ACB8C002FBEE8 /* Extensions */,
 				150C41831A1A6DF10062DE29 /* Images.xcassets */,
 				150C41851A1A6DF10062DE29 /* LaunchScreen.xib */,
 				150C417A1A1A6DF10062DE29 /* HeyYou.xcdatamodeld */,
@@ -310,30 +314,15 @@
 		150C41AA1A1AAD3F0062DE29 /* Controller Layer */ = {
 			isa = PBXGroup;
 			children = (
-				7EF174361A2507A000B5541D /* App Delegate */,
 				7EE1FC341A2670ED00AA6B5F /* ContainerViewController.h */,
 				7EE1FC351A2670ED00AA6B5F /* ContainerViewController.m */,
-				7EF174311A24FBF500B5541D /* UserDotsViewController.h */,
-				7EF174321A24FBF500B5541D /* UserDotsViewController.m */,
-				7EFD27E31A329EBF00990849 /* ChatListViewController.h */,
-				7EFD27E41A329EBF00990849 /* ChatListViewController.m */,
-				7EFD27E61A32A4A400990849 /* SingleChatViewController.h */,
-				7EFD27E71A32A4A400990849 /* SingleChatViewController.m */,
 				150C41AB1A1AAD6F0062DE29 /* NetworkController.h */,
 				150C41AC1A1AAD6F0062DE29 /* NetworkController.m */,
-				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
-				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
-				7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */,
-				7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */,
-				150C417D1A1A6DF10062DE29 /* MapViewController.h */,
-				150C417E1A1A6DF10062DE29 /* MapViewController.m */,
-				7EF174301A23F5E900B5541D /* PopupViewController.h */,
-				7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */,
-				7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */,
-				7E980D6D1A783AD300CEC469 /* TermsOfUseViewController.h */,
-				7E980D6E1A783AD300CEC469 /* TermsOfUseViewController.m */,
-				1512640B1A1E7F5500D13419 /* NSString+Validate.h */,
-				1512640C1A1E7F5500D13419 /* NSString+Validate.m */,
+				7EF174361A2507A000B5541D /* App Delegate */,
+				7E88C51E1A8ACB37002FBEE8 /* Map */,
+				7E88C51F1A8ACB4C002FBEE8 /* User Dots */,
+				7E88C5201A8ACB5A002FBEE8 /* Chat */,
+				7E88C5211A8ACB6B002FBEE8 /* Login */,
 				151264131A1EDB2500D13419 /* Error Handling */,
 			);
 			name = "Controller Layer";
@@ -396,6 +385,62 @@
 				7E7341C61A811F9000D90ACE /* FBQuadTreeNode.m */,
 			);
 			path = FBAnnotationClustering;
+			sourceTree = "<group>";
+		};
+		7E88C51E1A8ACB37002FBEE8 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				150C417D1A1A6DF10062DE29 /* MapViewController.h */,
+				150C417E1A1A6DF10062DE29 /* MapViewController.m */,
+				7E6E34E11A1A91ED00FF6776 /* PostViewController.h */,
+				7E6E34E21A1A91ED00FF6776 /* PostViewController.m */,
+				7E713DE41A1AC73600B6C9D3 /* BrowseViewController.h */,
+				7E713DE51A1AC73600B6C9D3 /* BrowseViewController.m */,
+				7EF174301A23F5E900B5541D /* PopupViewController.h */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		7E88C51F1A8ACB4C002FBEE8 /* User Dots */ = {
+			isa = PBXGroup;
+			children = (
+				7EF174311A24FBF500B5541D /* UserDotsViewController.h */,
+				7EF174321A24FBF500B5541D /* UserDotsViewController.m */,
+			);
+			name = "User Dots";
+			sourceTree = "<group>";
+		};
+		7E88C5201A8ACB5A002FBEE8 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				7EFD27E31A329EBF00990849 /* ChatListViewController.h */,
+				7EFD27E41A329EBF00990849 /* ChatListViewController.m */,
+				7EFD27E61A32A4A400990849 /* SingleChatViewController.h */,
+				7EFD27E71A32A4A400990849 /* SingleChatViewController.m */,
+			);
+			name = Chat;
+			sourceTree = "<group>";
+		};
+		7E88C5211A8ACB6B002FBEE8 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				7E6E34D81A1A75A100FF6776 /* SideMenuViewController.h */,
+				7E6E34D91A1A75A100FF6776 /* SideMenuViewController.m */,
+				7E980D6D1A783AD300CEC469 /* TermsOfUseViewController.h */,
+				7E980D6E1A783AD300CEC469 /* TermsOfUseViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		7E88C5221A8ACB8C002FBEE8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1512640B1A1E7F5500D13419 /* NSString+Validate.h */,
+				1512640C1A1E7F5500D13419 /* NSString+Validate.m */,
+				7E88C51B1A8AC678002FBEE8 /* UIView+Shadow.h */,
+				7E88C51C1A8AC6B9002FBEE8 /* UIView+Shadow.m */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		7EF174361A2507A000B5541D /* App Delegate */ = {
@@ -549,6 +594,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E04FEF21A95924D00148089 /* main.m in Sources */,
 				7E0790341A1BCC3C00858BD7 /* DotAnnotation.m in Sources */,
 				7E7341D11A81E8B000D90ACE /* CellContentView.m in Sources */,
 				7E16891F1A1BF22E00BA4DE6 /* CommentCell.m in Sources */,
@@ -581,9 +627,9 @@
 				150C41A21A1A772E0062DE29 /* User.m in Sources */,
 				7E7341CB1A811F9000D90ACE /* FBQuadTreeNode.m in Sources */,
 				7ECAB0971A23CC280047DA04 /* PopupView.m in Sources */,
+				7E88C51D1A8AC6B9002FBEE8 /* UIView+Shadow.m in Sources */,
 				150C419F1A1A70CF0062DE29 /* Dot.m in Sources */,
 				7EFD27E51A329EBF00990849 /* ChatListViewController.m in Sources */,
-				150C41761A1A6DF10062DE29 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,7 +707,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -698,6 +744,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

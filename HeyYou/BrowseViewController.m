@@ -23,6 +23,7 @@
 #pragma mark Lifecycle Methods
 
 - (void)viewDidLoad {
+  
   [super viewDidLoad];
   [self.tableView registerNib:[UINib nibWithNibName:@"CommentCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"COMMENT_CELL"];
  
@@ -33,6 +34,10 @@
   UITapGestureRecognizer *tapper = [UITapGestureRecognizer new];
   [tapper addTarget:self action:@selector(didTapStar:)];
   [self.star addGestureRecognizer:tapper];
+  
+  UITapGestureRecognizer *flagger = [UITapGestureRecognizer new];
+  [flagger addTarget:self action:@selector(didTapFlagForDot:)];
+  [self.flag addGestureRecognizer:flagger];
   
   UITapGestureRecognizer *keyboardDismiss = [UITapGestureRecognizer new];
   [keyboardDismiss addTarget:self action:@selector(didTapViewToDismiss:)];
@@ -86,6 +91,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  
   CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"COMMENT_CELL" forIndexPath:indexPath];
   Comment *comment = self.dot.comments[indexPath.row];
   cell.bodyLabel.text = comment.body;
@@ -94,6 +100,9 @@
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
   cell.bottomLine.backgroundColor = self.color;
   
+  UITapGestureRecognizer *flagger = [UITapGestureRecognizer new];
+  [flagger addTarget:self action:@selector(didTapFlagForComment:)];
+  [cell.flag addGestureRecognizer:flagger];
   
   return cell;
 }
@@ -151,8 +160,8 @@
   
   [self removeCommentBox];
   
-  
 }
+
 - (IBAction)submitPressed:(id)sender {
   
     [self.networkController postComment:self.writeCommentTextField.text forDot:self.dot completionHandler:^(NSError *error, bool success) {
@@ -186,15 +195,7 @@
       stars = [NSNumber numberWithInteger:starsIntValue];
       self.numberOfStarsLabel.text = [stars stringValue];
     } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [alert show];
+      [self showAlertViewWithError:error];
     }
   }];
 
@@ -230,6 +231,7 @@
 }
 
 -(void) removeCommentBox {
+  
   [self.writeCommentTextField resignFirstResponder];
   self.commentConstraint.constant -= self.deviceHasShortScreen ? 80 : 140;;
   self.chatConstraint.constant -= self.deviceHasShortScreen ? 80 : 140;;
@@ -248,24 +250,11 @@
                       } completion:^(BOOL finished) {
                         self.commentButton.enabled = true;
                         self.chatButton.enabled = true;
+                        self.writeCommentTextField.text = @"";
                         self.writeCommentTextField.hidden = true;
                         self.writeCommentTextField.alpha = 0;
                       }];
 
-  
-}
-
--(void) showAlertViewWithError:(NSError *) error {
-  
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                  message:[error localizedDescription]
-                                                 delegate:nil
-                                        cancelButtonTitle:@"OK"
-                                        otherButtonTitles:nil];
-  if (error == nil) {
-    alert.message = @"An error occurred. Please try again later.";
-  }
-  [alert show];
 }
 
 -(NSString *) getFuzzyDateFromDate: (NSDate *) date{
@@ -278,10 +267,20 @@
     return [NSString stringWithFormat:@"%d seconds ago", (int)(secondsSinceNow / 1)];
   }
   if (secondsSinceNow < (60 * 60)) {
-    return [NSString stringWithFormat:@"%d minutes ago", (int)(secondsSinceNow / 60)];
+    int minutes = secondsSinceNow / 60;
+    if (minutes < 2) {
+      return @"1 minute ago";
+    } else {
+    return [NSString stringWithFormat:@"%d minutes ago", minutes];
+    }
   }
   if (secondsSinceNow < (60 * 60 * 48)) {
-    return [NSString stringWithFormat:@"%d hours ago", (int)(secondsSinceNow / 60 / 60)];
+    int hours = secondsSinceNow / 60 / 60;
+    if (hours < 2) {
+      return @"1 hour ago";
+    } else {
+      return [NSString stringWithFormat:@"%d hours ago", hours];
+    }
   }
   return @"Unknown!";
 }
@@ -302,17 +301,7 @@
         }
       }];
     } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [alert show];
-      }];
+      [self showAlertViewWithError:error];
     }
   }];
   
@@ -326,7 +315,66 @@
   
 }
 
+-(void) showAlertViewWithError:(NSError *) error {
+  
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                  message:[error localizedDescription]
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  if (error == nil) {
+    alert.message = @"An error occurred. Please try again later.";
+  }
+  [alert show];
+  
+}
 
+- (void) didTapFlagForComment:(UITapGestureRecognizer *) sender {
+  
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Flag comment?" message:@"Do you want to flag this comment as inappropriate?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+      //[self.networkController flagDot:self.dot completionHandler:^(NSError *error, bool success) {
+      //}];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+      [alert dismissViewControllerAnimated:true completion:nil];
+    }];
+    
+    [alert addAction:ok];
+    [alert addAction:cancel];
+    
+    [self presentViewController:alert animated:true completion:nil];
+  }
+
+  
+  
+}
+
+- (void) didTapFlagForDot:(UITapGestureRecognizer *) sender {
+  
+  if (sender.state == UIGestureRecognizerStateEnded) {
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Flag post?" message:@"Do you want to flag this post as inappropriate?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+      [self.networkController flagDot:self.dot completionHandler:^(NSError *error, bool success) {
+
+      }];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+      [alert dismissViewControllerAnimated:true completion:nil];
+    }];
+    
+    [alert addAction:ok];
+    [alert addAction:cancel];
+    
+    [self presentViewController:alert animated:true completion:nil];
+  }
+  
+}
   
 
 

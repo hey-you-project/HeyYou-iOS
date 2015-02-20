@@ -126,7 +126,7 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="And-Me-oKp">
-                                <rect key="frame" x="100" y="150" width="400" height="400"/>
+                                <rect key="frame" x="100" y="156" width="400" height="400"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No one to chat with..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkZ-BL-Chw">
                                         <rect key="frame" x="8" y="8" width="384" height="33"/>
@@ -164,7 +164,7 @@
                             <constraint firstItem="NEc-B6-SYO" firstAttribute="leading" secondItem="QgQ-0V-up6" secondAttribute="leading" id="g3l-jn-5jy"/>
                             <constraint firstItem="NEc-B6-SYO" firstAttribute="top" secondItem="MiX-jo-EpQ" secondAttribute="bottom" id="jXO-Bd-Rmg"/>
                             <constraint firstAttribute="bottom" secondItem="xg3-Rw-DoZ" secondAttribute="bottom" id="nID-cq-MBS"/>
-                            <constraint firstAttribute="centerY" secondItem="And-Me-oKp" secondAttribute="centerY" constant="-50" id="oCP-kM-iGy"/>
+                            <constraint firstAttribute="centerY" secondItem="And-Me-oKp" secondAttribute="centerY" constant="-56" id="oCP-kM-iGy"/>
                             <constraint firstItem="4x9-Xy-gZg" firstAttribute="top" secondItem="NEc-B6-SYO" secondAttribute="bottom" id="x88-bO-TZY"/>
                         </constraints>
                     </view>
