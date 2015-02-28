@@ -21,6 +21,13 @@
 @property (weak, nonatomic) IBOutlet UITextView *bodyTextField;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextField;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *miniTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *messageBodyLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dotColorLabel;
+@property (weak, nonatomic) IBOutlet UIButton *postButton;
+
+@property (weak, nonatomic) IBOutlet UIView *notLoggedInMessage;
+
 
 @property (weak, nonatomic) IBOutlet UIView *colorWrapper;
 
