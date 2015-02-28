@@ -490,7 +490,7 @@
   MFMessageComposeViewController *messageVC = [MFMessageComposeViewController new];
   
   messageVC.messageComposeDelegate = self;
-  [messageVC setBody:@"Check out this great new app! http://itunes.com/app/HeyYou"];
+  [messageVC setBody:@"Check out this great new app! https://appsto.re/i6By8ZN"];
   [self presentViewController:messageVC animated:true completion:nil];
   
 }
