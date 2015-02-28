@@ -23,12 +23,17 @@
                 <outlet property="bodyTextField" destination="raZ-33-fro" id="Y4b-JD-lU6"/>
                 <outlet property="borderView" destination="5d5-E7-J97" id="Mni-iQ-XSY"/>
                 <outlet property="colorWrapper" destination="1hP-7J-iGM" id="3Pf-D8-py7"/>
+                <outlet property="dotColorLabel" destination="vWM-eR-0Vr" id="29o-tG-BuT"/>
                 <outlet property="greenConstraint" destination="gML-In-5cb" id="YCr-E6-jT3"/>
                 <outlet property="greenLabel" destination="6nE-6F-RH5" id="PCP-Jb-pRK"/>
+                <outlet property="messageBodyLabel" destination="Xkb-pC-YJw" id="faP-Qm-jt6"/>
+                <outlet property="miniTitleLabel" destination="uPe-Wt-TzI" id="qjq-Pl-GP4"/>
+                <outlet property="notLoggedInMessage" destination="DdD-b7-2tL" id="sY8-Uk-z3E"/>
                 <outlet property="orangeConstraint" destination="B19-1q-Jbd" id="0SY-A5-68C"/>
                 <outlet property="orangeLabel" destination="7aF-Fz-8sC" id="KHN-cG-sAc"/>
                 <outlet property="pinkConstraint" destination="Lnh-aA-hE5" id="fks-RK-Olf"/>
                 <outlet property="pinkLabel" destination="hRL-ez-YnI" id="Krh-Jo-iCg"/>
+                <outlet property="postButton" destination="Pdf-g5-DbF" id="CiF-uM-S0U"/>
                 <outlet property="purpleConstraint" destination="4Yp-cY-m99" id="f37-Rf-pHq"/>
                 <outlet property="purpleLabel" destination="pNM-O0-4pk" id="1j6-AN-zlJ"/>
                 <outlet property="tealConstraint" destination="YnA-Ha-3NP" id="fv8-8w-VGu"/>
@@ -221,6 +226,33 @@
                         <constraint firstAttribute="bottom" secondItem="7aF-Fz-8sC" secondAttribute="bottom" id="va0-Ge-DXc"/>
                     </constraints>
                 </view>
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DdD-b7-2tL" userLabel="Not Logged In View">
+                    <rect key="frame" x="32" y="60" width="536" height="82"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're not logged in!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNk-UW-A4G">
+                            <rect key="frame" x="8" y="8" width="520" height="28"/>
+                            <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You must create an account or login before you post dots." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kwf-Lb-ikG">
+                            <rect key="frame" x="8" y="52" width="520" height="22"/>
+                            <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="kwf-Lb-ikG" firstAttribute="top" secondItem="QNk-UW-A4G" secondAttribute="bottom" constant="16" id="7j2-kS-bXG"/>
+                        <constraint firstAttribute="trailing" secondItem="kwf-Lb-ikG" secondAttribute="trailing" constant="8" id="Khz-Lu-9tN"/>
+                        <constraint firstItem="QNk-UW-A4G" firstAttribute="leading" secondItem="DdD-b7-2tL" secondAttribute="leading" constant="8" id="QlD-zI-HRQ"/>
+                        <constraint firstItem="QNk-UW-A4G" firstAttribute="top" secondItem="DdD-b7-2tL" secondAttribute="top" constant="8" id="SzX-RB-Ei0"/>
+                        <constraint firstItem="kwf-Lb-ikG" firstAttribute="leading" secondItem="DdD-b7-2tL" secondAttribute="leading" constant="8" id="b9W-Te-sUQ"/>
+                        <constraint firstAttribute="trailing" secondItem="QNk-UW-A4G" secondAttribute="trailing" constant="8" id="cgb-KZ-xNA"/>
+                        <constraint firstAttribute="bottom" secondItem="kwf-Lb-ikG" secondAttribute="bottom" constant="8" id="mqJ-gX-Dpe"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
@@ -228,6 +260,7 @@
                 <constraint firstItem="MRg-Is-Hgy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="348-uV-2Ql"/>
                 <constraint firstAttribute="trailing" secondItem="kd3-Ma-coZ" secondAttribute="trailing" constant="8" id="4BY-WF-SJC"/>
                 <constraint firstAttribute="bottom" secondItem="SV7-gU-Hk6" secondAttribute="bottom" id="5J0-V8-8fa"/>
+                <constraint firstAttribute="trailing" secondItem="DdD-b7-2tL" secondAttribute="trailing" constant="32" id="5O4-cW-heB"/>
                 <constraint firstAttribute="bottom" secondItem="Pdf-g5-DbF" secondAttribute="bottom" constant="8" id="6qY-Sj-pRR"/>
                 <constraint firstItem="kd3-Ma-coZ" firstAttribute="top" secondItem="QZi-Pi-R6U" secondAttribute="bottom" constant="8" id="BtN-q9-601"/>
                 <constraint firstAttribute="centerX" secondItem="uPe-Wt-TzI" secondAttribute="centerX" id="Dlb-fw-O5k"/>
@@ -248,6 +281,7 @@
                 <constraint firstItem="raZ-33-fro" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="eec-nv-nrf"/>
                 <constraint firstItem="Xkb-pC-YJw" firstAttribute="bottom" secondItem="raZ-33-fro" secondAttribute="top" constant="-4" id="eiv-jb-4iv"/>
                 <constraint firstAttribute="trailing" secondItem="raZ-33-fro" secondAttribute="trailing" constant="8" id="fHv-U6-dq9"/>
+                <constraint firstItem="DdD-b7-2tL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="gz3-Vf-7Vj"/>
                 <constraint firstItem="MRg-Is-Hgy" firstAttribute="top" secondItem="raZ-33-fro" secondAttribute="bottom" constant="8" id="imv-GL-R4p"/>
                 <constraint firstItem="kd3-Ma-coZ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="kD7-oQ-dZQ"/>
                 <constraint firstItem="SV7-gU-Hk6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="oCV-5S-LpT"/>
@@ -260,6 +294,7 @@
                 <constraint firstItem="Xkb-pC-YJw" firstAttribute="top" secondItem="QA6-s8-cHm" secondAttribute="bottom" id="yHO-k0-4hy"/>
                 <constraint firstItem="5d5-E7-J97" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="yh7-4u-8HK"/>
                 <constraint firstItem="MRg-Is-Hgy" firstAttribute="bottom" secondItem="vWM-eR-0Vr" secondAttribute="top" constant="-8" id="zWv-w5-k2C"/>
+                <constraint firstItem="DdD-b7-2tL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="32" id="zZA-Q2-oVf"/>
             </constraints>
             <variation key="default">
                 <mask key="constraints">

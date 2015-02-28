@@ -49,6 +49,18 @@
     NSLog(@"Body field small!");
     self.bodyFieldHeight.constant = 60;
   }
+  
+  if ([[NSUserDefaults standardUserDefaults] stringForKey:@"token"] == nil) {
+    self.notLoggedInMessage.alpha = 1;
+    self.miniTitleLabel.alpha = 0;
+    self.titleTextField.alpha = 0;
+    self.bodyTextField.alpha = 0;
+    self.postButton.alpha = 0;
+    self.dotColorLabel.alpha = 0;
+    self.colorWrapper.alpha = 0;
+    self.messageBodyLabel.alpha = 0;
+  }
+  
 }
 
 #pragma mark Helper Methods

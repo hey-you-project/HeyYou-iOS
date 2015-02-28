@@ -199,6 +199,7 @@
                                                    style: UIAlertActionStyleDefault
                                                  handler:^(UIAlertAction *action) {
                                                    [alert dismissViewControllerAnimated:true completion:nil];
+                                                   [self createAccount];
                                                  }]];
         
         [self presentViewController:alert animated:true completion:nil];
@@ -226,27 +227,27 @@
                                                       birthday:birthday
                                                          email:email
                                              completionHandler:^(NSError *error, bool success) {
-    if (success) {
-      [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
-      [[NSUserDefaults standardUserDefaults] synchronize];
-      [self.activityIndicator stopAnimating];
-      self.state = MenuStateLogOut;
-      [self switchToLogoutWithUsername:username andAnimation:true];
-    } else {
-      [self.activityIndicator stopAnimating];
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                      message:[error localizedDescription]
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      if (error == nil) {
-        alert.message = @"An error occurred. Please try again later.";
-      }
-      [alert show];
-    }
+                                               [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                 if (success) {
+                                                   [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
+                                                   [[NSUserDefaults standardUserDefaults] synchronize];
+                                                   [self.activityIndicator stopAnimating];
+                                                   self.state = MenuStateLogOut;
+                                                   [self switchToLogoutWithUsername:username andAnimation:true];
+                                                 } else {
+                                                   [self.activityIndicator stopAnimating];
+                                                   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                                   message:[error localizedDescription]
+                                                                                                  delegate:nil
+                                                                                         cancelButtonTitle:@"OK"
+                                                                                         otherButtonTitles:nil];
+                                                   if (error == nil) {
+                                                     alert.message = @"An error occurred. Please try again later.";
+                                                   }
+                                                   [alert show];
+                                                 }
+                                               }];
   }];
-  
-  
 }
 
 - (IBAction)pressedLogOut:(id)sender {

@@ -230,7 +230,7 @@
     
     [view addShadowWithOpacity:0.6 radius:3 offsetX:0 offsetY:2];
     [view addLabelWithNumber:anno.annotations.count];
-    [view addPoppingAnimation];
+    //[view addPoppingAnimation];
     
     return view;
 
