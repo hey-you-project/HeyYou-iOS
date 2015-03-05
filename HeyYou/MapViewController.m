@@ -73,7 +73,7 @@
 #pragma mark Setup Subview Methods
 
 - (void)setupMapView {
-  self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width + 100, self.view.frame.size.height)];
+  self.mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
   [self.view addSubview:self.mapView];
   self.mapView.clipsToBounds = true;
 
@@ -177,7 +177,7 @@
   
   if ([view isKindOfClass:[ClusterAnnotationView class]]){
     
-    CLLocationCoordinate2D coordinates = [mapView convertPoint:view.center toCoordinateFromView:self.mapView];
+    CLLocationCoordinate2D coordinates = [self.mapView convertPoint:view.center toCoordinateFromView:nil];
     MKCoordinateSpan span = mapView.region.span;
     span.latitudeDelta *= 0.5;
     span.longitudeDelta *= 0.5;
@@ -230,7 +230,6 @@
     
     [view addShadowWithOpacity:0.6 radius:3 offsetX:0 offsetY:2];
     [view addLabelWithNumber:anno.annotations.count];
-    //[view addPoppingAnimation];
     
     return view;
 
@@ -252,6 +251,7 @@
     view.frame = CGRectMake(center.x-(width/2.0f), center.y-(width/2.0f), width, width);
     view.backgroundColor = [UIColor clearColor];
     
+    [view setNeedsDisplay];
     [view addShadowWithOpacity:0.6 radius:3 offsetX:0 offsetY:2];
     [view addPoppingAnimation];
     
