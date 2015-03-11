@@ -157,6 +157,7 @@
       NSString *username = self.usernameField.text;
       [self.activityIndicator startAnimating];
       [[NetworkController sharedController] fetchTokenWithUsername:username password:self.passwordField.text completionHandler:^(NSError *error, bool success) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         if (success) {
           [self.activityIndicator stopAnimating];
           [self switchToLogoutWithUsername:username andAnimation:true];
@@ -173,6 +174,7 @@
           }
           [alert show];
         }
+      }];
       }];
 }
 
@@ -216,7 +218,7 @@
 }
 
 - (void) createAccount {
-  
+  self.createAccountButton.enabled = false;
   [self.activityIndicator startAnimating];
   NSString *username = self.usernameField.text;
   NSString *password = self.passwordField.text;
@@ -228,6 +230,7 @@
                                                          email:email
                                              completionHandler:^(NSError *error, bool success) {
                                                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                                 self.createAccountButton.enabled = true;
                                                  if (success) {
                                                    [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"username"];
                                                    [[NSUserDefaults standardUserDefaults] synchronize];

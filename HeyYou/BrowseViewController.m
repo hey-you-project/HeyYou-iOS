@@ -82,6 +82,10 @@
     self.deviceHasShortScreen = true;
   }
   
+  if ([self.dot.username isEqualToString:self.currentUser]) {
+    self.chatButton.alpha = 0;
+  }
+  
 }
 
 #pragma mark <UITableViewDataSource>
@@ -244,7 +248,7 @@
                         [self.view layoutSubviews];
                         self.writeCommentTextField.alpha = 0.0;
                         self.commentButton.alpha = 1;
-                        self.chatButton.alpha = 1;
+                        self.chatButton.alpha = [self.currentUser isEqualToString:self.dot.username] ? 0 : 1;
                         self.cancelButton.alpha = 0;
                         self.submitButton.alpha = 0;
                       } completion:^(BOOL finished) {

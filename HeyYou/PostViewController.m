@@ -78,6 +78,8 @@
 }
 
 - (IBAction)didPressPostButton:(id)sender {
+  self.postButton.enabled = false;
+  
   NSString *title = self.titleTextField.text;
   NSString *body = self.bodyTextField.text;
   Dot *dot = [[Dot alloc] initWithLocation:self.location color:self.color title:title body:body];
@@ -93,6 +95,7 @@
       
     } else {
       [self showAlertViewWithError:error];
+      self.postButton.enabled = true;
     }
   }];
   
